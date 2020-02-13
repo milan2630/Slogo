@@ -1,6 +1,6 @@
 # COLLECTION_API
 
-## Milan Bhat (mb554), Robert Chen (rec43), Ryan Weeratunga (), Jaidha Rosenblatt (jrr59), 
+## Milan Bhat (mb554), Robert Chen (rec43), Ryan Weeratunga (rkw14), Jaidha Rosenblatt (jrr59), 
 
 
 * In our experience, collections are easy to use because they provide a standarized way of interacting with groups of objects.
