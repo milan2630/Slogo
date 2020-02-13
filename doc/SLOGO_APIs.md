@@ -19,3 +19,4 @@ The backend will be controlling the updating of the view based on when it receiv
 
 ### Internal View
 The internal view will handle the rendering process for the visualization of our turtle and the terminal.
+
