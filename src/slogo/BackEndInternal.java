@@ -30,6 +30,12 @@ public interface BackEndInternal {
     public void updateTrail(Command command) throws SlogoRuntimeException;
 
     /**
+     * Creates a variable based on a command
+     * @param command the command to use to create a variable
+     */
+    public void createVariable(Command command);
+
+    /**
      * Create a Method from a list of Commands
      * A Methdod is a group of commands that can be called once and executed in order
      * @param commandList
