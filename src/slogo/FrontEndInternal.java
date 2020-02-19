@@ -33,26 +33,30 @@ public interface FrontEndInternal {
     /**
      * Set the background color based on the UI
      * @param color is the color to change to
+     * @throws ViewException if color is not a recognized Color
      */
-    public void setBackgroundColor(Color color);
+    public void setBackgroundColor(Color color) throws ViewException;
 
     /**
      * Set the image of the Turtle to a new image
      * @param image the new image to represent the Turtle
+     * @throws ViewException if image is not an appropriate Image
      */
-    public void setTurtleImage(Image image);
+    public void setTurtleImage(Image image) throws ViewException;
 
     /**
      * Set the image of the Pen to a new image
      * @param image the new image to represent the Pen
+     * @throws ViewException if image is not an appropriate Image
      */
-    public void setPenImage(Image image);
+    public void setPenImage(Image image) throws ViewException;
 
     /**
      * Set the trail color based on the UI
      * @param color is the color to change to
+     * @throws ViewException if color is not a recognized Color
      */
-    public void setTrailColor(Color color);
+    public void setTrailColor(Color color) throws ViewException;
 
     /**
      * Displays an error that occurred in the frontend

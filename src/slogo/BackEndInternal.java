@@ -11,20 +11,23 @@ public interface BackEndInternal {
     /**
      * Update the Turtle based on a given command
      * @param command is the command to use as instructions
+     * @throws SlogoRuntimeException if the command cannot be executed
      */
-    public void updateTurtle(Command command);
+    public void updateTurtle(Command command) throws SlogoRuntimeException;
 
     /**
      * Update the Pen based on a given command
      * @param command is the command to use as instructions
+     * @throws SlogoRuntimeException if the command cannot be executed
      */
-    public void updatePen(Command command);
+    public void updatePen(Command command) throws SlogoRuntimeException;
 
     /**
      * Update the Trail based on a given command
      * @param command is the command to use as instructions
+     * @throws SlogoRuntimeException if the command cannot be executed
      */
-    public void updateTrail(Command command);
+    public void updateTrail(Command command) throws SlogoRuntimeException;
 
     /**
      * Create a Method from a list of Commands
