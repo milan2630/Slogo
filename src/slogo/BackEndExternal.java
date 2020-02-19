@@ -12,14 +12,15 @@ public interface BackEndExternal {
      * @param input from the Console
      * @return a list of commands to execute
      */
-    public List<Command> parseStringToCommands(String input);
+    public List<Command> parseStringToCommands(String input) throws ParsingException;
 
     /**
      * Makes the appropriate changes to the backend version of the Turtle, Pen, and Trail based
      * on a command
      * @param command the command to act on
+     * @throws SlogoRuntimeException if the command cannot be executed
      */
-    public void actOnCommand(Command command);
+    public void actOnCommand(Command command) throws SlogoRuntimeException;
 
     /**
      * Used by the frontend to determine new turtle location
