@@ -1,4 +1,9 @@
 package slogo;
 
-public class History {
+import java.util.List;
+
+public class History <E>{
+    private List<E> pastMethods;
+
+
 }
