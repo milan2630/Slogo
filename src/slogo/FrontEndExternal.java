@@ -30,9 +30,9 @@ public interface FrontEndExternal {
 
     /**
      * Change whether the pen is down or not
-     * @param penState is the new state to set the pen to
+     * @param penState sets the pen to being either up or down
      */
-    public void updatePenState(int penState);
+    public void updatePenState(boolean penState);
 
     /**
      * @return the language that was set by the user
@@ -51,6 +51,5 @@ public interface FrontEndExternal {
      * @param property the key linked to a resource file that determines what text is on the button
      */
     public void createButton(EventHandler event, String property);
-
 
 }
