@@ -7,7 +7,7 @@ abstract public class Variable <E> {
     }
     abstract public E getValue();
 
-    abstract public void setValue(E num);
+    abstract public void setValue(E value);
 
     /**
      * set myName to str
