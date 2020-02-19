@@ -7,6 +7,20 @@ abstract public class Variable <E> {
     }
     abstract public E getValue();
 
+    abstract public void setValue(E num);
+
+    /**
+     * set myName to str
+     * @param str
+     */
+    public void setName(String str){
+        myName = str;
+    }
+
+    /**
+     * returns myName
+     * @return myName
+     */
     public String getName(){
         return myName;
     }
