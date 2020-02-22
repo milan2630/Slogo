@@ -9,33 +9,34 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class TrailView {
+
   private List<Node> trail = new ArrayList<>();
   private FlowPane flowPane = new FlowPane();
   private Color currentColor = Color.BLACK;
   private double currentThickness;
 
-  public TrailView(Double thickness, Color color){
+  protected TrailView(Double thickness, Color color) {
     this.currentThickness = thickness;
     this.currentColor = color;
   }
 
-  public Color getCurrentColor() {
+  protected Color getCurrentColor() {
     return currentColor;
   }
 
-  public void setCurrentColor(Color currentColor) {
+  protected void setCurrentColor(Color currentColor) {
     this.currentColor = currentColor;
   }
 
-  public double getCurrentThickness() {
+  protected double getCurrentThickness() {
     return currentThickness;
   }
 
-  public void setCurrentThickness(double currentThickness) {
+  protected void setCurrentThickness(double currentThickness) {
     this.currentThickness = currentThickness;
   }
 
-  public void addLine(Point start, Point end){
+  protected void addLine(Point start, Point end) {
     Line line = new Line();
     line.setStrokeWidth(currentThickness);
     line.setStroke(currentColor);
@@ -46,11 +47,11 @@ public class TrailView {
     flowPane.getChildren().add(line);
   }
 
-  public Node getNode(){
+  protected Node getNode() {
     return flowPane;
   }
 
-  public void clear(){
+  protected void clear() {
     flowPane.getChildren().clear();
   }
 }

@@ -11,7 +11,7 @@ public class TurtleView {
   private Point position;
   private double heading;
 
-  public TurtleView(Image image, double x, double y, double heading) {
+  protected TurtleView(Image image, double x, double y, double heading) {
     this.graphic = new ImageView(image);
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
@@ -23,26 +23,26 @@ public class TurtleView {
     setHeading(heading);
   }
 
-  public void setPosition(Point point) {
+  protected void setPosition(Point point) {
     this.position = point;
     graphic.setX(this.position.getX() - graphic.getBoundsInLocal().getWidth() / 2);
     graphic.setY(this.position.getY() - graphic.getBoundsInLocal().getHeight() / 2);
   }
 
-  public Point getPosition() {
+  protected Point getPosition() {
     return this.position;
   }
 
-  public double getHeading() {
+  protected double getHeading() {
     return this.heading;
   }
 
-  public void setHeading(double heading) {
+  protected void setHeading(double heading) {
     this.heading = heading;
     graphic.setRotate(heading);
   }
 
-  public Node getNode() {
+  protected Node getNode() {
     return this.graphic;
   }
 

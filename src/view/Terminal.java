@@ -18,7 +18,7 @@ public class Terminal {
   private static final double PADDING = 5;
   private static final double BUTTON_PANE_WIDTH = 100;
 
-  public Terminal() {
+  protected Terminal() {
     this.pane = new AnchorPane();
     pane.setBackground(
         new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -68,7 +68,7 @@ public class Terminal {
     pane.getChildren().add(input);
   }
 
-  public Pane getPane() {
+  protected Pane getPane() {
     return this.pane;
   }
 }

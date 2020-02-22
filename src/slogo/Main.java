@@ -2,6 +2,7 @@ package slogo;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import view.Display;
 import view.Visualizer;
 
 /**
