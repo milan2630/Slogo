@@ -1,15 +1,23 @@
 package view;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 public class Terminal {
-  private StackPane stackPane;
-  private static final double SCENE_WIDTH = 800;
-  private static final double SCENE_HEIGHT = 100;
 
-  public Terminal(){
+  private StackPane stackPane;
+  private static final double WIDTH = 800;
+  private static final double HEIGHT = 150;
+
+  public Terminal() {
     this.stackPane = new StackPane();
-    this.stackPane.setMinSize(SCENE_WIDTH, SCENE_HEIGHT);
+    stackPane.setBackground(
+        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    stackPane.setPrefSize(WIDTH, HEIGHT);
   }
 
   public StackPane getStackPane() {

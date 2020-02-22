@@ -6,9 +6,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -25,20 +29,16 @@ public class Visualizer {
   public Visualizer(Stage stage, String language) {
     setTitle(stage, language);
 
-    GridPane gridPane = new GridPane();
+//    GridPane gridPane = new GridPane();
+    BorderPane borderPane = new BorderPane();
+
     terminal = new Terminal().getStackPane();
-    terminal.setBackground(
-        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
     display = new Display().getStackPane();
-    display.setBackground(
-        new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
-    gridPane.add(display, 0, 1);
-    gridPane.add(terminal, 1, 1);
+    borderPane.setRight(display);
+    borderPane.setBottom(terminal);
 
-
-    Scene scene = new Scene(gridPane, SCENE_WIDTH, SCENE_HEIGHT);
+    Scene scene = new Scene(borderPane, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
   }
