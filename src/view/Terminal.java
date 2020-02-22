@@ -6,16 +6,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Terminal {
 
-  private AnchorPane pane;
+  private Pane pane;
   private static final double WIDTH = 800;
   private static final double HEIGHT = 150;
+  private static final double PADDING = 5;
+  private static final double BUTTON_PANE_WIDTH = 100;
 
   public Terminal() {
     this.pane = new AnchorPane();
@@ -24,23 +25,46 @@ public class Terminal {
     pane.setPrefSize(WIDTH, HEIGHT);
 
     createInput();
+    makeButtonPane();
+  }
 
-    Button runButton  = new Button();
-    runButton.setText("Run");
-    AnchorPane.setTopAnchor(runButton,10.0);
-    AnchorPane.setLeftAnchor(runButton,10.0);
-    pane.getChildren().add(runButton);
+  private void makeButtonPane() {
+    AnchorPane buttonPane = new AnchorPane();
+    double width = BUTTON_PANE_WIDTH - PADDING * 2;
+    double height = HEIGHT - PADDING * 2;
 
+    buttonPane.setPrefSize(width, height);
+    buttonPane.setBackground(
+        new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+    AnchorPane.setTopAnchor(buttonPane, PADDING);
+    AnchorPane.setLeftAnchor(buttonPane, PADDING);
 
+    Button runButton = createButton(width, height, "Run");
+    AnchorPane.setTopAnchor(runButton, PADDING);
+
+    Button clearButton = createButton(width, height, "Clear");
+    AnchorPane.setBottomAnchor(clearButton, PADDING);
+
+    buttonPane.getChildren().addAll(runButton, clearButton);
+    pane.getChildren().add(buttonPane);
+  }
+
+  private Button createButton(double width, double height, String text) {
+    Button runButton = new Button();
+    runButton.setText(text);
+    runButton.setPrefWidth(width - PADDING * 2);
+    runButton.setPrefHeight(height / 2 - PADDING * 2);
+    AnchorPane.setLeftAnchor(runButton, PADDING);
+    return runButton;
   }
 
   private void createInput() {
     TextArea input = new TextArea();
     input.setPrefHeight(HEIGHT);
-    AnchorPane.setTopAnchor(input,10.0);
-    AnchorPane.setBottomAnchor(input,10.0);
-    AnchorPane.setLeftAnchor(input,100.0);
-    AnchorPane.setRightAnchor(input,10.0);
+    AnchorPane.setTopAnchor(input, PADDING);
+    AnchorPane.setBottomAnchor(input, PADDING);
+    AnchorPane.setLeftAnchor(input, BUTTON_PANE_WIDTH);
+    AnchorPane.setRightAnchor(input, PADDING);
     pane.getChildren().add(input);
   }
 
