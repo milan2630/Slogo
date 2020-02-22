@@ -1,5 +1,6 @@
 package view;
 
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -13,12 +14,15 @@ import javafx.scene.paint.Color;
 public class Terminal {
 
   private Pane pane;
+  private static ResourceBundle resourceBundle;
   private static final double WIDTH = 800;
   private static final double HEIGHT = 150;
   private static final double PADDING = 5;
   private static final double BUTTON_PANE_WIDTH = 100;
 
-  protected Terminal() {
+  protected Terminal(String language) {
+    resourceBundle = ResourceBundle
+        .getBundle("resources/ui/" + language);
     this.pane = new AnchorPane();
     pane.setBackground(
         new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -39,10 +43,10 @@ public class Terminal {
     AnchorPane.setTopAnchor(buttonPane, PADDING);
     AnchorPane.setLeftAnchor(buttonPane, PADDING);
 
-    Button runButton = createButton(width, height, "Run");
+    Button runButton = createButton(width, height, resourceBundle.getString("RunButton"));
     AnchorPane.setTopAnchor(runButton, PADDING);
 
-    Button clearButton = createButton(width, height, "Clear");
+    Button clearButton = createButton(width, height, resourceBundle.getString("ClearButton"));
     AnchorPane.setBottomAnchor(clearButton, PADDING);
 
     buttonPane.getChildren().addAll(runButton, clearButton);

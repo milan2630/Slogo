@@ -10,7 +10,8 @@ import javafx.stage.Stage;
 public class Visualizer {
 
   private static final String DEFAULT_LANGUAGE = "English";
-  private ResourceBundle resourceBundle;
+  private static ResourceBundle resourceBundle;
+  private String language;
   private Pane display;
   private Pane terminal;
 
@@ -18,11 +19,12 @@ public class Visualizer {
   private static final double SCENE_HEIGHT = 500;
 
   public Visualizer(Stage stage, String language) {
-    setTitle(stage, language);
+    this.language = language;
+    setTitle(stage);
 
     BorderPane borderPane = new BorderPane();
 
-    terminal = new Terminal().getPane();
+    terminal = new Terminal(language).getPane();
     display = new Display().getPane();
 
     borderPane.setRight(display);
@@ -33,13 +35,14 @@ public class Visualizer {
     stage.show();
   }
 
-  private void setTitle(Stage stage, String language) {
+  private void setTitle(Stage stage) {
     try {
       resourceBundle = ResourceBundle
           .getBundle("resources/ui/" + language);
     } catch (MissingResourceException e) {
+      this.language = DEFAULT_LANGUAGE;
       resourceBundle = ResourceBundle
-          .getBundle("resources/ui/" + DEFAULT_LANGUAGE);
+          .getBundle("resources/ui/" + language);
     }
     stage.setTitle(resourceBundle.getString("Title"));
   }
