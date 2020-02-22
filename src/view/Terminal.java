@@ -15,6 +15,9 @@ public class Terminal {
 
   private Pane pane;
   private static ResourceBundle resourceBundle;
+  private Button runButton;
+  private Button clearButton;
+  private TextArea input;
   private static final double WIDTH = 800;
   private static final double HEIGHT = 150;
   private static final double PADDING = 5;
@@ -45,25 +48,37 @@ public class Terminal {
 
     Button runButton = createButton(width, height, resourceBundle.getString("RunButton"));
     AnchorPane.setTopAnchor(runButton, PADDING);
+    runButton.setOnAction(event -> handleRun());
 
     Button clearButton = createButton(width, height, resourceBundle.getString("ClearButton"));
     AnchorPane.setBottomAnchor(clearButton, PADDING);
 
     buttonPane.getChildren().addAll(runButton, clearButton);
     pane.getChildren().add(buttonPane);
+    clearButton.setOnAction(event -> handleClear());
+
   }
 
   private Button createButton(double width, double height, String text) {
-    Button runButton = new Button();
-    runButton.setText(text);
-    runButton.setPrefWidth(width - PADDING * 2);
-    runButton.setPrefHeight(height / 2 - PADDING * 2);
-    AnchorPane.setLeftAnchor(runButton, PADDING);
-    return runButton;
+    Button button = new Button();
+    button.setText(text);
+    button.setPrefWidth(width - PADDING * 2);
+    button.setPrefHeight(height / 2 - PADDING * 2);
+    AnchorPane.setLeftAnchor(button, PADDING);
+    return button;
+  }
+
+  private void handleRun(){
+    String s = input.getText();
+    System.out.println(s);
+  }
+
+  private void handleClear(){
+    input.clear();
   }
 
   private void createInput() {
-    TextArea input = new TextArea();
+    input = new TextArea();
     input.setPrefHeight(HEIGHT);
     AnchorPane.setTopAnchor(input, PADDING);
     AnchorPane.setBottomAnchor(input, PADDING);
