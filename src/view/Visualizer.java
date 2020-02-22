@@ -11,13 +11,12 @@ import javafx.stage.Stage;
 public class Visualizer {
 
   private static final String DEFAULT_LANGUAGE = "English";
-  private static final double SCENE_WIDTH = 500;
-  private static final double SCENE_HEIGHT = 500;
-
-  private Image turtleImage;
-
   private ResourceBundle resourceBundle = ResourceBundle
       .getBundle("resources/ui/" + DEFAULT_LANGUAGE);
+
+  private static final double SCENE_WIDTH = 500;
+  private static final double SCENE_HEIGHT = 500;
+  private Image turtleImage = getImageByName("turtle.png");
 
   public Visualizer(Stage stage) {
     BorderPane root = new BorderPane();
@@ -31,8 +30,10 @@ public class Visualizer {
   }
 
   private Node addTurtle() {
-    turtleImage = new Image(this.getClass().getClassLoader().getResourceAsStream("turtle.png"));
-    return new TurtleView(turtleImage, 250, 250, 50).getNode();
+    return new TurtleView(turtleImage, SCENE_HEIGHT/2, SCENE_WIDTH/2, 50).getNode();
   }
 
+  private Image getImageByName(String name){
+    return new Image(this.getClass().getClassLoader().getResourceAsStream(name));
+  }
 }

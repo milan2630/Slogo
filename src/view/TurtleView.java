@@ -8,28 +8,35 @@ import javafx.scene.image.ImageView;
 public class TurtleView {
 
   private ImageView graphic;
-  private double x;
-  private double y;
+  private Point position;
   private double heading;
+  private boolean visible = true;
 
   public TurtleView(Image image, double x, double y, double heading) {
     this.graphic = new ImageView(image);
-    this.x = x;
-    this.y = y;
-    this.heading = heading;
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
-    updateTurtle();
+
+    Point point = new Point();
+    point.setLocation(x, y);
+
+    setPosition(point);
+    setHeading(heading);
   }
 
-  private void updateTurtle() {
-    graphic.setX(x - graphic.getBoundsInLocal().getWidth()/2);
-    graphic.setY(y - graphic.getBoundsInLocal().getHeight()/2);
+  public void setPosition(Point point) {
+    this.position = point;
+    graphic.setX(this.position.getX() - graphic.getBoundsInLocal().getWidth() / 2);
+    graphic.setY(this.position.getY() - graphic.getBoundsInLocal().getHeight() / 2);
+  }
+
+  public void setHeading(double heading) {
+    this.heading = heading;
     graphic.setRotate(heading);
   }
 
   public Node getNode() {
-    return graphic;
+    return this.graphic;
   }
 
 }
