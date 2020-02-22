@@ -5,14 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class TrailSegment {
+public class TrailView {
   private List<Node> trail = new ArrayList<>();
-  private Color currentColor;
+  private FlowPane flowPane = new FlowPane();
+  private Color currentColor = Color.BLACK;
   private double currentThickness;
+
+  public TrailView(Double thickness, Color color){
+    this.currentThickness = thickness;
+    this.currentColor = color;
+  }
 
   public Color getCurrentColor() {
     return currentColor;
@@ -38,12 +43,14 @@ public class TrailSegment {
     line.setStartY(start.getY());
     line.setEndX(end.getX());
     line.setEndY(end.getY());
-    trail.add(line);
+    flowPane.getChildren().add(line);
   }
 
-  public Pane getPane(){
-    FlowPane flowPane = new FlowPane();
-    flowPane.getChildren().addAll(trail);
+  public Node getNode(){
     return flowPane;
+  }
+
+  public void clear(){
+    flowPane.getChildren().clear();
   }
 }
