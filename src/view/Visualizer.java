@@ -1,39 +1,50 @@
 package view;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javafx.scene.Group;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Visualizer {
 
   private static final String DEFAULT_LANGUAGE = "English";
-  private ResourceBundle resourceBundle = ResourceBundle
-      .getBundle("resources/ui/" + DEFAULT_LANGUAGE);
-
-  private static final double SCENE_WIDTH = 500;
+  private ResourceBundle resourceBundle;
+  private StackPane display;
+  private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
-  private Image turtleImage = getImageByName("turtle.png");
 
-  public Visualizer(Stage stage) {
-    BorderPane root = new BorderPane();
-    stage.setTitle(resourceBundle.getString("Title"));
+  public Visualizer(Stage stage, String language) {
+    setTitle(stage, language);
 
-    root.getChildren().add(addTurtle());
+    GridPane gridPane = new GridPane();
+    display = new Display().getStackPane();
+    display.setBackground(
+        new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
-    Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    gridPane.add(display, 0, 1);
+
+    Scene scene = new Scene(gridPane, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
   }
 
-  private Node addTurtle() {
-    return new TurtleView(turtleImage, SCENE_HEIGHT/2, SCENE_WIDTH/2, 50).getNode();
+  private void setTitle(Stage stage, String language) {
+    try {
+      resourceBundle = ResourceBundle
+          .getBundle("resources/ui/" + language);
+    } catch (MissingResourceException e) {
+      resourceBundle = ResourceBundle
+          .getBundle("resources/ui/" + DEFAULT_LANGUAGE);
+    }
+    stage.setTitle(resourceBundle.getString("Title"));
   }
 
-  private Image getImageByName(String name){
-    return new Image(this.getClass().getClassLoader().getResourceAsStream(name));
-  }
+
 }

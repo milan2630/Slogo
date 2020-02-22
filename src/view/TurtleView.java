@@ -10,7 +10,6 @@ public class TurtleView {
   private ImageView graphic;
   private Point position;
   private double heading;
-  private boolean visible = true;
 
   public TurtleView(Image image, double x, double y, double heading) {
     this.graphic = new ImageView(image);

@@ -8,6 +8,7 @@ import view.Visualizer;
  * Feel free to completely change this code or delete it entirely.
  */
 public class Main extends Application {
+  private static final String LANGUAGE = "English";
 
   /**
    * Start of the program.
@@ -18,6 +19,6 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    new Visualizer(primaryStage);
+    new Visualizer(primaryStage, LANGUAGE);
   }
 }
