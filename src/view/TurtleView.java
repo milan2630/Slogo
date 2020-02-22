@@ -29,6 +29,14 @@ public class TurtleView {
     graphic.setY(this.position.getY() - graphic.getBoundsInLocal().getHeight() / 2);
   }
 
+  public Point getPosition() {
+    return this.position;
+  }
+
+  public double getHeading() {
+    return this.heading;
+  }
+
   public void setHeading(double heading) {
     this.heading = heading;
     graphic.setRotate(heading);

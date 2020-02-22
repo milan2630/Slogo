@@ -2,26 +2,19 @@ package view;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Visualizer {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private ResourceBundle resourceBundle;
-  private StackPane display;
-  private StackPane terminal;
+  private Pane display;
+  private Pane terminal;
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
@@ -29,11 +22,10 @@ public class Visualizer {
   public Visualizer(Stage stage, String language) {
     setTitle(stage, language);
 
-//    GridPane gridPane = new GridPane();
     BorderPane borderPane = new BorderPane();
 
-    terminal = new Terminal().getStackPane();
-    display = new Display().getStackPane();
+    terminal = new Terminal().getPane();
+    display = new Display().getPane();
 
     borderPane.setRight(display);
     borderPane.setBottom(terminal);
