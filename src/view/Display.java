@@ -7,8 +7,8 @@ import javafx.scene.layout.StackPane;
 public class Display {
   private Image turtleImage = getImageByName("turtle.png");
   private StackPane stackPane;
-  private static final double SCENE_WIDTH = 500;
-  private static final double SCENE_HEIGHT = 500;
+  private static final double SCENE_WIDTH = 400;
+  private static final double SCENE_HEIGHT = 400;
 
   public Display(){
     this.stackPane = new StackPane();

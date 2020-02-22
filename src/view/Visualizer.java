@@ -17,6 +17,8 @@ public class Visualizer {
   private static final String DEFAULT_LANGUAGE = "English";
   private ResourceBundle resourceBundle;
   private StackPane display;
+  private StackPane terminal;
+
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
 
@@ -24,11 +26,17 @@ public class Visualizer {
     setTitle(stage, language);
 
     GridPane gridPane = new GridPane();
+    terminal = new Terminal().getStackPane();
+    terminal.setBackground(
+        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
     display = new Display().getStackPane();
     display.setBackground(
         new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
     gridPane.add(display, 0, 1);
+    gridPane.add(terminal, 1, 1);
+
 
     Scene scene = new Scene(gridPane, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
