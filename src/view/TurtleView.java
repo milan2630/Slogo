@@ -26,12 +26,9 @@ public class TurtleView {
   }
 
   protected void setPosition(Point point) {
-    System.out.println(position);
     this.position = point;
-    System.out.println(position);
-    graphic.setX(800);
-    graphic.setY(1000);
-    System.out.println(graphic.getX() + ":" + graphic.getY());
+    graphic.setX(point.getX());
+    graphic.setY(point.getY());
   }
 
   protected Point getPosition() {
@@ -50,8 +47,9 @@ public class TurtleView {
     return turtleVisible;
   }
 
-  protected void setTurtleVisible(boolean turtleVisible) {
-    this.turtleVisible = turtleVisible;
+  protected void setTurtleVisible(boolean isVisible) {
+    this.turtleVisible = isVisible;
+    graphic.setVisible(isVisible);
   }
 
   protected boolean isPenActive() {

@@ -120,4 +120,8 @@ public class Terminal {
   protected Pane getPane() {
     return this.pane;
   }
+
+  protected double getHeight() {
+    return HEIGHT;
+  }
 }
