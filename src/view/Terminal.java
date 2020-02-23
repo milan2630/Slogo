@@ -1,5 +1,9 @@
 package view;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -18,10 +22,14 @@ public class Terminal {
   private Button runButton;
   private Button clearButton;
   private TextArea input;
+  private String data;
   private static final double WIDTH = 800;
   private static final double HEIGHT = 150;
   private static final double PADDING = 5;
   private static final double BUTTON_PANE_WIDTH = 100;
+  public static final String RUN = "Run";
+
+  private List<PropertyChangeListener> listener = new ArrayList<>();
 
   protected Terminal(String language) {
     resourceBundle = ResourceBundle
@@ -46,16 +54,24 @@ public class Terminal {
     AnchorPane.setTopAnchor(buttonPane, PADDING);
     AnchorPane.setLeftAnchor(buttonPane, PADDING);
 
-    Button runButton = createButton(width, height, resourceBundle.getString("RunButton"));
-    AnchorPane.setTopAnchor(runButton, PADDING);
-    runButton.setOnAction(event -> handleRun());
-
-    Button clearButton = createButton(width, height, resourceBundle.getString("ClearButton"));
-    AnchorPane.setBottomAnchor(clearButton, PADDING);
+    createRunButton(width, height);
+    createClearButton(width, height);
 
     buttonPane.getChildren().addAll(runButton, clearButton);
     pane.getChildren().add(buttonPane);
+
+  }
+
+  private void createClearButton(double width, double height) {
+    clearButton = createButton(width, height, resourceBundle.getString("ClearButton"));
+    AnchorPane.setBottomAnchor(clearButton, PADDING);
     clearButton.setOnAction(event -> handleClear());
+  }
+
+  private void createRunButton(double width, double height) {
+    runButton = createButton(width, height, resourceBundle.getString("RunButton"));
+    AnchorPane.setTopAnchor(runButton, PADDING);
+    runButton.setOnAction(event -> handleRun());
 
   }
 
@@ -68,12 +84,11 @@ public class Terminal {
     return button;
   }
 
-  private void handleRun(){
-    String s = input.getText();
-    System.out.println(s);
+  private void handleRun() {
+    notifyListeners(RUN, this.data, this.data = input.getText());
   }
 
-  private void handleClear(){
+  private void handleClear() {
     input.clear();
   }
 
@@ -85,6 +100,21 @@ public class Terminal {
     AnchorPane.setLeftAnchor(input, BUTTON_PANE_WIDTH);
     AnchorPane.setRightAnchor(input, PADDING);
     pane.getChildren().add(input);
+  }
+
+  private void notifyListeners(String property, String oldValue, String newValue) {
+    for (PropertyChangeListener name : listener) {
+      name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    }
+  }
+
+  /**
+   * Implements Observer Design pattern
+   *
+   * @param newListener
+   */
+  public void addChangeListener(PropertyChangeListener newListener) {
+    listener.add(newListener);
   }
 
   protected Pane getPane() {

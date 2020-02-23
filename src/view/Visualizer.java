@@ -1,5 +1,7 @@
 package view;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
@@ -7,13 +9,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Visualizer {
+public class Visualizer implements PropertyChangeListener {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
   private String language;
-  private Pane display;
-  private Pane terminal;
+  private Display display;
+  private Terminal terminal;
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
@@ -24,11 +26,13 @@ public class Visualizer {
 
     BorderPane borderPane = new BorderPane();
 
-    terminal = new Terminal(language).getPane();
-    display = new Display().getPane();
+    terminal = new Terminal(language);
+    terminal.addChangeListener(this);
 
-    borderPane.setRight(display);
-    borderPane.setBottom(terminal);
+    display = new Display();
+
+    borderPane.setRight(display.getPane());
+    borderPane.setBottom(terminal.getPane());
 
     Scene scene = new Scene(borderPane, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
@@ -47,5 +51,12 @@ public class Visualizer {
     stage.setTitle(resourceBundle.getString("Title"));
   }
 
-
+  /**
+   * Implements Observer Design pattern
+   * @param evt
+   */
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    System.out.println(evt.getPropertyName() + " " + evt.getNewValue());
+  }
 }
