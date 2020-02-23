@@ -95,6 +95,8 @@ public class Terminal {
   private void createInput() {
     input = new TextArea();
     input.setPrefHeight(HEIGHT);
+    input.setPromptText(resourceBundle.getString("TerminalPrompt"));
+    input.setFocusTraversable(false);
     AnchorPane.setTopAnchor(input, PADDING);
     AnchorPane.setBottomAnchor(input, PADDING);
     AnchorPane.setLeftAnchor(input, BUTTON_PANE_WIDTH);
