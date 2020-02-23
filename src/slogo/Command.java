@@ -1,4 +1,11 @@
 package slogo;
 
-public class Command {
+public interface Command {
+
+    public int getNumArguments();
+
+
+
+
+
 }
