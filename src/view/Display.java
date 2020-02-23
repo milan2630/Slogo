@@ -28,10 +28,14 @@ public class Display {
     this.turtle = new TurtleView(turtleImage, HEIGHT / 2, WIDTH / 2, 50);
 
     stackPane.getChildren().addAll(turtle.getNode(), trail.getNode());
+  }
 
-    trail.addLine(new Point(30, 20), new Point(600, 30));
-    trail.setCurrentColor(Color.BLACK);
-    trail.addLine(new Point(500, 20), new Point(0, 300));
+  protected void moveTurtle(Point newCoordinate) {
+    Point oldCoordinate = turtle.getPosition();
+    turtle.setPosition(newCoordinate);
+    if (turtle.isPenActive()) {
+      trail.addLine(oldCoordinate, newCoordinate);
+    }
   }
 
   protected Pane getPane() {

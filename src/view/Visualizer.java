@@ -1,8 +1,10 @@
 package view;
 
+import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.MissingResourceException;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -37,6 +39,7 @@ public class Visualizer implements PropertyChangeListener {
     Scene scene = new Scene(borderPane, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
+
   }
 
   private void setTitle(Stage stage) {
@@ -57,6 +60,10 @@ public class Visualizer implements PropertyChangeListener {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    int r = new Random().nextInt(600);
+    int r2 = new Random().nextInt(400);
+
     System.out.println(evt.getPropertyName() + " " + evt.getNewValue());
+    display.moveTurtle(new Point(r,r2));
   }
 }

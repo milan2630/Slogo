@@ -9,6 +9,8 @@ public class TurtleView {
 
   private ImageView graphic;
   private Point position;
+  private boolean turtleVisible;
+  private boolean penActive = true;
   private double heading;
 
   protected TurtleView(Image image, double x, double y, double heading) {
@@ -24,9 +26,12 @@ public class TurtleView {
   }
 
   protected void setPosition(Point point) {
+    System.out.println(position);
     this.position = point;
-    graphic.setX(this.position.getX() - graphic.getBoundsInLocal().getWidth() / 2);
-    graphic.setY(this.position.getY() - graphic.getBoundsInLocal().getHeight() / 2);
+    System.out.println(position);
+    graphic.setX(800);
+    graphic.setY(1000);
+    System.out.println(graphic.getX() + ":" + graphic.getY());
   }
 
   protected Point getPosition() {
@@ -38,8 +43,23 @@ public class TurtleView {
   }
 
   protected void setHeading(double heading) {
-    this.heading = heading;
-    graphic.setRotate(heading);
+    graphic.setRotate(this.heading = heading);
+  }
+
+  protected boolean isTurtleVisible() {
+    return turtleVisible;
+  }
+
+  protected void setTurtleVisible(boolean turtleVisible) {
+    this.turtleVisible = turtleVisible;
+  }
+
+  protected boolean isPenActive() {
+    return penActive;
+  }
+
+  protected void setPenActive(boolean penActive) {
+    this.penActive = penActive;
   }
 
   protected Node getNode() {
