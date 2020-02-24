@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Point;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -27,9 +28,8 @@ public class Display {
     stackPane.getChildren().addAll(turtle.getNode(), trail.getNode());
   }
 
-  protected void moveTurtle(Point newCoordinate) {
-    System.out.println(stackPane.getWidth());
-    Point oldCoordinate = turtle.getPosition();
+  protected void moveTurtle(Point2D newCoordinate) {
+    Point2D oldCoordinate = turtle.getPosition();
     turtle.setPosition(newCoordinate);
     if (turtle.isPenActive()) {
       trail.addLine(oldCoordinate, newCoordinate);

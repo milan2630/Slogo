@@ -3,6 +3,7 @@ package view;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -36,7 +37,9 @@ public class TrailView {
     this.currentThickness = currentThickness;
   }
 
-  protected void addLine(Point start, Point end) {
+  protected void addLine(Point2D start, Point2D end) {
+    System.out.println("old:" + start + ", new:" + end);
+
     Line line = new Line();
     line.setStrokeWidth(currentThickness);
     line.setStroke(currentColor);
@@ -45,6 +48,9 @@ public class TrailView {
     line.setEndX(end.getX());
     line.setEndY(end.getY());
     flowPane.getChildren().add(line);
+    System.out.println(line);
+    trail.add(line);
+//    System.out.println(trail);
   }
 
   protected Node getNode() {

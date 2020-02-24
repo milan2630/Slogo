@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Point;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,7 +9,7 @@ import javafx.scene.image.ImageView;
 public class TurtleView {
 
   private ImageView graphic;
-  private Point position;
+  private Point2D position;
   private boolean turtleVisible;
   private boolean penActive = true;
   private double heading;
@@ -18,20 +19,19 @@ public class TurtleView {
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
 
-    Point point = new Point();
-    point.setLocation(x, y);
+    Point2D point = new Point2D(x,y);
 
     setPosition(point);
     setHeading(heading);
   }
 
-  protected void setPosition(Point point) {
+  protected void setPosition(Point2D point) {
     this.position = point;
     graphic.setX(point.getX());
     graphic.setY(point.getY());
   }
 
-  protected Point getPosition() {
+  protected Point2D getPosition() {
     return this.position;
   }
 
