@@ -40,8 +40,7 @@ public class Terminal {
     resourceBundle = ResourceBundle
         .getBundle("resources/ui/" + language);
     this.pane = new AnchorPane();
-    pane.setBackground(
-        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    setBackgroundColor(pane, Color.BISQUE);
     pane.setPrefSize(WIDTH, HEIGHT);
 
     createInput();
@@ -54,24 +53,32 @@ public class Terminal {
     double height = HEIGHT - PADDING * 2;
 
     buttonPane.setPrefSize(width, height);
-    buttonPane.setBackground(
-        new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+    setBackgroundColor(buttonPane, Color.SIENNA);
 
     AnchorPane.setTopAnchor(buttonPane, PADDING);
     AnchorPane.setLeftAnchor(buttonPane, PADDING);
 
+    createButtons(width, height);
+    addButtonsToPane(buttonPane);
+
+    pane.getChildren().add(buttonPane);
+  }
+
+  private void createButtons(double width, double height) {
     createRunButton(width, height);
     createClearButton(width, height);
-    createResetButton(width,height);
+    createResetButton(width, height);
+  }
 
+  private void addButtonsToPane(BorderPane buttonPane) {
     buttonPane.setTop(runButton);
     buttonPane.setAlignment(runButton, Pos.CENTER);
     buttonPane.setCenter(clearButton);
     buttonPane.setBottom(resetButton);
     buttonPane.setAlignment(resetButton, Pos.CENTER);
-
-
-    pane.getChildren().add(buttonPane);
+    buttonPane.setMargin(runButton, new Insets(PADDING, PADDING, PADDING, PADDING));
+    buttonPane.setMargin(clearButton, new Insets(PADDING, PADDING, PADDING, PADDING));
+    buttonPane.setMargin(resetButton, new Insets(PADDING, PADDING, PADDING, PADDING));
   }
 
   private void createClearButton(double width, double height) {
@@ -145,5 +152,10 @@ public class Terminal {
 
   protected double getHeight() {
     return HEIGHT;
+  }
+
+  protected void setBackgroundColor(Pane pane, Color color) {
+    pane.setBackground(
+        new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 }
