@@ -6,7 +6,7 @@ public interface Command {
 
     public int getNumArguments();
 
-    public void setArguments(List<String> arguments);
+    public void setArguments(List<Integer> arguments);
 
     public int getReturn();
 
