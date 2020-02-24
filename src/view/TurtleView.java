@@ -19,7 +19,7 @@ public class TurtleView {
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
 
-    Point2D point = new Point2D(x,y);
+    Point2D point = new Point2D(x, y);
 
     setPosition(point);
     setHeading(heading);
@@ -27,8 +27,8 @@ public class TurtleView {
 
   protected void setPosition(Point2D point) {
     this.position = point;
-    graphic.setX(point.getX());
-    graphic.setY(point.getY());
+    graphic.setX(point.getX() - graphic.getBoundsInLocal().getWidth() / 2);
+    graphic.setY(point.getY() - graphic.getBoundsInLocal().getHeight() / 2);
   }
 
   protected Point2D getPosition() {

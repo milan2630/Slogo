@@ -80,7 +80,13 @@ public class Visualizer implements PropertyChangeListener {
     int r2 = new Random().nextInt(400);
 
     System.out.println(evt.getNewValue());
-    display.moveTurtle(new Point2D(r,r2));
+
+    if (evt.getPropertyName().equals("Run")){
+      display.moveTurtle(new Point2D(r,r2));
+    }
+    else {
+      display.resetPane();
+    }
 
   }
 }
