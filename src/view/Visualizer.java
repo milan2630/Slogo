@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -79,7 +80,13 @@ public class Visualizer implements PropertyChangeListener {
     int r2 = new Random().nextInt(400);
 
     System.out.println(evt.getNewValue());
-    display.moveTurtle(new Point(r,r2));
+
+    if (evt.getPropertyName().equals("Run")){
+      display.moveTurtle(new Point2D(r,r2));
+    }
+    else {
+      display.resetPane();
+    }
 
   }
 }
