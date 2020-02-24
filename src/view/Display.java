@@ -1,35 +1,59 @@
 package view;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Display {
 
   private Image turtleImage = getImageByName("turtle.png");
-  private StackPane stackPane;
-  private static final double WIDTH = 600;
-  private static final double HEIGHT = 400;
+  private Pane pane;
+  private TrailView trail;
+  private TurtleView turtle;
 
-  public Display() {
-    this.stackPane = new StackPane();
-    stackPane.getChildren().add(addTurtle());
-    stackPane.setBackground(
-        new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-    stackPane.setPrefSize(WIDTH, HEIGHT);
+
+  protected Display() {
+    this.pane = new Pane();
+    setBackgroundColor(Color.AZURE);
+    resetPane();
   }
 
-  public StackPane getStackPane() {
-    return this.stackPane;
+  protected void resetPane() {
+    pane.getChildren().clear();
+    this.trail = new TrailView(3.0, Color.ORANGE);
+    this.turtle = new TurtleView(turtleImage, 0, 0, 0);
+
+    pane.getChildren().addAll(turtle.getNode(), trail.getNode());
   }
 
-  private Node addTurtle() {
-    return new TurtleView(turtleImage, HEIGHT / 2, WIDTH / 2, 50).getNode();
+  protected void moveTurtle(Point2D newCoordinate) {
+    Point2D oldCoordinate = turtle.getPosition();
+    turtle.setPosition(newCoordinate);
+    if (turtle.isPenActive()) {
+      trail.addLine(oldCoordinate, newCoordinate);
+    }
+  }
+
+  protected void hideTurtle() {
+    turtle.setTurtleVisible(false);
+  }
+
+  protected void showTurtle() {
+    turtle.setTurtleVisible(true);
+  }
+
+  protected Pane getPane() {
+    return this.pane;
+  }
+
+  protected void setBackgroundColor(Color color) {
+    pane.setBackground(
+        new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   private Image getImageByName(String name) {

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Point;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,33 +9,58 @@ import javafx.scene.image.ImageView;
 public class TurtleView {
 
   private ImageView graphic;
-  private Point position;
+  private Point2D position;
+  private boolean turtleVisible;
+  private boolean penActive = true;
   private double heading;
 
-  public TurtleView(Image image, double x, double y, double heading) {
+  protected TurtleView(Image image, double x, double y, double heading) {
     this.graphic = new ImageView(image);
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
 
-    Point point = new Point();
-    point.setLocation(x, y);
+    Point2D point = new Point2D(x, y);
 
     setPosition(point);
     setHeading(heading);
   }
 
-  public void setPosition(Point point) {
+  protected void setPosition(Point2D point) {
     this.position = point;
-    graphic.setX(this.position.getX() - graphic.getBoundsInLocal().getWidth() / 2);
-    graphic.setY(this.position.getY() - graphic.getBoundsInLocal().getHeight() / 2);
+    graphic.setX(point.getX() - graphic.getBoundsInLocal().getWidth() / 2);
+    graphic.setY(point.getY() - graphic.getBoundsInLocal().getHeight() / 2);
   }
 
-  public void setHeading(double heading) {
-    this.heading = heading;
-    graphic.setRotate(heading);
+  protected Point2D getPosition() {
+    return this.position;
   }
 
-  public Node getNode() {
+  protected double getHeading() {
+    return this.heading;
+  }
+
+  protected void setHeading(double heading) {
+    graphic.setRotate(this.heading = heading);
+  }
+
+  protected boolean isTurtleVisible() {
+    return turtleVisible;
+  }
+
+  protected void setTurtleVisible(boolean isVisible) {
+    this.turtleVisible = isVisible;
+    graphic.setVisible(isVisible);
+  }
+
+  protected boolean isPenActive() {
+    return penActive;
+  }
+
+  protected void setPenActive(boolean penActive) {
+    this.penActive = penActive;
+  }
+
+  protected Node getNode() {
     return this.graphic;
   }
 
