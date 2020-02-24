@@ -57,8 +57,16 @@ public class Parser {
                     ex.printStackTrace();
                 }
             }
+            combineCommandsArgs(commands, argumentStack, commandStack);
+        }
 
-            int numArguments = argumentStack.size();
+        return commands;
+
+    }
+
+    private void combineCommandsArgs(List<Command> commands, Stack<Integer> argumentStack, Stack<Command> commandStack) {
+        int numArguments = argumentStack.size();
+        try {
             Command topCom = commandStack.peek();
             while(numArguments >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
@@ -69,6 +77,7 @@ public class Parser {
                 Collections.reverse(params);
                 topCom.setArguments(params);
                 commands.add(topCom);
+                System.out.println(topCom.getClass() + ": " + topCom.getReturn());
                 argumentStack.add(topCom.getReturn());
                 numArguments = argumentStack.size();
                 if(commandStack.size() > 0) {
@@ -79,15 +88,15 @@ public class Parser {
                 }
             }
         }
-
-        return commands;
-
+        catch(EmptyStackException e){
+            System.out.println("Incompatible number of commands and arguments");
+        }
     }
 
 
     public static void main(String[] args) {
         Parser t = new Parser("English");
-        String s = "fd fd 50";
+        String s = "5";
         try {
             List<Command> x = t.parseStringToCommands(s);
             for(Command c: x){
