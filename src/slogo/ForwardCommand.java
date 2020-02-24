@@ -1,17 +1,22 @@
 package slogo;
 
 import java.awt.*;
+import java.util.List;
 
 public class ForwardCommand implements TurtleCommand{
 
 
-    private double pixelsForward;
+    private int pixelsForward;
 
-    public ForwardCommand(double pixels){
+    public ForwardCommand(){
+        //do nothing
+    }
+
+    public ForwardCommand(int pixels){
         pixelsForward = pixels;
     }
 
-    public double getPixelsForward(){
+    public int getPixelsForward(){
         return pixelsForward;
     }
 
@@ -24,5 +29,15 @@ public class ForwardCommand implements TurtleCommand{
     @Override
     public int getNumArguments() {
         return 1;
+    }
+
+    @Override
+    public void setArguments(List<String> arguments) {
+        pixelsForward = Integer.parseInt(arguments.get(0));
+    }
+
+    @Override
+    public int getReturn() {
+        return pixelsForward;
     }
 }
