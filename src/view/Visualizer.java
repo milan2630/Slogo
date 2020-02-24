@@ -52,10 +52,19 @@ public class Visualizer implements PropertyChangeListener {
     AnchorPane.setTopAnchor(displayNode,0.0);
     AnchorPane.setBottomAnchor(displayNode,terminal.getHeight());
     AnchorPane.setRightAnchor(displayNode,0.0);
+
     //TODO replace 200 with controller width
     AnchorPane.setLeftAnchor(displayNode,200.0);
 
-    root.getChildren().addAll(terminalNode,displayNode);
+    //Adding Tabs
+    HistoryView historyView = new HistoryView();
+    Node tabNode = historyView.getPane();
+    AnchorPane.setTopAnchor(tabNode, 0.0);
+    AnchorPane.setBottomAnchor(tabNode, terminal.getHeight());
+    AnchorPane.setRightAnchor(tabNode, 600.0);
+    AnchorPane.setLeftAnchor(tabNode, 0.0);
+
+    root.getChildren().addAll(terminalNode,displayNode, tabNode);
   }
 
   private void setTitle(Stage stage) {
