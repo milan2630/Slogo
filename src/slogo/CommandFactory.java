@@ -1,5 +1,7 @@
 package slogo;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -20,9 +22,11 @@ public class CommandFactory {
         initializeMap();
     }
 
-    public Command getCommand(String commandCall){
+    public Command getCommand(String commandCall) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         String className = commands.get(commandCall) + classSuffix;
-        //Reflection for creating command
+        Class commandClass = Class.forName(className);
+        Constructor commandConstructor = commandClass.getConstructor();
+        return (Command) commandConstructor.newInstance();
     }
 
     private void initializeMap() {
