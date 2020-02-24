@@ -3,12 +3,13 @@ package view;
 import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.MissingResourceException;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import javafx.collections.FXCollections;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -57,12 +58,22 @@ public class Visualizer implements PropertyChangeListener {
     AnchorPane.setLeftAnchor(displayNode,200.0);
 
     //Adding Tabs
-    HistoryView historyView = new HistoryView();
-    Node tabNode = historyView.getPane();
+    TabPane tabNode = new TabPane();
     AnchorPane.setTopAnchor(tabNode, 0.0);
     AnchorPane.setBottomAnchor(tabNode, terminal.getHeight());
     AnchorPane.setRightAnchor(tabNode, 600.0);
     AnchorPane.setLeftAnchor(tabNode, 0.0);
+
+    //Adding History Tab
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    String[] letters =  alphabet.split("");
+    List<String> lettersList = Arrays.asList(letters);
+    HistoryView historyView = new HistoryView(language, FXCollections.observableArrayList(lettersList));
+    tabNode.getTabs().add(historyView.getTab());
+
+    //Adding Variable Tab
+    VariableView variableView = new VariableView(language, FXCollections.observableList(List.of("x", "y", "z")));
+    tabNode.getTabs().add(variableView.getTab());
 
     root.getChildren().addAll(terminalNode,displayNode, tabNode);
   }
