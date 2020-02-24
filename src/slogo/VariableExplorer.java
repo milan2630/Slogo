@@ -9,22 +9,25 @@ import java.util.List;
 
 public class VariableExplorer{
     private List<Variable> myVariables;
-    private ObservableMap<String,String> myDisplayVariables;
+    private ObservableList<Variable> myDisplayVariables;
     public VariableExplorer(){
         myVariables = new ArrayList<>();
-        myDisplayVariables = FXCollections.observableHashMap();
+        myDisplayVariables = FXCollections.observableList(myVariables);
     }
 
     public void addVariable(Variable value){
         myVariables.add(value);
-        myDisplayVariables.put(value.getName(), ""+value.getValue());
+        myDisplayVariables.add(value);
     }
-
+    public void removeVariable(Variable value){
+        myVariables.remove(value);
+        myDisplayVariables.remove(value);
+    }
     /**
      * returns myDisplayVariables
      * @return ObservableMap myDisplayVariables
      */
-    public ObservableMap getMap(){
+    public ObservableList<Variable> getDisplayVariables(){
         return myDisplayVariables;
     }
 
