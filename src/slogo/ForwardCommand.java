@@ -32,8 +32,8 @@ public class ForwardCommand implements TurtleCommand{
     }
 
     @Override
-    public void setArguments(List<String> arguments) {
-        pixelsForward = Integer.parseInt(arguments.get(0));
+    public void setArguments(List<Integer> arguments) {
+        pixelsForward = arguments.get(0);
     }
 
     @Override
