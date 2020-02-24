@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 
 public class CommandFactory {
 
-
-    private static final String classSuffix = "Command";
+    private static final String CLASS_PREFIX = "slogo.";
+    private static final String CLASS_SUFFIX = "Command";
     private static final String RESOURCES = "resources";
     private static final String COMMAND_RESOURCES = "languages";
     public static final String DEFAULT_COMMAND_RESOURCE_PACKAGE = RESOURCES + "/" + COMMAND_RESOURCES + ".";
@@ -23,7 +23,7 @@ public class CommandFactory {
     }
 
     public Command getCommand(String commandCall) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        String className = commands.get(commandCall) + classSuffix;
+        String className = CLASS_PREFIX + commands.get(commandCall) + CLASS_SUFFIX;
         Class commandClass = Class.forName(className);
         Constructor commandConstructor = commandClass.getConstructor();
         return (Command) commandConstructor.newInstance();
