@@ -21,6 +21,16 @@ public class VariableExplorer{
     public void removeVariable(Variable value){
         myVariables.remove(value);
     }
+
+    public Variable getVariable(String name){
+        for(int i = 0; i < myVariables.size(); i++){
+            if(myVariables.get(i).getName().equals(name)){
+                return myVariables.get(i);
+            }
+        }
+        return null;
+    }
+
     /**
      * returns myDisplayVariables
      * @return ObservableMap myDisplayVariables
