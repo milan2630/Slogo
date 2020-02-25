@@ -19,7 +19,7 @@ public class IntegerVariable extends Variable<Integer> {
      * sets value of myValue to num
      * @param num
      */
-    @Override
+    //@Override
     public void setValue(Integer num) {
         myValue = num;
     }
