@@ -2,6 +2,7 @@ package slogo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
@@ -15,37 +16,39 @@ public class Turtle {
     private ResourceBundle myResources;
 
 
-    private int myX;
-    private int myY;
-    private int myHeading;
+    private double myX;
+    private double myY;
+    private double myHeading;
     private int penState;
     private int showing;
+    private MethodExplorer methodExplorer;
+    private VariableExplorer variableExplorer;
 
 
-
-    public Turtle(){
+    public Turtle(MethodExplorer me, VariableExplorer ve){
         myX = 0;
         myY = 0;
         myHeading = 0;
         penState = 1;
         showing = 1;
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
+        methodExplorer = me;
+        variableExplorer = ve;
 
     }
 
-    public int actOnCommand(Command command) throws ParsingException {
-        return callMethod(command);
+    public double actOnCommand(Command command, List<Object> params) throws ParsingException {
+        return callMethod(command, params);
     }
 
-    private int callMethod(Command command) throws ParsingException {
+    private double callMethod(Command command, List<Object> params) throws ParsingException {
         String[] classParts = command.getClass().toString().split("\\.");
         String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
         String methodName = myResources.getString(key);
         Method[] t = this.getClass().getMethods();
-        Method method = null;
         try {
-            method = this.getClass().getDeclaredMethod(methodName, command.getClass());
-            return (int) method.invoke(this, command);
+            Method method = this.getClass().getDeclaredMethod(methodName, command.getClass(), List.class);
+            return (double) method.invoke(this, command, params);
         } catch (NoSuchMethodException e) {
             throw new ParsingException("ads", 2);
         } catch (IllegalAccessException e) {
@@ -58,10 +61,17 @@ public class Turtle {
 
 
     //TODO implement properly
-    private int moveForward(ForwardCommand forward){
-        myX+= forward.getPixelsForward();
-        return forward.getPixelsForward();
+    private double moveForward(ForwardCommand forward, List<Object> params) throws ClassCastException{
+        //List<Class> paramTypes = forward.getArgumentTypes();
+        double pixForward = (Double) params.get(0);
+        myX+= pixForward;
+        return pixForward;
     }
+
+    private double setVariable(MakeVariableCommand variableCommand, List<Object> params){
+        
+    }
+
 
     private void moveBack(BackwardCommand backward) {
         myX-= backward.getPixelsBackward();
@@ -119,15 +129,15 @@ public class Turtle {
 
  */
 
-    public int getX() {
+    public double getX() {
         return myX;
     }
 
-    public int getY() {
+    public double getY() {
         return myY;
     }
 
-    public int getHeading() {
+    public double getHeading() {
         return myHeading;
     }
 
