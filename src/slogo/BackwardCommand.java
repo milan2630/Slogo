@@ -35,8 +35,4 @@ public class BackwardCommand implements TurtleCommand{
         pixelsBackward = arguments.get(0);
     }
 
-    @Override
-    public int getReturn() {
-        return pixelsBackward;
-    }
 }

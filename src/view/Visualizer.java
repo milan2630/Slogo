@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Point;
+import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -14,15 +14,16 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import slogo.Variable;
+import slogo.FrontEndExternal;
 
-public class Visualizer implements PropertyChangeListener {
+public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
   private String language;
   private Display display;
   private Terminal terminal;
+  private String consoleString;
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
@@ -106,10 +107,11 @@ public class Visualizer implements PropertyChangeListener {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    int r = new Random().nextInt(600);
-    int r2 = new Random().nextInt(400);
+    int r = new Random().nextInt((int) this.display.getPane().getWidth());
+    int r2 = new Random().nextInt((int) this.display.getPane().getHeight());
 
-    System.out.println(evt.getNewValue());
+    this.consoleString = evt.getNewValue().toString();
+    System.out.println(consoleString);
 
     if (evt.getPropertyName().equals("Run")){
       display.moveTurtle(new Point2D(r,r2));
@@ -117,6 +119,40 @@ public class Visualizer implements PropertyChangeListener {
     else {
       display.resetPane();
     }
+  }
+
+  @Override
+  public String getConsoleString() {
+    return consoleString;
+  }
+
+  @Override
+  public void updatePositions(double newX, double newY) {
+    display.moveTurtle(new Point2D(newX,newY));
+  }
+
+  @Override
+  public void updateHeading(double newHeading) {
+    display.setTurtleHeading(newHeading);
+  }
+
+  @Override
+  public void updatePenState(boolean penState) {
+    display.setPenState(penState);
+  }
+
+  @Override
+  public String getLanguage() {
+    return language;
+  }
+
+  @Override
+  public void displayError(Exception error) {
+
+  }
+
+  @Override
+  public void createButton(EventHandler event, String property) {
 
   }
 }

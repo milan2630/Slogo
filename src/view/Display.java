@@ -28,7 +28,7 @@ public class Display {
     this.trail = new TrailView(3.0, Color.ORANGE);
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
 
-    pane.getChildren().addAll(turtle.getNode(), trail.getNode());
+    pane.getChildren().addAll(turtle.getPane(), trail.getPane());
   }
 
   protected void moveTurtle(Point2D newCoordinate) {
@@ -39,12 +39,16 @@ public class Display {
     }
   }
 
-  protected void hideTurtle() {
-    turtle.setTurtleVisible(false);
+  protected void setTurtleHeading(double newHeading){
+    turtle.setHeading(newHeading);
   }
 
-  protected void showTurtle() {
-    turtle.setTurtleVisible(true);
+  protected void setTurtleState(boolean state) {
+    turtle.setTurtleVisible(state);
+  }
+
+  protected void setPenState(boolean state) {
+    turtle.setPenActive(state);
   }
 
   protected Pane getPane() {
