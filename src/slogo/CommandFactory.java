@@ -16,13 +16,19 @@ public class CommandFactory {
     private ResourceBundle myResources;
 
     private Map<String, String> commands;
+    private MethodExplorer methodExplorer;
 
-    public CommandFactory(String lang){
+    public CommandFactory(String lang, MethodExplorer me){
         myResources = ResourceBundle.getBundle(DEFAULT_COMMAND_RESOURCE_PACKAGE + lang);
         initializeMap();
+        methodExplorer = me;
     }
 
     public Command getCommand(String commandCall) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        SlogoMethod userMethod = methodExplorer.getMethod(commandCall);
+        if(userMethod != null){
+            return userMethod;
+        }
         String className = CLASS_PREFIX + commands.get(commandCall) + CLASS_SUFFIX;
         Class commandClass = Class.forName(className);
         Constructor commandConstructor = commandClass.getConstructor();
