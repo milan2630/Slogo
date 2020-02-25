@@ -68,8 +68,10 @@ public class Turtle {
         return pixForward;
     }
 
-    private double setVariable(MakeVariableCommand variableCommand, List<Object> params){
-        
+    private double setVariable(MakeVariableCommand variableCommand, List<Object> params) throws ClassCastException{
+        Variable<Double> var = new DoubleVariable((String)params.get(0), (Double)params.get(1));
+        variableExplorer.addVariable(var);
+        return (Double)params.get(1);
     }
 
 

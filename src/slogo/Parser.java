@@ -176,8 +176,9 @@ public class Parser {
 
     public static void main(String[] args) {
         MethodExplorer me = new MethodExplorer();
+        VariableExplorer ve = new VariableExplorer();
         Parser t = new Parser("English", me);
-        Turtle turt = new Turtle();
+        Turtle turt = new Turtle(me, ve);
 
         /*SlogoMethod m = new SlogoMethod("NewMeth", new ArrayList<>(), new ArrayList<>());
 
@@ -186,7 +187,7 @@ public class Parser {
 
         me.addMethod(m);*/
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        String s = "fd fd 5";
+        String s = "make :hi 32.1";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
@@ -196,5 +197,10 @@ public class Parser {
         } catch (ParsingException e) {
             e.printStackTrace();
         }
+        List<Variable> list = ve.getDisplayVariables();
+        for(Variable v: list){
+            System.out.println(v.getName() + ": " + v.getValue());
+        }
+
     }
 }
