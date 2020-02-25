@@ -2,15 +2,13 @@ package slogo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
 
 public class Turtle {
 
     private static final String RESOURCES = "resources";
     private static final String METHOD_RESOURCES = "CommandMethodNames";
-    public static final String DEFAULT_METHOD_RESOURCE_PACKAGE = RESOURCES + "/" + METHOD_RESOURCES + ".";
+    private static final String DEFAULT_METHOD_RESOURCE_PACKAGE = RESOURCES + "/" + METHOD_RESOURCES + ".";
     private static final String TURTLE_METHODS_PROPERTIES = "turtleMethods";
     private static final String TURTLE_METHODS_FILEPATH = DEFAULT_METHOD_RESOURCE_PACKAGE + TURTLE_METHODS_PROPERTIES;
     private ResourceBundle myResources;
@@ -45,21 +43,24 @@ public class Turtle {
         String[] classParts = command.getClass().toString().split("\\.");
         String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
         String methodName = myResources.getString(key);
-        Method[] t = this.getClass().getMethods();
         try {
             Method method = this.getClass().getDeclaredMethod(methodName, command.getClass(), List.class);
             return (double) method.invoke(this, command, params);
-        } catch (NoSuchMethodException e) {
-            throw new ParsingException("ads", 2);
-        } catch (IllegalAccessException e) {
-            throw new ParsingException("ads", 2);
-        } catch (InvocationTargetException e) {
-            throw new ParsingException("ads", 2);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 
 
-    //private double makeMethod(MakeUserInstructionCommand command, List<Object> params)
+    private double makeMethod(MakeUserInstructionCommand command, List<String> params){
+        List<String> paramNames = new ArrayList<>();
+        String[] names = params.get(1).split(" ");
+        paramNames.addAll(Arrays.asList(names));
+        SlogoMethod newMethod = new SlogoMethod(params.get(0), params.get(2), paramNames);
+        methodExplorer.addMethod(newMethod);
+        return 0;
+    }
 
     //TODO implement properly
     private double moveForward(ForwardCommand forward, List<String> params) throws ClassCastException{
@@ -74,7 +75,7 @@ public class Turtle {
         try{
             return Double.parseDouble(val);
         }
-        catch (ClassCastException e){
+        catch (NumberFormatException e){
             if(variableExplorer.getVariable(val) != null){
                 return (Double) variableExplorer.getVariable(val).getValue();
             }
@@ -84,10 +85,10 @@ public class Turtle {
         }
     }
 
-    private double setVariable(MakeVariableCommand variableCommand, List<Object> params) throws ClassCastException{
-        Variable<Double> var = new DoubleVariable((String)params.get(0), (Double)params.get(1));
+    private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
+        Variable<Double> var = new DoubleVariable(params.get(0), Double.parseDouble(params.get(1)));
         variableExplorer.addVariable(var);
-        return (Double)params.get(1);
+        return var.getValue();
     }
 
 

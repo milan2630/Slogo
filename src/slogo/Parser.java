@@ -206,7 +206,7 @@ public class Parser {
 
         me.addMethod(m);*/
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        String s = "fd 5";
+        String s = "make :hello 3\nfd fd :hello";
         //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
