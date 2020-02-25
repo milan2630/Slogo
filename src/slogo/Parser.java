@@ -8,10 +8,17 @@ public class Parser {
 
 
     private CommandFactory factory;
-
+    private Stack<IntegerVariable> executionTimesStack;
+    private IntegerVariable executionTimes;
+    private int executionLimit;
+    private boolean creatingMethod;
 
     public Parser(String lang){
         factory = new CommandFactory(lang);
+        executionTimesStack = new Stack<>();
+        executionTimes = new IntegerVariable("*1", 1);
+        executionLimit = 1;
+        creatingMethod = false;
     }
 
     /**
@@ -19,17 +26,20 @@ public class Parser {
      * @param input from the Console
      * @return a list of commands to execute
      */
-    public List<Command> parseStringToCommands(String input) throws ParsingException{
-        List<Command> commandList = new ArrayList<>();
+    public List<ImmutableTurtle> parseStringToCommands(String input, Turtle turtle) throws ParsingException{
+        //for executiontimes
+        List<ImmutableTurtle> stateList = new ArrayList<>();
         String[] lineList = input.split("\n");
         for(int i = 0; i < lineList.length; i++){
-            commandList.addAll(parseLine(lineList[i]));
+            stateList.addAll(parseLine(lineList[i], turtle));
         }
-        return commandList;
+
+        //Pop next executiontime
+        return stateList;
     }
 
-    private List<Command> parseLine(String line) {
-        List<Command> commands = new ArrayList<>();
+    private List<ImmutableTurtle> parseLine(String line, Turtle turtle) {
+        List<ImmutableTurtle> states = new ArrayList<>();
 
         Stack<Integer> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
@@ -57,14 +67,14 @@ public class Parser {
                     ex.printStackTrace();
                 }
             }
-            combineCommandsArgs(commands, argumentStack, commandStack);
+            combineCommandsArgs(states, argumentStack, commandStack, turtle);
         }
 
-        return commands;
+        return states;
 
     }
 
-    private void combineCommandsArgs(List<Command> commands, Stack<Integer> argumentStack, Stack<Command> commandStack) {
+    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<Integer> argumentStack, Stack<Command> commandStack, Turtle turtle) {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
@@ -76,9 +86,10 @@ public class Parser {
                 }
                 Collections.reverse(params);
                 topCom.setArguments(params);
-                commands.add(topCom);
-                System.out.println(topCom.getClass() + ": " + topCom.getReturn());
-                argumentStack.add(topCom.getReturn());
+                //if user-defined method call parseStringToCommands
+                int result = turtle.actOnCommand(topCom);
+                states.add(turtle.getImmutableTurtle());
+                argumentStack.add(result);
                 numArguments = argumentStack.size();
                 if(commandStack.size() > 0) {
                     topCom = commandStack.peek();
@@ -88,7 +99,7 @@ public class Parser {
                 }
             }
         }
-        catch(EmptyStackException e){
+        catch(EmptyStackException | ParsingException e){
             System.out.println("Incompatible number of commands and arguments");
         }
     }
@@ -96,11 +107,13 @@ public class Parser {
 
     public static void main(String[] args) {
         Parser t = new Parser("English");
-        String s = "5";
+        Turtle turt = new Turtle();
+
+        String s = "fd fd 5\nfd 10";
         try {
-            List<Command> x = t.parseStringToCommands(s);
-            for(Command c: x){
-                System.out.println(c.getClass() + ": " + c.getReturn());
+            List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
+            for(ImmutableTurtle c: x){
+                System.out.println(c.getX());
             }
 
         } catch (ParsingException e) {
