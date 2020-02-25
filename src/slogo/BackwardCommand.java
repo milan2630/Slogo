@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class BackwardCommand implements TurtleCommand{
 
 
@@ -28,11 +26,6 @@ public class BackwardCommand implements TurtleCommand{
     @Override
     public int getNumArguments() {
         return 1;
-    }
-
-    @Override
-    public void setArguments(List<Integer> arguments) {
-        pixelsBackward = arguments.get(0);
     }
 
 }

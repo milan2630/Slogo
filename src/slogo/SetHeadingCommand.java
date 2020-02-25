@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class SetHeadingCommand implements TurtleCommand {
 
     private int heading;
@@ -27,8 +25,4 @@ public class SetHeadingCommand implements TurtleCommand {
         return 1;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-        heading = arguments.get(0);
-    }
 }

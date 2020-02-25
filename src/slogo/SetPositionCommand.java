@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class SetPositionCommand implements TurtleCommand {
 
     private int positionX;
@@ -33,9 +31,4 @@ public class SetPositionCommand implements TurtleCommand {
         return 2;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-        positionX = arguments.get(0);
-        positionY = arguments.get(1);
-    }
 }

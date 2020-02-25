@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class LeftCommand implements TurtleCommand {
 
     private int degreesLeft;
@@ -27,8 +25,4 @@ public class LeftCommand implements TurtleCommand {
         return 1;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-         degreesLeft = arguments.get(0);
-    }
 }

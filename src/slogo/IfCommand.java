@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class IfCommand implements ControlCommand {
 
 
@@ -10,11 +8,6 @@ public class IfCommand implements ControlCommand {
     @Override
     public int getNumArguments() {
         return 1;
-    }
-
-    @Override
-    public void setArguments(List<Integer> arguments) {
-        compare = arguments.get(0);
     }
 
     @Override

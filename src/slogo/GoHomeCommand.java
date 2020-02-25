@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class GoHomeCommand implements TurtleCommand {
 
     public GoHomeCommand() {
@@ -17,7 +15,4 @@ public class GoHomeCommand implements TurtleCommand {
         return 0;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-    }
 }
