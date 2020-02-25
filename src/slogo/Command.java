@@ -8,8 +8,6 @@ public interface Command {
 
     public void setArguments(List<Integer> arguments);
 
-    public int getReturn();
-
 
 
 }
