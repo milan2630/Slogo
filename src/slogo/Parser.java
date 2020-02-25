@@ -1,6 +1,8 @@
 package slogo;
 
+import javax.swing.text.html.parser.Entity;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 import java.util.*;
 
 public class Parser {
@@ -36,11 +38,8 @@ public class Parser {
      */
     public List<ImmutableTurtle> parseStringToCommands(String input, Turtle turtle) throws ParsingException{
         List<ImmutableTurtle> stateList = new ArrayList<>();
-        List<String> entityList = getEntitiesFromString(input);
-        for(String entity: entityList){
-            System.out.println(entity);
-        }
-        //stateList.addAll(parseLine(entityList, turtle));
+        List<ParsingEntity> entityList = getEntitiesFromString(input);
+        stateList.addAll(parseLine(entityList, turtle));
         /*for(int i = 0; i < lineList.length; i++){
             if(lineList[i].indexOf("to") == 0){
                 currentMethod = createMethod(lineList, i);
@@ -59,14 +58,14 @@ public class Parser {
     }
 
 
-    private List<String> getEntitiesFromString(String input){
+    private List<ParsingEntity> getEntitiesFromString(String input){
         String noCommentString = removeComments(input);
         String[] entities = noCommentString.split(" ");
         return parseEntities(entities);
     }
 
-    private List<String> parseEntities(String[] entities) {
-        List<String> entityList = new ArrayList<>();
+    private List<ParsingEntity> parseEntities(String[] entities) {
+        List<ParsingEntity> entityList = new ArrayList<>();
         for(int i = 0; i < entities.length; i++){
             if(entities[i].equals("[")){
                 i++;
@@ -90,10 +89,10 @@ public class Parser {
                     i++;
                 }
                 i--;
-                entityList.add(item);
+                entityList.add(new ParsingEntity(item, false));
             }
             else{
-                entityList.add(entities[i]);
+                entityList.add(new ParsingEntity(entities[i]));
             }
         }
         return entityList;
@@ -113,24 +112,18 @@ public class Parser {
     }
 
 
-    private List<ImmutableTurtle> parseLine(List<String> entityList, Turtle turtle) {
+    private List<ImmutableTurtle> parseLine(List<ParsingEntity> entityList, Turtle turtle) {
         List<ImmutableTurtle> states = new ArrayList<>();
 
-        Stack<Object> argumentStack = new Stack<>();
+        Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
 
-        for(String item: entityList){
-            try{
-                Double arg = Double.parseDouble(item);
-                argumentStack.push(arg);
+        for(ParsingEntity item: entityList){
+            if(item.isCommand()){
+                pushCommand(commandStack, item.getVal());
             }
-            catch (NumberFormatException e){
-                if(item.indexOf(":") == 0){
-                    argumentStack.push(item);
-                }
-                else {
-                    pushCommand(commandStack, item);
-                }
+            else{
+                argumentStack.push(item.getVal());
             }
             combineCommandsArgs(states, argumentStack, commandStack, turtle);
         }
@@ -157,20 +150,19 @@ public class Parser {
         }
     }
 
-    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<Object> argumentStack, Stack<Command> commandStack, Turtle turtle) {
+    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Turtle turtle) {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
             while(numArguments >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
-                List<Object> params = new ArrayList<>();
+                List<String> params = new ArrayList<>();
                 for(int i = 0; i < numArguments; i++){
                     params.add(argumentStack.pop());
                 }
                 Collections.reverse(params);
                 //topCom.setArguments(params);
-                double result = 0;
-                result = turtle.actOnCommand(topCom, params);
+                String result = turtle.actOnCommand(topCom, params);
                 states.add(turtle.getImmutableTurtle());
                 /*if(topCom instanceof SlogoMethod){
                     Parser internalParser = new Parser(language, methodExplorer);
@@ -214,12 +206,13 @@ public class Parser {
 
         me.addMethod(m);*/
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        //String s = "make :hi 32.1\nfd fd :hi";
-        String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
+        String s = "fd 5";
+        //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
-                //System.out.println(c.getX());
+                System.out.println(c.getX());
+                //System.out.println(c.getHeading());
             }
 
         } catch (ParsingException e) {

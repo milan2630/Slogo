@@ -37,11 +37,11 @@ public class Turtle {
 
     }
 
-    public double actOnCommand(Command command, List<Object> params) throws ParsingException {
-        return callMethod(command, params);
+    public String actOnCommand(Command command, List<String> params) throws ParsingException {
+        return callMethod(command, params) + "";
     }
 
-    private double callMethod(Command command, List<Object> params) throws ParsingException {
+    private double callMethod(Command command, List<String> params) throws ParsingException {
         String[] classParts = command.getClass().toString().split("\\.");
         String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
         String methodName = myResources.getString(key);
@@ -59,9 +59,10 @@ public class Turtle {
     }
 
 
+    //private double makeMethod(MakeUserInstructionCommand command, List<Object> params)
 
     //TODO implement properly
-    private double moveForward(ForwardCommand forward, List<Object> params) throws ClassCastException{
+    private double moveForward(ForwardCommand forward, List<String> params) throws ClassCastException{
         //List<Class> paramTypes = forward.getArgumentTypes();
         //variable to set, param, paramType,
         Double pixForward = getDoubleParameter(params.get(0));
@@ -69,15 +70,17 @@ public class Turtle {
         return pixForward;
     }
 
-    private double getDoubleParameter(Object val){
-        if(val instanceof Double){
-            return (Double) val;
+    private double getDoubleParameter(String val){
+        try{
+            return Double.parseDouble(val);
         }
-        else if(val instanceof String && variableExplorer.getVariable((String) val) != null){
-            return  (Double) variableExplorer.getVariable((String) val).getValue();
-        }
-        else{
-            throw new ClassCastException();
+        catch (ClassCastException e){
+            if(variableExplorer.getVariable(val) != null){
+                return (Double) variableExplorer.getVariable(val).getValue();
+            }
+            else{
+                throw new ClassCastException();
+            }
         }
     }
 
