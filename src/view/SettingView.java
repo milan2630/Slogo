@@ -1,5 +1,6 @@
 package view;
 
+import java.beans.PropertyChangeEvent;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,6 +25,7 @@ public class SettingView {
     private String language;
     private Tab myTab;
     private List<PropertyChangeListener> listener;
+    private String colorData;
     private static final double PADDING = 5;
     private static final String DATA_FILE_EXTENSION = "*.png";
     //private final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
@@ -86,8 +88,25 @@ public class SettingView {
     }
 
     private void setColor(Color value) {
-        System.out.println(value);
+      //TODO separate out background and pen colors
+      notifyListeners("Color", colorData, colorData = value.toString());
+      System.out.println(value);
     }
+
+  private void notifyListeners(String property, String oldValue, String newValue) {
+    for (PropertyChangeListener name : listener) {
+      name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    }
+  }
+
+  /**
+   * Implements Observer Design pattern
+   *
+   * @param newListener
+   */
+  public void addChangeListener(PropertyChangeListener newListener) {
+    listener.add(newListener);
+  }
 
     private Button createButton( String text) {
         Button button = new Button();

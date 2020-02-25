@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
 import slogo.Variable;
@@ -23,6 +24,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private static ResourceBundle resourceBundle;
   private String language;
   private Display display;
+  private SettingView settingView;
   private Terminal terminal;
   private String consoleString;
 
@@ -58,7 +60,6 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     AnchorPane.setBottomAnchor(displayNode,terminal.getHeight());
     AnchorPane.setRightAnchor(displayNode,0.0);
     AnchorPane.setLeftAnchor(displayNode, 250.0);
-    System.out.println(displayNode.getWidth());
     //TODO replace 200 with controller width
 
 
@@ -83,8 +84,9 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     tabNode.getTabs().add(variableView.getTab());
 
     //Adding Setting Tab
-    SettingView settingView = new SettingView(language);
+    settingView = new SettingView(language);
     tabNode.getTabs().add(settingView.getTab());
+    settingView.addChangeListener(this);
 
     root.getChildren().addAll(terminalNode,displayNode, tabNode);
     tabNode.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -111,14 +113,15 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     int r = new Random().nextInt((int) this.display.getPane().getWidth());
     int r2 = new Random().nextInt((int) this.display.getPane().getHeight());
 
-    this.consoleString = evt.getNewValue().toString();
-    System.out.println(consoleString);
-
-    if (evt.getPropertyName().equals("Run")){
+    if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Run")){
+      this.consoleString = evt.getNewValue().toString();
       display.moveTurtle(new Point2D(r,r2));
     }
-    else {
+    if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Reset")){
       display.resetPane();
+    }
+    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Color")){
+      display.setPenColor(Color.web(evt.getNewValue().toString()));
     }
   }
 

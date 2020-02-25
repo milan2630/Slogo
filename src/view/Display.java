@@ -60,7 +60,12 @@ public class Display {
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
+  protected void setPenColor(Color currentColor) {
+    trail.setCurrentColor(currentColor);
+  }
+
   private Image getImageByName(String name) {
     return new Image(this.getClass().getClassLoader().getResourceAsStream(name));
   }
+
 }
