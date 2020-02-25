@@ -19,7 +19,7 @@ public class Display {
 
   protected Display() {
     this.pane = new Pane();
-    setBackgroundColor(Color.AZURE);
+    setBackgroundColor(Color.web("868686"));
     resetPane();
   }
 
