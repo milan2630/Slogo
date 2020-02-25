@@ -88,30 +88,21 @@ public class Parser {
     private List<ImmutableTurtle> parseLine(String line, Turtle turtle) {
         List<ImmutableTurtle> states = new ArrayList<>();
 
-        Stack<Integer> argumentStack = new Stack<>();
+        Stack<Object> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
 
         String[] entityList = line.split(" ");
         for(String item: entityList){
             try{
-                int arg = Integer.parseInt(item);
+                Double arg = Double.parseDouble(item);
                 argumentStack.push(arg);
             }
             catch (NumberFormatException e){
-                try{
-                    Command com = factory.getCommand(item);
-                    commandStack.push(com);
-
-                } catch (InstantiationException ex) {
-                    ex.printStackTrace();
-                } catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
-                } catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
+                if(item.indexOf(":") == 0){
+                    argumentStack.push(item);
+                }
+                else {
+                    pushCommand(commandStack, item);
                 }
             }
             combineCommandsArgs(states, argumentStack, commandStack, turtle);
@@ -121,28 +112,52 @@ public class Parser {
 
     }
 
-    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<Integer> argumentStack, Stack<Command> commandStack, Turtle turtle) {
+    private void pushCommand(Stack<Command> commandStack, String item) {
+        try {
+            Command com = factory.getCommand(item);
+            commandStack.push(com);
+
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<Object> argumentStack, Stack<Command> commandStack, Turtle turtle) {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
             while(numArguments >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
-                List<Integer> params = new ArrayList<>();
+                List<Object> params = new ArrayList<>();
                 for(int i = 0; i < numArguments; i++){
                     params.add(argumentStack.pop());
                 }
                 Collections.reverse(params);
-                topCom.setArguments(params);
-                int result = 0;
-                if(topCom instanceof SlogoMethod){
+                //topCom.setArguments(params);
+                double result = 0;
+                result = turtle.actOnCommand(topCom, params);
+                states.add(turtle.getImmutableTurtle());
+                /*if(topCom instanceof SlogoMethod){
                     Parser internalParser = new Parser(language, methodExplorer);
                     states.addAll(internalParser.parseStringToCommands(((SlogoMethod) topCom).getCommandsAsString(), turtle));
                     result = lastReturnFromMethod;
                 }
+                else if(topCom instanceof ControlCommand){
+                    //if bracket argument
+                    // if no bracket argument: pass to command actor and set variables to desired, create method, run method
+                }
                 else {
                     result = turtle.actOnCommand(topCom);
                     states.add(turtle.getImmutableTurtle());
-                }
+                }*/
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
                     numArguments = argumentStack.size();
@@ -170,8 +185,8 @@ public class Parser {
         m.addCommand("fd fd 10");
 
         me.addMethod(m);*/
-        String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        //String s = "fd fd 5";
+        //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
+        String s = "fd fd 5";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
