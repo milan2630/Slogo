@@ -1,17 +1,15 @@
 package slogo;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class SlogoMethod implements Command{
+public class UserDefinedInstructionCommand implements Command{
     private String myCommands;
     private String name;
     private int numArguments;
     private List<IntegerVariable> arguments;
 
 
-    public SlogoMethod(String name, String commands, List<String> parNames){
+    public UserDefinedInstructionCommand(String name, String commands, List<String> parNames){
         myCommands=commands;
         this.name = name;
         numArguments = parNames.size();
@@ -20,7 +18,7 @@ public class SlogoMethod implements Command{
         }
     }
 
-    public SlogoMethod(String name, List<String> parNames){
+    public UserDefinedInstructionCommand(String name, List<String> parNames){
         this(name, new String(), parNames);
     }
 

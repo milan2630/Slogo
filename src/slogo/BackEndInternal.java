@@ -41,7 +41,7 @@ public interface BackEndInternal {
      * @param commandList
      * @return a Method with the group of commands
      */
-    public SlogoMethod createMethod(List<Command> commandList);
+    public UserDefinedInstructionCommand createMethod(List<Command> commandList);
 
     /**
      *Update the history that contains past actions
