@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class SetTowardsCommand implements TurtleCommand {
 
     private int towardsX;
@@ -33,9 +31,4 @@ public class SetTowardsCommand implements TurtleCommand {
         return 2;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-        towardsX = arguments.get(0);
-        towardsY = arguments.get(1);
-    }
 }

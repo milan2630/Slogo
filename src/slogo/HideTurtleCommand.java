@@ -1,7 +1,5 @@
 package slogo;
 
-import java.util.List;
-
 public class HideTurtleCommand implements TurtleCommand {
 
     public HideTurtleCommand() {
@@ -17,7 +15,4 @@ public class HideTurtleCommand implements TurtleCommand {
         return 0;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-    }
 }

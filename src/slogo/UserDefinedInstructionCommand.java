@@ -6,7 +6,7 @@ public class UserDefinedInstructionCommand implements Command{
     private String myCommands;
     private String name;
     private int numArguments;
-    private List<IntegerVariable> arguments;
+    private List<DoubleVariable> arguments;
 
 
     public UserDefinedInstructionCommand(String name, String commands, List<String> parNames){
@@ -14,7 +14,7 @@ public class UserDefinedInstructionCommand implements Command{
         this.name = name;
         numArguments = parNames.size();
         for(int i = 0; i < numArguments; i++){
-            arguments.add(new IntegerVariable(parNames.get(i), 0)); //TODO error checking
+            arguments.add(new DoubleVariable(parNames.get(i), 0.0)); //TODO error checking
         }
     }
 
@@ -52,8 +52,7 @@ public class UserDefinedInstructionCommand implements Command{
         return numArguments;
     }
 
-    @Override
-    public void setArguments(List<Integer> args) {
+    public void setArguments(List<Double> args) {
 
     }
 

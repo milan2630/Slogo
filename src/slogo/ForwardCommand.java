@@ -1,6 +1,5 @@
 package slogo;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +38,4 @@ public class ForwardCommand implements TurtleCommand{
         return arguments;
     }
 
-    @Override
-    public void setArguments(List<Integer> arguments) {
-        pixelsForward = arguments.get(0);
-    }
-    
 }
