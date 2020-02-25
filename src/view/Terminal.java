@@ -96,7 +96,6 @@ public class Terminal {
     resetButton.setOnAction(event -> handleReset());
   }
 
-
   private Button createButton(double width, double height, String text) {
     Button button = new Button();
     button.setText(text);
@@ -157,5 +156,9 @@ public class Terminal {
   protected void setBackgroundColor(Pane pane, Color color) {
     pane.setBackground(
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+  }
+
+  protected void setInputText(String text){
+    input.setText(text);
   }
 }

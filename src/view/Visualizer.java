@@ -25,6 +25,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private String language;
   private Display display;
   private SettingView settingView;
+  private HistoryView historyView;
   private Terminal terminal;
   private String consoleString;
 
@@ -72,8 +73,9 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
     //Adding History Tab
     ObservableList<String> list= FXCollections.observableList(new ArrayList<>());
-    HistoryView historyView = new HistoryView(language, list);
+    historyView = new HistoryView(language, list);
     tabNode.getTabs().add(historyView.getTab());
+    historyView.addChangeListener(this);
     list.add("a");
     list.add("b");
     list.add("c");
@@ -122,6 +124,9 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     }
     if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Color")){
       display.setPenColor(Color.web(evt.getNewValue().toString()));
+    }
+    if (evt.getSource().equals(historyView) && evt.getPropertyName().equals("HistoryVariable")){
+      terminal.setInputText(evt.getNewValue().toString());
     }
   }
 
