@@ -112,6 +112,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    //TODO move magic strings into variables
     int r = new Random().nextInt((int) this.display.getPane().getWidth());
     int r2 = new Random().nextInt((int) this.display.getPane().getHeight());
 
@@ -122,8 +123,11 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Reset")){
       display.resetPane();
     }
-    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Color")){
+    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Pen Color")){
       display.setPenColor(Color.web(evt.getNewValue().toString()));
+    }
+    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Background Color")){
+      display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
     }
     if (evt.getSource().equals(historyView) && evt.getPropertyName().equals("HistoryVariable")){
       terminal.setInputText(evt.getNewValue().toString());

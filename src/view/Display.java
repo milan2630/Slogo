@@ -25,10 +25,10 @@ public class Display {
 
   protected void resetPane() {
     pane.getChildren().clear();
-    this.trail = new TrailView(3.0, Color.ORANGE);
+    this.trail = new TrailView(3.0, Color.WHITE);
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
 
-    pane.getChildren().addAll(turtle.getPane(), trail.getPane());
+    pane.getChildren().addAll(trail.getPane(), turtle.getPane());
   }
 
   protected void moveTurtle(Point2D newCoordinate) {

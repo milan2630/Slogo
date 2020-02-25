@@ -25,8 +25,13 @@ public class SettingView {
     private String language;
     private Tab myTab;
     private List<PropertyChangeListener> listener;
-    private String colorData;
-    private static final double PADDING = 5;
+    private String penColorData;
+    private String backgroundColorData;
+    private static final String PEN_COLOR = "Pen Color";
+    private static final String BACKGROUND_COLOR = "Background Color";
+
+
+  private static final double PADDING = 5;
     private static final String DATA_FILE_EXTENSION = "*.png";
     //private final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
 
@@ -56,11 +61,13 @@ public class SettingView {
     }
 
     private void setBackgroundColor(Color value) {
-        System.out.println("Background Color: "+value);
+      notifyListeners(BACKGROUND_COLOR, backgroundColorData, backgroundColorData = value.toString());
+      System.out.println("Background Color: "+value);
     }
 
     private void setPenColor(Color value) {
-        System.out.println("Pen Color: "+value);
+      notifyListeners(PEN_COLOR, penColorData, penColorData = value.toString());
+      System.out.println("Pen Color: "+value);
     }
 
     private void saveFile() {
@@ -86,7 +93,6 @@ public class SettingView {
         new Alert(type, message).showAndWait();
     }
 
-
     private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
         HBox hbox = new HBox();
         Text text = new Text(str);
@@ -94,12 +100,6 @@ public class SettingView {
         hbox.getChildren().addAll(text, colorPicker);
         hbox.setSpacing(10.0);
         return hbox;
-    }
-
-    private void setColor(Color value) {
-      //TODO separate out background and pen colors
-      notifyListeners("Color", colorData, colorData = value.toString());
-      System.out.println(value);
     }
 
   private void notifyListeners(String property, String oldValue, String newValue) {
