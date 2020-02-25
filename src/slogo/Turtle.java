@@ -21,9 +21,7 @@ public class Turtle {
     private int penState;
     private int showing;
 
-    private Stack<IntegerVariable> executionTimesStack;
-    private IntegerVariable executionTimes;
-    private int executionLimit;
+
 
     public Turtle(){
         myX = 0;
@@ -32,9 +30,7 @@ public class Turtle {
         penState = 1;
         showing = 1;
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
-        executionTimesStack = new Stack<>();
-        executionTimes = new IntegerVariable("*1", 0);
-        executionLimit = 1;
+
     }
 
     public int actOnCommand(Command command) throws ParsingException {
@@ -58,6 +54,8 @@ public class Turtle {
             throw new ParsingException("ads", 2);
         }
     }
+
+
 
     //TODO implement properly
     private int moveForward(ForwardCommand forward){
