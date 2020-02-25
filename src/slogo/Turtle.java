@@ -45,6 +45,62 @@ public class Turtle {
         myX+= forward.getPixelsForward();
     }
 
+    private void moveBack(BackwardCommand backward) {
+        myX-= backward.getPixelsBackward();
+    }
+/*
+    private void turnLeft(LeftCommand left) {
+        myHeading-= left.getDegreesLeft();
+    }
+
+    private void turnRight(RightCommand right) {
+        myHeading+= right.getDegreesRight();
+    }
+
+    private void setHeading(SetHeadingCommand setHeading) {
+        myHeading = setHeading.getHeading();
+    }
+
+    private void setTowards(SetTowardsCommand setTowards) {
+        int x = setTowards.getX();
+        int y = setTowards.getY();
+        //TODO: calculate the angle and set heading to that (still figuring it out)
+        //TODO: myHeading should probably be a double for more precision
+    }
+
+    private void setPosition(SetPositionCommand setPosition) {
+        myX = setPosition.getX();
+        myY = setPosition.getY();
+    }
+
+    private void penDown(PenDownCommand penDown) {
+        penState = 1;
+    }
+
+    private void penUp(PenUpCommand penUp) {
+        penState = 0;
+    }
+
+    private void showTurtle(ShowTurtleCommand showTurtle) {
+        showing = 1;
+    }
+
+    private void hideTurtle(HideTurtleCommand hideTurtle) {
+        showing = 0;
+    }
+
+    private void goHome(GoHomeCommand goHome) {
+        myX = 0;
+        myY = 0;
+    }
+
+    private void clearScreen(ClearScreenCommand clearScreen) {
+        goHome(new GoHomeCommand());
+        // TODO: tell Controller and clear TrailView in Visualizer
+    }
+
+ */
+
     public int getX() {
         return myX;
     }
