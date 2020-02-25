@@ -11,9 +11,9 @@ public class StringVariable extends Variable<String> {
      * returns myValue of this StringVariable
      * @return myValue
      */
-    @Override
+    //@Override
     public String getValue() {
-        return null;
+        return myValue;
     }
 
     /**

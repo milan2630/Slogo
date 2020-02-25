@@ -8,24 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VariableExplorer{
-    private List<Variable> myVariables;
     private ObservableList<Variable> myDisplayVariables;
     public VariableExplorer(){
-        myVariables = new ArrayList<>();
-        myDisplayVariables = FXCollections.observableList(myVariables);
+        myDisplayVariables = FXCollections.observableList(new ArrayList<>());
     }
 
     public void addVariable(Variable value){
-        myVariables.add(value);
+        myDisplayVariables.add(value);
     }
     public void removeVariable(Variable value){
-        myVariables.remove(value);
+        myDisplayVariables.remove(value);
     }
 
     public Variable getVariable(String name){
-        for(int i = 0; i < myVariables.size(); i++){
-            if(myVariables.get(i).getName().equals(name)){
-                return myVariables.get(i);
+        for(int i = 0; i < myDisplayVariables.size(); i++){
+            if(myDisplayVariables.get(i).getName().equals(name)){
+                return myDisplayVariables.get(i);
             }
         }
         return null;

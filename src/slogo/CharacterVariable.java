@@ -11,7 +11,7 @@ public class CharacterVariable extends Variable<Character> {
      * returns char myValue
      * @return myValue
      */
-    @Override
+    //@Override
     public Character getValue() {
         return myValue;
     }
@@ -20,7 +20,7 @@ public class CharacterVariable extends Variable<Character> {
      * sets myValue to val
      * @param val
      */
-    @Override
+    //@Override
     public void setValue(Character val) {
         myValue=val;
     }
