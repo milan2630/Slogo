@@ -39,12 +39,16 @@ public class Display {
     }
   }
 
-  protected void hideTurtle() {
-    turtle.setTurtleVisible(false);
+  protected void setTurtleHeading(double newHeading){
+    turtle.setHeading(newHeading);
   }
 
-  protected void showTurtle() {
-    turtle.setTurtleVisible(true);
+  protected void setTurtleState(boolean state) {
+    turtle.setTurtleVisible(state);
+  }
+
+  protected void setPenState(boolean state) {
+    turtle.setPenActive(state);
   }
 
   protected Pane getPane() {
