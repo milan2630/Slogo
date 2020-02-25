@@ -15,7 +15,7 @@ public class Parser {
     private MethodExplorer methodExplorer;
     private int lastReturnFromMethod;
     private SlogoMethod currentMethod;
-    private int bracketsSeen;
+    //private int bracketsSeen;
 
     public Parser(String lang, MethodExplorer me){
         language = lang;
@@ -26,7 +26,7 @@ public class Parser {
         executionLimit = 1;
         creatingMethod = false;
         lastReturnFromMethod = 0;
-        bracketsSeen = 0;
+        //bracketsSeen = 0;
     }
 
     /**
@@ -35,10 +35,13 @@ public class Parser {
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseStringToCommands(String input, Turtle turtle) throws ParsingException{
-        //for executiontimes
         List<ImmutableTurtle> stateList = new ArrayList<>();
-        String[] lineList = input.split("\n");
-        for(int i = 0; i < lineList.length; i++){
+        List<String> entityList = getEntitiesFromString(input);
+        for(String entity: entityList){
+            System.out.println(entity);
+        }
+        //stateList.addAll(parseLine(entityList, turtle));
+        /*for(int i = 0; i < lineList.length; i++){
             if(lineList[i].indexOf("to") == 0){
                 currentMethod = createMethod(lineList, i);
                 i++;
@@ -50,48 +53,72 @@ public class Parser {
             else{
                 stateList.addAll(parseLine(lineList[i], turtle));
             }
-        }
+        }*/
 
-        //Pop next executiontime
         return stateList;
     }
 
-    private int addLinesToMethod(String[] lineList, int i) {
-        while(bracketsSeen > 0){
-            if(lineList[i].contains("]")){
-                bracketsSeen--;
+
+    private List<String> getEntitiesFromString(String input){
+        String noCommentString = removeComments(input);
+        String[] entities = noCommentString.split(" ");
+        return parseEntities(entities);
+    }
+
+    private List<String> parseEntities(String[] entities) {
+        List<String> entityList = new ArrayList<>();
+        for(int i = 0; i < entities.length; i++){
+            if(entities[i].equals("[")){
+                i++;
+                int bracketsSeen = 1;
+                String item = "";
+                while(bracketsSeen != 0){
+                    if(entities[i].contains("]")){
+                        bracketsSeen--;
+                    }
+                    else{
+                        if(entities[i].contains("[")){
+                            bracketsSeen++;
+                        }
+                        if(item.equals("")){
+                            item = entities[i];
+                        }
+                        else{
+                            item = item + " " + entities[i];
+                        }
+                    }
+                    i++;
+                }
+                i--;
+                entityList.add(item);
             }
             else{
-                if(lineList[i].contains("[")){
-                    bracketsSeen++;
-                }
-                currentMethod.addCommand(lineList[i]);
+                entityList.add(entities[i]);
             }
-            i++;
         }
-        creatingMethod = false;
-        methodExplorer.addMethod(currentMethod);
-        currentMethod = null;
-        return i - 1;
+        return entityList;
     }
 
-    private SlogoMethod createMethod(String[] lines, int curIndex) {
-        String declarationLine = lines[curIndex];
-        String[] decParts = declarationLine.split(" ");
-        String name = decParts[1];
-        String[] varNames = Arrays.copyOfRange(decParts, 3, decParts.length-1);
-        List<String> vars = Arrays.asList(varNames);
-        creatingMethod = true;
-        return new SlogoMethod(name, vars);
+    private String removeComments(String input) {
+        String[] lineList = input.split("\n");
+        List<String> noComments = new ArrayList<>();
+        for(int i = 0; i < lineList.length; i++){
+            if(lineList[i].indexOf("#") != 0){
+                noComments.add(lineList[i]);
+            }
+        }
+        String[] noCommentArray = noComments.toArray(new String[0]);
+        String noCommentString = String.join(" ", noCommentArray);
+        return noCommentString;
     }
 
-    private List<ImmutableTurtle> parseLine(String line, Turtle turtle) {
+
+    private List<ImmutableTurtle> parseLine(List<String> entityList, Turtle turtle) {
         List<ImmutableTurtle> states = new ArrayList<>();
 
         Stack<Object> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
 
-        String[] entityList = line.split(" ");
         for(String item: entityList){
             try{
                 Double arg = Double.parseDouble(item);
@@ -187,11 +214,12 @@ public class Parser {
 
         me.addMethod(m);*/
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        String s = "make :hi 32.1\nfd :hi";
+        //String s = "make :hi 32.1\nfd fd :hi";
+        String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
-                System.out.println(c.getX());
+                //System.out.println(c.getX());
             }
 
         } catch (ParsingException e) {
