@@ -2,7 +2,6 @@ package slogo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Turtle {
@@ -37,10 +36,9 @@ public class Turtle {
         Method[] t = this.getClass().getMethods();
         Method method = this.getClass().getDeclaredMethod(methodName, command.getClass());
         method.invoke(this, command);
-
-
     }
 
+    //TODO implement properly
     private void moveForward(ForwardCommand forward){
         myX+= forward.getPixelsForward();
     }
@@ -119,5 +117,9 @@ public class Turtle {
 
     public int getShowing(){
         return showing;
+    }
+
+    public ImmutableTurtle getImmutableTurtle(){
+        return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
     }
 }
