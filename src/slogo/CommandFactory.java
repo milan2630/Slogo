@@ -23,6 +23,7 @@ public class CommandFactory {
     }
 
     public Command getCommand(String commandCall) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        //TODO check for user defined command
         String className = CLASS_PREFIX + commands.get(commandCall) + CLASS_SUFFIX;
         Class commandClass = Class.forName(className);
         Constructor commandConstructor = commandClass.getConstructor();
