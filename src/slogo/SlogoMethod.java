@@ -3,10 +3,10 @@ package slogo;
 import java.util.Collections;
 import java.util.List;
 
-public class Method {
+public class SlogoMethod {
     private List<Command> myCommands;
     private String name;
-    public Method(String name, List commands){
+    public SlogoMethod(String name, List commands){
         myCommands=commands;
         this.name = name;
     }
