@@ -42,11 +42,23 @@ public class SettingView {
         VBox vbox = new VBox();
         Button setTurtleImage = createButton(resourceBundle.getString("LoadImage"));
         setTurtleImage.setOnAction(e-> saveFile());
-        HBox penColor = getColorPicker("Pen Color: ");
-        HBox backgroundColor= getColorPicker("Background Color: ");
-        vbox.getChildren().addAll(setTurtleImage, penColor, backgroundColor);
+        ColorPicker penColor = new ColorPicker();
+        ColorPicker backgroundColor = new ColorPicker();
+        penColor.setOnAction(e->setPenColor(penColor.getValue()));
+        backgroundColor.setOnAction(e->setBackgroundColor(backgroundColor.getValue()));
+        HBox penColorBox = getColorPickerBox("Pen Color: ", penColor);
+        HBox backgroundColorBox= getColorPickerBox("Background Color: ", backgroundColor);
+        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox);
         vbox.setSpacing(10.0);
         myTab.setContent(vbox);
+    }
+
+    private void setBackgroundColor(Color value) {
+        System.out.println("Background Color: "+value);
+    }
+
+    private void setPenColor(Color value) {
+        System.out.println("Pen Color: "+value);
     }
 
     private void saveFile() {
@@ -73,14 +85,11 @@ public class SettingView {
     }
 
 
-    private HBox getColorPicker(String str) {
+    private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
         HBox hbox = new HBox();
         Text text = new Text(str);
-        ColorPicker penColor = new ColorPicker();
-        //penColor.setValue(Color.CORAL);
-        penColor.setPromptText("Enter Color: ");
-        penColor.setOnAction(e->setColor(penColor.getValue()));
-        hbox.getChildren().addAll(text, penColor);
+        colorPicker.setPromptText("Enter Color: ");
+        hbox.getChildren().addAll(text, colorPicker);
         hbox.setSpacing(10.0);
         return hbox;
     }

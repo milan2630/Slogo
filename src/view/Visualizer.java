@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.Variable;
 
 public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
