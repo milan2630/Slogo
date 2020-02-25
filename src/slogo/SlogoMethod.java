@@ -1,5 +1,6 @@
 package slogo;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +18,10 @@ public class SlogoMethod implements Command{
         for(int i = 0; i < numArguments; i++){
             arguments.add(new IntegerVariable(parNames.get(i), 0)); //TODO error checking
         }
+    }
+
+    public SlogoMethod(String name, List<String> parNames){
+        this(name, new ArrayList<>(), parNames);
     }
 
     /**
