@@ -7,6 +7,7 @@ import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.SlogoMethod;
 import slogo.Variable;
 
 public class Visualizer implements PropertyChangeListener, FrontEndExternal {
@@ -26,6 +28,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private Display display;
   private SettingView settingView;
   private HistoryView historyView;
+  private MethodView methodView;
   private Terminal terminal;
   private String consoleString;
 
@@ -90,6 +93,11 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     tabNode.getTabs().add(settingView.getTab());
     settingView.addChangeListener(this);
 
+    //Adding Methods Tab
+    ObservableMap<String, SlogoMethod> list3 = FXCollections.observableMap(new HashMap<>());
+    methodView = new MethodView(language, list3);
+    tabNode.getTabs().add(methodView.getTab());
+    list3.put("String", null);
     root.getChildren().addAll(terminalNode,displayNode, tabNode);
     tabNode.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
   }
