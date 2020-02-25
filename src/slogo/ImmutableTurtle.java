@@ -2,13 +2,13 @@ package slogo;
 
 public class ImmutableTurtle {
 
-    private int myX;
-    private int myY;
-    private int myHeading;
+    private double myX;
+    private double myY;
+    private double myHeading;
     private int penState;
     private int showing;
 
-    public ImmutableTurtle(int x, int y, int heading, int pen, int show){
+    public ImmutableTurtle(double x, double y, double heading, int pen, int show){
         myX = x;
         myY = y;
         myHeading = heading;
@@ -16,15 +16,15 @@ public class ImmutableTurtle {
         showing = show;
     }
 
-    public int getX() {
+    public double getX() {
         return myX;
     }
 
-    public int getY() {
+    public double getY() {
         return myY;
     }
 
-    public int getHeading() {
+    public double getHeading() {
         return myHeading;
     }
 

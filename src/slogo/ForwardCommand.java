@@ -1,15 +1,18 @@
 package slogo;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForwardCommand implements TurtleCommand{
 
+    private List<Class> arguments;
 
     private int pixelsForward;
 
     public ForwardCommand(){
-        //do nothing
+        arguments = new ArrayList<>();
+        arguments.add(Double.class);
     }
 
     public ForwardCommand(int pixels){
@@ -29,6 +32,11 @@ public class ForwardCommand implements TurtleCommand{
     @Override
     public int getNumArguments() {
         return 1;
+    }
+
+    //@Override
+    public List<Class> getArgumentTypes() {
+        return arguments;
     }
 
     @Override

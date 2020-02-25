@@ -2,68 +2,97 @@ package slogo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
 
 public class Turtle {
 
     private static final String RESOURCES = "resources";
     private static final String METHOD_RESOURCES = "CommandMethodNames";
-    public static final String DEFAULT_METHOD_RESOURCE_PACKAGE = RESOURCES + "/" + METHOD_RESOURCES + ".";
+    private static final String DEFAULT_METHOD_RESOURCE_PACKAGE = RESOURCES + "/" + METHOD_RESOURCES + ".";
     private static final String TURTLE_METHODS_PROPERTIES = "turtleMethods";
     private static final String TURTLE_METHODS_FILEPATH = DEFAULT_METHOD_RESOURCE_PACKAGE + TURTLE_METHODS_PROPERTIES;
     private ResourceBundle myResources;
 
 
-    private int myX;
-    private int myY;
-    private int myHeading;
+    private double myX;
+    private double myY;
+    private double myHeading;
     private int penState;
     private int showing;
+    private MethodExplorer methodExplorer;
+    private VariableExplorer variableExplorer;
 
 
-
-    public Turtle(){
+    public Turtle(MethodExplorer me, VariableExplorer ve){
         myX = 0;
         myY = 0;
         myHeading = 0;
         penState = 1;
         showing = 1;
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
+        methodExplorer = me;
+        variableExplorer = ve;
 
     }
 
-    public int actOnCommand(Command command) throws ParsingException {
-        return callMethod(command);
+    public String actOnCommand(Command command, List<String> params) throws ParsingException {
+        return callMethod(command, params) + "";
     }
 
-    private int callMethod(Command command) throws ParsingException {
+    private double callMethod(Command command, List<String> params) throws ParsingException {
         String[] classParts = command.getClass().toString().split("\\.");
         String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
         String methodName = myResources.getString(key);
-        Method[] t = this.getClass().getMethods();
-        Method method = null;
         try {
-            method = this.getClass().getDeclaredMethod(methodName, command.getClass());
-            return (int) method.invoke(this, command);
-        } catch (NoSuchMethodException e) {
-            throw new ParsingException("ads", 2);
-        } catch (IllegalAccessException e) {
-            throw new ParsingException("ads", 2);
-        } catch (InvocationTargetException e) {
-            throw new ParsingException("ads", 2);
+            Method method = this.getClass().getDeclaredMethod(methodName, command.getClass(), List.class);
+            return (double) method.invoke(this, command, params);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 
 
-
-    //TODO implement properly
-    private int moveForward(ForwardCommand forward){
-        myX+= forward.getPixelsForward();
-        return forward.getPixelsForward();
+    private double makeMethod(MakeUserInstructionCommand command, List<String> params){
+        List<String> paramNames = new ArrayList<>();
+        String[] names = params.get(1).split(" ");
+        paramNames.addAll(Arrays.asList(names));
+        SlogoMethod newMethod = new SlogoMethod(params.get(0), params.get(2), paramNames);
+        methodExplorer.addMethod(newMethod);
+        return 0;
     }
 
-    private int moveBack(BackwardCommand backward) {
+    //TODO implement properly
+    private double moveForward(ForwardCommand forward, List<String> params) throws ClassCastException{
+        //List<Class> paramTypes = forward.getArgumentTypes();
+        //variable to set, param, paramType,
+        Double pixForward = getDoubleParameter(params.get(0));
+        myX+= pixForward;
+        return pixForward;
+    }
+
+    private double getDoubleParameter(String val){
+        try{
+            return Double.parseDouble(val);
+        }
+        catch (NumberFormatException e){
+            if(variableExplorer.getVariable(val) != null){
+                return (Double) variableExplorer.getVariable(val).getValue();
+            }
+            else{
+                throw new ClassCastException();
+            }
+        }
+    }
+
+    private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
+        Variable<Double> var = new DoubleVariable(params.get(0), Double.parseDouble(params.get(1)));
+        variableExplorer.addVariable(var);
+        return var.getValue();
+    }
+
+
+    private void moveBack(BackwardCommand backward) {
         myX-= backward.getPixelsBackward();
         return backward.getPixelsBackward();
     }
@@ -119,15 +148,17 @@ public class Turtle {
         // TODO: tell Controller and clear TrailView in Visualizer
     }
 
-    public int getX() {
+ */
+
+    public double getX() {
         return myX;
     }
 
-    public int getY() {
+    public double getY() {
         return myY;
     }
 
-    public int getHeading() {
+    public double getHeading() {
         return myHeading;
     }
 
