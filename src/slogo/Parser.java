@@ -12,13 +12,17 @@ public class Parser {
     private IntegerVariable executionTimes;
     private int executionLimit;
     private boolean creatingMethod;
+    private MethodExplorer methodExplorer;
+    private int lastReturnFromMethod;
 
-    public Parser(String lang){
-        factory = new CommandFactory(lang);
+    public Parser(String lang, MethodExplorer me){
+        methodExplorer = me;
+        factory = new CommandFactory(lang, methodExplorer);
         executionTimesStack = new Stack<>();
         executionTimes = new IntegerVariable("*1", 1);
         executionLimit = 1;
         creatingMethod = false;
+        lastReturnFromMethod = 0;
     }
 
     /**
@@ -86,9 +90,15 @@ public class Parser {
                 }
                 Collections.reverse(params);
                 topCom.setArguments(params);
-                //if user-defined method call parseStringToCommands
-                int result = turtle.actOnCommand(topCom);
-                states.add(turtle.getImmutableTurtle());
+                int result = 0;
+                if(topCom instanceof SlogoMethod){
+                    states.addAll(parseStringToCommands(((SlogoMethod) topCom).getCommandsAsString(), turtle));
+                    result = lastReturnFromMethod;
+                }
+                else {
+                    result = turtle.actOnCommand(topCom);
+                    states.add(turtle.getImmutableTurtle());
+                }
                 argumentStack.add(result);
                 numArguments = argumentStack.size();
                 if(commandStack.size() > 0) {
@@ -106,10 +116,17 @@ public class Parser {
 
 
     public static void main(String[] args) {
-        Parser t = new Parser("English");
+        MethodExplorer me = new MethodExplorer();
+        Parser t = new Parser("English", me);
         Turtle turt = new Turtle();
 
-        String s = "fd fd 5\nfd 10";
+        SlogoMethod m = new SlogoMethod("NewMeth", new ArrayList<>(), new ArrayList<>());
+
+        m.addCommand("fd 5");
+        m.addCommand("fd fd 10");
+
+        me.addMethod(m);
+        String s = "NewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
