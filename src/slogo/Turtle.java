@@ -3,6 +3,7 @@ package slogo;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class Turtle {
 
@@ -20,6 +21,10 @@ public class Turtle {
     private int penState;
     private int showing;
 
+    private Stack<IntegerVariable> executionTimesStack;
+    private IntegerVariable executionTimes;
+    private int executionLimit;
+
     public Turtle(){
         myX = 0;
         myY = 0;
@@ -27,20 +32,37 @@ public class Turtle {
         penState = 1;
         showing = 1;
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
+        executionTimesStack = new Stack<>();
+        executionTimes = new IntegerVariable("*1", 0);
+        executionLimit = 1;
     }
 
-    public void actOnCommand(Command command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public int actOnCommand(Command command) throws ParsingException {
+        return callMethod(command);
+    }
+
+    private int callMethod(Command command) throws ParsingException {
         String[] classParts = command.getClass().toString().split("\\.");
         String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
         String methodName = myResources.getString(key);
         Method[] t = this.getClass().getMethods();
-        Method method = this.getClass().getDeclaredMethod(methodName, command.getClass());
-        method.invoke(this, command);
+        Method method = null;
+        try {
+            method = this.getClass().getDeclaredMethod(methodName, command.getClass());
+            return (int) method.invoke(this, command);
+        } catch (NoSuchMethodException e) {
+            throw new ParsingException("ads", 2);
+        } catch (IllegalAccessException e) {
+            throw new ParsingException("ads", 2);
+        } catch (InvocationTargetException e) {
+            throw new ParsingException("ads", 2);
+        }
     }
 
     //TODO implement properly
-    private void moveForward(ForwardCommand forward){
+    private int moveForward(ForwardCommand forward){
         myX+= forward.getPixelsForward();
+        return forward.getPixelsForward();
     }
 
     public int getX() {
