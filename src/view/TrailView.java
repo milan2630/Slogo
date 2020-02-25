@@ -1,12 +1,10 @@
 package view;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -17,9 +15,8 @@ public class TrailView {
   private Color currentColor = Color.BLACK;
   private double currentThickness;
 
-  protected TrailView(Pane pane, Double thickness, Color color) {
+  protected TrailView(Double thickness, Color color) {
     this.pane = new Pane();
-    pane.setPrefSize(pane.getWidth(),pane.getPrefHeight());
     this.currentThickness = thickness;
     this.currentColor = color;
   }
@@ -57,7 +54,7 @@ public class TrailView {
     return pane;
   }
 
-//  protected void clear() {
-//    pane.getChildren().clear();
-//  }
+  protected void clear() {
+    pane.getChildren().clear();
+  }
 }

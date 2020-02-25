@@ -7,7 +7,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class Display {
@@ -26,8 +25,8 @@ public class Display {
 
   protected void resetPane() {
     pane.getChildren().clear();
-    this.trail = new TrailView(pane,3.0, Color.ORANGE);
-    this.turtle = new TurtleView(pane, turtleImage, 0, 0, 0);
+    this.trail = new TrailView(3.0, Color.ORANGE);
+    this.turtle = new TurtleView(turtleImage, 0, 0, 0);
 
     pane.getChildren().addAll(turtle.getPane(), trail.getPane());
   }

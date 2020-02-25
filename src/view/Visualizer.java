@@ -76,8 +76,8 @@ public class Visualizer implements PropertyChangeListener {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    int r = new Random().nextInt(600);
-    int r2 = new Random().nextInt(400);
+    int r = new Random().nextInt((int) this.display.getPane().getWidth());
+    int r2 = new Random().nextInt((int) this.display.getPane().getHeight());
 
     System.out.println(evt.getNewValue());
 
