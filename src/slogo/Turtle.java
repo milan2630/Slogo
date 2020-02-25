@@ -92,7 +92,7 @@ public class Turtle {
     }
 
 
-    private void moveBack(BackwardCommand backward) {
+    private double moveBack(BackwardCommand backward) {
         myX-= backward.getPixelsBackward();
         return backward.getPixelsBackward();
     }
@@ -147,8 +147,6 @@ public class Turtle {
         goHome(new GoHomeCommand());
         // TODO: tell Controller and clear TrailView in Visualizer
     }
-
- */
 
     public double getX() {
         return myX;
