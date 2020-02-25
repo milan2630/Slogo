@@ -25,7 +25,7 @@ public class CommandFactory {
     }
 
     public Command getCommand(String commandCall) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        SlogoMethod userMethod = methodExplorer.getMethod(commandCall);
+        UserDefinedInstructionCommand userMethod = methodExplorer.getMethod(commandCall);
         if(userMethod != null){
             return userMethod;
         }

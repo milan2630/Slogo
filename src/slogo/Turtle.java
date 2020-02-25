@@ -57,7 +57,7 @@ public class Turtle {
         List<String> paramNames = new ArrayList<>();
         String[] names = params.get(1).split(" ");
         paramNames.addAll(Arrays.asList(names));
-        SlogoMethod newMethod = new SlogoMethod(params.get(0), params.get(2), paramNames);
+        UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
         methodExplorer.addMethod(newMethod);
         return 0;
     }

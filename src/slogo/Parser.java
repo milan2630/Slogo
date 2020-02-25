@@ -1,8 +1,6 @@
 package slogo;
 
-import javax.swing.text.html.parser.Entity;
 import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
 import java.util.*;
 
 public class Parser {
@@ -16,7 +14,7 @@ public class Parser {
     private boolean creatingMethod;
     private MethodExplorer methodExplorer;
     private int lastReturnFromMethod;
-    private SlogoMethod currentMethod;
+    private UserDefinedInstructionCommand currentMethod;
     //private int bracketsSeen;
 
     public Parser(String lang, MethodExplorer me){
