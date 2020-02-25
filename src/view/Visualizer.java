@@ -3,15 +3,19 @@ package view;
 import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.MissingResourceException;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.Variable;
 
 public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
@@ -35,13 +39,12 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     terminal.addChangeListener(this);
 
     display = new Display();
-
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
-
+    System.out.println(display.getPane().getWidth());
   }
 
   private void addPanesToRoot(AnchorPane root) {
@@ -50,14 +53,41 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     AnchorPane.setLeftAnchor(terminalNode,0.0);
     AnchorPane.setRightAnchor(terminalNode,0.0);
 
-    Node displayNode = display.getPane();
+    Pane displayNode = display.getPane();
     AnchorPane.setTopAnchor(displayNode,0.0);
     AnchorPane.setBottomAnchor(displayNode,terminal.getHeight());
     AnchorPane.setRightAnchor(displayNode,0.0);
+    AnchorPane.setLeftAnchor(displayNode, 250.0);
+    System.out.println(displayNode.getWidth());
     //TODO replace 200 with controller width
-    AnchorPane.setLeftAnchor(displayNode,200.0);
 
-    root.getChildren().addAll(terminalNode,displayNode);
+
+    //Adding Tabs
+    TabPane tabNode = new TabPane();
+    AnchorPane.setTopAnchor(tabNode, 0.0);
+    AnchorPane.setBottomAnchor(tabNode, terminal.getHeight());
+    AnchorPane.setLeftAnchor(tabNode, 0.0);
+    AnchorPane.setRightAnchor(tabNode,550.0);
+
+    //Adding History Tab
+    ObservableList<String> list= FXCollections.observableList(new ArrayList<>());
+    HistoryView historyView = new HistoryView(language, list);
+    tabNode.getTabs().add(historyView.getTab());
+    list.add("a");
+    list.add("b");
+    list.add("c");
+
+    //Adding Variable Tab
+    ObservableList<Variable> list2= FXCollections.observableList(new ArrayList<>());
+    VariableView variableView = new VariableView(language, FXCollections.observableList(list2));
+    tabNode.getTabs().add(variableView.getTab());
+
+    //Adding Setting Tab
+    SettingView settingView = new SettingView(language);
+    tabNode.getTabs().add(settingView.getTab());
+
+    root.getChildren().addAll(terminalNode,displayNode, tabNode);
+    tabNode.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
   }
 
   private void setTitle(Stage stage) {
