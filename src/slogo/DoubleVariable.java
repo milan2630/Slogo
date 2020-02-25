@@ -10,7 +10,7 @@ public class DoubleVariable extends Variable<Double> {
      * returns value of DoubleVariable
      * @return double myValue
      */
-    @Override
+    //@Override
     public Double getValue() {
         return myValue;
     }
