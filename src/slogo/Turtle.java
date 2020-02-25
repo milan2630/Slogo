@@ -94,10 +94,12 @@ public class Turtle {
 
     private void moveBack(BackwardCommand backward) {
         myX-= backward.getPixelsBackward();
+        return backward.getPixelsBackward();
     }
-/*
-    private void turnLeft(LeftCommand left) {
+
+    private int turnLeft(LeftCommand left) {
         myHeading-= left.getDegreesLeft();
+        return left.getDegreesLeft();
     }
 
     private void turnRight(RightCommand right) {
@@ -170,5 +172,17 @@ public class Turtle {
 
     public ImmutableTurtle getImmutableTurtle(){
         return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
+    }
+
+    public void setX(int x) {
+        myX = x;
+    }
+
+    public void setY(int y) {
+
+    }
+
+    public void setPenState(int state) {
+        penState = state;
     }
 }
