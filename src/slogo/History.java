@@ -19,7 +19,7 @@ public class History {
      * Adds command to history
      * @param element
      */
-    public void addCommand(Command element){
+    public void addComand(Command element){
         pastMethods.add(element);
     }
     public void removeCommand(Command element){

@@ -40,7 +40,7 @@ public class Terminal {
     resourceBundle = ResourceBundle
         .getBundle("resources/ui/" + language);
     this.pane = new AnchorPane();
-    setBackgroundColor(pane, Color.BISQUE);
+    setBackgroundColor(pane, Color.web("E5E5E5"));
     pane.setPrefSize(WIDTH, HEIGHT);
 
     createInput();
@@ -53,7 +53,7 @@ public class Terminal {
     double height = HEIGHT - PADDING * 2;
 
     buttonPane.setPrefSize(width, height);
-    setBackgroundColor(buttonPane, Color.SIENNA);
+    setBackgroundColor(buttonPane, Color.web("D2D2D2"));
 
     AnchorPane.setTopAnchor(buttonPane, PADDING);
     AnchorPane.setLeftAnchor(buttonPane, PADDING);
@@ -95,7 +95,6 @@ public class Terminal {
     resetButton = createButton(width, height, resourceBundle.getString("ResetButton"));
     resetButton.setOnAction(event -> handleReset());
   }
-
 
   private Button createButton(double width, double height, String text) {
     Button button = new Button();
@@ -157,5 +156,9 @@ public class Terminal {
   protected void setBackgroundColor(Pane pane, Color color) {
     pane.setBackground(
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+  }
+
+  protected void setInputText(String text){
+    input.setText(text);
   }
 }

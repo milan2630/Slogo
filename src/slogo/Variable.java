@@ -1,6 +1,8 @@
 package slogo;
 
-abstract public class Variable <E> {
+import javafx.beans.property.SimpleStringProperty;
+
+  abstract public class Variable <E> {
     private String myName;
     public Variable(String name){
         myName = name;

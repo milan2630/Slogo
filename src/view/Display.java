@@ -19,16 +19,16 @@ public class Display {
 
   protected Display() {
     this.pane = new Pane();
-    setBackgroundColor(Color.AZURE);
+    setBackgroundColor(Color.web("868686"));
     resetPane();
   }
 
   protected void resetPane() {
     pane.getChildren().clear();
-    this.trail = new TrailView(3.0, Color.ORANGE);
+    this.trail = new TrailView(3.0, Color.WHITE);
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
 
-    pane.getChildren().addAll(turtle.getPane(), trail.getPane());
+    pane.getChildren().addAll(trail.getPane(), turtle.getPane());
   }
 
   protected void moveTurtle(Point2D newCoordinate) {
@@ -60,7 +60,12 @@ public class Display {
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
+  protected void setPenColor(Color currentColor) {
+    trail.setCurrentColor(currentColor);
+  }
+
   private Image getImageByName(String name) {
     return new Image(this.getClass().getClassLoader().getResourceAsStream(name));
   }
+
 }
