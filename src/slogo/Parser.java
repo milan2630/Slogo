@@ -187,7 +187,7 @@ public class Parser {
 
         me.addMethod(m);*/
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        String s = "make :hi 32.1";
+        String s = "make :hi 32.1\nfd :hi";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
@@ -196,10 +196,6 @@ public class Parser {
 
         } catch (ParsingException e) {
             e.printStackTrace();
-        }
-        List<Variable> list = ve.getDisplayVariables();
-        for(Variable v: list){
-            System.out.println(v.getName() + ": " + v.getValue());
         }
 
     }
