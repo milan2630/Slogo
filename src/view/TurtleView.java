@@ -5,6 +5,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class TurtleView {
 
@@ -13,13 +15,17 @@ public class TurtleView {
   private boolean turtleVisible;
   private boolean penActive = true;
   private double heading;
+  private Pane pane;
 
-  protected TurtleView(Image image, double x, double y, double heading) {
+  protected TurtleView(Pane pane, Image image, double x, double y, double heading) {
+    this.pane = new Pane();
+    pane.setPrefSize(pane.getWidth(),pane.getPrefHeight());
     this.graphic = new ImageView(image);
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
 
     Point2D point = new Point2D(x, y);
+    pane.getChildren().add(graphic);
 
     setPosition(point);
     setHeading(heading);
@@ -60,8 +66,8 @@ public class TurtleView {
     this.penActive = penActive;
   }
 
-  protected Node getNode() {
-    return this.graphic;
+  protected Node getPane() {
+    return this.pane;
   }
 
 }

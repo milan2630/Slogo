@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class TrailView {
 
   private List<Node> trail = new ArrayList<>();
-  private FlowPane flowPane = new FlowPane();
+  private Pane pane;
   private Color currentColor = Color.BLACK;
   private double currentThickness;
 
-  protected TrailView(Double thickness, Color color) {
+  protected TrailView(Pane pane, Double thickness, Color color) {
+    this.pane = new Pane();
+    pane.setPrefSize(pane.getWidth(),pane.getPrefHeight());
     this.currentThickness = thickness;
     this.currentColor = color;
   }
@@ -38,7 +41,6 @@ public class TrailView {
   }
 
   protected void addLine(Point2D start, Point2D end) {
-    System.out.println("old:" + start + ", new:" + end);
 
     Line line = new Line();
     line.setStrokeWidth(currentThickness);
@@ -47,17 +49,15 @@ public class TrailView {
     line.setStartY(start.getY());
     line.setEndX(end.getX());
     line.setEndY(end.getY());
-    flowPane.getChildren().add(line);
-    System.out.println(line);
+    pane.getChildren().add(line);
     trail.add(line);
-//    System.out.println(trail);
   }
 
-  protected Node getNode() {
-    return flowPane;
+  protected Pane getPane() {
+    return pane;
   }
 
-  protected void clear() {
-    flowPane.getChildren().clear();
-  }
+//  protected void clear() {
+//    pane.getChildren().clear();
+//  }
 }
