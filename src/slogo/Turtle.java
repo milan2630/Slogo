@@ -63,18 +63,22 @@ public class Turtle {
     //TODO implement properly
     private double moveForward(ForwardCommand forward, List<Object> params) throws ClassCastException{
         //List<Class> paramTypes = forward.getArgumentTypes();
-        double pixForward = 0;
-        if(params.get(0) instanceof Double){
-            pixForward = (Double) params.get(0);
+        //variable to set, param, paramType,
+        Double pixForward = getDoubleParameter(params.get(0));
+        myX+= pixForward;
+        return pixForward;
+    }
+
+    private double getDoubleParameter(Object val){
+        if(val instanceof Double){
+            return (Double) val;
         }
-        else if(params.get(0) instanceof String && variableExplorer.getVariable((String) params.get(0)) != null){
-            pixForward = (Double)variableExplorer.getVariable((String) params.get(0)).getValue();
+        else if(val instanceof String && variableExplorer.getVariable((String) val) != null){
+            return  (Double) variableExplorer.getVariable((String) val).getValue();
         }
         else{
             throw new ClassCastException();
         }
-        myX+= pixForward;
-        return pixForward;
     }
 
     private double setVariable(MakeVariableCommand variableCommand, List<Object> params) throws ClassCastException{
