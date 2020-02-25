@@ -63,7 +63,16 @@ public class Turtle {
     //TODO implement properly
     private double moveForward(ForwardCommand forward, List<Object> params) throws ClassCastException{
         //List<Class> paramTypes = forward.getArgumentTypes();
-        double pixForward = (Double) params.get(0);
+        double pixForward = 0;
+        if(params.get(0) instanceof Double){
+            pixForward = (Double) params.get(0);
+        }
+        else if(params.get(0) instanceof String && variableExplorer.getVariable((String) params.get(0)) != null){
+            pixForward = (Double)variableExplorer.getVariable((String) params.get(0)).getValue();
+        }
+        else{
+            throw new ClassCastException();
+        }
         myX+= pixForward;
         return pixForward;
     }
