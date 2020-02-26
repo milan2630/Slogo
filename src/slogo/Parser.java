@@ -4,29 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Parser {
-
-
-    private String language;
     private CommandFactory factory;
-    private Stack<IntegerVariable> executionTimesStack;
-    private IntegerVariable executionTimes;
-    private int executionLimit;
-    private boolean creatingMethod;
-    private MethodExplorer methodExplorer;
-    private int lastReturnFromMethod;
-    private UserDefinedInstructionCommand currentMethod;
-    //private int bracketsSeen;
+    private double finalReturn;
 
     public Parser(String lang, MethodExplorer me){
-        language = lang;
-        methodExplorer = me;
-        factory = new CommandFactory(lang, methodExplorer);
-        executionTimesStack = new Stack<>();
-        executionTimes = new IntegerVariable("*1", 1);
-        executionLimit = 1;
-        creatingMethod = false;
-        lastReturnFromMethod = 0;
-        //bracketsSeen = 0;
+        factory = new CommandFactory(lang, me);
+        finalReturn = 0;
     }
 
     /**
@@ -35,35 +18,19 @@ public class Parser {
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseStringToCommands(String input, Turtle turtle) throws ParsingException{
-        List<ImmutableTurtle> stateList = new ArrayList<>();
-        List<ParsingEntity> entityList = getEntitiesFromString(input);
-        stateList.addAll(parseLine(entityList, turtle));
-        /*for(int i = 0; i < lineList.length; i++){
-            if(lineList[i].indexOf("to") == 0){
-                currentMethod = createMethod(lineList, i);
-                i++;
-                bracketsSeen++;
-            }
-            else if(creatingMethod){
-                i = addLinesToMethod(lineList, i);
-            }
-            else{
-                stateList.addAll(parseLine(lineList[i], turtle));
-            }
-        }*/
-
-        return stateList;
+        List<String> entityList = getEntitiesFromString(input);
+        return new ArrayList<>(parseLine(entityList, turtle));
     }
 
 
-    private List<ParsingEntity> getEntitiesFromString(String input){
+    private List<String> getEntitiesFromString(String input){
         String noCommentString = removeComments(input);
         String[] entities = noCommentString.split(" ");
         return parseEntities(entities);
     }
 
-    private List<ParsingEntity> parseEntities(String[] entities) {
-        List<ParsingEntity> entityList = new ArrayList<>();
+    private List<String> parseEntities(String[] entities) {
+        List<String> entityList = new ArrayList<>();
         for(int i = 0; i < entities.length; i++){
             if(entities[i].equals("[")){
                 i++;
@@ -87,10 +54,10 @@ public class Parser {
                     i++;
                 }
                 i--;
-                entityList.add(new ParsingEntity(item, false));
+                entityList.add(item);
             }
             else{
-                entityList.add(new ParsingEntity(entities[i]));
+                entityList.add(entities[i]);
             }
         }
         return entityList;
@@ -110,18 +77,18 @@ public class Parser {
     }
 
 
-    private List<ImmutableTurtle> parseLine(List<ParsingEntity> entityList, Turtle turtle) {
+    private List<ImmutableTurtle> parseLine(List<String> entityList, Turtle turtle) {
         List<ImmutableTurtle> states = new ArrayList<>();
 
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
 
-        for(ParsingEntity item: entityList){
-            if(item.isCommand()){
-                pushCommand(commandStack, item.getVal());
+        for(String item: entityList){
+            if(factory.isCommand(item)){
+                pushCommand(commandStack, item);
             }
             else{
-                argumentStack.push(item.getVal());
+                argumentStack.push(item);
             }
             combineCommandsArgs(states, argumentStack, commandStack, turtle);
         }
@@ -159,28 +126,16 @@ public class Parser {
                     params.add(argumentStack.pop());
                 }
                 Collections.reverse(params);
-                //topCom.setArguments(params);
                 String result = turtle.actOnCommand(topCom, params);
+                states.addAll(turtle.getInternalStates());
                 states.add(turtle.getImmutableTurtle());
-                /*if(topCom instanceof SlogoMethod){
-                    Parser internalParser = new Parser(language, methodExplorer);
-                    states.addAll(internalParser.parseStringToCommands(((SlogoMethod) topCom).getCommandsAsString(), turtle));
-                    result = lastReturnFromMethod;
-                }
-                else if(topCom instanceof ControlCommand){
-                    //if bracket argument
-                    // if no bracket argument: pass to command actor and set variables to desired, create method, run method
-                }
-                else {
-                    result = turtle.actOnCommand(topCom);
-                    states.add(turtle.getImmutableTurtle());
-                }*/
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
                     numArguments = argumentStack.size();
                     topCom = commandStack.peek();
                 }
                 else{
+                    finalReturn = Double.parseDouble(result);
                     break;
                 }
             }
@@ -190,12 +145,15 @@ public class Parser {
         }
     }
 
+    public double getFinalReturn(){
+        return finalReturn;
+    }
 
     public static void main(String[] args) {
         MethodExplorer me = new MethodExplorer();
         VariableExplorer ve = new VariableExplorer();
         Parser t = new Parser("English", me);
-        Turtle turt = new Turtle(me, ve);
+        Turtle turt = new Turtle(me, ve, "English");
 
         /*SlogoMethod m = new SlogoMethod("NewMeth", new ArrayList<>(), new ArrayList<>());
 
@@ -204,8 +162,8 @@ public class Parser {
 
         me.addMethod(m);*/
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        String s = "make :hello 3\nfd fd :hello";
-        //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
+        //String s = "make :hello 3\nfd fd :hello";
+        String s = "to NewMeth [ ]\n[\nfd fd 10\n]\nNewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
@@ -216,6 +174,7 @@ public class Parser {
         } catch (ParsingException e) {
             e.printStackTrace();
         }
+
 
     }
 }

@@ -35,6 +35,13 @@ public class CommandFactory {
         return (Command) commandConstructor.newInstance();
     }
 
+    public boolean isCommand(String item){
+        if(methodExplorer.getMethod(item) != null || commands.containsKey(item)){
+            return true;
+        }
+        return false;
+    }
+
     private void initializeMap() {
         commands = new HashMap<>();
         for (String key : myResources.keySet()) {

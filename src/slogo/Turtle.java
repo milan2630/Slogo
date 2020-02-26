@@ -21,9 +21,10 @@ public class Turtle {
     private int showing;
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
+    private String language;
+    private List<ImmutableTurtle> internalStates;
 
-
-    public Turtle(MethodExplorer me, VariableExplorer ve){
+    public Turtle(MethodExplorer me, VariableExplorer ve, String lang){
         myX = 0;
         myY = 0;
         myHeading = 0;
@@ -32,7 +33,8 @@ public class Turtle {
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
         methodExplorer = me;
         variableExplorer = ve;
-
+        language = lang;
+        internalStates = new ArrayList<>();
     }
 
     public String actOnCommand(Command command, List<String> params) throws ParsingException {
@@ -52,8 +54,17 @@ public class Turtle {
         }
     }
 
-    private double runUserMethod(UserDefinedInstructionCommand command, List<String> params){
+    private double runUserMethod(UserDefinedInstructionCommand command, List<String> params) throws ParsingException {
+        List<Double> inputs = new ArrayList<>();
+        for(int i = 0; i < params.size(); i++){
+            inputs.add(getDoubleParameter(params.get(i)));
+        }
+        command.setArguments(inputs);
 
+        String com = command.getExecutableCommands();
+        Parser newParser = new Parser(language, methodExplorer);
+        internalStates.addAll(newParser.parseStringToCommands(com, this));
+        return newParser.getFinalReturn();
     }
 
 
@@ -61,6 +72,11 @@ public class Turtle {
         List<String> paramNames = new ArrayList<>();
         String[] names = params.get(1).split(" ");
         paramNames.addAll(Arrays.asList(names));
+        for(int i = 0; i < paramNames.size(); i++){
+            if(paramNames.get(i).equals("")){
+                paramNames.remove(i);
+            }
+        }
         UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
         methodExplorer.addMethod(newMethod);
         return 0;
@@ -186,5 +202,12 @@ public class Turtle {
 
     public void setPenState(int state) {
         penState = state;
+    }
+
+    public List<ImmutableTurtle> getInternalStates() {
+        List<ImmutableTurtle> copy = new ArrayList<>();
+        Collections.copy(copy, internalStates);
+        internalStates = new ArrayList<>();
+        return copy;
     }
 }
