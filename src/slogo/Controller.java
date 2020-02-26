@@ -14,7 +14,6 @@ public class Controller implements PropertyChangeListener {
     private MethodExplorer myME;
     private VariableExplorer myVE;
     private Turtle myTurtle;
-    private HistoryView myHistoryView;
     private History myHistory;
     // bind the lists in history and historyView
 
@@ -31,7 +30,9 @@ public class Controller implements PropertyChangeListener {
         myParser = new Parser(language, myME);
         myTurtle = new Turtle(myME, myVE, language);
         myHistory = new History();
-        myHistoryView= new HistoryView(language, myHistory.getInputs());
+        myVisualizer.bindHistory(this.language, myHistory.getInputs());
+        myVisualizer.bindVariable(this.language, myVE.getDisplayVariables());
+        myVisualizer.bindMethods(this.language, myME.getMethodNames());
     }
 
     public void togglePenState() {

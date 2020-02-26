@@ -42,10 +42,6 @@ public class VariableView <E>{
         Button clear = makeClearButton();
         setupTableView();
         vbox.getChildren().addAll(clear, tableView);
-        variables.add(new DoubleVariable("double", 2.0));
-        variables.add(new IntegerVariable("int", 2));
-        variables.add(new CharacterVariable("character", 'c'));
-        variables.add(new StringVariable("String", "s"));
         vbox.setAlignment(Pos.CENTER);
         myTab.setContent(vbox);
     }
