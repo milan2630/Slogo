@@ -47,7 +47,9 @@ public class Turtle {
         String methodName = myResources.getString(key);
         try {
             Method method = this.getClass().getDeclaredMethod(methodName, command.getClass(), List.class);
-            return (double) method.invoke(this, command, params);
+            double ret = (double) method.invoke(this, command, params);
+            internalStates.add(this.getImmutableTurtle());
+            return ret;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return 0;
@@ -63,7 +65,9 @@ public class Turtle {
 
         String com = command.getExecutableCommands();
         Parser newParser = new Parser(language, methodExplorer);
-        internalStates.addAll(newParser.parseStringToCommands(com, this));
+        List<ImmutableTurtle> stateList = newParser.parseStringToCommands(com, this);
+        internalStates.addAll(stateList);
+        internalStates.remove(internalStates.size()-1);
         return newParser.getFinalReturn();
     }
 
@@ -205,8 +209,7 @@ public class Turtle {
     }
 
     public List<ImmutableTurtle> getInternalStates() {
-        List<ImmutableTurtle> copy = new ArrayList<>();
-        Collections.copy(copy, internalStates);
+        List<ImmutableTurtle> copy = new ArrayList<>(internalStates);
         internalStates = new ArrayList<>();
         return copy;
     }
