@@ -118,6 +118,10 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     display.setPenState(penState);
   }
 
+  public void updateTurtleState(boolean turtleState) {
+    display.setTurtleState(turtleState);
+  }
+
   @Override
   public String getLanguage() {
     return language;

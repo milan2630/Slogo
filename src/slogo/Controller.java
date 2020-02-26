@@ -31,11 +31,6 @@ public class Controller implements PropertyChangeListener {
         myTurtle = new Turtle(myME, myVE, language);
     }
 
-    public void togglePenState() {
-        myVisualizer.updatePenState(myTurtle.getPenState() == 0);
-        myTurtle.setPenState(1 - myTurtle.getPenState());
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Run")){
@@ -43,9 +38,10 @@ public class Controller implements PropertyChangeListener {
             try {
                 turtleList = myParser.parseStringToCommands(command, myTurtle);
                 for (ImmutableTurtle it : turtleList) {
-                    myVisualizer.updatePositions(it.getX(), it.getY());
-                    myTurtle.setX(it.getX());
-                    myTurtle.setY(it.getY());
+                    updatePositions(it);
+                    updateHeading(it);
+                    updatePenState(it);
+                    updateShowing(it);
                 }
             }
             catch(ParsingException e) {
@@ -58,17 +54,26 @@ public class Controller implements PropertyChangeListener {
         }
     }
 
-/*
-    public List<ImmutableTurtle> passTurtle() {
-        return turtleList;
+    public void updatePositions(ImmutableTurtle it) {
+        myVisualizer.updatePositions(it.getX(), it.getY());
+        myTurtle.setX(it.getX());
+        myTurtle.setY(it.getY());
     }
 
-    public void updatePositions() {
-        //myVisualizer.updatePositions();
+    public void updateHeading(ImmutableTurtle it) {
+        myVisualizer.updateHeading(it.getHeading());
+        myTurtle.setHeading(it.getHeading());
     }
 
-    // set a language
-    // immutable turtle class
+    public void updatePenState(ImmutableTurtle it) {
+        myVisualizer.updatePenState(it.getPenState() == 1);
+        myTurtle.setPenState(it.getPenState());
+    }
 
- */
+    public void updateShowing(ImmutableTurtle it) {
+        myVisualizer.updateTurtleState(it.getShowing() == 1);
+        myTurtle.setShowing(it.getShowing());
+    }
+
+    //TODO: set language
 }
