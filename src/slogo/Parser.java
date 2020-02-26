@@ -19,7 +19,7 @@ public class Parser {
      * @param input from the Console
      * @return a list of commands to execute
      */
-    public List<ImmutableTurtle> parseStringToCommands(String input, Turtle turtle) throws ParsingException{
+    public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
         List<String> entityList = getEntitiesFromString(input);
         return new ArrayList<>(parseLine(entityList, turtle));
     }
@@ -28,17 +28,17 @@ public class Parser {
     private List<String> getEntitiesFromString(String input){
         String noCommentString = removeComments(input);
         String[] entities = noCommentString.split(" ");
-        return parseEntities(entities);
+        return combineBrackets(entities);
     }
 
-    private List<String> parseEntities(String[] entities) {
+    //TODO check for proper number of brackets
+    private List<String> combineBrackets(String[] entities) {
         List<String> entityList = new ArrayList<>();
         for(int i = 0; i < entities.length; i++){
             if(entities[i].equals("[")){
                 i++;
                 int bracketsSeen = 1;
                 String item = "";
-                boolean start = true;
                 while(bracketsSeen != 0) {
                     if (entities[i].contains("]")) {
                         bracketsSeen--;
@@ -47,9 +47,8 @@ public class Parser {
                         bracketsSeen++;
                     }
                     if (bracketsSeen != 0) {
-                        if (start) {
+                        if (item.equals("")) {
                             item = entities[i];
-                            start = false;
                         }
                         else {
                             item = item + " " + entities[i];
@@ -71,13 +70,12 @@ public class Parser {
         String[] lineList = input.split("\n");
         List<String> noComments = new ArrayList<>();
         for(int i = 0; i < lineList.length; i++){
-            if(lineList[i].indexOf("#") != 0){
+            if(lineList[i].indexOf("#") != 0 && !lineList[i].equals("")){
                 noComments.add(lineList[i]);
             }
         }
         String[] noCommentArray = noComments.toArray(new String[0]);
-        String noCommentString = String.join(" ", noCommentArray);
-        return noCommentString;
+        return String.join(" ", noCommentArray);
     }
 
 
@@ -168,7 +166,7 @@ public class Parser {
         //String s = "make :hello 3\nfd fd :hello";
         String s = "to NewMeth [ ]\n[ fd 5 ]\nNewMeth";
         try {
-            List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
+            List<ImmutableTurtle> x = t.parseCommands(s, turt);
             for(ImmutableTurtle c: x){
                 System.out.println(c.getX());
                 //System.out.println(c.getHeading());
