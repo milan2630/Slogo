@@ -108,8 +108,20 @@ public class Turtle {
         }
     }
 
+    private double ifElseCommand(IfElseCommand command, List<String> params) throws ParsingException {
+        double expr = getDoubleParameter(params.get(0));
+        int whichToExecute = 2;
+        if(expr == 0.0){
+            whichToExecute = 1;
+        }
+        Parser newParser = new Parser(language, methodExplorer);
+        parseInternalCommand(newParser, params.get(whichToExecute));
+        internalStates.remove(internalStates.size()-1);
+        return newParser.getFinalReturn();
+    }
+
     private double ifCommand(IfCommand command, List<String> params) throws ParsingException {
-        double expr = Double.parseDouble(params.get(0));
+        double expr = getDoubleParameter(params.get(0));
         if(expr == 0.0){
             return 0.0;
         }
@@ -122,9 +134,9 @@ public class Turtle {
     private double forLoop(ForCommand command, List<String> params) throws ParsingException {
         String[] argParts = params.get(0).split(" ");
         String name = argParts[0];
-        double start = Double.parseDouble(argParts[1]);
-        double end = Double.parseDouble(argParts[2]);
-        double iterator = Double.parseDouble(argParts[3]);
+        double start = getDoubleParameter(argParts[1]);
+        double end = getDoubleParameter(argParts[2]);
+        double iterator = getDoubleParameter(argParts[3]);
         if(start == end || params.get(1).equals("")){
             return 0;
         }
@@ -134,7 +146,7 @@ public class Turtle {
     }
 
     private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
-        double numTimes = Double.parseDouble(params.get(0));
+        double numTimes = getDoubleParameter(params.get(0));
         if(numTimes == 0 || params.get(1).equals("")){
             return 0;
         }
@@ -157,7 +169,7 @@ public class Turtle {
 
     private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
         String[] limitString = params.get(0).split(" ");
-        double end = Integer.parseInt(limitString[1]);
+        double end = getDoubleParameter(limitString[1]);
         if(end <= 1 || params.get(1).equals("")){
             return 0;
         }
@@ -170,7 +182,7 @@ public class Turtle {
     }
 
     private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
-        Variable<Double> var = new DoubleVariable(params.get(0), Double.parseDouble(params.get(1)));
+        Variable<Double> var = new DoubleVariable(params.get(0), getDoubleParameter(params.get(1)));
         variableExplorer.addVariable(var);
         return var.getValue();
     }
