@@ -38,18 +38,22 @@ public class Parser {
                 i++;
                 int bracketsSeen = 1;
                 String item = "";
-                while(bracketsSeen != 0){
-                    if(entities[i].contains("]")){
+                boolean start = true;
+                while(bracketsSeen != 0) {
+                    if (entities[i].contains("]")) {
                         bracketsSeen--;
                     }
-                    if(entities[i].contains("[")){
+                    if (entities[i].contains("[")) {
                         bracketsSeen++;
                     }
-                    if(item.equals("")){
-                        item = entities[i];
-                    }
-                    else if(bracketsSeen != 0){
-                        item = item + " " + entities[i];
+                    if (bracketsSeen != 0) {
+                        if (start) {
+                            item = entities[i];
+                            start = false;
+                        }
+                        else {
+                            item = item + " " + entities[i];
+                        }
                     }
                     i++;
                 }
@@ -159,10 +163,10 @@ public class Parser {
         //String s = "repeat fd fd 3 [ fd 100 ]";
         //String s = "for [ :hi 10.5 15.5 .5 ] [ fd :hi ]";
         //String s = "if fd fd 5 [ fd 10 ]";
-        String s = "ifelse .1 [ fd 5 ] [ fd 10 ]";
+        //String s = "ifelse .1 [ fd 5 ] [ fd 10 ]";
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
         //String s = "make :hello 3\nfd fd :hello";
-        //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
+        String s = "to NewMeth [ ]\n[ fd 5 ]\nNewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
@@ -173,7 +177,6 @@ public class Parser {
         } catch (ParsingException e) {
             e.printStackTrace();
         }
-
 
     }
 }
