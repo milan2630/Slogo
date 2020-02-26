@@ -109,6 +109,22 @@ public class Turtle {
         }
     }
 
+    private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
+        String[] limitString = params.get(0).split(" ");
+        Variable<Double> var = new DoubleVariable(limitString[0], 1.0);
+        variableExplorer.addVariable(var);
+        int index = Integer.parseInt(limitString[1]);
+        Parser newParser = new Parser(language, methodExplorer);
+        while(var.getValue() <= index){
+            List<ImmutableTurtle> stateList = newParser.parseStringToCommands(params.get(1), this);
+            internalStates.addAll(stateList);
+            var.setValue(var.getValue()+1);
+        }
+        internalStates.remove(internalStates.size()-1);
+        variableExplorer.removeVariable(var);
+        return newParser.getFinalReturn();
+    }
+
     private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
         Variable<Double> var = new DoubleVariable(params.get(0), Double.parseDouble(params.get(1)));
         variableExplorer.addVariable(var);
