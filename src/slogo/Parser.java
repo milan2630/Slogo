@@ -161,18 +161,7 @@ public class Parser {
         me.addMethod(m);*/
         //String s = "to NewMeth [ :hi :h ]\n[\nfd :hi\nfd :h\n]\nNewMeth 6 2";
         //String s = "make :hello 3\nfd fd :hello";
-        String s = "to NewMeth [ :hi ]\n" +
-                "[\n" +
-                    "dotimes [ :hello 5 ]\n" +
-                     "[\n" +
-                        "fd :hi\n" +
-                    "]\n" +
-                "dotimes [ :hello 5 ]\n" +
-                "[\n" +
-                "fd :hi\n" +
-                "]\n" +
-                "]\n" +
-                "NewMeth 2";
+        //String s = "repeat fd fd 3 [ fd 100 ]";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
