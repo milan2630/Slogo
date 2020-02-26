@@ -17,8 +17,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.ImmutableTurtle;
 
-public class Visualizer implements PropertyChangeListener, FrontEndExternal {
+public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
@@ -105,35 +106,23 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   }
 
   @Override
-  public void updatePositions(double newX, double newY) {
-    display.moveTurtle(new Point2D(newX, newY));
+  public void updateTurtle(List<ImmutableTurtle> turtleList) {
+
   }
 
   @Override
-  public void updateHeading(double newHeading) {
-    display.setTurtleHeading(newHeading);
-  }
-
-  @Override
-  public void updatePenState(boolean penState) {
-    display.setPenState(penState);
-  }
-
-  public void updateTurtleState(boolean turtleState) {
-    display.setTurtleState(turtleState);
+  public ImmutableTurtle getCurrentTurtle() {
+    return null;
   }
 
   @Override
   public String getLanguage() {
-    return language;
+    return null;
   }
 
   @Override
   public void displayError(Exception error) {
-  }
 
-  @Override
-  public void createButton(EventHandler event, String property) {
   }
 
   public void bindHistory(String language, ObservableList inputs) {
