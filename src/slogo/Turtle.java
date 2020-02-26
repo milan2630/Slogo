@@ -192,7 +192,7 @@ public class Turtle {
         return showing;
     }
 
-    public ImmutableTurtle getImmutableTurtle(){
+    private ImmutableTurtle getImmutableTurtle(){
         return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
     }
 
