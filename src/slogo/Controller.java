@@ -22,7 +22,7 @@ public class Controller implements PropertyChangeListener {
 
     public Controller(Stage stage, String language) {
         myVisualizer = new Visualizer(stage, language);
-        myVisualizer.addChangeListener(this);
+        myVisualizer.addTerminalChangeListener(this);
 
         myME = new MethodExplorer();
         myVE = new VariableExplorer();

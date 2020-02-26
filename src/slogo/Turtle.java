@@ -55,7 +55,7 @@ public class Turtle {
             return 0;
         }
     }
-
+    
     private double runUserMethod(UserDefinedInstructionCommand command, List<String> params) throws ParsingException {
         List<Double> inputs = new ArrayList<>();
         for(int i = 0; i < params.size(); i++){
@@ -69,7 +69,6 @@ public class Turtle {
         internalStates.remove(internalStates.size()-1);
         return newParser.getFinalReturn();
     }
-
 
 
     private double makeMethod(MakeUserInstructionCommand command, List<String> params){

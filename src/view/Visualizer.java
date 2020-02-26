@@ -4,21 +4,16 @@ import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
-import slogo.UserDefinedInstructionCommand;
-import slogo.Variable;
 
 public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
@@ -26,9 +21,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private static ResourceBundle resourceBundle;
   private String language;
   private Display display;
-  private SettingView settingView;
-  private HistoryView historyView;
-  private MethodView methodView;
+  private TabPaneView tabPaneView;
   private Terminal terminal;
   private String consoleString;
 
@@ -39,71 +32,37 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     this.language = language;
     setTitle(stage);
 
-    AnchorPane root = new AnchorPane();
+    BorderPane root = new BorderPane();
 
     terminal = new Terminal(language);
-    addChangeListener(this);
+    addTerminalChangeListener(this);
 
     display = new Display();
+
+    tabPaneView = new TabPaneView(language);
+    tabPaneView.addChangeHistoryListener(this);
+    tabPaneView.addChangeSettingsListener(this);
+
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
-    System.out.println(display.getPane().getWidth());
   }
 
-  public void addChangeListener(PropertyChangeListener newListener) {
+  public void addTerminalChangeListener(PropertyChangeListener newListener) {
     terminal.addChangeListener(newListener);
   }
-
-  private void addPanesToRoot(AnchorPane root) {
-    Node terminalNode = terminal.getPane();
-    AnchorPane.setBottomAnchor(terminalNode, 0.0);
-    AnchorPane.setLeftAnchor(terminalNode,0.0);
-    AnchorPane.setRightAnchor(terminalNode,0.0);
-
+  private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
-    AnchorPane.setTopAnchor(displayNode,0.0);
-    AnchorPane.setBottomAnchor(displayNode,terminal.getHeight());
-    AnchorPane.setRightAnchor(displayNode,0.0);
-    AnchorPane.setLeftAnchor(displayNode, 250.0);
-    //TODO replace 200 with controller width
+    Node terminalNode = terminal.getPane();
 
+    TabPane tabNode = tabPaneView.getTabPane();
 
-    //Adding Tabs
-    TabPane tabNode = new TabPane();
-    AnchorPane.setTopAnchor(tabNode, 0.0);
-    AnchorPane.setBottomAnchor(tabNode, terminal.getHeight());
-    AnchorPane.setLeftAnchor(tabNode, 0.0);
-    AnchorPane.setRightAnchor(tabNode,550.0);
-
-    //Adding History Tab
-    ObservableList<String> list= FXCollections.observableList(new ArrayList<>());
-    historyView = new HistoryView(language, list);
-    tabNode.getTabs().add(historyView.getTab());
-    historyView.addChangeListener(this);
-    list.add("a");
-    list.add("b");
-    list.add("c");
-
-    //Adding Variable Tab
-    ObservableList<Variable> list2= FXCollections.observableList(new ArrayList<>());
-    VariableView variableView = new VariableView(language, FXCollections.observableList(list2));
-    tabNode.getTabs().add(variableView.getTab());
-
-    //Adding Setting Tab
-    settingView = new SettingView(language);
-    tabNode.getTabs().add(settingView.getTab());
-    settingView.addChangeListener(this);
-
-    //Adding Methods Tab
-    ObservableMap<String, UserDefinedInstructionCommand> list3 = FXCollections.observableMap(new HashMap<>());
-    methodView = new MethodView(language, list3);
-    tabNode.getTabs().add(methodView.getTab());
-    list3.put("String", null);
-    root.getChildren().addAll(terminalNode,displayNode, tabNode);
-    tabNode.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+    root.setCenter(displayNode);
+    BorderPane.setAlignment(tabNode, Pos.TOP_LEFT);
+    root.setLeft(tabNode);
+    root.setBottom(terminalNode);
   }
 
   private void setTitle(Stage stage) {
@@ -120,25 +79,21 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   /**
    * Implements Observer Design pattern
+   *
    * @param evt
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    //TODO move magic strings into variables
-
-    if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Run")){
-      this.consoleString = evt.getNewValue().toString();
-    }
-    if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Reset")){
+    if (evt.getPropertyName().equals("Reset")) {
       display.resetPane();
     }
-    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Pen Color")){
+    if (evt.getPropertyName().equals("Pen Color")) {
       display.setPenColor(Color.web(evt.getNewValue().toString()));
     }
-    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Background Color")){
+    if (evt.getPropertyName().equals("Background Color")) {
       display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
     }
-    if (evt.getSource().equals(historyView) && evt.getPropertyName().equals("HistoryVariable")){
+    if (evt.getPropertyName().equals("HistoryVariable")) {
       terminal.setInputText(evt.getNewValue().toString());
     }
   }
@@ -150,7 +105,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void updatePositions(double newX, double newY) {
-    display.moveTurtle(new Point2D(newX,newY));
+    display.moveTurtle(new Point2D(newX, newY));
   }
 
   @Override
@@ -170,11 +125,9 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void displayError(Exception error) {
-
   }
 
   @Override
   public void createButton(EventHandler event, String property) {
-
   }
 }
