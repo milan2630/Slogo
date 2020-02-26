@@ -1,6 +1,7 @@
 package slogo;
 
 import javafx.stage.Stage;
+import view.HistoryView;
 import view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
@@ -13,7 +14,6 @@ public class Controller implements PropertyChangeListener {
     private MethodExplorer myME;
     private VariableExplorer myVE;
     private Turtle myTurtle;
-
     private History myHistory;
     // bind the lists in history and historyView
 
@@ -29,6 +29,10 @@ public class Controller implements PropertyChangeListener {
         this.language = language;
         myParser = new Parser(language, myME);
         myTurtle = new Turtle(myME, myVE, language);
+        myHistory = new History();
+        myVisualizer.bindHistory(this.language, myHistory.getInputs());
+        myVisualizer.bindVariable(this.language, myVE.getDisplayVariables());
+        myVisualizer.bindMethods(this.language, myME.getMethodNames());
     }
 
     @Override
