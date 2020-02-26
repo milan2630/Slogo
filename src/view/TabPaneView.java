@@ -26,13 +26,10 @@ public class TabPaneView {
     tabPane = new TabPane();
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-    createHistoryTab(language);
-    createVariableTab(language);
-    createSettingTab(language);
-    createMethodTab(language);
-
-    tabPane.getTabs().addAll(historyView.getTab(), methodView.getTab(), settingView.getTab(),
-        variableView.getTab());
+//    createHistoryTab(language);
+//    createVariableTab(language);
+//    createMethodTab(language);
+      createSettingTab(language);
   }
 
   protected ObservableMap<String, UserDefinedInstructionCommand> getMethodList() {
@@ -74,21 +71,21 @@ public class TabPaneView {
 
   private void createSettingTab(String language) {
     settingView = new SettingView(language);
+    tabPane.getTabs().add(settingView.getTab());
   }
-
-  private void createMethodTab(String language) {
-    methodList = FXCollections.observableMap(new HashMap<>());
+  public void createMethodTab(String language, ObservableMap methodList) {
     methodView = new MethodView(language, methodList);
+    tabPane.getTabs().add(methodView.getTab());
   }
 
-  private void createVariableTab(String language) {
-    variableList = FXCollections.observableList(new ArrayList<>());
+  public void createVariableTab(String language, ObservableList variableList) {
     variableView = new VariableView(language, FXCollections.observableList(variableList));
+    tabPane.getTabs().add(variableView.getTab());
   }
 
-  private void createHistoryTab(String language) {
-    historyList = FXCollections.observableList(new ArrayList<>());
+  public void createHistoryTab(String language, ObservableList historyList) {
     historyView = new HistoryView(language, historyList);
+    tabPane.getTabs().add(historyView.getTab());
   }
 
 

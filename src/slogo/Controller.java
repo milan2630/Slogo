@@ -1,6 +1,7 @@
 package slogo;
 
 import javafx.stage.Stage;
+import view.HistoryView;
 import view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
@@ -13,7 +14,6 @@ public class Controller implements PropertyChangeListener {
     private MethodExplorer myME;
     private VariableExplorer myVE;
     private Turtle myTurtle;
-
     private History myHistory;
     // bind the lists in history and historyView
 
@@ -29,11 +29,10 @@ public class Controller implements PropertyChangeListener {
         this.language = language;
         myParser = new Parser(language, myME);
         myTurtle = new Turtle(myME, myVE, language);
-    }
-
-    public void togglePenState() {
-        myVisualizer.updatePenState(myTurtle.getPenState() == 0);
-        myTurtle.setPenState(1 - myTurtle.getPenState());
+        myHistory = new History();
+        myVisualizer.bindHistory(this.language, myHistory.getInputs());
+        myVisualizer.bindVariable(this.language, myVE.getDisplayVariables());
+        myVisualizer.bindMethods(this.language, myME.getMethodNames());
     }
 
     @Override
@@ -42,10 +41,12 @@ public class Controller implements PropertyChangeListener {
             String command = evt.getNewValue().toString();
             try {
                 turtleList = myParser.parseCommands(command, myTurtle);
+                myHistory.addInput(command);
                 for (ImmutableTurtle it : turtleList) {
-                    myVisualizer.updatePositions(it.getX(), it.getY());
-                    myTurtle.setX(it.getX());
-                    myTurtle.setY(it.getY());
+                    updatePositions(it);
+                    updateHeading(it);
+                    updatePenState(it);
+                    updateShowing(it);
                 }
             }
             catch(ParsingException e) {
@@ -58,17 +59,26 @@ public class Controller implements PropertyChangeListener {
         }
     }
 
-/*
-    public List<ImmutableTurtle> passTurtle() {
-        return turtleList;
+    public void updatePositions(ImmutableTurtle it) {
+        myVisualizer.updatePositions(it.getX(), it.getY());
+        myTurtle.setX(it.getX());
+        myTurtle.setY(it.getY());
     }
 
-    public void updatePositions() {
-        //myVisualizer.updatePositions();
+    public void updateHeading(ImmutableTurtle it) {
+        myVisualizer.updateHeading(it.getHeading());
+        myTurtle.setHeading(it.getHeading());
     }
 
-    // set a language
-    // immutable turtle class
+    public void updatePenState(ImmutableTurtle it) {
+        myVisualizer.updatePenState(it.getPenState() == 1);
+        myTurtle.setPenState(it.getPenState());
+    }
 
- */
+    public void updateShowing(ImmutableTurtle it) {
+        myVisualizer.updateTurtleState(it.getShowing() == 1);
+        myTurtle.setShowing(it.getShowing());
+    }
+
+    //TODO: set language
 }

@@ -30,17 +30,6 @@ public class HistoryView {
         listener = new ArrayList<>();
         setupTab();
     }
-//    public TabPane getPane(){
-//        TabPane tabPane = new TabPane();
-//        Tab tab1 = new Tab("History");
-//        Tab tab2 = new Tab("Variables");
-//        Tab tab3 = new Tab("Methods");
-//        //Label l = new Label("Hello");
-//        //tab1.setContent(l);
-//        tabPane.getTabs().addAll(tab1, tab2, tab3);
-//        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-//        return tabPane;
-//    }
     public Tab getTab(){
         return myTab;
     }

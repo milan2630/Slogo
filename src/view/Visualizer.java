@@ -4,6 +4,9 @@ import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
+
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -40,9 +43,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     display = new Display();
 
     tabPaneView = new TabPaneView(language);
-    tabPaneView.addChangeHistoryListener(this);
     tabPaneView.addChangeSettingsListener(this);
-
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -118,6 +119,10 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     display.setPenState(penState);
   }
 
+  public void updateTurtleState(boolean turtleState) {
+    display.setTurtleState(turtleState);
+  }
+
   @Override
   public String getLanguage() {
     return language;
@@ -129,5 +134,16 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void createButton(EventHandler event, String property) {
+  }
+
+  public void bindHistory(String language, ObservableList inputs) {
+    tabPaneView.createHistoryTab(language, inputs);
+    tabPaneView.addChangeHistoryListener(this);
+  }
+  public void bindVariable(String language, ObservableList variables){
+    tabPaneView.createVariableTab(language, variables);
+  }
+  public void bindMethods(String language, ObservableMap methods){
+    tabPaneView.createMethodTab(language, methods);
   }
 }
