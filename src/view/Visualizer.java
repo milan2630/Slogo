@@ -5,10 +5,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -21,7 +22,6 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private String language;
   private Display display;
   private TabPaneView tabPaneView;
-
   private Terminal terminal;
   private String consoleString;
 
@@ -32,45 +32,35 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     this.language = language;
     setTitle(stage);
 
-    AnchorPane root = new AnchorPane();
+    BorderPane root = new BorderPane();
 
     terminal = new Terminal(language);
     terminal.addChangeListener(this);
 
     display = new Display();
+
+    tabPaneView = new TabPaneView(language);
+    tabPaneView.addChangeHistoryListener(this);
+    tabPaneView.addChangeSettingsListener(this);
+
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
-    System.out.println(display.getPane().getWidth());
   }
 
-  private void addPanesToRoot(AnchorPane root) {
-    Node terminalNode = terminal.getPane();
-    AnchorPane.setBottomAnchor(terminalNode, 0.0);
-    AnchorPane.setLeftAnchor(terminalNode, 0.0);
-    AnchorPane.setRightAnchor(terminalNode, 0.0);
-
+  private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
-    AnchorPane.setTopAnchor(displayNode, 0.0);
-    AnchorPane.setBottomAnchor(displayNode, terminal.getHeight());
-    AnchorPane.setRightAnchor(displayNode, 0.0);
-    AnchorPane.setLeftAnchor(displayNode, 250.0);
 
-    //Adding Tabs
-    tabPaneView = new TabPaneView(language);
-    tabPaneView.addChangeHistoryListener(this);
-    tabPaneView.addChangeSettingsListener(this);
-    TabPane tabPane = tabPaneView.getTabPane();
+    Node terminalNode = terminal.getPane();
 
-    AnchorPane.setTopAnchor(tabPane, 0.0);
-    AnchorPane.setBottomAnchor(tabPane, terminal.getHeight());
-    AnchorPane.setLeftAnchor(tabPane, 0.0);
-    AnchorPane.setRightAnchor(tabPane, 550.0);
+    TabPane tabNode = tabPaneView.getTabPane();
 
-    root.getChildren().addAll(displayNode, terminalNode, tabPane);
-
+    root.setCenter(displayNode);
+    BorderPane.setAlignment(tabNode, Pos.TOP_LEFT);
+    root.setLeft(tabNode);
+    root.setBottom(terminalNode);
   }
 
   private void setTitle(Stage stage) {
@@ -141,11 +131,9 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void displayError(Exception error) {
-
   }
 
   @Override
   public void createButton(EventHandler event, String property) {
-
   }
 }

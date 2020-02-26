@@ -26,7 +26,6 @@ public class Terminal {
   private Button resetButton;
   private TextArea input;
   private String data;
-  private static final double WIDTH = 800;
   private static final double HEIGHT = 150;
   private static final double PADDING = 5;
   private static final double BUTTON_PANE_WIDTH = 100;
@@ -41,7 +40,7 @@ public class Terminal {
         .getBundle("resources/ui/" + language);
     this.pane = new AnchorPane();
     setBackgroundColor(pane, Color.web("E5E5E5"));
-    pane.setPrefSize(WIDTH, HEIGHT);
+    pane.setPrefHeight(HEIGHT);
 
     createInput();
     makeButtonPane();
@@ -147,10 +146,6 @@ public class Terminal {
 
   protected Pane getPane() {
     return this.pane;
-  }
-
-  protected double getHeight() {
-    return HEIGHT;
   }
 
   protected void setBackgroundColor(Pane pane, Color color) {
