@@ -128,7 +128,7 @@ public class Parser {
                 Collections.reverse(params);
                 String result = turtle.actOnCommand(topCom, params);
                 states.addAll(turtle.getInternalStates());
-                states.add(turtle.getImmutableTurtle());
+                //states.add(turtle.getImmutableTurtle());
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
                     numArguments = argumentStack.size();
