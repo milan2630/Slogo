@@ -5,23 +5,25 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class SettingView {
     private static ResourceBundle resourceBundle;
@@ -36,7 +38,10 @@ public class SettingView {
     private static final String BACKGROUND_COLOR = "Background Color";
     private static final String PREFIX = "resources/ui/";
     private static final String IMAGE_PATH = "TurtleImages";
+    private static final String HELP_IMAGES_PATH = "resources";
     private static final String LANGUAGE_PATH = "src/resources/languages/";
+    private final int IMAGE_HEIGHT = 344;
+    private final int IMAGE_WIDTH = 800;
   private static final double PADDING = 5;
 
     public SettingView(String language) {
@@ -44,7 +49,6 @@ public class SettingView {
         resourceBundle = ResourceBundle
                 .getBundle(PREFIX + language);
         imageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
-        //languageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
         myTab = new Tab(resourceBundle.getString("SettingTab"));
         listener = new ArrayList<>();
         setupTab();
@@ -76,11 +80,48 @@ public class SettingView {
         languageBox.setPromptText(resourceBundle.getString("SelectLanguage"));
         languageBox.getItems().addAll(contents);
         languageBox.setOnAction(e-> changeLanguage(languageBox.valueProperty().get()));
-        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox);
+
+        Button help = createButton(resourceBundle.getString("HelpButton"));
+        help.setOnAction(e -> handleHelpScreen());
+        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox, help);
         vbox.setSpacing(10.0);
         myTab.setContent(vbox);
     }
 
+    private void handleHelpScreen() {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        ScrollPane scrollPane = new ScrollPane();
+        VBox helpImages = createHelpScreen();
+        scrollPane.setContent(helpImages);
+        Scene dialogScene = new Scene(scrollPane);
+        dialog.setScene(dialogScene);
+        dialog.setTitle(resourceBundle.getString("HelpWindow"));
+        dialog.show();
+    }
+
+    private VBox createHelpScreen() {
+        VBox vbox = new VBox();
+        List<String> images = getHelpImages();
+        for (String image: images){
+            Image i = new Image(this.getClass().getClassLoader().getResourceAsStream(image));
+            ImageView im = new ImageView(i);
+            im.setFitHeight(IMAGE_HEIGHT);
+            im.setFitWidth(IMAGE_WIDTH);
+            vbox.getChildren().add(im);
+        }
+        return vbox;
+    }
+    private List<String> getHelpImages(){
+        File directoryPath = new File(HELP_IMAGES_PATH);
+        List<String> images = new ArrayList<>();
+        for (String s: directoryPath.list()){
+            if (s.contains("Help"))
+                images.add(s);
+        }
+        Collections.sort(images);
+        return images;
+    }
     private List<String> getLanguages() {
         File directoryPath = new File(LANGUAGE_PATH);
         List<String> languages = new ArrayList<>();
