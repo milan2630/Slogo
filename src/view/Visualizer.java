@@ -35,7 +35,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     BorderPane root = new BorderPane();
 
     terminal = new Terminal(language);
-    terminal.addChangeListener(this);
+    addTerminalChangeListener(this);
 
     display = new Display();
 
@@ -50,9 +50,11 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     stage.show();
   }
 
+  public void addTerminalChangeListener(PropertyChangeListener newListener) {
+    terminal.addChangeListener(newListener);
+  }
   private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
-
     Node terminalNode = terminal.getPane();
 
     TabPane tabNode = tabPaneView.getTabPane();
@@ -82,14 +84,6 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    //TODO move magic strings into variables
-    int r = new Random().nextInt((int) this.display.getPane().getWidth());
-    int r2 = new Random().nextInt((int) this.display.getPane().getHeight());
-
-    if (evt.getPropertyName().equals("Run")) {
-      this.consoleString = evt.getNewValue().toString();
-      display.moveTurtle(new Point2D(r, r2));
-    }
     if (evt.getPropertyName().equals("Reset")) {
       display.resetPane();
     }
