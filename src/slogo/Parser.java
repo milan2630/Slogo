@@ -190,7 +190,7 @@ public class Parser {
         }
     }
 
-
+/*
     public static void main(String[] args) {
         MethodExplorer me = new MethodExplorer();
         VariableExplorer ve = new VariableExplorer();
@@ -202,7 +202,7 @@ public class Parser {
         m.addCommand("fd 5");
         m.addCommand("fd fd 10");
 
-        me.addMethod(m);*/
+        me.addMethod(m);
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
         String s = "make :hello 3\nfd fd :hello";
         //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
@@ -218,4 +218,6 @@ public class Parser {
         }
 
     }
+
+ */
 }

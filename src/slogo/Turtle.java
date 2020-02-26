@@ -52,9 +52,12 @@ public class Turtle {
         }
     }
 
+    /*
     private double runUserMethod(UserDefinedInstructionCommand command, List<String> params){
 
     }
+
+     */
 
 
     private double makeMethod(MakeUserInstructionCommand command, List<String> params){
@@ -143,8 +146,7 @@ public class Turtle {
     }
 
     private void goHome(GoHomeCommand goHome) {
-        myX = 0;
-        myY = 0;
+        setToHome();
     }
 
     private void clearScreen(ClearScreenCommand clearScreen) {
@@ -176,12 +178,17 @@ public class Turtle {
         return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         myX = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
+        myY = y;
+    }
 
+    public void setToHome() {
+        myX = 0;
+        myY = 0;
     }
 
     public void setPenState(int state) {

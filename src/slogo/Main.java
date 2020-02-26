@@ -2,8 +2,6 @@ package slogo;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.Display;
-import view.Visualizer;
 
 /**
  * Feel free to completely change this code or delete it entirely.
@@ -19,7 +17,7 @@ public class Main extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    new Visualizer(primaryStage, LANGUAGE);
+  public void start(Stage primaryStage) {
+    new Controller(primaryStage, LANGUAGE);
   }
 }
