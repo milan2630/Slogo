@@ -65,8 +65,7 @@ public class Turtle {
 
         String com = command.getExecutableCommands();
         Parser newParser = new Parser(language, methodExplorer);
-        List<ImmutableTurtle> stateList = newParser.parseStringToCommands(com, this);
-        internalStates.addAll(stateList);
+        parseInternalCommand(newParser, com);
         internalStates.remove(internalStates.size()-1);
         return newParser.getFinalReturn();
     }
@@ -109,20 +108,37 @@ public class Turtle {
         }
     }
 
-    private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
-        String[] limitString = params.get(0).split(" ");
-        Variable<Double> var = new DoubleVariable(limitString[0], 1.0);
+    private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
+        double numTimes = Double.parseDouble(params.get(0));
+        if(numTimes == 0){
+            return 0;
+        }
+        Parser newParser = repeatAction(params.get(1), ":repcount", numTimes);
+        variableExplorer.removeVariableByName(":repcount");
+        return newParser.getFinalReturn();
+    }
+
+    private Parser repeatAction(String command, String iteratorName, double numTimes) throws ParsingException {
+        Variable<Double> var = new DoubleVariable(iteratorName, 1.0);
         variableExplorer.addVariable(var);
-        int index = Integer.parseInt(limitString[1]);
         Parser newParser = new Parser(language, methodExplorer);
-        while(var.getValue() <= index){
-            List<ImmutableTurtle> stateList = newParser.parseStringToCommands(params.get(1), this);
-            internalStates.addAll(stateList);
+        while(var.getValue() <= numTimes){
+            parseInternalCommand(newParser, command);
             var.setValue(var.getValue()+1);
         }
         internalStates.remove(internalStates.size()-1);
-        variableExplorer.removeVariable(var);
+        return newParser;
+    }
+
+    private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
+        String[] limitString = params.get(0).split(" ");
+        Parser newParser = repeatAction(params.get(1), limitString[0], Integer.parseInt(limitString[1]));
         return newParser.getFinalReturn();
+    }
+
+    private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
+        List<ImmutableTurtle> stateList = newParser.parseStringToCommands(s, this);
+        internalStates.addAll(stateList);
     }
 
     private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
