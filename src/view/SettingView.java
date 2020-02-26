@@ -16,7 +16,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,13 +36,10 @@ public class SettingView {
     private static final String BACKGROUND_COLOR = "Background Color";
     private static final String PREFIX = "resources/ui/";
     private static final String IMAGE_PATH = "TurtleImages";
-    private static final String LANGUAGE_PATH = "/resources/languages";
+    private static final String LANGUAGE_PATH = "src/resources/languages/";
   private static final double PADDING = 5;
 
-    public SettingView(String language){
-        //File folder = new File(LANGUAGE_PATH);
-        //File[] listOfFiles = folder.listFiles();
-        //System.out.println(listOfFiles);
+    public SettingView(String language) {
         this.language = language;
         resourceBundle = ResourceBundle
                 .getBundle(PREFIX + language);
@@ -50,6 +50,7 @@ public class SettingView {
         setupTab();
 
     }
+
     public Tab getTab() { return myTab;}
 
     private void setupTab() {
@@ -70,15 +71,24 @@ public class SettingView {
         HBox backgroundColorBox= getColorPickerBox("Background Color: ", backgroundColor);
 
         //Select Language
-        //ComboBox<String> languageBox = new ComboBox<>();
-        //languageBox.setPromptText(resourceBundle.getString("SelectLanguage"));
-        //ObservableList<String> languages = FXCollections.observableList(new ArrayList<>(languageBundle.keySet()));
-        //languageBox.itemsProperty().bind(new SimpleObjectProperty<>(languages));
-        //languageBox.setOnAction(e-> changeLanguage(languageBox.valueProperty().get()));
-
-        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox);
+        List<String> contents = getLanguages();
+        ComboBox<String> languageBox = new ComboBox<>();
+        languageBox.setPromptText(resourceBundle.getString("SelectLanguage"));
+        languageBox.getItems().addAll(contents);
+        languageBox.setOnAction(e-> changeLanguage(languageBox.valueProperty().get()));
+        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox);
         vbox.setSpacing(10.0);
         myTab.setContent(vbox);
+    }
+
+    private List<String> getLanguages() {
+        File directoryPath = new File(LANGUAGE_PATH);
+        List<String> languages = new ArrayList<>();
+        for (String s: directoryPath.list()){
+            languages.add(s);
+        }
+
+        return languages;
     }
 
     private void changeLanguage(String s) {
