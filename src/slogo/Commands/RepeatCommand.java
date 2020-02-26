@@ -1,6 +1,6 @@
-package slogo;
+package slogo.Commands;
 
-public class ForCommand implements Command{
+public class RepeatCommand implements Command{
 
     @Override
     public int getNumArguments() {

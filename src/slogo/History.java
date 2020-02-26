@@ -2,6 +2,7 @@ package slogo;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import slogo.Commands.Command;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,12 @@
-package slogo;
+package slogo.Commands;
+
+import slogo.Commands.Command;
+import slogo.DoubleVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDefinedInstructionCommand implements Command{
+public class UserDefinedInstructionCommand implements Command {
     private String myCommands;
     private String name;
     private int numArguments;

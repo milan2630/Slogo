@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
-import slogo.UserDefinedInstructionCommand;
+import slogo.Commands.UserDefinedInstructionCommand;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;

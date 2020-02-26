@@ -1,4 +1,4 @@
-package slogo;
+package slogo.Commands;
 
 public class IfElseCommand implements Command {
     @Override
