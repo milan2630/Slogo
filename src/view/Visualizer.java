@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
-import slogo.SlogoMethod;
+import slogo.UserDefinedInstructionCommand;
 import slogo.Variable;
 
 public class Visualizer implements PropertyChangeListener, FrontEndExternal {
@@ -94,7 +94,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     settingView.addChangeListener(this);
 
     //Adding Methods Tab
-    ObservableMap<String, SlogoMethod> list3 = FXCollections.observableMap(new HashMap<>());
+    ObservableMap<String, UserDefinedInstructionCommand> list3 = FXCollections.observableMap(new HashMap<>());
     methodView = new MethodView(language, list3);
     tabNode.getTabs().add(methodView.getTab());
     list3.put("String", null);
