@@ -1,6 +1,7 @@
-package slogo;
+package slogo.Commands;
 
-public class DoTimesCommand implements Command {
+public class ForCommand implements Command{
+
     @Override
     public int getNumArguments() {
         return 2;

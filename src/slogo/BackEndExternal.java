@@ -1,5 +1,7 @@
 package slogo;
 
+import slogo.Commands.Command;
+
 import java.util.List;
 
 /**

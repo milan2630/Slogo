@@ -1,6 +1,7 @@
-package slogo;
+package slogo.Commands;
 
-public class IfCommand implements Command {
+public class SetPositionCommand implements Command {
+
 
     @Override
     public int getNumArguments() {

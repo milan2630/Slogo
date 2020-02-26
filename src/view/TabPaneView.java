@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import slogo.UserDefinedInstructionCommand;
+import slogo.Commands.UserDefinedInstructionCommand;
 import slogo.Variable;
 
 public class TabPaneView {

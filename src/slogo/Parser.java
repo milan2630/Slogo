@@ -1,5 +1,7 @@
 package slogo;
 
+import slogo.Commands.Command;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -155,7 +157,9 @@ public class Parser {
         //String s = "to NewMeth [ :hi :h ]\n[\nfd :hi\nfd :h\n]\nNewMeth 6 2";
         //String s = "make :hello 3\nfd fd :hello";
         //String s = "repeat fd fd 3 [ fd 100 ]";
-        String s = "for [ :hi 10.5 15.5 .5 ] [ fd :hi ]";
+        //String s = "for [ :hi 10.5 15.5 .5 ] [ fd :hi ]";
+        //String s = "if fd fd 5 [ fd 10 ]";
+        String s = "ifelse .1 [ fd 5 ] [ fd 10 ]";
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
         //String s = "make :hello 3\nfd fd :hello";
         //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";

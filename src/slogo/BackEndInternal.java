@@ -1,6 +1,9 @@
 package slogo;
 
 
+import slogo.Commands.Command;
+import slogo.Commands.UserDefinedInstructionCommand;
+
 import java.util.List;
 
 /**
