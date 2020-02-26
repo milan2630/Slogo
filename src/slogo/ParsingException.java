@@ -13,6 +13,7 @@ public class ParsingException extends ParseException {
     private static final String DEFAULT_ERROR_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_ERROR_PACKAGE;
     private static final String DEFAULT_ERROR_MESSAGE_FILENAME = "ParsingErrorMessages";
     private static final ResourceBundle errorResources= ResourceBundle.getBundle(DEFAULT_ERROR_RESOURCE_PACKAGE + DEFAULT_ERROR_MESSAGE_FILENAME);
+    private static final int DEFAULT_OFFSET = -1;
 
     /**
      * Constructs a ParseException with the specified detail message and
@@ -27,6 +28,14 @@ public class ParsingException extends ParseException {
     }
 
     public ParsingException(String property){
-        this(property, -1);
+        this(property, DEFAULT_OFFSET);
+    }
+
+    public ParsingException(String property, String errorEntity, int errorOffset){
+        super(errorResources.getString(property) + "\t Error causing entity: " + errorEntity + "\t Entity number: " + errorOffset, errorOffset);
+    }
+
+    public ParsingException(String property, String errorEntity){
+        super(errorResources.getString(property) + "\t Error causing entity: " + errorEntity, DEFAULT_OFFSET);
     }
 }
