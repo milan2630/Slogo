@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class CommandFactory {
 
-    private static final String CLASS_PREFIX = "slogo.";
+    private static final String CLASS_PREFIX = "slogo.Commands.";
     private static final String CLASS_SUFFIX = "Command";
     private static final String RESOURCES = "resources";
     private static final String COMMAND_RESOURCES = "languages";

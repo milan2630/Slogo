@@ -19,7 +19,7 @@ public class Parser {
      * @param input from the Console
      * @return a list of commands to execute
      */
-    public List<ImmutableTurtle> parseStringToCommands(String input, Turtle turtle) throws ParsingException{
+    public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
         List<String> entityList = getEntitiesFromString(input);
         return new ArrayList<>(parseLine(entityList, turtle));
     }
@@ -28,28 +28,31 @@ public class Parser {
     private List<String> getEntitiesFromString(String input){
         String noCommentString = removeComments(input);
         String[] entities = noCommentString.split(" ");
-        return parseEntities(entities);
+        return combineBrackets(entities);
     }
 
-    private List<String> parseEntities(String[] entities) {
+    //TODO check for proper number of brackets
+    private List<String> combineBrackets(String[] entities) {
         List<String> entityList = new ArrayList<>();
         for(int i = 0; i < entities.length; i++){
             if(entities[i].equals("[")){
                 i++;
                 int bracketsSeen = 1;
                 String item = "";
-                while(bracketsSeen != 0){
-                    if(entities[i].contains("]")){
+                while(bracketsSeen != 0) {
+                    if (entities[i].contains("]")) {
                         bracketsSeen--;
                     }
-                    if(entities[i].contains("[")){
+                    if (entities[i].contains("[")) {
                         bracketsSeen++;
                     }
-                    if(item.equals("")){
-                        item = entities[i];
-                    }
-                    else if(bracketsSeen != 0){
-                        item = item + " " + entities[i];
+                    if (bracketsSeen != 0) {
+                        if (item.equals("")) {
+                            item = entities[i];
+                        }
+                        else {
+                            item = item + " " + entities[i];
+                        }
                     }
                     i++;
                 }
@@ -67,13 +70,12 @@ public class Parser {
         String[] lineList = input.split("\n");
         List<String> noComments = new ArrayList<>();
         for(int i = 0; i < lineList.length; i++){
-            if(lineList[i].indexOf("#") != 0){
+            if(lineList[i].indexOf("#") != 0 && !lineList[i].equals("")){
                 noComments.add(lineList[i]);
             }
         }
         String[] noCommentArray = noComments.toArray(new String[0]);
-        String noCommentString = String.join(" ", noCommentArray);
-        return noCommentString;
+        return String.join(" ", noCommentArray);
     }
 
 
@@ -159,12 +161,12 @@ public class Parser {
         //String s = "repeat fd fd 3 [ fd 100 ]";
         //String s = "for [ :hi 10.5 15.5 .5 ] [ fd :hi ]";
         //String s = "if fd fd 5 [ fd 10 ]";
-        String s = "ifelse .1 [ fd 5 ] [ fd 10 ]";
+        //String s = "ifelse .1 [ fd 5 ] [ fd 10 ]";
         //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
         //String s = "make :hello 3\nfd fd :hello";
-        //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
+        String s = "to NewMeth [ ]\n[ fd 5 ]\nNewMeth";
         try {
-            List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
+            List<ImmutableTurtle> x = t.parseCommands(s, turt);
             for(ImmutableTurtle c: x){
                 System.out.println(c.getX());
                 //System.out.println(c.getHeading());
@@ -173,7 +175,6 @@ public class Parser {
         } catch (ParsingException e) {
             e.printStackTrace();
         }
-
 
     }
 }

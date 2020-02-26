@@ -179,7 +179,7 @@ public class Turtle {
     }
 
     private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
-        List<ImmutableTurtle> stateList = newParser.parseStringToCommands(s, this);
+        List<ImmutableTurtle> stateList = newParser.parseCommands(s, this);
         internalStates.addAll(stateList);
     }
 
@@ -190,34 +190,49 @@ public class Turtle {
     }
 
 
-    private double moveBack(BackwardCommand backward) {
-        myX-= backward.getPixelsBackward();
-        return backward.getPixelsBackward();
+    private double moveBack(BackwardCommand backward, List<String> params) throws ClassCastException {
+        Double pixBackward = getDoubleParameter(params.get(0));
+        myX-= pixBackward;
+        return pixBackward;
     }
 
-    private int turnLeft(LeftCommand left) {
-        myHeading-= left.getDegreesLeft();
-        return left.getDegreesLeft();
+    private double turnLeft(LeftCommand left, List<String> params) throws ClassCastException{
+        Double degreesLeft = getDoubleParameter(params.get(0));
+        myHeading -= degreesLeft;
+        return myHeading;
+        //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
-    private void turnRight(RightCommand right) {
-        myHeading+= right.getDegreesRight();
+    private double turnRight(RightCommand right, List<String> params) throws ClassCastException{
+        Double degreesRight = getDoubleParameter(params.get(0));
+        myHeading += degreesRight;
+        return myHeading;
+        //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
-    private void setHeading(SetHeadingCommand setHeading) {
-        myHeading = setHeading.getHeading();
+    private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ClassCastException{
+        Double heading = getDoubleParameter(params.get(0));
+        myHeading = heading;
+        return myHeading;
+        //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
-    private void setTowards(SetTowardsCommand setTowards) {
-        int x = setTowards.getX();
-        int y = setTowards.getY();
-        //TODO: calculate the angle and set heading to that (still figuring it out)
-        //TODO: myHeading should probably be a double for more precision
+    /*
+    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ClassCastException {
+        Double x = getDoubleParameter(params.get(0));
+        Double y = getDoubleParameter(params.get(1));
+        myX = x;
+        myY = y;
+        //TODO: calculate the angle and set heading to that
+        //return number of degrees
     }
 
-    private void setPosition(SetPositionCommand setPosition) {
-        myX = setPosition.getX();
-        myY = setPosition.getY();
+    private void setPosition(SetPositionCommand setPosition, List<String> params) throws ClassCastException {
+        Double x = getDoubleParameter(params.get(0));
+        Double y = getDoubleParameter(params.get(1));
+        myX = x;
+        myY = y;
+        //return distance moved
     }
 
     private void penDown(PenDownCommand penDown) {
@@ -244,6 +259,7 @@ public class Turtle {
         goHome(new GoHomeCommand());
         // TODO: tell Controller and clear TrailView in Visualizer
     }
+    */
 
     public double getX() {
         return myX;
@@ -282,8 +298,16 @@ public class Turtle {
         myY = 0;
     }
 
+    public void setHeading(double heading) {
+        myHeading = heading;
+    }
+
     public void setPenState(int state) {
         penState = state;
+    }
+
+    public void setShowing(int showing) {
+        this.showing = showing;
     }
 
     public List<ImmutableTurtle> getInternalStates() {
