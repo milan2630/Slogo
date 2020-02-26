@@ -1,6 +1,7 @@
 package slogo;
 
 import javafx.stage.Stage;
+import view.HistoryView;
 import view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
@@ -13,7 +14,7 @@ public class Controller implements PropertyChangeListener {
     private MethodExplorer myME;
     private VariableExplorer myVE;
     private Turtle myTurtle;
-
+    private HistoryView myHistoryView;
     private History myHistory;
     // bind the lists in history and historyView
 
@@ -29,6 +30,8 @@ public class Controller implements PropertyChangeListener {
         this.language = language;
         myParser = new Parser(language, myME);
         myTurtle = new Turtle(myME, myVE, language);
+        myHistory = new History();
+        myHistoryView= new HistoryView(language, myHistory.getInputs());
     }
 
     public void togglePenState() {
@@ -42,6 +45,7 @@ public class Controller implements PropertyChangeListener {
             String command = evt.getNewValue().toString();
             try {
                 turtleList = myParser.parseStringToCommands(command, myTurtle);
+                myHistory.addInput(command);
                 for (ImmutableTurtle it : turtleList) {
                     myVisualizer.updatePositions(it.getX(), it.getY());
                     myTurtle.setX(it.getX());
