@@ -104,6 +104,10 @@ public class Turtle {
             if(variableExplorer.getVariable(val) != null){
                 return (Double) variableExplorer.getVariable(val).getValue();
             }
+            else if(val.indexOf(":") == 0){
+                variableExplorer.addDoubleVarByName(val, 0.0);
+                return 0.0;
+            }
             else{
                 throw new ClassCastException();
             }
@@ -112,9 +116,9 @@ public class Turtle {
 
     private double ifElseCommand(IfElseCommand command, List<String> params) throws ParsingException {
         double expr = getDoubleParameter(params.get(0));
-        int whichToExecute = 2;
+        int whichToExecute = 1;
         if(expr == 0.0){
-            whichToExecute = 1;
+            whichToExecute = 2;
         }
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, params.get(whichToExecute));
@@ -158,7 +162,7 @@ public class Turtle {
     }
 
     private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
-        Variable<Double> var = new DoubleVariable(iteratorName, startVal);
+        Variable<Double> var = variableExplorer.addDoubleVarByName(iteratorName, startVal);
         variableExplorer.addVariable(var);
         Parser newParser = new Parser(language, methodExplorer);
         while(var.getValue() <= endVal){
