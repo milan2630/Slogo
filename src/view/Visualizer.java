@@ -4,10 +4,6 @@ import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,8 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
-import slogo.UserDefinedInstructionCommand;
-import slogo.Variable;
 
 public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
@@ -26,9 +20,8 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private static ResourceBundle resourceBundle;
   private String language;
   private Display display;
-  private SettingView settingView;
-  private HistoryView historyView;
-  private MethodView methodView;
+  private TabPaneView tabPaneView;
+
   private Terminal terminal;
   private String consoleString;
 
@@ -56,50 +49,28 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private void addPanesToRoot(AnchorPane root) {
     Node terminalNode = terminal.getPane();
     AnchorPane.setBottomAnchor(terminalNode, 0.0);
-    AnchorPane.setLeftAnchor(terminalNode,0.0);
-    AnchorPane.setRightAnchor(terminalNode,0.0);
+    AnchorPane.setLeftAnchor(terminalNode, 0.0);
+    AnchorPane.setRightAnchor(terminalNode, 0.0);
 
     Pane displayNode = display.getPane();
-    AnchorPane.setTopAnchor(displayNode,0.0);
-    AnchorPane.setBottomAnchor(displayNode,terminal.getHeight());
-    AnchorPane.setRightAnchor(displayNode,0.0);
+    AnchorPane.setTopAnchor(displayNode, 0.0);
+    AnchorPane.setBottomAnchor(displayNode, terminal.getHeight());
+    AnchorPane.setRightAnchor(displayNode, 0.0);
     AnchorPane.setLeftAnchor(displayNode, 250.0);
-    //TODO replace 200 with controller width
-
 
     //Adding Tabs
-    TabPane tabNode = new TabPane();
-    AnchorPane.setTopAnchor(tabNode, 0.0);
-    AnchorPane.setBottomAnchor(tabNode, terminal.getHeight());
-    AnchorPane.setLeftAnchor(tabNode, 0.0);
-    AnchorPane.setRightAnchor(tabNode,550.0);
+    tabPaneView = new TabPaneView(language);
+    tabPaneView.addChangeHistoryListener(this);
+    tabPaneView.addChangeSettingsListener(this);
+    TabPane tabPane = tabPaneView.getTabPane();
 
-    //Adding History Tab
-    ObservableList<String> list= FXCollections.observableList(new ArrayList<>());
-    historyView = new HistoryView(language, list);
-    tabNode.getTabs().add(historyView.getTab());
-    historyView.addChangeListener(this);
-    list.add("a");
-    list.add("b");
-    list.add("c");
+    AnchorPane.setTopAnchor(tabPane, 0.0);
+    AnchorPane.setBottomAnchor(tabPane, terminal.getHeight());
+    AnchorPane.setLeftAnchor(tabPane, 0.0);
+    AnchorPane.setRightAnchor(tabPane, 550.0);
 
-    //Adding Variable Tab
-    ObservableList<Variable> list2= FXCollections.observableList(new ArrayList<>());
-    VariableView variableView = new VariableView(language, FXCollections.observableList(list2));
-    tabNode.getTabs().add(variableView.getTab());
+    root.getChildren().addAll(displayNode, terminalNode, tabPane);
 
-    //Adding Setting Tab
-    settingView = new SettingView(language);
-    tabNode.getTabs().add(settingView.getTab());
-    settingView.addChangeListener(this);
-
-    //Adding Methods Tab
-    ObservableMap<String, UserDefinedInstructionCommand> list3 = FXCollections.observableMap(new HashMap<>());
-    methodView = new MethodView(language, list3);
-    tabNode.getTabs().add(methodView.getTab());
-    list3.put("String", null);
-    root.getChildren().addAll(terminalNode,displayNode, tabNode);
-    tabNode.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
   }
 
   private void setTitle(Stage stage) {
@@ -116,6 +87,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   /**
    * Implements Observer Design pattern
+   *
    * @param evt
    */
   @Override
@@ -124,20 +96,20 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     int r = new Random().nextInt((int) this.display.getPane().getWidth());
     int r2 = new Random().nextInt((int) this.display.getPane().getHeight());
 
-    if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Run")){
+    if (evt.getPropertyName().equals("Run")) {
       this.consoleString = evt.getNewValue().toString();
-      display.moveTurtle(new Point2D(r,r2));
+      display.moveTurtle(new Point2D(r, r2));
     }
-    if (evt.getSource().equals(terminal) && evt.getPropertyName().equals("Reset")){
+    if (evt.getPropertyName().equals("Reset")) {
       display.resetPane();
     }
-    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Pen Color")){
+    if (evt.getPropertyName().equals("Pen Color")) {
       display.setPenColor(Color.web(evt.getNewValue().toString()));
     }
-    if (evt.getSource().equals(settingView) && evt.getPropertyName().equals("Background Color")){
+    if (evt.getPropertyName().equals("Background Color")) {
       display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
     }
-    if (evt.getSource().equals(historyView) && evt.getPropertyName().equals("HistoryVariable")){
+    if (evt.getPropertyName().equals("HistoryVariable")) {
       terminal.setInputText(evt.getNewValue().toString());
     }
   }
@@ -149,7 +121,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void updatePositions(double newX, double newY) {
-    display.moveTurtle(new Point2D(newX,newY));
+    display.moveTurtle(new Point2D(newX, newY));
   }
 
   @Override

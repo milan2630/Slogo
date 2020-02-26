@@ -52,9 +52,9 @@ public class Turtle {
         }
     }
 
-    private double runUserMethod(UserDefinedInstructionCommand command, List<String> params){
-
-    }
+//    private double runUserMethod(UserDefinedInstructionCommand command, List<String> params){
+//
+//    }
 
 
     private double makeMethod(MakeUserInstructionCommand command, List<String> params){
