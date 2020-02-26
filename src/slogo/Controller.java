@@ -41,7 +41,7 @@ public class Controller implements PropertyChangeListener {
         if (evt.getPropertyName().equals("Run")){
             String command = evt.getNewValue().toString();
             try {
-                turtleList = myParser.parseStringToCommands(command, myTurtle);
+                turtleList = myParser.parseCommands(command, myTurtle);
                 for (ImmutableTurtle it : turtleList) {
                     myVisualizer.updatePositions(it.getX(), it.getY());
                     myTurtle.setX(it.getX());

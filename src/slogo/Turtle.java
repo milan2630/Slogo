@@ -179,7 +179,7 @@ public class Turtle {
     }
 
     private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
-        List<ImmutableTurtle> stateList = newParser.parseStringToCommands(s, this);
+        List<ImmutableTurtle> stateList = newParser.parseCommands(s, this);
         internalStates.addAll(stateList);
     }
 
