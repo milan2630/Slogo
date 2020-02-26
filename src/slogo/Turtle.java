@@ -55,7 +55,7 @@ public class Turtle {
             return 0;
         }
     }
-    
+
     private double runUserMethod(UserDefinedInstructionCommand command, List<String> params) throws ParsingException {
         List<Double> inputs = new ArrayList<>();
         for(int i = 0; i < params.size(); i++){
@@ -108,32 +108,45 @@ public class Turtle {
         }
     }
 
+    private double forLoop(ForCommand command, List<String> params) throws ParsingException {
+        String[] argParts = params.get(0).split(" ");
+        String name = argParts[0];
+        double start = Double.parseDouble(argParts[1]);
+        double end = Double.parseDouble(argParts[2]);
+        double iterator = Double.parseDouble(argParts[3]);
+        if(start == end){
+            return 0;
+        }
+        double ret = repeatAction(params.get(1), name, start, end, iterator);
+        variableExplorer.removeVariableByName(name);
+        return ret;
+    }
+
     private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
         double numTimes = Double.parseDouble(params.get(0));
         if(numTimes == 0){
             return 0;
         }
-        Parser newParser = repeatAction(params.get(1), ":repcount", numTimes);
+        double ret = repeatAction(params.get(1), ":repcount", 1.0, numTimes, 1.0);
         variableExplorer.removeVariableByName(":repcount");
-        return newParser.getFinalReturn();
+        return ret;
     }
 
-    private Parser repeatAction(String command, String iteratorName, double numTimes) throws ParsingException {
-        Variable<Double> var = new DoubleVariable(iteratorName, 1.0);
+    private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
+        Variable<Double> var = new DoubleVariable(iteratorName, startVal);
         variableExplorer.addVariable(var);
         Parser newParser = new Parser(language, methodExplorer);
-        while(var.getValue() <= numTimes){
+        while(var.getValue() <= endVal){
             parseInternalCommand(newParser, command);
-            var.setValue(var.getValue()+1);
+            var.setValue(var.getValue()+iterationVal);
         }
         internalStates.remove(internalStates.size()-1);
-        return newParser;
+        return newParser.getFinalReturn();
     }
 
     private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
         String[] limitString = params.get(0).split(" ");
-        Parser newParser = repeatAction(params.get(1), limitString[0], Integer.parseInt(limitString[1]));
-        return newParser.getFinalReturn();
+        return repeatAction(params.get(1), limitString[0], 1.0, Integer.parseInt(limitString[1]), 1.0);
     }
 
     private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
