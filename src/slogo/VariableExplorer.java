@@ -20,6 +20,12 @@ public class VariableExplorer{
         myDisplayVariables.remove(value);
     }
 
+    public void removeVariableByName(String name){
+        if(getVariable(name) != null){
+            myDisplayVariables.remove(getVariable(name));
+        }
+    }
+
     public Variable getVariable(String name){
         for(int i = 0; i < myDisplayVariables.size(); i++){
             if(myDisplayVariables.get(i).getName().equals(name)){

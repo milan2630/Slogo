@@ -1,5 +1,6 @@
 package slogo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDefinedInstructionCommand implements Command{
@@ -13,6 +14,7 @@ public class UserDefinedInstructionCommand implements Command{
         myCommands=commands;
         this.name = name;
         numArguments = parNames.size();
+        arguments = new ArrayList<>();
         for(int i = 0; i < numArguments; i++){
             arguments.add(new DoubleVariable(parNames.get(i), 0.0)); //TODO error checking
         }
@@ -38,6 +40,15 @@ public class UserDefinedInstructionCommand implements Command{
         return myCommands;
     }
 
+    public String getExecutableCommands(){
+        String executable = "";
+        for(int i = 0; i < arguments.size(); i++){
+            executable = executable + "make " + arguments.get(i).getName() + " " + arguments.get(i).getValue() + " ";
+        }
+        executable = executable + myCommands;
+        return executable;
+    }
+
 
     /**
      * returns name of this Method object
@@ -53,7 +64,9 @@ public class UserDefinedInstructionCommand implements Command{
     }
 
     public void setArguments(List<Double> args) {
-
+        for(int i = 0; i < args.size(); i++){
+            arguments.get(i).setValue(args.get(i));
+        }
     }
 
 }

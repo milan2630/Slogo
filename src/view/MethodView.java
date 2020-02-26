@@ -1,6 +1,5 @@
 package view;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,7 +12,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class MethodView {
     private static ResourceBundle resourceBundle;

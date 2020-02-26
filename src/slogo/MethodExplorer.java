@@ -24,7 +24,7 @@ public class MethodExplorer {
         return null;
     }
 
-    public ObservableMap getMethodNames(){
+    public ObservableMap<String, UserDefinedInstructionCommand> getMethodNames(){
         return methodMap;
     }
 
