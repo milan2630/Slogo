@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
-import slogo.SlogoMethod;
+import slogo.UserDefinedInstructionCommand;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class MethodView {
     private static ResourceBundle resourceBundle;
     private String language;
     private Tab myTab;
-    private ObservableMap<String, SlogoMethod> methods;
+    private ObservableMap<String, UserDefinedInstructionCommand> methods;
     private ListView<String> listView;
     private List<PropertyChangeListener> listener;
     public MethodView(String language, ObservableMap savedMethodNames){
@@ -42,10 +42,10 @@ public class MethodView {
     }
 
     private void setupListView() {
-        methods.addListener((MapChangeListener.Change<? extends String, ? extends SlogoMethod> c)-> handle(c));
+        methods.addListener((MapChangeListener.Change<? extends String, ? extends UserDefinedInstructionCommand> c)-> handle(c));
     }
 
-    private void handle(MapChangeListener.Change<? extends String,? extends SlogoMethod> c) {
+    private void handle(MapChangeListener.Change<? extends String,? extends UserDefinedInstructionCommand> c) {
         if (c.wasAdded()){
             listView.getItems().add(c.getKey());
         }
