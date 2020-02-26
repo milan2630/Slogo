@@ -2,11 +2,11 @@ package view;
 
 import java.beans.PropertyChangeEvent;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -16,12 +16,17 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class SettingView {
     private static ResourceBundle resourceBundle;
+    private static ResourceBundle imageBundle;
+    private static ResourceBundle languageBundle;
     private String language;
     private Tab myTab;
     private List<PropertyChangeListener> listener;
@@ -29,35 +34,65 @@ public class SettingView {
     private String backgroundColorData;
     private static final String PEN_COLOR = "Pen Color";
     private static final String BACKGROUND_COLOR = "Background Color";
-
-
+    private static final String PREFIX = "resources/ui/";
+    private static final String IMAGE_PATH = "TurtleImages";
+    private static final String LANGUAGE_PATH = "src/resources/languages/";
   private static final double PADDING = 5;
-    private static final String DATA_FILE_EXTENSION = "*.png";
-    //private final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
 
-    public SettingView(String language){
+    public SettingView(String language) {
         this.language = language;
         resourceBundle = ResourceBundle
-                .getBundle("resources/ui/" + language);
+                .getBundle(PREFIX + language);
+        imageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
+        //languageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
         myTab = new Tab(resourceBundle.getString("SettingTab"));
         listener = new ArrayList<>();
         setupTab();
+
     }
+
     public Tab getTab() { return myTab;}
 
     private void setupTab() {
         VBox vbox = new VBox();
-        Button setTurtleImage = createButton(resourceBundle.getString("LoadImage"));
-        setTurtleImage.setOnAction(e-> saveFile());
+        //Combo Boc for Selecting Image
+        ComboBox<String> setTurtleImage = new ComboBox<>();
+        setTurtleImage.setPromptText(resourceBundle.getString("LoadImage"));
+        ObservableList<String> images = FXCollections.observableList(new ArrayList<>(imageBundle.keySet()));
+        setTurtleImage.itemsProperty().bind(new SimpleObjectProperty<>(images));
+        setTurtleImage.setOnAction(e-> saveFile(setTurtleImage.valueProperty().get()));
+
+        //Color Picker for Background and Pen Color
         ColorPicker penColor = new ColorPicker();
         ColorPicker backgroundColor = new ColorPicker();
         penColor.setOnAction(e->setPenColor(penColor.getValue()));
         backgroundColor.setOnAction(e->setBackgroundColor(backgroundColor.getValue()));
         HBox penColorBox = getColorPickerBox("Pen Color: ", penColor);
         HBox backgroundColorBox= getColorPickerBox("Background Color: ", backgroundColor);
-        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox);
+
+        //Select Language
+        List<String> contents = getLanguages();
+        ComboBox<String> languageBox = new ComboBox<>();
+        languageBox.setPromptText(resourceBundle.getString("SelectLanguage"));
+        languageBox.getItems().addAll(contents);
+        languageBox.setOnAction(e-> changeLanguage(languageBox.valueProperty().get()));
+        vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox);
         vbox.setSpacing(10.0);
         myTab.setContent(vbox);
+    }
+
+    private List<String> getLanguages() {
+        File directoryPath = new File(LANGUAGE_PATH);
+        List<String> languages = new ArrayList<>();
+        for (String s: directoryPath.list()){
+            languages.add(s);
+        }
+
+        return languages;
+    }
+
+    private void changeLanguage(String s) {
+        System.out.println(s);
     }
 
     private void setBackgroundColor(Color value) {
@@ -70,23 +105,8 @@ public class SettingView {
       System.out.println("Pen Color: "+value);
     }
 
-    private void saveFile() {
-//        File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
-//        while (dataFile != null) {
-//            try {
-//                System.out.println(dataFile.getName());
-//                // do something "interesting" with the resulting data
-//                showMessage(AlertType.INFORMATION, "Unable to Load Image");
-//            }
-//            catch (RuntimeException e) {
-//                // handle error of unexpected file format
-//                showMessage(AlertType.ERROR, "Unable to Load Image");
-//            }
-//            dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
-//        }
-//
-//        // nothing selected, so quit the application
-//        Platform.exit();
+    private void saveFile(String str) {
+        System.out.println(imageBundle.getString(str));
     }
 
     private void showMessage (Alert.AlertType type, String message) {
@@ -123,11 +143,5 @@ public class SettingView {
         return button;
     }
 
-    private static FileChooser makeChooser (String extensionAccepted) {
-        FileChooser result = new FileChooser();
-        result.setTitle(resourceBundle.getString("LoadImage"));
-        result.setInitialDirectory(new File(System.getProperty("user.dir")));
-        result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
-        return result;
-    }
+
 }

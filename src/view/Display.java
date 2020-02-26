@@ -65,6 +65,7 @@ public class Display {
   }
 
   private Image getImageByName(String name) {
+
     return new Image(this.getClass().getClassLoader().getResourceAsStream(name));
   }
 

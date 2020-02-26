@@ -152,16 +152,12 @@ public class Parser {
         VariableExplorer ve = new VariableExplorer();
         Parser t = new Parser("English", me);
         Turtle turt = new Turtle(me, ve, "English");
-
-        /*SlogoMethod m = new SlogoMethod("NewMeth", new ArrayList<>(), new ArrayList<>());
-
-        m.addCommand("fd 5");
-        m.addCommand("fd fd 10");
-
-        me.addMethod(m);*/
         //String s = "to NewMeth [ :hi :h ]\n[\nfd :hi\nfd :h\n]\nNewMeth 6 2";
         //String s = "make :hello 3\nfd fd :hello";
-        //String s = "repeat fd fd 3 [ fd 100 ]";
+        String s = "repeat fd fd 3 [ fd 100 ]";
+        //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
+        //String s = "make :hello 3\nfd fd :hello";
+        //String s = "to NewMeth [ ]\n[\nfd 10\n]\nNewMeth";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
