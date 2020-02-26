@@ -1,10 +1,9 @@
 package slogo;
 
-public class IfCommand implements Command {
+public class ForCommand implements Command{
 
     @Override
     public int getNumArguments() {
         return 2;
     }
-
 }
