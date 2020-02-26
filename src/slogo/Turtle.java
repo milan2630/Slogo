@@ -53,7 +53,7 @@ public class Turtle {
     }
 
     private double runUserMethod(UserDefinedInstructionCommand command, List<String> params){
-
+        return 0.0;
     }
 
 
