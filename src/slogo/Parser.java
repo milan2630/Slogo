@@ -40,16 +40,14 @@ public class Parser {
                     if(entities[i].contains("]")){
                         bracketsSeen--;
                     }
-                    else{
-                        if(entities[i].contains("[")){
-                            bracketsSeen++;
-                        }
-                        if(item.equals("")){
-                            item = entities[i];
-                        }
-                        else{
-                            item = item + " " + entities[i];
-                        }
+                    if(entities[i].contains("[")){
+                        bracketsSeen++;
+                    }
+                    if(item.equals("")){
+                        item = entities[i];
+                    }
+                    else if(bracketsSeen != 0){
+                        item = item + " " + entities[i];
                     }
                     i++;
                 }
@@ -161,9 +159,20 @@ public class Parser {
         m.addCommand("fd fd 10");
 
         me.addMethod(m);*/
-        //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
+        //String s = "to NewMeth [ :hi :h ]\n[\nfd :hi\nfd :h\n]\nNewMeth 6 2";
         //String s = "make :hello 3\nfd fd :hello";
-        String s = "to NewMeth [ ]\n[\nfd fd 10\n]\nNewMeth";
+        String s = "to NewMeth [ :hi ]\n" +
+                "[\n" +
+                    "dotimes [ :hello 5 ]\n" +
+                     "[\n" +
+                        "fd :hi\n" +
+                    "]\n" +
+                "dotimes [ :hello 5 ]\n" +
+                "[\n" +
+                "fd :hi\n" +
+                "]\n" +
+                "]\n" +
+                "NewMeth 2";
         try {
             List<ImmutableTurtle> x = t.parseStringToCommands(s, turt);
             for(ImmutableTurtle c: x){
