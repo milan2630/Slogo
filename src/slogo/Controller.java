@@ -28,7 +28,7 @@ public class Controller implements PropertyChangeListener {
         myVE = new VariableExplorer();
         this.language = language;
         myParser = new Parser(language, myME);
-        myTurtle = new Turtle(myME, myVE);
+        myTurtle = new Turtle(myME, myVE, language);
     }
 
     public void togglePenState() {

@@ -21,9 +21,10 @@ public class Turtle {
     private int showing;
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
+    private String language;
+    private List<ImmutableTurtle> internalStates;
 
-
-    public Turtle(MethodExplorer me, VariableExplorer ve){
+    public Turtle(MethodExplorer me, VariableExplorer ve, String lang){
         myX = 0;
         myY = 0;
         myHeading = 0;
@@ -32,7 +33,8 @@ public class Turtle {
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
         methodExplorer = me;
         variableExplorer = ve;
-
+        language = lang;
+        internalStates = new ArrayList<>();
     }
 
     public String actOnCommand(Command command, List<String> params) throws ParsingException {
@@ -45,20 +47,39 @@ public class Turtle {
         String methodName = myResources.getString(key);
         try {
             Method method = this.getClass().getDeclaredMethod(methodName, command.getClass(), List.class);
-            return (double) method.invoke(this, command, params);
+            double ret = (double) method.invoke(this, command, params);
+            internalStates.add(this.getImmutableTurtle());
+            return ret;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return 0;
         }
     }
+    
+    private double runUserMethod(UserDefinedInstructionCommand command, List<String> params) throws ParsingException {
+        List<Double> inputs = new ArrayList<>();
+        for(int i = 0; i < params.size(); i++){
+            inputs.add(getDoubleParameter(params.get(i)));
+        }
+        command.setArguments(inputs);
 
-//    private double runUserMethod(UserDefinedInstructionCommand command, List<String> params){
-//    }
+        String com = command.getExecutableCommands();
+        Parser newParser = new Parser(language, methodExplorer);
+        parseInternalCommand(newParser, com);
+        internalStates.remove(internalStates.size()-1);
+        return newParser.getFinalReturn();
+    }
+
 
     private double makeMethod(MakeUserInstructionCommand command, List<String> params){
         List<String> paramNames = new ArrayList<>();
         String[] names = params.get(1).split(" ");
         paramNames.addAll(Arrays.asList(names));
+        for(int i = 0; i < paramNames.size(); i++){
+            if(paramNames.get(i).equals("")){
+                paramNames.remove(i);
+            }
+        }
         UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
         methodExplorer.addMethod(newMethod);
         return 0;
@@ -85,6 +106,39 @@ public class Turtle {
                 throw new ClassCastException();
             }
         }
+    }
+
+    private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
+        double numTimes = Double.parseDouble(params.get(0));
+        if(numTimes == 0){
+            return 0;
+        }
+        Parser newParser = repeatAction(params.get(1), ":repcount", numTimes);
+        variableExplorer.removeVariableByName(":repcount");
+        return newParser.getFinalReturn();
+    }
+
+    private Parser repeatAction(String command, String iteratorName, double numTimes) throws ParsingException {
+        Variable<Double> var = new DoubleVariable(iteratorName, 1.0);
+        variableExplorer.addVariable(var);
+        Parser newParser = new Parser(language, methodExplorer);
+        while(var.getValue() <= numTimes){
+            parseInternalCommand(newParser, command);
+            var.setValue(var.getValue()+1);
+        }
+        internalStates.remove(internalStates.size()-1);
+        return newParser;
+    }
+
+    private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
+        String[] limitString = params.get(0).split(" ");
+        Parser newParser = repeatAction(params.get(1), limitString[0], Integer.parseInt(limitString[1]));
+        return newParser.getFinalReturn();
+    }
+
+    private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
+        List<ImmutableTurtle> stateList = newParser.parseStringToCommands(s, this);
+        internalStates.addAll(stateList);
     }
 
     private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
@@ -169,7 +223,7 @@ public class Turtle {
         return showing;
     }
 
-    public ImmutableTurtle getImmutableTurtle(){
+    private ImmutableTurtle getImmutableTurtle(){
         return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
     }
 
@@ -188,5 +242,11 @@ public class Turtle {
 
     public void setPenState(int state) {
         penState = state;
+    }
+
+    public List<ImmutableTurtle> getInternalStates() {
+        List<ImmutableTurtle> copy = new ArrayList<>(internalStates);
+        internalStates = new ArrayList<>();
+        return copy;
     }
 }
