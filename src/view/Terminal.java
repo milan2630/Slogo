@@ -129,7 +129,6 @@ public class Terminal {
   }
 
   private void notifyListeners(String property, String oldValue, String newValue) {
-    //TODO make single prop listener
     for (PropertyChangeListener name : listener) {
       name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
     }
@@ -140,7 +139,7 @@ public class Terminal {
    *
    * @param newListener
    */
-  public void addChangeListener(PropertyChangeListener newListener) {
+  protected void addChangeListener(PropertyChangeListener newListener) {
     listener.add(newListener);
   }
 
