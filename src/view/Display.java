@@ -19,16 +19,27 @@ public class Display {
 
   protected Display() {
     this.pane = new Pane();
+
     setBackgroundColor(Color.web("868686"));
     resetPane();
   }
 
   protected void resetPane() {
     pane.getChildren().clear();
-    this.trail = new TrailView(3.0, Color.WHITE);
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
+    this.trail = new TrailView(5.0, Color.WHITE);
+
+    bindOriginToCenter();
 
     pane.getChildren().addAll(trail.getPane(), turtle.getPane());
+  }
+
+  private void bindOriginToCenter() {
+    turtle.getPane().translateXProperty().bind(pane.widthProperty().divide(2));
+    turtle.getPane().translateYProperty().bind(pane.heightProperty().divide(2));
+
+    trail.getPane().translateXProperty().bind(pane.widthProperty().divide(2));
+    trail.getPane().translateYProperty().bind(pane.heightProperty().divide(2));
   }
 
   protected void moveTurtle(Point2D newCoordinate) {
