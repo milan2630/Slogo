@@ -1,22 +1,10 @@
 package slogo;
 
-public class IfCommand implements ControlCommand {
-
-
-    private int compare;
+public class IfCommand implements Command {
 
     @Override
     public int getNumArguments() {
-        return 1;
-    }
-
-    @Override
-    public int numBracketArguments() {
-        return 0;
-    }
-
-    public int getCompare(){
-        return compare;
+        return 2;
     }
 
 }

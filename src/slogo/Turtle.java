@@ -108,13 +108,24 @@ public class Turtle {
         }
     }
 
+    private double ifCommand(IfCommand command, List<String> params) throws ParsingException {
+        double expr = Double.parseDouble(params.get(0));
+        if(expr == 0.0){
+            return 0.0;
+        }
+        Parser newParser = new Parser(language, methodExplorer);
+        parseInternalCommand(newParser, params.get(1));
+        internalStates.remove(internalStates.size()-1);
+        return newParser.getFinalReturn();
+    }
+
     private double forLoop(ForCommand command, List<String> params) throws ParsingException {
         String[] argParts = params.get(0).split(" ");
         String name = argParts[0];
         double start = Double.parseDouble(argParts[1]);
         double end = Double.parseDouble(argParts[2]);
         double iterator = Double.parseDouble(argParts[3]);
-        if(start == end){
+        if(start == end || params.get(1).equals("")){
             return 0;
         }
         double ret = repeatAction(params.get(1), name, start, end, iterator);
@@ -124,7 +135,7 @@ public class Turtle {
 
     private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
         double numTimes = Double.parseDouble(params.get(0));
-        if(numTimes == 0){
+        if(numTimes == 0 || params.get(1).equals("")){
             return 0;
         }
         double ret = repeatAction(params.get(1), ":repcount", 1.0, numTimes, 1.0);
@@ -146,7 +157,11 @@ public class Turtle {
 
     private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
         String[] limitString = params.get(0).split(" ");
-        return repeatAction(params.get(1), limitString[0], 1.0, Integer.parseInt(limitString[1]), 1.0);
+        double end = Integer.parseInt(limitString[1]);
+        if(end <= 1 || params.get(1).equals("")){
+            return 0;
+        }
+        return repeatAction(params.get(1), limitString[0], 1.0, end, 1.0);
     }
 
     private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
