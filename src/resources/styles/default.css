@@ -39,8 +39,8 @@
 }
 
 .display {
-  -fx-border-color: #222222;
-  -fx-border-width: 10;
+  -fx-border-color: #2E2E2E;
+  -fx-border-width: 4;
 }
 
 .tabPane {
@@ -56,7 +56,6 @@
 
 .list-view {
   -fx-background-color: #2E2E2E;
-
 }
 
 .list-view .list-cell:even {
@@ -69,8 +68,22 @@
   -fx-text-fill: #2E86AB;
 }
 
-/*.label {*/
-/*  -fx-text-fill: #2E86AB;*/
-/*  -fx-background-color: #2E2E2E;*/
+.color-picker {
+  -fx-background-color: #2E2E2E;
+  -fx-background-radius: 0 15 15 0;
+}
 
-/*}*/
+.color-picker .color-picker-label .text {
+  -fx-fill: #2E86AB;
+}
+
+.color-picker-box {
+  -fx-fill: gray;
+}
+
+.combo-box {
+  -fx-background-color: #2E2E2E;
+  -fx-text-base-color: #2E86AB;
+  -fx-background-radius: 0 15 15 0;
+
+}
