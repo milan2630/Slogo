@@ -1,6 +1,5 @@
 package view;
 
-import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -55,6 +54,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   public void addTerminalChangeListener(PropertyChangeListener newListener) {
     terminal.addChangeListener(newListener);
   }
+
   private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
     Node terminalNode = terminal.getPane();
@@ -107,17 +107,22 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   @Override
   public void updateTurtle(List<ImmutableTurtle> turtleList) {
-
+    for (ImmutableTurtle turtle : turtleList) {
+      display.setTurtleHeading(turtle.getHeading());
+      display.setPenState(turtle.getPenState());
+      display.setTurtleVisibility(turtle.getShowing());
+      display.moveTurtle(new Point2D(turtle.getX(), turtle.getY()));
+    }
   }
 
   @Override
   public ImmutableTurtle getCurrentTurtle() {
-    return null;
+    return display.getTurtleState();
   }
 
   @Override
   public String getLanguage() {
-    return null;
+    return language;
   }
 
   @Override
@@ -129,10 +134,12 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     tabPaneView.createHistoryTab(language, inputs);
     tabPaneView.addChangeHistoryListener(this);
   }
-  public void bindVariable(String language, ObservableList variables){
+
+  public void bindVariable(String language, ObservableList variables) {
     tabPaneView.createVariableTab(language, variables);
   }
-  public void bindMethods(String language, ObservableMap methods){
+
+  public void bindMethods(String language, ObservableMap methods) {
     tabPaneView.createMethodTab(language, methods);
   }
 }
