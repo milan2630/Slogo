@@ -15,7 +15,7 @@ public class VariableExplorer{
 
     public void addVariable(Variable value) throws ParsingException {
         if(getVarNames().contains(value.getName())){
-            throw new ParsingException("DuplicateVariable", value.getName());
+            removeVariableByName(value.getName());
         }
         myDisplayVariables.add(value);
     }

@@ -282,6 +282,16 @@ public class Turtle {
         setToHome();
         return Math.hypot(myX - oldX, myY - oldY);
     }
+
+    private double sum(SumCommand command, List<String> params) throws ParsingException {
+
+        return getDoubleParameter(params.get(0)) + getDoubleParameter(params.get(1));
+    }
+
+    private double subtract(DifferenceCommand command, List<String> params) throws ParsingException {
+        return getDoubleParameter(params.get(0)) - getDoubleParameter(params.get(1));
+    }
+
 /*
     private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
         double oldX = myX;
