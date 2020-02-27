@@ -60,6 +60,10 @@ public class TurtleView {
     return penActive;
   }
 
+  protected void setGraphicImage(Image image){
+    graphic.setImage(image);
+  }
+
   protected void setPenActive(int penActive) {
     this.penActive = penActive;
   }
