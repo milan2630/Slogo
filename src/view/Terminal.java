@@ -77,7 +77,9 @@ public class Terminal {
   }
 
   private void handleRun() {
-    notifyListeners(RUN, this.data, this.data = input.getText());
+    if (input.getText().length()>0){
+      notifyListeners(RUN, this.data, this.data = input.getText());
+    }
   }
 
   private void handleClear() {
@@ -86,6 +88,7 @@ public class Terminal {
 
   private void handleReset() {
     notifyListeners(RESET, this.data, this.data = input.getText());
+    errors.setText("");
   }
 
   private void createButtonPane() {
