@@ -36,6 +36,8 @@ public class Controller implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Run")){
             language = myVisualizer.getLanguage();
+            myParser.setLanguage(language);
+            myTurtle.changeLanguage(language);
             String command = evt.getNewValue().toString();
             try {
                 turtleList = myParser.parseCommands(command, myTurtle);
