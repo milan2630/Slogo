@@ -111,7 +111,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
       if (checkTurtleOutOfBounds(turtle)) {
         throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
       }
-      display.moveTurtle(new Point2D(turtle.getX(), turtle.getY()));
+      display.moveTurtle(new Point2D(turtle.getX(), -1*turtle.getY()));
 
     }
   }

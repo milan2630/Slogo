@@ -98,15 +98,6 @@ public class Turtle {
         }
     }
 
-    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
-        //List<Class> paramTypes = forward.getArgumentTypes();
-        //variable to set, param, paramType,
-        Double pixForward = getDoubleParameter(params.get(0));
-        myX+= pixForward * Math.cos(Math.toRadians(myHeading));
-        myY+= pixForward * Math.sin(Math.toRadians(myHeading));
-        return pixForward;
-    }
-
     private double getDoubleParameter(String val) throws ParsingException {
         try{
             return Double.parseDouble(val);
@@ -203,11 +194,17 @@ public class Turtle {
         return var.getValue();
     }
 
+    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
+        Double pixForward = getDoubleParameter(params.get(0));
+        myY+= pixForward * Math.cos(Math.toRadians(myHeading));
+        myX+= pixForward * Math.sin(Math.toRadians(myHeading));
+        return pixForward;
+    }
 
     private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
         Double pixBackward = getDoubleParameter(params.get(0));
-        myX-= pixBackward * Math.cos(Math.toRadians(myHeading));
-        myY-= pixBackward * Math.sin(Math.toRadians(myHeading));
+        myY-= pixBackward * Math.cos(Math.toRadians(myHeading));
+        myX-= pixBackward * Math.sin(Math.toRadians(myHeading));
         return pixBackward;
     }
 
@@ -234,13 +231,11 @@ public class Turtle {
         Double towardY = getDoubleParameter(params.get(1));
 
         if(towardX == myX && towardY == myY) {
-            System.out.println("You can't do that");
-            return 0;
-            //throw new ParsingException("TowardSelfException");
+            throw new ParsingException("TowardSelfException");
         }
 
         double oldHeading = myHeading;
-        myHeading = Math.toDegrees(Math.atan((myY-towardY)/(towardX-myX)));
+        myHeading = Math.toDegrees(Math.atan((towardX-myX)/(towardY-myY)));
         return myHeading - oldHeading;
     }
 
