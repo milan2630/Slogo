@@ -2,6 +2,7 @@ package slogo.Commands;
 
 import slogo.Commands.Command;
 import slogo.DoubleVariable;
+import slogo.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,14 @@ public class UserDefinedInstructionCommand implements Command {
         }
         executable = executable + myCommands;
         return executable;
+    }
+
+    public List<String> getArgumentNames(){
+        List<String> names = new ArrayList<>();
+        for(Variable var: arguments){
+            names.add(var.getName());
+        }
+        return names;
     }
 
 

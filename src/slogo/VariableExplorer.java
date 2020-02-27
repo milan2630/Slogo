@@ -13,14 +13,17 @@ public class VariableExplorer{
         myDisplayVariables = FXCollections.observableList(new ArrayList<>());
     }
 
-    public void addVariable(Variable value){
+    public void addVariable(Variable value) throws ParsingException {
+        if(getVarNames().contains(value.getName())){
+            throw new ParsingException("DuplicateVariable", value.getName());
+        }
         myDisplayVariables.add(value);
     }
     public void removeVariable(Variable value){
         myDisplayVariables.remove(value);
     }
 
-    public Variable<Double> addDoubleVarByName(String name, double val){
+    public Variable<Double> addDoubleVarByName(String name, double val) throws ParsingException {
         Variable<Double> var = new DoubleVariable(name, val);
         this.addVariable(var);
         return var;
@@ -30,6 +33,20 @@ public class VariableExplorer{
         if(getVariable(name) != null){
             myDisplayVariables.remove(getVariable(name));
         }
+    }
+
+    public void removeVariablesByNames(List<String> names){
+        for(String name: names) {
+            removeVariableByName(name);
+        }
+    }
+
+    private List<String> getVarNames(){
+        List<String> names = new ArrayList<>();
+        for(Variable var: myDisplayVariables){
+            names.add(var.getName());
+        }
+        return names;
     }
 
     public Variable getVariable(String name){

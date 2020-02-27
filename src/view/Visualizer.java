@@ -33,7 +33,8 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   public Visualizer(Stage stage, String language) {
     this.language = language;
-    setTitle(stage);
+    setBundle(stage);
+    stage.setTitle(resourceBundle.getString("Title"));
 
     BorderPane root = new BorderPane();
 
@@ -47,6 +48,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    scene.getStylesheets().add("resources/styles/default.css");
     stage.setScene(scene);
     stage.show();
   }
@@ -67,7 +69,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     root.setBottom(terminalNode);
   }
 
-  private void setTitle(Stage stage) {
+  private void setBundle(Stage stage) {
     try {
       resourceBundle = ResourceBundle
           .getBundle("resources/ui/" + language);
@@ -76,7 +78,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
       resourceBundle = ResourceBundle
           .getBundle("resources/ui/" + language);
     }
-    stage.setTitle(resourceBundle.getString("Title"));
   }
 
   /**
@@ -107,18 +108,19 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
       display.setTurtleHeading(turtle.getHeading());
       display.setPenState(turtle.getPenState());
       display.setTurtleVisibility(turtle.getShowing());
+      if (checkTurtleOutOfBounds(turtle)) {
+        throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
+      }
       display.moveTurtle(new Point2D(turtle.getX(), turtle.getY()));
-      checkTurtleOutOfBounds(turtleList, turtle);
+
     }
   }
 
-  private void checkTurtleOutOfBounds(List<ImmutableTurtle> turtleList, ImmutableTurtle turtle)
-      throws ParsingException {
-    if (turtle.getX() > display.getPane().getWidth() / 2 || turtle.getX() < 0 ||
-        turtle.getY() > display.getPane().getHeight() / 2 || turtle.getY() < 0) {
-      throw new ParsingException(resourceBundle.getString("OutOfBoundsException"),
-          turtleList.indexOf(turtle));
-    }
+  private Boolean checkTurtleOutOfBounds(ImmutableTurtle turtle) {
+    return turtle.getX() > display.getPane().getWidth() / 2
+        || turtle.getX() < -1 * display.getPane().getWidth() / 2 ||
+        turtle.getY() > display.getPane().getHeight() / 2 || turtle.getY() < -1 *
+        display.getPane().getHeight() / 2;
   }
 
   @Override

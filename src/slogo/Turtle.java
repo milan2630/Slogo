@@ -73,22 +73,29 @@ public class Turtle {
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, com);
         internalStates.remove(internalStates.size()-1);
+        variableExplorer.removeVariablesByNames(command.getArgumentNames());
         return newParser.getFinalReturn();
     }
 
 
-    private double makeMethod(MakeUserInstructionCommand command, List<String> params){
-        List<String> paramNames = new ArrayList<>();
-        String[] names = params.get(1).split(" ");
-        paramNames.addAll(Arrays.asList(names));
-        for(int i = 0; i < paramNames.size(); i++){
-            if(paramNames.get(i).equals("")){
-                paramNames.remove(i);
-            }
+    private double makeMethod(MakeUserInstructionCommand command, List<String> params) throws ParsingException {
+        try{
+            Double.parseDouble(params.get(0));
+            throw new ParsingException("DuplicateMethod");
         }
-        UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
-        methodExplorer.addMethod(newMethod);
-        return 0;
+        catch (NumberFormatException e) {
+            List<String> paramNames = new ArrayList<>();
+            String[] names = params.get(1).split(" ");
+            paramNames.addAll(Arrays.asList(names));
+            for (int i = 0; i < paramNames.size(); i++) {
+                if (paramNames.get(i).equals("")) {
+                    paramNames.remove(i);
+                }
+            }
+            UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
+            methodExplorer.addMethod(newMethod);
+            return 0;
+        }
     }
 
     private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
@@ -167,7 +174,6 @@ public class Turtle {
 
     private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
         Variable<Double> var = variableExplorer.addDoubleVarByName(iteratorName, startVal);
-        variableExplorer.addVariable(var);
         Parser newParser = new Parser(language, methodExplorer);
         while(var.getValue() <= endVal){
             parseInternalCommand(newParser, command);
