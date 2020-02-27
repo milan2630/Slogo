@@ -88,7 +88,7 @@ public class Turtle {
     }
 
     //TODO implement properly
-    private double moveForward(ForwardCommand forward, List<String> params) throws ClassCastException{
+    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
         //List<Class> paramTypes = forward.getArgumentTypes();
         //variable to set, param, paramType,
         Double pixForward = getDoubleParameter(params.get(0));
@@ -96,7 +96,7 @@ public class Turtle {
         return pixForward;
     }
 
-    private double getDoubleParameter(String val){
+    private double getDoubleParameter(String val) throws ParsingException {
         try{
             return Double.parseDouble(val);
         }
@@ -109,7 +109,7 @@ public class Turtle {
                 return 0.0;
             }
             else{
-                throw new ClassCastException();
+                throw new ParsingException("UnrecognizedEntity", val);
             }
         }
     }
@@ -187,34 +187,34 @@ public class Turtle {
         internalStates.addAll(stateList);
     }
 
-    private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
+    private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ParsingException {
         Variable<Double> var = new DoubleVariable(params.get(0), getDoubleParameter(params.get(1)));
         variableExplorer.addVariable(var);
         return var.getValue();
     }
 
 
-    private double moveBack(BackwardCommand backward, List<String> params) throws ClassCastException {
+    private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
         Double pixBackward = getDoubleParameter(params.get(0));
         myX-= pixBackward;
         return pixBackward;
     }
 
-    private double turnLeft(LeftCommand left, List<String> params) throws ClassCastException{
+    private double turnLeft(LeftCommand left, List<String> params) throws ParsingException {
         Double degreesLeft = getDoubleParameter(params.get(0));
         myHeading -= degreesLeft;
         return myHeading;
         //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
-    private double turnRight(RightCommand right, List<String> params) throws ClassCastException{
+    private double turnRight(RightCommand right, List<String> params) throws ParsingException {
         Double degreesRight = getDoubleParameter(params.get(0));
         myHeading += degreesRight;
         return myHeading;
         //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
-    private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ClassCastException{
+    private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ParsingException {
         Double heading = getDoubleParameter(params.get(0));
         myHeading = heading;
         return myHeading;
