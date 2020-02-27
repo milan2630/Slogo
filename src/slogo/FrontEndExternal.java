@@ -8,18 +8,11 @@ import java.util.List;
 public interface FrontEndExternal {
 
   /**
-   * Accesses the Console to determine what the user typed in
-   *
-   * @return a string containing what the user typed in the console before hitting run
-   */
-  public String getConsoleString();
-
-  /**
    * Updates the turtle display using a list of all the states of a turtle
    *
    * @param turtleList a list of turtle states from the backend
    */
-  public void updateTurtle(List<ImmutableTurtle> turtleList);
+  public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException;
 
   /**
    * A getter for the current turtle state in case an error is thrown while executing a program
