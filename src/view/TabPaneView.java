@@ -18,38 +18,11 @@ public class TabPaneView {
   private MethodView methodView;
   private TabPane tabPane;
   private VariableView variableView;
-  private ObservableMap<String, UserDefinedInstructionCommand> methodList;
-  private ObservableList<Variable> variableList;
-  private ObservableList<String> historyList;
 
   public TabPaneView(String language) {
     tabPane = new TabPane();
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
       createSettingTab(language);
-  }
-  protected ObservableMap<String, UserDefinedInstructionCommand> getMethodList() {
-    return methodList;
-  }
-
-  protected void setMethodList(
-      ObservableMap<String, UserDefinedInstructionCommand> methodList) {
-    this.methodList = methodList;
-  }
-
-  protected ObservableList<Variable> getVariableList() {
-    return variableList;
-  }
-
-  protected void setVariableList(ObservableList<Variable> variableList) {
-    this.variableList = variableList;
-  }
-
-  protected ObservableList<String> getHistoryList() {
-    return historyList;
-  }
-
-  protected void setHistoryList(ObservableList<String> historyList) {
-    this.historyList = historyList;
   }
 
   protected TabPane getTabPane() {
