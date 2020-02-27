@@ -26,7 +26,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   private Display display;
   private TabPaneView tabPaneView;
   private Terminal terminal;
-  private String consoleString;
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
@@ -98,11 +97,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     if (evt.getPropertyName().equals("HistoryVariable")) {
       terminal.setInputText(evt.getNewValue().toString());
     }
-  }
-
-  @Override
-  public String getConsoleString() {
-    return consoleString;
   }
 
   @Override
