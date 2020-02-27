@@ -92,21 +92,22 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals(RESET)) {
-      display.resetPane();
-    }
-    if (evt.getPropertyName().equals(PEN_COLOR)) {
-      display.setPenColor(Color.web(evt.getNewValue().toString()));
-    }
-    if (evt.getPropertyName().equals(BACKGROUND_COLOR)) {
-      display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
-    }
-
-    if (evt.getPropertyName().equals(HISTORY_VARIABLE)) {
-      terminal.setInputText(evt.getNewValue().toString());
-    }
-    if (evt.getPropertyName().equals(TURTLE_IMAGE)){
-      display.updateTurtleImage(evt.getNewValue().toString());
+    switch (evt.getPropertyName()) {
+      case RESET:
+        display.resetPane();
+        break;
+      case PEN_COLOR:
+        display.setPenColor(Color.web(evt.getNewValue().toString()));
+        break;
+      case BACKGROUND_COLOR:
+        display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
+        break;
+      case HISTORY_VARIABLE:
+        terminal.setInputText(evt.getNewValue().toString());
+        break;
+      case TURTLE_IMAGE:
+        display.updateTurtleImage(evt.getNewValue().toString());
+        break;
     }
   }
 
@@ -120,7 +121,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
       if (checkTurtleOutOfBounds(turtle)) {
         throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
       }
-      display.moveTurtle(new Point2D(turtle.getX(), -1*turtle.getY()));
+      display.moveTurtle(new Point2D(turtle.getX(), -1 * turtle.getY()));
 
     }
   }
@@ -147,7 +148,8 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     terminal.setErrorText(error.getMessage());
   }
 
-  public void bindTabs(String language, ObservableList history, ObservableList variables, ObservableMap methods){
+  public void bindTabs(String language, ObservableList history, ObservableList variables,
+      ObservableMap methods) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.addChangeHistoryListener(this);
     tabPaneView.createMethodTab(language, methods);

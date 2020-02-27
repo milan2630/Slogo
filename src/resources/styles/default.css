@@ -19,10 +19,7 @@
 
 .button-box {
   -fx-background-color: #222222;
-
 }
-
-
 
 .error-label {
   -fx-text-fill: #CF6679;
@@ -36,6 +33,6 @@
 .input-box {
   -fx-background-color: #1E1E1E;
   -fx-text-fill: #FFFFFF;
-  -fx-control-inner-background:#2E2E2E;
+  -fx-control-inner-background:#222222;
   -fx-prompt-text-fill: gray;
 }
