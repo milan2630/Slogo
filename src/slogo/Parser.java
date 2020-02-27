@@ -20,13 +20,18 @@ public class Parser {
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
+        input = input.toLowerCase();
         List<String> entityList = getEntitiesFromString(input);
-        return new ArrayList<>(parseEntityList(entityList, turtle));
+        return parseEntityList(entityList, turtle);
     }
 
 
     private List<String> getEntitiesFromString(String input) throws ParsingException {
         String noCommentString = removeComments(input);
+        if(noCommentString.equals("")){
+            return new ArrayList<>();
+        }
+        noCommentString = noCommentString.replaceAll("\\s+", " ");
         String[] entities = noCommentString.split(" ");
         return combineBrackets(entities);
     }

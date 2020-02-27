@@ -72,9 +72,15 @@ public class Turtle {
         String com = command.getExecutableCommands();
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, com);
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         variableExplorer.removeVariablesByNames(command.getArgumentNames());
         return newParser.getFinalReturn();
+    }
+
+    private void removeLastInternalState() {
+        if(internalStates.size() > 0) {
+            internalStates.remove(internalStates.size() - 1);
+        }
     }
 
 
@@ -133,7 +139,7 @@ public class Turtle {
         }
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, params.get(whichToExecute));
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         return newParser.getFinalReturn();
     }
 
@@ -144,7 +150,7 @@ public class Turtle {
         }
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, params.get(1));
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         return newParser.getFinalReturn();
     }
 
@@ -179,7 +185,7 @@ public class Turtle {
             parseInternalCommand(newParser, command);
             var.setValue(var.getValue()+iterationVal);
         }
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         return newParser.getFinalReturn();
     }
 
