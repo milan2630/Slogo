@@ -73,6 +73,7 @@ public class Turtle {
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, com);
         internalStates.remove(internalStates.size()-1);
+        variableExplorer.removeVariablesByNames(command.getArgumentNames());
         return newParser.getFinalReturn();
     }
 
