@@ -88,6 +88,13 @@ public class Turtle {
         }
     }
 
+    private String stripBracketParam(String par){
+        if(par.length() == 3){
+            return "";
+        }
+        return par.substring(2, par.length() - 2);
+    }
+
 
     private double makeMethod(MakeUserInstructionCommand command, List<String> params) throws ParsingException {
         try{
@@ -96,7 +103,7 @@ public class Turtle {
         }
         catch (NumberFormatException e) {
             List<String> paramNames = new ArrayList<>();
-            String[] names = params.get(1).split(" ");
+            String[] names = stripBracketParam(params.get(1)).split(" ");
             paramNames.addAll(Arrays.asList(names));
             for (int i = 0; i < paramNames.size(); i++) {
                 if (paramNames.get(i).equals("")) {
@@ -151,12 +158,12 @@ public class Turtle {
     }
 
     private double forLoop(ForCommand command, List<String> params) throws ParsingException {
-        String[] argParts = params.get(0).split(" ");
+        String[] argParts = stripBracketParam(params.get(0)).split(" ");
         String name = argParts[0];
         double start = getDoubleParameter(argParts[1]);
         double end = getDoubleParameter(argParts[2]);
         double iterator = getDoubleParameter(argParts[3]);
-        if(start == end || params.get(1).equals("")){
+        if(start == end || stripBracketParam(params.get(1)).equals("")){
             return 0;
         }
         double ret = repeatAction(params.get(1), name, start, end, iterator);
@@ -166,7 +173,7 @@ public class Turtle {
 
     private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
         double numTimes = getDoubleParameter(params.get(0));
-        if(numTimes == 0 || params.get(1).equals("")){
+        if(numTimes == 0 || stripBracketParam(params.get(1)).equals("")){
             return 0;
         }
         double ret = repeatAction(params.get(1), ":repcount", 1.0, numTimes, 1.0);
@@ -186,16 +193,18 @@ public class Turtle {
     }
 
     private double doTimes(DoTimesCommand command, List<String> params) throws ParsingException {
-        String[] limitString = params.get(0).split(" ");
+        System.out.println("0: " + params.get(0));
+        String[] limitString = stripBracketParam(params.get(0)).split(" ");
         double end = getDoubleParameter(limitString[1]);
-        if(end <= 1 || params.get(1).equals("")){
+        System.out.println("1: " + params.get(1));
+        if(end <= 1 || stripBracketParam(params.get(1)).equals("")){
             return 0;
         }
         return repeatAction(params.get(1), limitString[0], 1.0, end, 1.0);
     }
 
     private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
-        List<ImmutableTurtle> stateList = newParser.parseCommands(s, this);
+        List<ImmutableTurtle> stateList = newParser.parseCommands(stripBracketParam(s), this);
         internalStates.addAll(stateList);
     }
 

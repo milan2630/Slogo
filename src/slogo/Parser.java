@@ -2,7 +2,6 @@ package slogo;
 
 import slogo.Commands.Command;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Parser {
@@ -19,6 +18,9 @@ public class Parser {
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
+        System.out.println("AAA");
+        System.out.println(input);
+        System.out.println("AAA");
         input = input.toLowerCase();
         List<String> entityList = getEntitiesFromString(input);
         return parseEntityList(entityList, turtle);
@@ -42,7 +44,7 @@ public class Parser {
 
                 i++;
                 int bracketsSeen = 1;
-                String item = "";
+                String item = "[";
                 try {
                     while (bracketsSeen != 0) {
                         if (entities[i].contains("]")) {
@@ -51,13 +53,7 @@ public class Parser {
                         if (entities[i].contains("[")) {
                             bracketsSeen++;
                         }
-                        if (bracketsSeen != 0) {
-                            if (item.equals("")) {
-                                item = entities[i];
-                            } else {
-                                item = item + " " + entities[i];
-                            }
-                        }
+                        item = item + " " + entities[i];
                         i++;
                     }
                 }
@@ -95,10 +91,12 @@ public class Parser {
         for(String item: entityList){
             if(factory.isCommand(item)){
                 pushCommand(commandStack, item);
+                System.out.println("OnCommand: " + item);
                 countFromStack.push(argumentStack.size());
             }
             else{
                 argumentStack.push(item);
+                System.out.println("OnArgs: " + item);
             }
             combineCommandsArgs(states, argumentStack, commandStack, turtle, countFromStack);
         }
@@ -124,15 +122,21 @@ public class Parser {
 
             while(numArguments - countFromStack.peek() >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
+                System.out.println("OffCommand: " + topCom.toString());
                 List<String> params = new ArrayList<>();
                 for(int i = 0; i < numArguments - countFromStack.peek(); i++){
-                    params.add(argumentStack.pop());
+                    String s = argumentStack.pop();
+                    System.out.println("OffArgs: " + s);
+                    params.add(s);
+                    //params.add(argumentStack.pop());
+
                 }
                 Collections.reverse(params);
                 String result = turtle.actOnCommand(topCom, params);
                 states.addAll(turtle.getInternalStates());
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
+                    System.out.println("OnArgs: " + result);
                     countFromStack.pop();
                     numArguments = argumentStack.size();
                     topCom = commandStack.peek();
@@ -144,8 +148,7 @@ public class Parser {
             }
         }
         catch(EmptyStackException e){
-            e.printStackTrace();
-            //throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
+            throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
         }
     }
 
@@ -155,34 +158,5 @@ public class Parser {
 
     public void setLanguage(String lang){
         factory.setupLanguage(lang);
-    }
-    public static void main(String[] args) throws ParsingException {
-
-
-
-        /*MethodExplorer me = new MethodExplorer();
-        VariableExplorer ve = new VariableExplorer();
-        Parser t = new Parser("English", me);
-        Turtle turt = new Turtle(me, ve, "English");
-        //String s = "to NewMeth [ :hi :h ]\n[\nfd :hi\nfd :h\n]\nNewMeth 6 2";
-        //String s = "make :hello 3\nfd fd :hello";
-        //String s = "repeat fd fd 3 [ fd 100 ]";
-        //String s = "for [ :hi 10.5 15.5 .5 ] [ fd :hi ]";
-        //String s = "if fd fd 5 [ fd 10 ]";
-        //String s = "ifelse .1 [ fd 5 ] [ fd 10 ]";
-        //String s = "to NewMeth [ ]\n[\nfd 5 fd 5\nfd fd 10\n]\nNewMeth";
-        //String s = "make :hello 3\nfd fd :hello";
-        String s = "to NewMeth [ ]\n[ fd 5 ]\nNewMeth";
-        try {
-            List<ImmutableTurtle> x = t.parseCommands(s, turt);
-            for(ImmutableTurtle c: x){
-                System.out.println(c.getX());
-                //System.out.println(c.getHeading());
-            }
-
-        } catch (ParsingException e) {
-            e.printStackTrace();
-        }
-*/
     }
 }
