@@ -6,6 +6,7 @@ import java.util.*;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -64,6 +65,8 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
+    displayNode.getStyleClass().add("display");
+
     Node terminalNode = terminal.getPane();
 
     TabPane tabNode = tabPaneView.getTabPane();
@@ -122,7 +125,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
         throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
       }
       display.moveTurtle(new Point2D(turtle.getX(), -1 * turtle.getY()));
-
     }
   }
 

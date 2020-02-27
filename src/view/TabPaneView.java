@@ -1,15 +1,12 @@
 package view;
 
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import slogo.Commands.UserDefinedInstructionCommand;
-import slogo.Variable;
+
 
 public class TabPaneView {
 
@@ -21,6 +18,8 @@ public class TabPaneView {
 
   public TabPaneView(String language) {
     tabPane = new TabPane();
+    tabPane.getStyleClass().add("tabPane");
+
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
       createSettingTab(language);
   }

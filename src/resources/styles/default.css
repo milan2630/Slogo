@@ -1,4 +1,4 @@
-.root{
+.root {
   -fx-font-family: Helvetia;
 }
 
@@ -6,13 +6,14 @@
   -fx-background-color: #131313;
 }
 
-.terminal-button {
+.button {
   -fx-background-color: #2E2E2E;
   -fx-text-fill: #2E86AB;
   -fx-background-radius: 4;
+  -fx-font-weight: bold;
 }
 
-.terminal-button:hover {
+.button:hover {
   -fx-background-color: #2E86AB;
   -fx-text-fill: #1E1E1E;
 }
@@ -25,7 +26,7 @@
   -fx-text-fill: #CF6679;
 }
 
-.error-box{
+.error-box {
   -fx-background-color: #1E1E1E;
   -fx-background-radius: 4;
 }
@@ -33,6 +34,43 @@
 .input-box {
   -fx-background-color: #1E1E1E;
   -fx-text-fill: #FFFFFF;
-  -fx-control-inner-background:#222222;
+  -fx-control-inner-background: #222222;
   -fx-prompt-text-fill: gray;
 }
+
+.display {
+  -fx-border-color: #222222;
+  -fx-border-width: 10;
+}
+
+.tabPane {
+  -fx-background-color: #222222;
+  -fx-text-fill: #2E86AB;
+}
+
+.tab-box {
+  -fx-background-color: #2E2E2E;
+  -fx-text-fill: #2E86AB;
+  -fx-background-radius: 4;
+}
+
+.list-view {
+  -fx-background-color: #2E2E2E;
+
+}
+
+.list-view .list-cell:even {
+  -fx-background-color: #222222;
+  -fx-text-fill: #2E86AB;
+}
+
+.list-view .list-cell:odd {
+  -fx-background-color: #2E2E2E;
+  -fx-text-fill: #2E86AB;
+}
+
+/*.label {*/
+/*  -fx-text-fill: #2E86AB;*/
+/*  -fx-background-color: #2E2E2E;*/
+
+/*}*/
