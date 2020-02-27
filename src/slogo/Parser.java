@@ -102,6 +102,13 @@ public class Parser {
             }
             reset = combineCommandsArgs(states, argumentStack, commandStack, turtle, reset);
         }
+        if(commandStack.size() > 0){
+            String unfulfilled = "";
+            while(commandStack.size() > 0){
+                unfulfilled = unfulfilled + commandStack.pop();
+            }
+            throw new ParsingException("UnfulfilledCommands", unfulfilled);
+        }
         return states;
     }
 
