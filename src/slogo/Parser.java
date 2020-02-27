@@ -21,12 +21,16 @@ public class Parser {
      */
     public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
         List<String> entityList = getEntitiesFromString(input);
-        return new ArrayList<>(parseEntityList(entityList, turtle));
+        System.out.println(entityList.size());
+        return parseEntityList(entityList, turtle);
     }
 
 
     private List<String> getEntitiesFromString(String input) throws ParsingException {
         String noCommentString = removeComments(input);
+        if(noCommentString.equals("")){
+            return new ArrayList<>();
+        }
         String[] entities = noCommentString.split(" ");
         return combineBrackets(entities);
     }
@@ -90,6 +94,7 @@ public class Parser {
         Stack<Command> commandStack = new Stack<>();
 
         for(String item: entityList){
+            System.out.println("B: " + item);
             if(factory.isCommand(item)){
                 pushCommand(commandStack, item);
             }
