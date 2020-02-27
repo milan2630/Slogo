@@ -1,5 +1,6 @@
 package slogo;
 
+import java.security.spec.ECField;
 import javafx.stage.Stage;
 import view.HistoryView;
 import view.Visualizer;
@@ -43,8 +44,7 @@ public class Controller implements PropertyChangeListener {
                 myHistory.addInput(command);
                 myVisualizer.updateTurtle(turtleList);
             }
-            catch(Exception e) {
-                //TODO: handle exception properly
+            catch(ParsingException e) {
                 myVisualizer.displayError(e);
             }
         }
