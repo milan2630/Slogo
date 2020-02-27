@@ -43,9 +43,9 @@ public class Controller implements PropertyChangeListener {
                 myHistory.addInput(command);
                 myVisualizer.updateTurtle(turtleList);
             }
-            catch(ParsingException e) {
+            catch(Exception e) {
                 //TODO: handle exception properly
-                System.out.println(new ParsingException("oops", 0));
+                myVisualizer.displayError(e);
             }
         }
         if (evt.getPropertyName().equals("Reset")){

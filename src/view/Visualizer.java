@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
 import slogo.ImmutableTurtle;
+import slogo.ParsingException;
 
 public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
@@ -100,12 +101,23 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   }
 
   @Override
-  public void updateTurtle(List<ImmutableTurtle> turtleList) {
+  public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException {
+
     for (ImmutableTurtle turtle : turtleList) {
       display.setTurtleHeading(turtle.getHeading());
       display.setPenState(turtle.getPenState());
       display.setTurtleVisibility(turtle.getShowing());
       display.moveTurtle(new Point2D(turtle.getX(), turtle.getY()));
+      checkTurtleOutOfBounds(turtleList, turtle);
+    }
+  }
+
+  private void checkTurtleOutOfBounds(List<ImmutableTurtle> turtleList, ImmutableTurtle turtle)
+      throws ParsingException {
+    if (turtle.getX() > display.getPane().getWidth() / 2 || turtle.getX() < 0 ||
+        turtle.getY() > display.getPane().getHeight() / 2 || turtle.getY() < 0) {
+      throw new ParsingException(resourceBundle.getString("OutOfBoundsException"),
+          turtleList.indexOf(turtle));
     }
   }
 
@@ -121,7 +133,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   @Override
   public void displayError(Exception error) {
-
+    terminal.setErrorText(error.getMessage());
   }
 
   public void bindHistory(String language, ObservableList inputs) {

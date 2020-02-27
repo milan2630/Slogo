@@ -12,7 +12,7 @@ public interface FrontEndExternal {
    *
    * @param turtleList a list of turtle states from the backend
    */
-  public void updateTurtle(List<ImmutableTurtle> turtleList);
+  public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException;
 
   /**
    * A getter for the current turtle state in case an error is thrown while executing a program
