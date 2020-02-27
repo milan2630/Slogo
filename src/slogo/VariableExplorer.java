@@ -14,6 +14,11 @@ public class VariableExplorer{
     }
 
     public void addVariable(Variable value){
+        for(int i = 0; i < myDisplayVariables.size(); i++){
+            if(value.getName().equals(myDisplayVariables.get(i).getName())){
+                myDisplayVariables.remove(i);
+            }
+        }
         myDisplayVariables.add(value);
     }
     public void removeVariable(Variable value){
@@ -31,6 +36,14 @@ public class VariableExplorer{
             myDisplayVariables.remove(getVariable(name));
         }
     }
+
+    public void removeVariablesByNames(List<String> names){
+        for(String name: names) {
+            removeVariableByName(name);
+        }
+    }
+
+
 
     public Variable getVariable(String name){
         for(int i = 0; i < myDisplayVariables.size(); i++){
