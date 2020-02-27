@@ -9,7 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -19,92 +19,67 @@ import javafx.scene.paint.Color;
 
 public class Terminal {
 
-  private Pane pane;
+  private BorderPane pane;
   private static ResourceBundle resourceBundle;
   private Button runButton;
   private Button clearButton;
   private Button resetButton;
+  private BorderPane buttonPane;
   private TextArea input;
+  private TextField errors;
   private String data;
   private static final double HEIGHT = 150;
-  private static final double PADDING = 5;
   private static final double BUTTON_PANE_WIDTH = 100;
-  public static final String RUN = "Run";
-  public static final String RESET = "Reset";
-
+  private static final double ERROR_PANE_HEIGHT = 30;
+  private static final String RUN = "Run";
+  private static final String RESET = "Reset";
 
   private List<PropertyChangeListener> listener = new ArrayList<>();
 
   protected Terminal(String language) {
     resourceBundle = ResourceBundle
         .getBundle("resources/ui/" + language);
-    this.pane = new AnchorPane();
+    this.pane = new BorderPane();
     setBackgroundColor(pane, Color.web("E5E5E5"));
     pane.setPrefHeight(HEIGHT);
 
     createInput();
-    makeButtonPane();
+    createButtonPane();
+    createErrorPane();
   }
 
-  private void makeButtonPane() {
-    BorderPane buttonPane = new BorderPane();
-    double width = BUTTON_PANE_WIDTH - PADDING * 2;
-    double height = HEIGHT - PADDING * 2;
-
-    buttonPane.setPrefSize(width, height);
-    setBackgroundColor(buttonPane, Color.web("D2D2D2"));
-
-    AnchorPane.setTopAnchor(buttonPane, PADDING);
-    AnchorPane.setLeftAnchor(buttonPane, PADDING);
-
-    createButtons(width, height);
-    addButtonsToPane(buttonPane);
-
-    pane.getChildren().add(buttonPane);
+  private void createClearButton() {
+    clearButton = createButton(resourceBundle.getString("ClearButton"));
+    clearButton.setOnAction(event -> handleClear());
+    buttonPane.setCenter(clearButton);
   }
 
-  private void createButtons(double width, double height) {
-    createRunButton(width, height);
-    createClearButton(width, height);
-    createResetButton(width, height);
-  }
-
-  private void addButtonsToPane(BorderPane buttonPane) {
+  private void createRunButton() {
+    runButton = createButton(resourceBundle.getString("RunButton"));
+    runButton.setOnAction(event -> handleRun());
     buttonPane.setTop(runButton);
     buttonPane.setAlignment(runButton, Pos.CENTER);
-    buttonPane.setCenter(clearButton);
+  }
+
+  private void createResetButton() {
+    resetButton = createButton(resourceBundle.getString("ResetButton"));
+    resetButton.setOnAction(event -> handleReset());
     buttonPane.setBottom(resetButton);
     buttonPane.setAlignment(resetButton, Pos.CENTER);
-    buttonPane.setMargin(runButton, new Insets(PADDING, PADDING, PADDING, PADDING));
-    buttonPane.setMargin(clearButton, new Insets(PADDING, PADDING, PADDING, PADDING));
-    buttonPane.setMargin(resetButton, new Insets(PADDING, PADDING, PADDING, PADDING));
   }
 
-  private void createClearButton(double width, double height) {
-    clearButton = createButton(width, height, resourceBundle.getString("ClearButton"));
-    clearButton.setOnAction(event -> handleClear());
-  }
-
-  private void createRunButton(double width, double height) {
-    runButton = createButton(width, height, resourceBundle.getString("RunButton"));
-    runButton.setOnAction(event -> handleRun());
-  }
-
-  private void createResetButton(double width, double height) {
-    resetButton = createButton(width, height, resourceBundle.getString("ResetButton"));
-    resetButton.setOnAction(event -> handleReset());
-  }
-
-  private Button createButton(double width, double height, String text) {
+  private Button createButton(String text) {
     Button button = new Button();
     button.setText(text);
-    button.setPrefWidth(width - PADDING * 2);
-    button.setPrefHeight(height / 3 - PADDING * 2);
+    button.setPrefWidth(BUTTON_PANE_WIDTH);
+    button.getStyleClass().add("button");
     return button;
   }
 
   private void handleRun() {
-    notifyListeners(RUN, this.data, this.data = input.getText());
+    if (input.getText().length()>0){
+      notifyListeners(RUN, this.data, this.data = input.getText());
+    }
   }
 
   private void handleClear() {
@@ -112,20 +87,40 @@ public class Terminal {
   }
 
   private void handleReset() {
-    System.out.println("reset");
     notifyListeners(RESET, this.data, this.data = input.getText());
+    errors.setText("");
+  }
+
+  private void createButtonPane() {
+    buttonPane = new BorderPane();
+    double width = BUTTON_PANE_WIDTH;
+    double height = HEIGHT - ERROR_PANE_HEIGHT;
+
+    buttonPane.setPrefSize(width, height);
+    setBackgroundColor(buttonPane, Color.web("D2D2D2"));
+
+    createRunButton();
+    createClearButton();
+    createResetButton();
+
+    pane.setLeft(buttonPane);
   }
 
   private void createInput() {
     input = new TextArea();
-    input.setPrefHeight(HEIGHT);
+    input.setPrefHeight(HEIGHT - ERROR_PANE_HEIGHT);
     input.setPromptText(resourceBundle.getString("TerminalPrompt"));
     input.setFocusTraversable(false);
-    AnchorPane.setTopAnchor(input, PADDING);
-    AnchorPane.setBottomAnchor(input, PADDING);
-    AnchorPane.setLeftAnchor(input, BUTTON_PANE_WIDTH);
-    AnchorPane.setRightAnchor(input, PADDING);
-    pane.getChildren().add(input);
+    pane.setCenter(input);
+  }
+
+  private void createErrorPane() {
+    errors = new TextField();
+    errors.setEditable(false);
+    errors.setBackground(
+        new Background(new BackgroundFill(Color.web("999999"), CornerRadii.EMPTY, Insets.EMPTY)));
+    errors.setPrefHeight(ERROR_PANE_HEIGHT);
+    pane.setTop(errors);
   }
 
   private void notifyListeners(String property, String oldValue, String newValue) {
@@ -152,7 +147,12 @@ public class Terminal {
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  protected void setInputText(String text){
+  protected void setInputText(String text) {
     input.setText(text);
   }
+
+  protected void setErrorText(String text) {
+    errors.setText(text);
+  }
+
 }

@@ -1,5 +1,6 @@
 package slogo;
 
+import java.security.spec.ECField;
 import javafx.stage.Stage;
 import view.HistoryView;
 import view.Visualizer;
@@ -15,7 +16,6 @@ public class Controller implements PropertyChangeListener {
     private VariableExplorer myVE;
     private Turtle myTurtle;
     private History myHistory;
-    // bind the lists in history and historyView
 
     private String language;
     private List<ImmutableTurtle> turtleList;
@@ -39,16 +39,10 @@ public class Controller implements PropertyChangeListener {
             try {
                 turtleList = myParser.parseCommands(command, myTurtle);
                 myHistory.addInput(command);
-                for (ImmutableTurtle it : turtleList) {
-                    updatePositions(it);
-                    updateHeading(it);
-                    updatePenState(it);
-                    updateShowing(it);
-                }
+                myVisualizer.updateTurtle(turtleList);
             }
             catch(ParsingException e) {
-                //TODO: handle exception properly
-                System.out.println(new ParsingException("oops", 0));
+                myVisualizer.displayError(e);
             }
         }
         if (evt.getPropertyName().equals("Reset")){
@@ -56,26 +50,6 @@ public class Controller implements PropertyChangeListener {
         }
     }
 
-    public void updatePositions(ImmutableTurtle it) {
-        myVisualizer.updatePositions(it.getX(), it.getY());
-        myTurtle.setX(it.getX());
-        myTurtle.setY(it.getY());
-    }
-
-    public void updateHeading(ImmutableTurtle it) {
-        myVisualizer.updateHeading(it.getHeading());
-        myTurtle.setHeading(it.getHeading());
-    }
-
-    public void updatePenState(ImmutableTurtle it) {
-        myVisualizer.updatePenState(it.getPenState() == 1);
-        myTurtle.setPenState(it.getPenState());
-    }
-
-    public void updateShowing(ImmutableTurtle it) {
-        myVisualizer.updateTurtleState(it.getShowing() == 1);
-        myTurtle.setShowing(it.getShowing());
-    }
-
     //TODO: set language
+    // check for screen bounds
 }

@@ -1,6 +1,5 @@
 package view;
 
-import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -17,8 +16,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.ImmutableTurtle;
+import slogo.ParsingException;
 
-public class Visualizer implements PropertyChangeListener, FrontEndExternal {
+public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
@@ -26,14 +27,14 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   private Display display;
   private TabPaneView tabPaneView;
   private Terminal terminal;
-  private String consoleString;
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
 
   public Visualizer(Stage stage, String language) {
     this.language = language;
-    setTitle(stage);
+    setBundle(stage);
+    stage.setTitle(resourceBundle.getString("Title"));
 
     BorderPane root = new BorderPane();
 
@@ -47,6 +48,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    scene.getStylesheets().add("resources/styles/default.css");
     stage.setScene(scene);
     stage.show();
   }
@@ -54,6 +56,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   public void addTerminalChangeListener(PropertyChangeListener newListener) {
     terminal.addChangeListener(newListener);
   }
+
   private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
     Node terminalNode = terminal.getPane();
@@ -66,7 +69,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
     root.setBottom(terminalNode);
   }
 
-  private void setTitle(Stage stage) {
+  private void setBundle(Stage stage) {
     try {
       resourceBundle = ResourceBundle
           .getBundle("resources/ui/" + language);
@@ -75,7 +78,6 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
       resourceBundle = ResourceBundle
           .getBundle("resources/ui/" + language);
     }
-    stage.setTitle(resourceBundle.getString("Title"));
   }
 
   /**
@@ -100,27 +102,30 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   }
 
   @Override
-  public String getConsoleString() {
-    return consoleString;
+  public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException {
+
+    for (ImmutableTurtle turtle : turtleList) {
+      display.setTurtleHeading(turtle.getHeading());
+      display.setPenState(turtle.getPenState());
+      display.setTurtleVisibility(turtle.getShowing());
+      if (checkTurtleOutOfBounds(turtle)) {
+        throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
+      }
+      display.moveTurtle(new Point2D(turtle.getX(), turtle.getY()));
+
+    }
+  }
+
+  private Boolean checkTurtleOutOfBounds(ImmutableTurtle turtle) {
+    return turtle.getX() > display.getPane().getWidth() / 2
+        || turtle.getX() < -1 * display.getPane().getWidth() / 2 ||
+        turtle.getY() > display.getPane().getHeight() / 2 || turtle.getY() < -1 *
+        display.getPane().getHeight() / 2;
   }
 
   @Override
-  public void updatePositions(double newX, double newY) {
-    display.moveTurtle(new Point2D(newX, newY));
-  }
-
-  @Override
-  public void updateHeading(double newHeading) {
-    display.setTurtleHeading(newHeading);
-  }
-
-  @Override
-  public void updatePenState(boolean penState) {
-    display.setPenState(penState);
-  }
-
-  public void updateTurtleState(boolean turtleState) {
-    display.setTurtleState(turtleState);
+  public ImmutableTurtle getCurrentTurtle() {
+    return display.getTurtleState();
   }
 
   @Override
@@ -130,16 +135,12 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void displayError(Exception error) {
-  }
-
-  @Override
-  public void createButton(EventHandler event, String property) {
+    terminal.setErrorText(error.getMessage());
   }
 
   public void bindTabs(String language, ObservableList history, ObservableList variables, ObservableMap methods){
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.addChangeHistoryListener(this);
-    tabPaneView.createVariableTab(language, variables);
     tabPaneView.createMethodTab(language, methods);
   }
 

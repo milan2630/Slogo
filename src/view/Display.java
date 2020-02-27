@@ -8,6 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import slogo.ImmutableTurtle;
 
 public class Display {
 
@@ -15,7 +16,6 @@ public class Display {
   private Pane pane;
   private TrailView trail;
   private TurtleView turtle;
-
 
   protected Display() {
     this.pane = new Pane();
@@ -45,20 +45,26 @@ public class Display {
   protected void moveTurtle(Point2D newCoordinate) {
     Point2D oldCoordinate = turtle.getPosition();
     turtle.setPosition(newCoordinate);
-    if (turtle.isPenActive()) {
+    if (turtle.isPenActive()==1) {
       trail.addLine(oldCoordinate, newCoordinate);
     }
   }
 
-  protected void setTurtleHeading(double newHeading){
+  protected ImmutableTurtle getTurtleState() {
+    return new ImmutableTurtle(turtle.getPosition().getX(),
+        turtle.getPosition().getY(), turtle.getHeading(), turtle.isPenActive(),
+        turtle.isTurtleVisible());
+  }
+
+  protected void setTurtleHeading(double newHeading) {
     turtle.setHeading(newHeading);
   }
 
-  protected void setTurtleState(boolean state) {
+  protected void setTurtleVisibility(int state) {
     turtle.setTurtleVisible(state);
   }
 
-  protected void setPenState(boolean state) {
+  protected void setPenState(int state) {
     turtle.setPenActive(state);
   }
 
@@ -71,6 +77,11 @@ public class Display {
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
+  protected void updateTurtleImage(String filename){
+    Image image = getImageByName(filename);
+    turtle.setGraphicImage(image);
+  }
+  
   protected void setPenColor(Color currentColor) {
     trail.setCurrentColor(currentColor);
   }

@@ -1,55 +1,36 @@
 package slogo;
 
-import java.beans.EventHandler;
+import java.util.List;
 
 /**
  * Interface containing Frontend methods that are meant for the Backend to use
  */
 public interface FrontEndExternal {
 
-    /**
-     * Accesses the Console to determine what the user typed in
-     * @return a string containing what the user typed in the console before hitting run
-     */
-    public String getConsoleString();
+  /**
+   * Updates the turtle display using a list of all the states of a turtle
+   *
+   * @param turtleList a list of turtle states from the backend
+   */
+  public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException;
 
-    /**
-     * Set the x and y of the turtle, pen, and trail
-     * @param newX the new X position determined by the backend
-     * @param newY the new Y position determined by the backend
-     */
-    public void updatePositions(double newX, double newY);
+  /**
+   * A getter for the current turtle state in case an error is thrown while executing a program
+   *
+   * @return the current state before an error occurred
+   */
+  public ImmutableTurtle getCurrentTurtle();
 
+  /**
+   * @return the language that was set by the user
+   */
+  public String getLanguage();
 
-    /**
-     * Set a new heading for the turtle
-     * @param newHeading is the new direction the turtle should be facing determined by the backend
-     */
-    public void updateHeading(double newHeading);
-
-
-    /**
-     * Change whether the pen is down or not
-     * @param penState sets the pen to being either up or down
-     */
-    public void updatePenState(boolean penState);
-
-    /**
-     * @return the language that was set by the user
-     */
-    public String getLanguage();
-
-    /**
-     * Handle an error and tell the User what issue occurred
-     * @param error the error that was thrown in the backend
-     */
-    public void displayError(Exception error);
-
-    /**
-     * Create a button that makes a backend change and add the button to the UI
-     * @param event the desired action upon button click
-     * @param property the key linked to a resource file that determines what text is on the button
-     */
-    public void createButton(EventHandler event, String property);
+  /**
+   * Handle an error and tell the User what issue occurred
+   *
+   * @param error the error that was thrown in the backend
+   */
+  public void displayError(Exception error);
 
 }

@@ -20,6 +20,12 @@ public class VariableExplorer{
         myDisplayVariables.remove(value.getName());
     }
 
+    public Variable<Double> addDoubleVarByName(String name, double val){
+        Variable<Double> var = new DoubleVariable(name, val);
+        this.addVariable(var);
+        return var;
+    }
+
     public void removeVariableByName(String name){
         if(getVariable(name) != null){
             myDisplayVariables.remove(getVariable(name));
