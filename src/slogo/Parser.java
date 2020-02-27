@@ -25,36 +25,40 @@ public class Parser {
     }
 
 
-    private List<String> getEntitiesFromString(String input){
+    private List<String> getEntitiesFromString(String input) throws ParsingException {
         String noCommentString = removeComments(input);
         String[] entities = noCommentString.split(" ");
         return combineBrackets(entities);
     }
 
-    //TODO check for proper number of brackets
-    private List<String> combineBrackets(String[] entities) {
+    private List<String> combineBrackets(String[] entities) throws ParsingException {
         List<String> entityList = new ArrayList<>();
         for(int i = 0; i < entities.length; i++){
             if(entities[i].equals("[")){
+
                 i++;
                 int bracketsSeen = 1;
                 String item = "";
-                while(bracketsSeen != 0) {
-                    if (entities[i].contains("]")) {
-                        bracketsSeen--;
-                    }
-                    if (entities[i].contains("[")) {
-                        bracketsSeen++;
-                    }
-                    if (bracketsSeen != 0) {
-                        if (item.equals("")) {
-                            item = entities[i];
+                try {
+                    while (bracketsSeen != 0) {
+                        if (entities[i].contains("]")) {
+                            bracketsSeen--;
                         }
-                        else {
-                            item = item + " " + entities[i];
+                        if (entities[i].contains("[")) {
+                            bracketsSeen++;
                         }
+                        if (bracketsSeen != 0) {
+                            if (item.equals("")) {
+                                item = entities[i];
+                            } else {
+                                item = item + " " + entities[i];
+                            }
+                        }
+                        i++;
                     }
-                    i++;
+                }
+                catch (ArrayIndexOutOfBoundsException e){
+                    throw new ParsingException("MissingCloseBracket");
                 }
                 i--;
                 entityList.add(item);
@@ -102,7 +106,7 @@ public class Parser {
         commandStack.push(com);
     }
 
-    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Turtle turtle) {
+    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Turtle turtle) throws ParsingException {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
@@ -126,8 +130,8 @@ public class Parser {
                 }
             }
         }
-        catch(EmptyStackException | ParsingException e){
-            e.printStackTrace();
+        catch(EmptyStackException e){
+            throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
         }
     }
 
