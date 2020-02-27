@@ -50,6 +50,7 @@ public class Controller implements PropertyChangeListener {
         }
         if (evt.getPropertyName().equals("Reset")){
             myTurtle.setToHome();
+            myTurtle.setHeading(0);
         }
     }
 
