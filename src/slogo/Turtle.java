@@ -87,7 +87,7 @@ public class Turtle {
         return 0;
     }
 
-    private double moveForward(ForwardCommand forward, List<String> params) throws ClassCastException{
+    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
         //List<Class> paramTypes = forward.getArgumentTypes();
         //variable to set, param, paramType,
         Double pixForward = getDoubleParameter(params.get(0));
@@ -96,7 +96,7 @@ public class Turtle {
         return pixForward;
     }
 
-    private double getDoubleParameter(String val){
+    private double getDoubleParameter(String val) throws ParsingException {
         try{
             return Double.parseDouble(val);
         }
@@ -104,17 +104,21 @@ public class Turtle {
             if(variableExplorer.getVariable(val) != null){
                 return (Double) variableExplorer.getVariable(val).getValue();
             }
+            else if(val.indexOf(":") == 0){
+                variableExplorer.addDoubleVarByName(val, 0.0);
+                return 0.0;
+            }
             else{
-                throw new ClassCastException();
+                throw new ParsingException("UnrecognizedEntity", val);
             }
         }
     }
 
     private double ifElseCommand(IfElseCommand command, List<String> params) throws ParsingException {
         double expr = getDoubleParameter(params.get(0));
-        int whichToExecute = 2;
+        int whichToExecute = 1;
         if(expr == 0.0){
-            whichToExecute = 1;
+            whichToExecute = 2;
         }
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, params.get(whichToExecute));
@@ -158,7 +162,7 @@ public class Turtle {
     }
 
     private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
-        Variable<Double> var = new DoubleVariable(iteratorName, startVal);
+        Variable<Double> var = variableExplorer.addDoubleVarByName(iteratorName, startVal);
         variableExplorer.addVariable(var);
         Parser newParser = new Parser(language, methodExplorer);
         while(var.getValue() <= endVal){
@@ -183,39 +187,39 @@ public class Turtle {
         internalStates.addAll(stateList);
     }
 
-    private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ClassCastException{
+    private double setVariable(MakeVariableCommand variableCommand, List<String> params) throws ParsingException {
         Variable<Double> var = new DoubleVariable(params.get(0), getDoubleParameter(params.get(1)));
         variableExplorer.addVariable(var);
         return var.getValue();
     }
 
 
-    private double moveBack(BackwardCommand backward, List<String> params) throws ClassCastException {
+    private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
         Double pixBackward = getDoubleParameter(params.get(0));
         myX-= pixBackward * Math.cos(Math.toRadians(myHeading));
         myY-= pixBackward * Math.sin(Math.toRadians(myHeading));
         return pixBackward;
     }
 
-    private double turnLeft(LeftCommand left, List<String> params) throws ClassCastException{
+    private double turnLeft(LeftCommand left, List<String> params) throws ParsingException {
         Double degreesLeft = getDoubleParameter(params.get(0));
         myHeading -= degreesLeft;
         return myHeading;
     }
 
-    private double turnRight(RightCommand right, List<String> params) throws ClassCastException{
+    private double turnRight(RightCommand right, List<String> params) throws ParsingException {
         Double degreesRight = getDoubleParameter(params.get(0));
         myHeading += degreesRight;
         return myHeading;
     }
 
-    private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ClassCastException{
+    private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ParsingException {
         Double heading = getDoubleParameter(params.get(0));
         myHeading = heading;
         return myHeading;
     }
 /*
-    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ClassCastException {
+    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
         Double newX = getDoubleParameter(params.get(0));
         Double newY = getDoubleParameter(params.get(1));
 
@@ -226,7 +230,7 @@ public class Turtle {
 
  */
 
-    private double setPosition(SetPositionCommand setPosition, List<String> params) throws ClassCastException {
+    private double setPosition(SetPositionCommand setPosition, List<String> params) throws ParsingException {
         double oldX = myX;
         double oldY = myY;
         myX = getDoubleParameter(params.get(0));
@@ -234,34 +238,34 @@ public class Turtle {
         return Math.hypot(myX - oldX, myY - oldY);
     }
 
-    private double setPenDown(PenDownCommand penDown, List<String> params) throws ClassCastException {
+    private double setPenDown(PenDownCommand penDown, List<String> params) throws ParsingException {
         penState = 1;
         return penState;
     }
 
-    private double setPenUp(PenUpCommand penUp, List<String> params) throws ClassCastException {
+    private double setPenUp(PenUpCommand penUp, List<String> params) throws ParsingException {
         penState = 0;
         return penState;
     }
 
-    private double showTurtle(ShowTurtleCommand showTurtle, List<String> params) throws ClassCastException {
+    private double showTurtle(ShowTurtleCommand showTurtle, List<String> params) throws ParsingException {
         showing = 1;
         return showing;
     }
 
-    private double hideTurtle(HideTurtleCommand hideTurtle, List<String> params) throws ClassCastException {
+    private double hideTurtle(HideTurtleCommand hideTurtle, List<String> params) throws ParsingException {
         showing = 0;
         return showing;
     }
 
-    private double goHome(GoHomeCommand goHome, List<String> params) throws ClassCastException {
+    private double goHome(GoHomeCommand goHome, List<String> params) throws ParsingException {
         double oldX = myX;
         double oldY = myY;
         setToHome();
         return Math.hypot(myX - oldX, myY - oldY);
     }
 /*
-    private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ClassCastException {
+    private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
         double oldX = myX;
         double oldY = myY;
         setToHome();

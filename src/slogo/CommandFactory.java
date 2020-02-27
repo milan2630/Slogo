@@ -1,7 +1,6 @@
 package slogo;
 
 import slogo.Commands.Command;
-import slogo.Commands.UserDefinedInstructionCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,8 +13,10 @@ public class CommandFactory {
     private static final String CLASS_PREFIX = "slogo.Commands.";
     private static final String CLASS_SUFFIX = "Command";
     private static final String RESOURCES = "resources";
+    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private static final String COMMAND_RESOURCES = "languages";
-    public static final String DEFAULT_COMMAND_RESOURCE_PACKAGE = RESOURCES + "/" + COMMAND_RESOURCES + ".";
+    private static final String DEFAULT_COMMAND_PACKAGE = COMMAND_RESOURCES + ".";
+    private static final String DEFAULT_COMMAND_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_PACKAGE;
     private ResourceBundle myResources;
 
     private Map<String, String> commands;
@@ -27,22 +28,34 @@ public class CommandFactory {
         methodExplorer = me;
     }
 
-    public Command getCommand(String commandCall) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        UserDefinedInstructionCommand userMethod = methodExplorer.getMethod(commandCall);
-        if(userMethod != null){
-            return userMethod;
+    public Command getCommand(String commandCall) throws ParsingException{
+        if(isUserDefined(commandCall)){
+            return methodExplorer.getMethod(commandCall);
         }
-        String className = CLASS_PREFIX + commands.get(commandCall) + CLASS_SUFFIX;
-        Class commandClass = Class.forName(className);
-        Constructor commandConstructor = commandClass.getConstructor();
-        return (Command) commandConstructor.newInstance();
+        try {
+            String className = CLASS_PREFIX + commands.get(commandCall) + CLASS_SUFFIX;
+            Class<?> commandClass = Class.forName(className);
+            Constructor<?> commandConstructor = commandClass.getConstructor();
+            return (Command) commandConstructor.newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new ParsingException("NoCommand", commandCall);
+        } catch (NoSuchMethodException e) {
+            throw new ParsingException("NoCommandConstructor", commandCall);
+        } catch (IllegalAccessException e) {
+            throw new ParsingException("CannotAccessCommand", commandCall);
+        } catch (InstantiationException e) {
+            throw new ParsingException("CannotInstantiateCommand", commandCall);
+        } catch (InvocationTargetException e) {
+            throw new ParsingException("CommandConstructorError", commandCall);
+        }
     }
 
-    public boolean isCommand(String item){
-        if(methodExplorer.getMethod(item) != null || commands.containsKey(item)){
-            return true;
-        }
-        return false;
+    public boolean isCommand(String item) {
+        return methodExplorer.getMethod(item) != null || commands.containsKey(item);
+    }
+
+    public boolean isUserDefined(String commandName){
+        return methodExplorer.getMethod(commandName) != null;
     }
 
     private void initializeMap() {
