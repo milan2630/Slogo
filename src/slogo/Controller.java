@@ -41,12 +41,7 @@ public class Controller implements PropertyChangeListener {
             try {
                 turtleList = myParser.parseCommands(command, myTurtle);
                 myHistory.addInput(command);
-                for (ImmutableTurtle it : turtleList) {
-                    myVisualizer.updatePositions(it.getX(), it.getY());
-                    myVisualizer.updateHeading(it.getHeading());
-                    myVisualizer.updatePenState(it.getPenState() == 1);
-                    myVisualizer.updateTurtleState(it.getShowing() == 1);
-                }
+                myVisualizer.updateTurtle(turtleList);
             }
             catch(ParsingException e) {
                 //TODO: handle exception properly

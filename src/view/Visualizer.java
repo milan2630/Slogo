@@ -1,6 +1,5 @@
 package view;
 
-import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -17,8 +16,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.ImmutableTurtle;
 
-public class Visualizer implements PropertyChangeListener, FrontEndExternal {
+public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
@@ -54,6 +54,7 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   public void addTerminalChangeListener(PropertyChangeListener newListener) {
     terminal.addChangeListener(newListener);
   }
+
   private void addPanesToRoot(BorderPane root) {
     Pane displayNode = display.getPane();
     Node terminalNode = terminal.getPane();
@@ -105,22 +106,18 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   }
 
   @Override
-  public void updatePositions(double newX, double newY) {
-    display.moveTurtle(new Point2D(newX, newY));
+  public void updateTurtle(List<ImmutableTurtle> turtleList) {
+    for (ImmutableTurtle turtle : turtleList) {
+      display.setTurtleHeading(turtle.getHeading());
+      display.setPenState(turtle.getPenState());
+      display.setTurtleVisibility(turtle.getShowing());
+      display.moveTurtle(new Point2D(turtle.getX(), turtle.getY()));
+    }
   }
 
   @Override
-  public void updateHeading(double newHeading) {
-    display.setTurtleHeading(newHeading);
-  }
-
-  @Override
-  public void updatePenState(boolean penState) {
-    display.setPenState(penState);
-  }
-
-  public void updateTurtleState(boolean turtleState) {
-    display.setTurtleState(turtleState);
+  public ImmutableTurtle getCurrentTurtle() {
+    return display.getTurtleState();
   }
 
   @Override
@@ -130,20 +127,19 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
 
   @Override
   public void displayError(Exception error) {
-  }
 
-  @Override
-  public void createButton(EventHandler event, String property) {
   }
 
   public void bindHistory(String language, ObservableList inputs) {
     tabPaneView.createHistoryTab(language, inputs);
     tabPaneView.addChangeHistoryListener(this);
   }
-  public void bindVariable(String language, ObservableList variables){
+
+  public void bindVariable(String language, ObservableList variables) {
     tabPaneView.createVariableTab(language, variables);
   }
-  public void bindMethods(String language, ObservableMap methods){
+
+  public void bindMethods(String language, ObservableMap methods) {
     tabPaneView.createMethodTab(language, methods);
   }
 }
