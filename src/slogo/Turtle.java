@@ -292,6 +292,17 @@ public class Turtle {
         return getDoubleParameter(params.get(0)) - getDoubleParameter(params.get(1));
     }
 
+    private double multiply(ProductCommand command, List<String> params) throws ParsingException {
+        return getDoubleParameter(params.get(0)) * getDoubleParameter(params.get(1));
+    }
+
+    private double divide(QuotientCommand command, List<String> params) throws ParsingException {
+        if(getDoubleParameter(params.get(1)) == 0){
+            throw new ParsingException("DivideZero", params.get(1));
+        }
+        return getDoubleParameter(params.get(0)) / getDoubleParameter(params.get(1));
+    }
+
 /*
     private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
         double oldX = myX;
