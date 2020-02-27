@@ -21,7 +21,7 @@ public class Parser {
      */
     public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
         List<String> entityList = getEntitiesFromString(input);
-        return new ArrayList<>(parseLine(entityList, turtle));
+        return new ArrayList<>(parseEntityList(entityList, turtle));
     }
 
 
@@ -79,7 +79,7 @@ public class Parser {
     }
 
 
-    private List<ImmutableTurtle> parseLine(List<String> entityList, Turtle turtle) {
+    private List<ImmutableTurtle> parseEntityList(List<String> entityList, Turtle turtle) throws ParsingException {
         List<ImmutableTurtle> states = new ArrayList<>();
 
         Stack<String> argumentStack = new Stack<>();
@@ -94,27 +94,12 @@ public class Parser {
             }
             combineCommandsArgs(states, argumentStack, commandStack, turtle);
         }
-
         return states;
-
     }
 
-    private void pushCommand(Stack<Command> commandStack, String item) {
-        try {
-            Command com = factory.getCommand(item);
-            commandStack.push(com);
-
-        } catch (InstantiationException ex) {
-            ex.printStackTrace();
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchMethodException ex) {
-            ex.printStackTrace();
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
+    private void pushCommand(Stack<Command> commandStack, String item) throws ParsingException {
+        Command com = factory.getCommand(item);
+        commandStack.push(com);
     }
 
     private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Turtle turtle) {
@@ -130,7 +115,6 @@ public class Parser {
                 Collections.reverse(params);
                 String result = turtle.actOnCommand(topCom, params);
                 states.addAll(turtle.getInternalStates());
-                //states.add(turtle.getImmutableTurtle());
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
                     numArguments = argumentStack.size();
@@ -151,8 +135,11 @@ public class Parser {
         return finalReturn;
     }
 
-    public static void main(String[] args) {
-        MethodExplorer me = new MethodExplorer();
+    public static void main(String[] args) throws ParsingException {
+
+
+
+        /*MethodExplorer me = new MethodExplorer();
         VariableExplorer ve = new VariableExplorer();
         Parser t = new Parser("English", me);
         Turtle turt = new Turtle(me, ve, "English");
@@ -175,6 +162,6 @@ public class Parser {
         } catch (ParsingException e) {
             e.printStackTrace();
         }
-
+*/
     }
 }
