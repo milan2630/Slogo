@@ -79,10 +79,9 @@ public class VariableView <E>{
     }
 
     private void emptyVariables() {
-//        if (!variables.isEmpty()) {
-//            variables.clear();
-//        }
-        System.out.println(variables.get(variables.size()-1));
+        if (!variables.isEmpty()) {
+            variables.clear();
+        }
         //tableView.refresh();
     }
     public void refreshTable(){

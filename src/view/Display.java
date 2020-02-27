@@ -79,6 +79,7 @@ public class Display {
 
   protected void updateTurtleImage(String filename){
     Image image = getImageByName(filename);
+    turtleImage = image;
     turtle.setGraphicImage(image);
   }
   

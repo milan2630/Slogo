@@ -37,7 +37,7 @@ public class SettingView {
     private String turtleImage;
     private static final String PEN_COLOR = "Pen Color";
     private static final String BACKGROUND_COLOR = "Background Color";
-    private static final String TURTLE_IMAGE = "Turtle Image";
+    private static final String TURTLE_IMAGE = "TurtleImage";
     private static final String PREFIX = "resources/ui/";
     private static final String IMAGE_PATH = "TurtleImages";
     private static final String HELP_IMAGES_PATH = "resources";
@@ -53,7 +53,7 @@ public class SettingView {
         imageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
         myTab = new Tab(resourceBundle.getString("SettingTab"));
         listener = new ArrayList<>();
-        language= "English.properties";
+        this.language = language;
         setupTab();
     }
 
@@ -64,7 +64,7 @@ public class SettingView {
         //Combo Boc for Selecting Image
         ComboBox<String> setTurtleImage = new ComboBox<>();
         setTurtleImage.setPromptText(resourceBundle.getString("LoadImage"));
-        ObservableList<String> images = FXCollections.observableList(new ArrayList<>(imageBundle.keySet()));
+        ObservableList<String> images = getTurtleImages();
         setTurtleImage.itemsProperty().bind(new SimpleObjectProperty<>(images));
         setTurtleImage.setOnAction(e-> saveFile(setTurtleImage.valueProperty().get()));
 
@@ -73,8 +73,8 @@ public class SettingView {
         ColorPicker backgroundColor = new ColorPicker();
         penColor.setOnAction(e->setPenColor(penColor.getValue()));
         backgroundColor.setOnAction(e->setBackgroundColor(backgroundColor.getValue()));
-        HBox penColorBox = getColorPickerBox("Pen Color: ", penColor);
-        HBox backgroundColorBox= getColorPickerBox("Background Color: ", backgroundColor);
+        HBox penColorBox = getColorPickerBox(resourceBundle.getString("PenColor"), penColor);
+        HBox backgroundColorBox= getColorPickerBox(resourceBundle.getString("BackgroundColor"), backgroundColor);
 
         //Select Language
         List<String> contents = getLanguages();
@@ -88,6 +88,17 @@ public class SettingView {
         vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox, help);
         vbox.setSpacing(10.0);
         myTab.setContent(vbox);
+    }
+
+    private ObservableList<String> getTurtleImages() {
+        File directoryPath = new File(HELP_IMAGES_PATH);
+        List<String> images = new ArrayList<>();
+        for (String s: directoryPath.list()){
+            if (s.contains("turtle"))
+                images.add(s);
+        }
+        Collections.sort(images);
+        return FXCollections.observableList(images);
     }
 
     private void handleHelpScreen() {
@@ -144,12 +155,10 @@ public class SettingView {
     }
     private void setBackgroundColor(Color value) {
       notifyListeners(BACKGROUND_COLOR, backgroundColorData, backgroundColorData = value.toString());
-      System.out.println("Background Color: "+value);
     }
 
     private void setPenColor(Color value) {
       notifyListeners(PEN_COLOR, penColorData, penColorData = value.toString());
-      System.out.println("Pen Color: "+value);
     }
 
     private void saveFile(String str) {
@@ -163,7 +172,6 @@ public class SettingView {
     private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
         HBox hbox = new HBox();
         Text text = new Text(str);
-        colorPicker.setPromptText("Enter Color: ");
         hbox.getChildren().addAll(text, colorPicker);
         hbox.setSpacing(10.0);
         return hbox;
