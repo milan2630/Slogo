@@ -20,8 +20,8 @@ public class Parser {
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
+        input = input.toLowerCase();
         List<String> entityList = getEntitiesFromString(input);
-        System.out.println(entityList.size());
         return parseEntityList(entityList, turtle);
     }
 
@@ -31,6 +31,7 @@ public class Parser {
         if(noCommentString.equals("")){
             return new ArrayList<>();
         }
+        noCommentString = noCommentString.replaceAll("\\s+", " ");
         String[] entities = noCommentString.split(" ");
         return combineBrackets(entities);
     }
@@ -94,7 +95,6 @@ public class Parser {
         Stack<Command> commandStack = new Stack<>();
 
         for(String item: entityList){
-            System.out.println("B: " + item);
             if(factory.isCommand(item)){
                 pushCommand(commandStack, item);
             }
