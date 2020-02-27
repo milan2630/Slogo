@@ -8,7 +8,6 @@ import java.util.*;
 public class Parser {
     private CommandFactory factory;
     private double finalReturn;
-
     public Parser(String lang, MethodExplorer me){
         factory = new CommandFactory(lang, me);
         finalReturn = 0;
@@ -144,6 +143,9 @@ public class Parser {
         return finalReturn;
     }
 
+    public void setLanguage(String lang){
+        factory.setupLanguage(lang);
+    }
     public static void main(String[] args) throws ParsingException {
 
 
