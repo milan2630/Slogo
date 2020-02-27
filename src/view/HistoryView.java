@@ -45,7 +45,7 @@ public class HistoryView {
     }
 
     private void print() {
-        System.out.println(list.getSelectionModel().getSelectedItem());
+        //System.out.println(list.getSelectionModel().getSelectedItem());
         notifyListeners("HistoryVariable","" , list.getSelectionModel().getSelectedItem() );
     }
 

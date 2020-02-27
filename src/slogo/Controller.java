@@ -23,16 +23,13 @@ public class Controller implements PropertyChangeListener {
     public Controller(Stage stage, String language) {
         myVisualizer = new Visualizer(stage, language);
         myVisualizer.addTerminalChangeListener(this);
-
         myME = new MethodExplorer();
         myVE = new VariableExplorer();
         this.language = language;
         myParser = new Parser(language, myME);
         myTurtle = new Turtle(myME, myVE, language);
         myHistory = new History();
-        myVisualizer.bindHistory(this.language, myHistory.getInputs());
-        myVisualizer.bindVariable(this.language, myVE.getDisplayVariables());
-        myVisualizer.bindMethods(this.language, myME.getMethodNames());
+        myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),myME.getMethodNames() );
     }
 
     @Override
@@ -41,6 +38,7 @@ public class Controller implements PropertyChangeListener {
             String command = evt.getNewValue().toString();
             try {
                 turtleList = myParser.parseCommands(command, myTurtle);
+                myHistory.addInput(command);
                 for (ImmutableTurtle it : turtleList) {
                     updatePositions(it);
                     updateHeading(it);

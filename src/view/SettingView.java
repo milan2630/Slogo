@@ -34,14 +34,16 @@ public class SettingView {
     private List<PropertyChangeListener> listener;
     private String penColorData;
     private String backgroundColorData;
+    private String turtleImage;
     private static final String PEN_COLOR = "Pen Color";
     private static final String BACKGROUND_COLOR = "Background Color";
+    private static final String TURTLE_IMAGE = "Turtle Image";
     private static final String PREFIX = "resources/ui/";
     private static final String IMAGE_PATH = "TurtleImages";
     private static final String HELP_IMAGES_PATH = "resources";
     private static final String LANGUAGE_PATH = "src/resources/languages/";
-    private final int IMAGE_HEIGHT = 344;
-    private final int IMAGE_WIDTH = 800;
+    private final int IMAGE_HEIGHT = 283;
+    private final int IMAGE_WIDTH = 500;
   private static final double PADDING = 5;
 
     public SettingView(String language) {
@@ -51,8 +53,8 @@ public class SettingView {
         imageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
         myTab = new Tab(resourceBundle.getString("SettingTab"));
         listener = new ArrayList<>();
+        language= "English.properties";
         setupTab();
-
     }
 
     public Tab getTab() { return myTab;}
@@ -90,7 +92,7 @@ public class SettingView {
 
     private void handleHelpScreen() {
         final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(Modality.NONE);
         ScrollPane scrollPane = new ScrollPane();
         VBox helpImages = createHelpScreen();
         scrollPane.setContent(helpImages);
@@ -126,16 +128,20 @@ public class SettingView {
         File directoryPath = new File(LANGUAGE_PATH);
         List<String> languages = new ArrayList<>();
         for (String s: directoryPath.list()){
-            languages.add(s);
+            int index = s.indexOf(".");
+            String substring = s.substring(0, index);
+            languages.add(substring);
         }
-
         return languages;
     }
 
     private void changeLanguage(String s) {
-        System.out.println(s);
+        this.language = s;
     }
 
+    public String getLanguage(){
+        return language;
+    }
     private void setBackgroundColor(Color value) {
       notifyListeners(BACKGROUND_COLOR, backgroundColorData, backgroundColorData = value.toString());
       System.out.println("Background Color: "+value);
@@ -147,7 +153,7 @@ public class SettingView {
     }
 
     private void saveFile(String str) {
-        System.out.println(imageBundle.getString(str));
+        notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage=str);
     }
 
     private void showMessage (Alert.AlertType type, String message) {

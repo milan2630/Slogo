@@ -136,14 +136,11 @@ public class Visualizer implements PropertyChangeListener, FrontEndExternal {
   public void createButton(EventHandler event, String property) {
   }
 
-  public void bindHistory(String language, ObservableList inputs) {
-    tabPaneView.createHistoryTab(language, inputs);
+  public void bindTabs(String language, ObservableList history, ObservableList variables, ObservableMap methods){
+    tabPaneView.createHistoryTab(language, history);
     tabPaneView.addChangeHistoryListener(this);
-  }
-  public void bindVariable(String language, ObservableList variables){
     tabPaneView.createVariableTab(language, variables);
-  }
-  public void bindMethods(String language, ObservableMap methods){
     tabPaneView.createMethodTab(language, methods);
   }
+
 }
