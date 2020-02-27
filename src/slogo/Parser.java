@@ -91,16 +91,16 @@ public class Parser {
 
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
-        int reset = 0;
+        Stack<Integer> countFromStack = new Stack<>();
         for(String item: entityList){
             if(factory.isCommand(item)){
                 pushCommand(commandStack, item);
-                reset = argumentStack.size();
+                countFromStack.push(argumentStack.size());
             }
             else{
                 argumentStack.push(item);
             }
-            reset = combineCommandsArgs(states, argumentStack, commandStack, turtle, reset);
+            combineCommandsArgs(states, argumentStack, commandStack, turtle, countFromStack);
         }
         if(commandStack.size() > 0){
             String unfulfilled = "";
@@ -117,14 +117,15 @@ public class Parser {
         commandStack.push(com);
     }
 
-    private int combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Turtle turtle, int reset) throws ParsingException {
+    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Turtle turtle, Stack<Integer> countFromStack) throws ParsingException {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
-            while(numArguments - reset >= topCom.getNumArguments()){
+
+            while(numArguments - countFromStack.peek() >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
                 List<String> params = new ArrayList<>();
-                for(int i = 0; i < numArguments - reset; i++){
+                for(int i = 0; i < numArguments - countFromStack.peek(); i++){
                     params.add(argumentStack.pop());
                 }
                 Collections.reverse(params);
@@ -132,7 +133,7 @@ public class Parser {
                 states.addAll(turtle.getInternalStates());
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
-                    reset--;
+                    countFromStack.pop();
                     numArguments = argumentStack.size();
                     topCom = commandStack.peek();
                 }
@@ -143,9 +144,9 @@ public class Parser {
             }
         }
         catch(EmptyStackException e){
-            throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
+            e.printStackTrace();
+            //throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
         }
-        return reset;
     }
 
     public double getFinalReturn(){
