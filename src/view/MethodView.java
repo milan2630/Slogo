@@ -45,7 +45,8 @@ public class MethodView {
 
     private void handle(MapChangeListener.Change<? extends String,? extends UserDefinedInstructionCommand> c) {
         if (c.wasAdded()){
-            listView.getItems().add(c.getKey());
+            String str = ""+methods.get(c.getKey()).getNumArguments();
+            listView.getItems().add(c.getKey()+"\t"+str);
         }
         if (c.wasRemoved()){
             listView.getItems().remove(c.getKey());
@@ -62,6 +63,7 @@ public class MethodView {
     private void clearSavedMethods() {
         if (!methods.isEmpty()){
             methods.clear();
+            listView.getItems().clear();
         }
     }
     public Tab getTab(){ return myTab;}

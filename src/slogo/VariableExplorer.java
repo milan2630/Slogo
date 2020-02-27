@@ -17,7 +17,7 @@ public class VariableExplorer{
         myDisplayVariables.add(value);
     }
     public void removeVariable(Variable value){
-        myDisplayVariables.remove(value);
+        myDisplayVariables.remove(value.getName());
     }
 
     public void removeVariableByName(String name){
