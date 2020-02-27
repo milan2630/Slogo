@@ -91,12 +91,12 @@ public class Turtle {
         return 0;
     }
 
-    //TODO implement properly
     private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
         //List<Class> paramTypes = forward.getArgumentTypes();
         //variable to set, param, paramType,
         Double pixForward = getDoubleParameter(params.get(0));
-        myX+= pixForward;
+        myX+= pixForward * Math.cos(Math.toRadians(myHeading));
+        myY+= pixForward * Math.sin(Math.toRadians(myHeading));
         return pixForward;
     }
 
@@ -200,7 +200,8 @@ public class Turtle {
 
     private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
         Double pixBackward = getDoubleParameter(params.get(0));
-        myX-= pixBackward;
+        myX-= pixBackward * Math.cos(Math.toRadians(myHeading));
+        myY-= pixBackward * Math.sin(Math.toRadians(myHeading));
         return pixBackward;
     }
 
@@ -208,66 +209,74 @@ public class Turtle {
         Double degreesLeft = getDoubleParameter(params.get(0));
         myHeading -= degreesLeft;
         return myHeading;
-        //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
     private double turnRight(RightCommand right, List<String> params) throws ParsingException {
         Double degreesRight = getDoubleParameter(params.get(0));
         myHeading += degreesRight;
         return myHeading;
-        //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
 
     private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ParsingException {
         Double heading = getDoubleParameter(params.get(0));
         myHeading = heading;
         return myHeading;
-        //FIXME: turtle graphic turns, but turtle does not move based on degrees
     }
+/*
+    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
+        Double newX = getDoubleParameter(params.get(0));
+        Double newY = getDoubleParameter(params.get(1));
 
-    /*
-    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ClassCastException {
-        Double x = getDoubleParameter(params.get(0));
-        Double y = getDoubleParameter(params.get(1));
-        myX = x;
-        myY = y;
+        double oldHeading = myHeading;
         //TODO: calculate the angle and set heading to that
         //return number of degrees
     }
 
-    private void setPosition(SetPositionCommand setPosition, List<String> params) throws ClassCastException {
-        Double x = getDoubleParameter(params.get(0));
-        Double y = getDoubleParameter(params.get(1));
-        myX = x;
-        myY = y;
-        //return distance moved
+ */
+
+    private double setPosition(SetPositionCommand setPosition, List<String> params) throws ParsingException {
+        double oldX = myX;
+        double oldY = myY;
+        myX = getDoubleParameter(params.get(0));
+        myY = getDoubleParameter(params.get(1));
+        return Math.hypot(myX - oldX, myY - oldY);
     }
 
-    private void penDown(PenDownCommand penDown) {
+    private double setPenDown(PenDownCommand penDown, List<String> params) throws ParsingException {
         penState = 1;
+        return penState;
     }
 
-    private void penUp(PenUpCommand penUp) {
+    private double setPenUp(PenUpCommand penUp, List<String> params) throws ParsingException {
         penState = 0;
+        return penState;
     }
 
-    private void showTurtle(ShowTurtleCommand showTurtle) {
+    private double showTurtle(ShowTurtleCommand showTurtle, List<String> params) throws ParsingException {
         showing = 1;
+        return showing;
     }
 
-    private void hideTurtle(HideTurtleCommand hideTurtle) {
+    private double hideTurtle(HideTurtleCommand hideTurtle, List<String> params) throws ParsingException {
         showing = 0;
+        return showing;
     }
 
-    private void goHome(GoHomeCommand goHome) {
+    private double goHome(GoHomeCommand goHome, List<String> params) throws ParsingException {
+        double oldX = myX;
+        double oldY = myY;
         setToHome();
+        return Math.hypot(myX - oldX, myY - oldY);
     }
-
-    private void clearScreen(ClearScreenCommand clearScreen) {
-        goHome(new GoHomeCommand());
-        // TODO: tell Controller and clear TrailView in Visualizer
+/*
+    private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
+        double oldX = myX;
+        double oldY = myY;
+        setToHome();
+        // TODO: tell Controller and clear TrailView in Visualizer, won't work until design change
+        return Math.hypot(myX - oldX, myY - oldY);
     }
-    */
+ */
 
     public double getX() {
         return myX;
