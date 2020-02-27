@@ -72,6 +72,7 @@ public class Terminal {
     Button button = new Button();
     button.setText(text);
     button.setPrefWidth(BUTTON_PANE_WIDTH);
+    button.getStyleClass().add("button");
     return button;
   }
 

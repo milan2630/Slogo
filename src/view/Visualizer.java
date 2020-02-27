@@ -47,6 +47,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    scene.getStylesheets().add("resources/styles/default.css");
     stage.setScene(scene);
     stage.show();
   }
