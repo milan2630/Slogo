@@ -222,17 +222,21 @@ public class Turtle {
         myHeading = heading;
         return myHeading;
     }
-/*
-    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
-        Double newX = getDoubleParameter(params.get(0));
-        Double newY = getDoubleParameter(params.get(1));
+
+    private double setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
+        Double towardX = getDoubleParameter(params.get(0));
+        Double towardY = getDoubleParameter(params.get(1));
+
+        if(towardX == myX && towardY == myY) {
+            System.out.println("You can't do that");
+            return 0;
+            //throw new ParsingException("TowardSelfException");
+        }
 
         double oldHeading = myHeading;
-        //TODO: calculate the angle and set heading to that
-        //return number of degrees
+        myHeading = Math.toDegrees(Math.atan((myY-towardY)/(towardX-myX)));
+        return myHeading - oldHeading;
     }
-
- */
 
     private double setPosition(SetPositionCommand setPosition, List<String> params) throws ParsingException {
         double oldX = myX;
