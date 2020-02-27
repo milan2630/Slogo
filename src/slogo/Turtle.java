@@ -39,6 +39,9 @@ public class Turtle {
         internalStates = new ArrayList<>();
     }
 
+    public void changeLanguage(String lang){
+        language = lang;
+    }
     public String actOnCommand(Command command, List<String> params) throws ParsingException {
         return callMethod(command, params) + "";
     }
@@ -72,32 +75,36 @@ public class Turtle {
         String com = command.getExecutableCommands();
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, com);
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
+        variableExplorer.removeVariablesByNames(command.getArgumentNames());
         return newParser.getFinalReturn();
     }
 
-
-    private double makeMethod(MakeUserInstructionCommand command, List<String> params){
-        List<String> paramNames = new ArrayList<>();
-        String[] names = params.get(1).split(" ");
-        paramNames.addAll(Arrays.asList(names));
-        for(int i = 0; i < paramNames.size(); i++){
-            if(paramNames.get(i).equals("")){
-                paramNames.remove(i);
-            }
+    private void removeLastInternalState() {
+        if(internalStates.size() > 0) {
+            internalStates.remove(internalStates.size() - 1);
         }
-        UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
-        methodExplorer.addMethod(newMethod);
-        return 0;
     }
 
-    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
-        //List<Class> paramTypes = forward.getArgumentTypes();
-        //variable to set, param, paramType,
-        Double pixForward = getDoubleParameter(params.get(0));
-        myX+= pixForward * Math.cos(Math.toRadians(myHeading));
-        myY+= pixForward * Math.sin(Math.toRadians(myHeading));
-        return pixForward;
+
+    private double makeMethod(MakeUserInstructionCommand command, List<String> params) throws ParsingException {
+        try{
+            Double.parseDouble(params.get(0));
+            throw new ParsingException("DuplicateMethod");
+        }
+        catch (NumberFormatException e) {
+            List<String> paramNames = new ArrayList<>();
+            String[] names = params.get(1).split(" ");
+            paramNames.addAll(Arrays.asList(names));
+            for (int i = 0; i < paramNames.size(); i++) {
+                if (paramNames.get(i).equals("")) {
+                    paramNames.remove(i);
+                }
+            }
+            UserDefinedInstructionCommand newMethod = new UserDefinedInstructionCommand(params.get(0), params.get(2), paramNames);
+            methodExplorer.addMethod(newMethod);
+            return 0;
+        }
     }
 
     private double getDoubleParameter(String val) throws ParsingException {
@@ -126,7 +133,7 @@ public class Turtle {
         }
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, params.get(whichToExecute));
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         return newParser.getFinalReturn();
     }
 
@@ -137,7 +144,7 @@ public class Turtle {
         }
         Parser newParser = new Parser(language, methodExplorer);
         parseInternalCommand(newParser, params.get(1));
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         return newParser.getFinalReturn();
     }
 
@@ -167,13 +174,12 @@ public class Turtle {
 
     private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
         Variable<Double> var = variableExplorer.addDoubleVarByName(iteratorName, startVal);
-        variableExplorer.addVariable(var);
         Parser newParser = new Parser(language, methodExplorer);
         while(var.getValue() <= endVal){
             parseInternalCommand(newParser, command);
             var.setValue(var.getValue()+iterationVal);
         }
-        internalStates.remove(internalStates.size()-1);
+        removeLastInternalState();
         return newParser.getFinalReturn();
     }
 
@@ -197,11 +203,17 @@ public class Turtle {
         return var.getValue();
     }
 
+    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
+        Double pixForward = getDoubleParameter(params.get(0));
+        myY+= pixForward * Math.cos(Math.toRadians(myHeading));
+        myX+= pixForward * Math.sin(Math.toRadians(myHeading));
+        return pixForward;
+    }
 
     private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
         Double pixBackward = getDoubleParameter(params.get(0));
-        myX-= pixBackward * Math.cos(Math.toRadians(myHeading));
-        myY-= pixBackward * Math.sin(Math.toRadians(myHeading));
+        myY-= pixBackward * Math.cos(Math.toRadians(myHeading));
+        myX-= pixBackward * Math.sin(Math.toRadians(myHeading));
         return pixBackward;
     }
 
@@ -222,17 +234,19 @@ public class Turtle {
         myHeading = heading;
         return myHeading;
     }
-/*
-    private void setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
-        Double newX = getDoubleParameter(params.get(0));
-        Double newY = getDoubleParameter(params.get(1));
+
+    private double setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
+        Double towardX = getDoubleParameter(params.get(0));
+        Double towardY = getDoubleParameter(params.get(1));
+
+        if(towardX == myX && towardY == myY) {
+            throw new ParsingException("TowardSelfException");
+        }
 
         double oldHeading = myHeading;
-        //TODO: calculate the angle and set heading to that
-        //return number of degrees
+        myHeading = Math.toDegrees(Math.atan((towardX-myX)/(towardY-myY)));
+        return myHeading - oldHeading;
     }
-
- */
 
     private double setPosition(SetPositionCommand setPosition, List<String> params) throws ParsingException {
         double oldX = myX;

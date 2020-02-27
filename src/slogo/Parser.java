@@ -8,7 +8,6 @@ import java.util.*;
 public class Parser {
     private CommandFactory factory;
     private double finalReturn;
-
     public Parser(String lang, MethodExplorer me){
         factory = new CommandFactory(lang, me);
         finalReturn = 0;
@@ -20,13 +19,18 @@ public class Parser {
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseCommands(String input, Turtle turtle) throws ParsingException{
+        input = input.toLowerCase();
         List<String> entityList = getEntitiesFromString(input);
-        return new ArrayList<>(parseEntityList(entityList, turtle));
+        return parseEntityList(entityList, turtle);
     }
 
 
     private List<String> getEntitiesFromString(String input) throws ParsingException {
         String noCommentString = removeComments(input);
+        if(noCommentString.equals("")){
+            return new ArrayList<>();
+        }
+        noCommentString = noCommentString.replaceAll("\\s+", " ");
         String[] entities = noCommentString.split(" ");
         return combineBrackets(entities);
     }
@@ -139,6 +143,9 @@ public class Parser {
         return finalReturn;
     }
 
+    public void setLanguage(String lang){
+        factory.setupLanguage(lang);
+    }
     public static void main(String[] args) throws ParsingException {
 
 

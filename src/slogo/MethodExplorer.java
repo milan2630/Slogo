@@ -14,9 +14,10 @@ public class MethodExplorer {
         methodMap = FXCollections.observableMap(new HashMap<>());
     }
 
-    public void addMethod(UserDefinedInstructionCommand method){
+    public void addMethod(UserDefinedInstructionCommand method) throws ParsingException {
         methodMap.put(method.getName(), method);
     }
+
 
     public UserDefinedInstructionCommand getMethod(String name){
         if(methodMap.keySet().contains(name)){

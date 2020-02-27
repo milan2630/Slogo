@@ -23,9 +23,13 @@ public class CommandFactory {
     private MethodExplorer methodExplorer;
 
     public CommandFactory(String lang, MethodExplorer me){
+        setupLanguage(lang);
+        methodExplorer = me;
+    }
+
+    public void setupLanguage(String lang) {
         myResources = ResourceBundle.getBundle(DEFAULT_COMMAND_RESOURCE_PACKAGE + lang);
         initializeMap();
-        methodExplorer = me;
     }
 
     public Command getCommand(String commandCall) throws ParsingException{
