@@ -52,9 +52,13 @@ public class Turtle {
             double ret = (double) method.invoke(this, command, params);
             internalStates.add(this.getImmutableTurtle());
             return ret;
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return 0;
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new ParsingException("ExecuteMissing", command.toString());
+        } catch (InvocationTargetException e) {
+            if(e.getCause() instanceof ParsingException){
+                throw (ParsingException) e.getCause();
+            }
+            throw new ParsingException("CommandExecuteError", command.toString());//TODO implemenet Command.toString()
         }
     }
 
