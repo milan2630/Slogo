@@ -77,6 +77,12 @@ public class Display {
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
+  protected void updateTurtleImage(String filename){
+    Image image = getImageByName(filename);
+    turtleImage = image;
+    turtle.setGraphicImage(image);
+  }
+  
   protected void setPenColor(Color currentColor) {
     trail.setCurrentColor(currentColor);
   }

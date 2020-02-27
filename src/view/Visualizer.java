@@ -30,6 +30,11 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
+  private final String RESET = "Reset";
+  private static final String PEN_COLOR = "Pen Color";
+  private static final String BACKGROUND_COLOR = "Background Color";
+  private static final String HISTORY_VARIABLE = "HistoryVariable";
+  private static final String TURTLE_IMAGE = "TurtleImage";
 
   public Visualizer(Stage stage, String language) {
     this.language = language;
@@ -87,17 +92,21 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("Reset")) {
+    if (evt.getPropertyName().equals(RESET)) {
       display.resetPane();
     }
-    if (evt.getPropertyName().equals("Pen Color")) {
+    if (evt.getPropertyName().equals(PEN_COLOR)) {
       display.setPenColor(Color.web(evt.getNewValue().toString()));
     }
-    if (evt.getPropertyName().equals("Background Color")) {
+    if (evt.getPropertyName().equals(BACKGROUND_COLOR)) {
       display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
     }
-    if (evt.getPropertyName().equals("HistoryVariable")) {
+
+    if (evt.getPropertyName().equals(HISTORY_VARIABLE)) {
       terminal.setInputText(evt.getNewValue().toString());
+    }
+    if (evt.getPropertyName().equals(TURTLE_IMAGE)){
+      display.updateTurtleImage(evt.getNewValue().toString());
     }
   }
 
@@ -130,7 +139,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   @Override
   public String getLanguage() {
-    return language;
+    return tabPaneView.getLanguage();
   }
 
   @Override
@@ -138,16 +147,11 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     terminal.setErrorText(error.getMessage());
   }
 
-  public void bindHistory(String language, ObservableList inputs) {
-    tabPaneView.createHistoryTab(language, inputs);
+  public void bindTabs(String language, ObservableList history, ObservableList variables, ObservableMap methods){
+    tabPaneView.createHistoryTab(language, history);
     tabPaneView.addChangeHistoryListener(this);
-  }
-
-  public void bindVariable(String language, ObservableList variables) {
+    tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);
   }
 
-  public void bindMethods(String language, ObservableMap methods) {
-    tabPaneView.createMethodTab(language, methods);
-  }
 }

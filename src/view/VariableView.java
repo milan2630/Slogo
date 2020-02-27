@@ -2,16 +2,15 @@ package view;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.collections.ObservableSet;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import slogo.*;
+import slogo.Commands.UserDefinedInstructionCommand;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,13 +19,19 @@ public class VariableView <E>{
     private ObservableList<Variable> variables;
     private Tab myTab;
     private TableView<Variable> tableView;
+    private ListView<String> listView;
     private static ResourceBundle resourceBundle;
     public VariableView(String language, ObservableList variableList){
         resourceBundle = ResourceBundle.getBundle("resources/ui/" + language);
         variables=variableList;
+        //listView = new ListView();
         myTab = new Tab(resourceBundle.getString("VariableTab"));
-        this.tableView = new TableView<>();
+        this.tableView = new TableView<Variable>(variables);
         setupTab();
+    }
+
+    private void handle() {
+        tableView.refresh();
     }
 
     /**
@@ -41,9 +46,19 @@ public class VariableView <E>{
         VBox vbox = new VBox();
         Button clear = makeClearButton();
         setupTableView();
+        //setupListView();
         vbox.getChildren().addAll(clear, tableView);
         vbox.setAlignment(Pos.CENTER);
         myTab.setContent(vbox);
+    }
+    private void setupListView() {
+        //listView.itemsProperty().bind(new SimpleObjectProperty<>(variables));
+    }
+
+
+    private void handle2(ListChangeListener.Change c) {
+        listView.getItems().add(variables.size()+"");
+        //System.out.println(variables.get(variables.size()-1).getName());
     }
 
     private void setupTableView() {
@@ -54,6 +69,7 @@ public class VariableView <E>{
         valueCol.setCellValueFactory(new PropertyValueFactory<Variable,E>("Value"));
         tableView.setItems(variables);
         tableView.getColumns().addAll(variableNameCol, valueCol);
+        tableView.refresh();
     }
 
     private Button makeClearButton() {
@@ -66,6 +82,9 @@ public class VariableView <E>{
         if (!variables.isEmpty()) {
             variables.clear();
         }
+        //tableView.refresh();
     }
-
+    public void refreshTable(){
+        tableView.refresh();
+    }
 }

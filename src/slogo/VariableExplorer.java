@@ -20,7 +20,7 @@ public class VariableExplorer{
         myDisplayVariables.add(value);
     }
     public void removeVariable(Variable value){
-        myDisplayVariables.remove(value);
+        myDisplayVariables.remove(value.getName());
     }
 
     public Variable<Double> addDoubleVarByName(String name, double val) throws ParsingException {

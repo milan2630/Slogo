@@ -34,14 +34,16 @@ public class SettingView {
     private List<PropertyChangeListener> listener;
     private String penColorData;
     private String backgroundColorData;
+    private String turtleImage;
     private static final String PEN_COLOR = "Pen Color";
     private static final String BACKGROUND_COLOR = "Background Color";
+    private static final String TURTLE_IMAGE = "TurtleImage";
     private static final String PREFIX = "resources/ui/";
     private static final String IMAGE_PATH = "TurtleImages";
     private static final String HELP_IMAGES_PATH = "resources";
     private static final String LANGUAGE_PATH = "src/resources/languages/";
-    private final int IMAGE_HEIGHT = 344;
-    private final int IMAGE_WIDTH = 800;
+    private final int IMAGE_HEIGHT = 283;
+    private final int IMAGE_WIDTH = 500;
   private static final double PADDING = 5;
 
     public SettingView(String language) {
@@ -51,8 +53,8 @@ public class SettingView {
         imageBundle = ResourceBundle.getBundle(PREFIX+IMAGE_PATH);
         myTab = new Tab(resourceBundle.getString("SettingTab"));
         listener = new ArrayList<>();
+        this.language = language;
         setupTab();
-
     }
 
     public Tab getTab() { return myTab;}
@@ -62,7 +64,7 @@ public class SettingView {
         //Combo Boc for Selecting Image
         ComboBox<String> setTurtleImage = new ComboBox<>();
         setTurtleImage.setPromptText(resourceBundle.getString("LoadImage"));
-        ObservableList<String> images = FXCollections.observableList(new ArrayList<>(imageBundle.keySet()));
+        ObservableList<String> images = getTurtleImages();
         setTurtleImage.itemsProperty().bind(new SimpleObjectProperty<>(images));
         setTurtleImage.setOnAction(e-> saveFile(setTurtleImage.valueProperty().get()));
 
@@ -71,8 +73,8 @@ public class SettingView {
         ColorPicker backgroundColor = new ColorPicker();
         penColor.setOnAction(e->setPenColor(penColor.getValue()));
         backgroundColor.setOnAction(e->setBackgroundColor(backgroundColor.getValue()));
-        HBox penColorBox = getColorPickerBox("Pen Color: ", penColor);
-        HBox backgroundColorBox= getColorPickerBox("Background Color: ", backgroundColor);
+        HBox penColorBox = getColorPickerBox(resourceBundle.getString("PenColor"), penColor);
+        HBox backgroundColorBox= getColorPickerBox(resourceBundle.getString("BackgroundColor"), backgroundColor);
 
         //Select Language
         List<String> contents = getLanguages();
@@ -88,9 +90,20 @@ public class SettingView {
         myTab.setContent(vbox);
     }
 
+    private ObservableList<String> getTurtleImages() {
+        File directoryPath = new File(HELP_IMAGES_PATH);
+        List<String> images = new ArrayList<>();
+        for (String s: directoryPath.list()){
+            if (s.contains("turtle"))
+                images.add(s);
+        }
+        Collections.sort(images);
+        return FXCollections.observableList(images);
+    }
+
     private void handleHelpScreen() {
         final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(Modality.NONE);
         ScrollPane scrollPane = new ScrollPane();
         VBox helpImages = createHelpScreen();
         scrollPane.setContent(helpImages);
@@ -126,28 +139,30 @@ public class SettingView {
         File directoryPath = new File(LANGUAGE_PATH);
         List<String> languages = new ArrayList<>();
         for (String s: directoryPath.list()){
-            languages.add(s);
+            int index = s.indexOf(".");
+            String substring = s.substring(0, index);
+            languages.add(substring);
         }
-
         return languages;
     }
 
     private void changeLanguage(String s) {
-        System.out.println(s);
+        this.language = s;
     }
 
+    public String getLanguage(){
+        return language;
+    }
     private void setBackgroundColor(Color value) {
       notifyListeners(BACKGROUND_COLOR, backgroundColorData, backgroundColorData = value.toString());
-      System.out.println("Background Color: "+value);
     }
 
     private void setPenColor(Color value) {
       notifyListeners(PEN_COLOR, penColorData, penColorData = value.toString());
-      System.out.println("Pen Color: "+value);
     }
 
     private void saveFile(String str) {
-        System.out.println(imageBundle.getString(str));
+        notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage=str);
     }
 
     private void showMessage (Alert.AlertType type, String message) {
@@ -157,7 +172,6 @@ public class SettingView {
     private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
         HBox hbox = new HBox();
         Text text = new Text(str);
-        colorPicker.setPromptText("Enter Color: ");
         hbox.getChildren().addAll(text, colorPicker);
         hbox.setSpacing(10.0);
         return hbox;
