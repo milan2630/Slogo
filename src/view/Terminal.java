@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -8,14 +9,10 @@ import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 public class Terminal {
 
@@ -26,11 +23,11 @@ public class Terminal {
   private Button resetButton;
   private BorderPane buttonPane;
   private TextArea input;
-  private TextField errors;
+  private Label errors;
   private String data;
   private static final double HEIGHT = 150;
   private static final double BUTTON_PANE_WIDTH = 100;
-  private static final double ERROR_PANE_HEIGHT = 30;
+  private static final double ERROR_PANE_HEIGHT = 25;
   private static final String RUN = "Run";
   private static final String RESET = "Reset";
 
@@ -40,9 +37,8 @@ public class Terminal {
     resourceBundle = ResourceBundle
         .getBundle("resources/ui/" + language);
     this.pane = new BorderPane();
-    setBackgroundColor(pane, Color.web("E5E5E5"));
     pane.setPrefHeight(HEIGHT);
-
+    pane.getStyleClass().add("terminal");
     createInput();
     createButtonPane();
     createErrorPane();
@@ -72,7 +68,7 @@ public class Terminal {
     Button button = new Button();
     button.setText(text);
     button.setPrefWidth(BUTTON_PANE_WIDTH);
-    button.getStyleClass().add("button");
+    button.getStyleClass().add("terminal-button");
     return button;
   }
 
@@ -93,11 +89,14 @@ public class Terminal {
 
   private void createButtonPane() {
     buttonPane = new BorderPane();
+    buttonPane.setPadding((new Insets(10, 5, 10, 5)));
+    buttonPane.getStyleClass().add("button-box");
+
+
     double width = BUTTON_PANE_WIDTH;
     double height = HEIGHT - ERROR_PANE_HEIGHT;
 
     buttonPane.setPrefSize(width, height);
-    setBackgroundColor(buttonPane, Color.web("D2D2D2"));
 
     createRunButton();
     createClearButton();
@@ -108,6 +107,8 @@ public class Terminal {
 
   private void createInput() {
     input = new TextArea();
+    input.getStyleClass().add("input-box");
+    input.setPadding((new Insets(0, 5, 5, 5)));
     input.setPrefHeight(HEIGHT - ERROR_PANE_HEIGHT);
     input.setPromptText(resourceBundle.getString("TerminalPrompt"));
     input.setFocusTraversable(false);
@@ -115,12 +116,12 @@ public class Terminal {
   }
 
   private void createErrorPane() {
-    errors = new TextField();
-    errors.setEditable(false);
-    errors.setBackground(
-        new Background(new BackgroundFill(Color.web("999999"), CornerRadii.EMPTY, Insets.EMPTY)));
-    errors.setPrefHeight(ERROR_PANE_HEIGHT);
-    pane.setTop(errors);
+    BorderPane errorPane = new BorderPane();
+    errorPane.getStyleClass().add("error-box");
+    errors = new Label();
+    errors.getStyleClass().add("error-label");
+    errorPane.setLeft(errors);
+    pane.setTop(errorPane);
   }
 
   private void notifyListeners(String property, String oldValue, String newValue) {
@@ -140,11 +141,6 @@ public class Terminal {
 
   protected Pane getPane() {
     return this.pane;
-  }
-
-  protected void setBackgroundColor(Pane pane, Color color) {
-    pane.setBackground(
-        new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   protected void setInputText(String text) {

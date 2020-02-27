@@ -39,6 +39,9 @@ public class Turtle {
         internalStates = new ArrayList<>();
     }
 
+    public void changeLanguage(String lang){
+        language = lang;
+    }
     public String actOnCommand(Command command, List<String> params) throws ParsingException {
         return callMethod(command, params) + "";
     }
