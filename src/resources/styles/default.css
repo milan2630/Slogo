@@ -41,7 +41,7 @@
   -fx-border-width: 10;
 }
 
-.tabPane {
+.tab-pane {
   -fx-background-color: #222222;
   -fx-text-fill: #2E86AB;
 }
@@ -50,6 +50,10 @@
   -fx-background-color: #2E2E2E;
   -fx-text-fill: #2E86AB;
   -fx-background-radius: 4;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+  -fx-opacity: 0;
 }
 
 .list-view {
@@ -86,6 +90,14 @@
   -fx-fill: gray;
 }
 
+.tab {
+  -fx-background-color: #1E1E1E;
+  -fx-text-base-color: gray;
+}
 
+.tab:selected {
+  -fx-background-color: #2E86AB;
+  -fx-text-base-color: #1E1E1E;
+}
 
 
