@@ -5,12 +5,10 @@
 .terminal {
   -fx-background-color: #131313;
 }
-
 .button {
   -fx-background-color: #2E2E2E;
   -fx-text-fill: #2E86AB;
   -fx-background-radius: 4;
-  -fx-font-weight: bold;
 }
 
 .button:hover {
@@ -69,8 +67,25 @@
   -fx-text-fill: #2E86AB;
 }
 
-/*.label {*/
-/*  -fx-text-fill: #2E86AB;*/
-/*  -fx-background-color: #2E2E2E;*/
+.color-picker {
+  -fx-background-color: #2E2E2E;
+  -fx-background-radius: 4 15 15 4;
+}
 
-/*}*/
+.color-picker .color-picker-label .text {
+  -fx-fill: #2E86AB;
+}
+
+.combo-box {
+  -fx-background-color: #2E2E2E;
+  -fx-background-radius: 4 15 15 4;
+  -fx-text-base-color: #2E86AB;
+}
+
+.settings-text {
+  -fx-fill: gray;
+}
+
+
+
+

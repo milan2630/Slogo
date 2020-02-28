@@ -172,6 +172,7 @@ public class SettingView {
     private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
         HBox hbox = new HBox();
         Text text = new Text(str);
+        text.getStyleClass().add("settings-text");
         hbox.getChildren().addAll(text, colorPicker);
         hbox.setSpacing(10.0);
         return hbox;
