@@ -6,7 +6,6 @@ import java.util.*;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -45,7 +44,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     BorderPane root = new BorderPane();
 
     terminal = new Terminal(language);
-    addTerminalChangeListener(this);
 
     display = new Display();
 
@@ -54,13 +52,9 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-    scene.getStylesheets().add("resources/styles/default.css");
+    scene.getStylesheets().add("resources/Styles/default.css");
     stage.setScene(scene);
     stage.show();
-  }
-
-  public void addTerminalChangeListener(PropertyChangeListener newListener) {
-    terminal.addChangeListener(newListener);
   }
 
   private void addPanesToRoot(BorderPane root) {
