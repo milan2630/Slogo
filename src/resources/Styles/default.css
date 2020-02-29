@@ -5,7 +5,6 @@
 .terminal {
   -fx-background-color: #131313;
 }
-
 .button {
   -fx-background-color: #2E2E2E;
   -fx-text-fill: #2E86AB;
@@ -75,6 +74,10 @@
   -fx-background-radius: 4;
 }
 
+.tab-pane .tab-header-area .tab-header-background {
+  -fx-opacity: 0;
+}
+
 .list-view {
   -fx-background-color: #2E2E2E;
 }
@@ -91,6 +94,7 @@
 
 .color-picker {
   -fx-background-color: #2E2E2E;
+<<<<<<< HEAD:src/resources/styles/default.css
   -fx-background-radius: 0 15 15 0;
 }
 
@@ -112,3 +116,33 @@
 .table-view .column-header-background .filler {
   -fx-background-color: #2E86AB;
 }
+=======
+  -fx-background-radius: 4 15 15 4;
+}
+
+.color-picker .color-picker-label .text {
+  -fx-fill: #2E86AB;
+}
+
+.combo-box {
+  -fx-background-color: #2E2E2E;
+  -fx-background-radius: 4 15 15 4;
+  -fx-text-base-color: #2E86AB;
+}
+
+.settings-text {
+  -fx-fill: gray;
+}
+
+.tab {
+  -fx-background-color: #1E1E1E;
+  -fx-text-base-color: gray;
+}
+
+.tab:selected {
+  -fx-background-color: #2E86AB;
+  -fx-text-base-color: #1E1E1E;
+}
+
+
+>>>>>>> jrr59:src/resources/Styles/default.css
