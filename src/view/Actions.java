@@ -17,7 +17,6 @@ public class Actions {
     if (input.getText().length() > 0) {
       notifyListeners(RUN, this.data, this.data = input.getText());
     }
-    System.out.println(listeners);
   }
 
   protected void handleClear(TextArea input) {

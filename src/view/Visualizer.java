@@ -27,6 +27,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   private Display display;
   private TabPaneView tabPaneView;
   private Terminal terminal;
+  private Actions actions;
 
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
@@ -36,14 +37,14 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   private static final String HISTORY_VARIABLE = "HistoryVariable";
   private static final String TURTLE_IMAGE = "TurtleImage";
 
-  public Visualizer(Stage stage, String language) {
+  public Visualizer(Stage stage, String language, Actions actions) {
     this.language = language;
-    setBundle(stage);
+    setBundle();
     stage.setTitle(resourceBundle.getString("Title"));
 
     BorderPane root = new BorderPane();
 
-    terminal = new Terminal(language);
+    terminal = new Terminal(language, actions);
 
     display = new Display();
 
@@ -71,7 +72,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     root.setBottom(terminalNode);
   }
 
-  private void setBundle(Stage stage) {
+  private void setBundle() {
     try {
       resourceBundle = ResourceBundle
           .getBundle("resources/ui/" + language);
@@ -150,6 +151,10 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     tabPaneView.addChangeHistoryListener(this);
     tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);
+  }
+
+  public void resetDisplay(){
+    display.resetPane();
   }
 
 }

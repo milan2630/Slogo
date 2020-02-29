@@ -1,10 +1,7 @@
 package slogo;
 
-import java.security.spec.ECField;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import view.Actions;
-import view.HistoryView;
 import view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
@@ -25,7 +22,9 @@ public class Controller implements PropertyChangeListener {
   private List<ImmutableTurtle> turtleList;
 
   public Controller(Stage stage, String language) {
-    myVisualizer = new Visualizer(stage, language);
+    myActions = new Actions();
+    myActions.addChangeListener(this);
+    myVisualizer = new Visualizer(stage, language, myActions);
     myME = new MethodExplorer();
     myVE = new VariableExplorer();
     this.language = language;
@@ -36,42 +35,26 @@ public class Controller implements PropertyChangeListener {
         myME.getMethodNames());
   }
 
-  public Controller(){
-    myParser = new Parser(language, myME);
-    myTurtle = new Turtle(myME, myVE, language);
-  }
-
-  public void handleRun(TextArea input) {
-    if (input.getText().length() > 0) {
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals("Run")){
       language = myVisualizer.getLanguage();
       myParser.setLanguage(language);
       myTurtle.changeLanguage(language);
-      String command = input.getText();
+      String command = evt.getNewValue().toString();
       try {
         turtleList = myParser.parseCommands(command, myTurtle);
         myHistory.addInput(command);
         myVisualizer.updateTurtle(turtleList);
-      } catch (ParsingException e) {
+      }
+      catch(ParsingException e) {
         myVisualizer.displayError(e);
       }
     }
-  }
-
-  public void handleClear(TextArea input) {
-    input.clear();
-  }
-
-  public void handleReset(TextArea input) {
-  }
-
-  @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("Run")) {
-
-    }
-    if (evt.getPropertyName().equals("Reset")) {
+    if (evt.getPropertyName().equals("Reset")){
       myTurtle.setToHome();
       myTurtle.setHeading(0);
+      myVisualizer.resetDisplay();
     }
   }
 

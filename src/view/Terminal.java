@@ -16,10 +16,7 @@ public class Terminal {
   private BorderPane pane;
   private static ResourceBundle actionResources;
   private static ResourceBundle uiResources;
-
-  private Button runButton;
-  private Button clearButton;
-  private Button resetButton;
+  private Actions actions;
   private VBox buttonPane;
   private TextArea input;
   private Label errors;
@@ -30,8 +27,8 @@ public class Terminal {
   private static final double ERROR_PANE_HEIGHT = 25;
   private static final String DEFAULT_RESOURCE_ACTIONS = "resources/Actions/default";
 
-  protected Terminal(String language) {
-    controller = new Controller();
+  protected Terminal(String language, Actions actions) {
+    this.actions = actions;
     actionResources = ResourceBundle
         .getBundle("resources/Actions/"+language);
     uiResources = ResourceBundle.getBundle("resources/ui/" + language);
@@ -54,7 +51,7 @@ public class Terminal {
     buttonPane.setPrefSize(width, height);
 
     for (String key : Collections.list(actionResources.getKeys())) {
-      buttonPane.getChildren().add(new InputButton(actionResources.getString(key), key, controller, input));
+      buttonPane.getChildren().add(new InputButton(actionResources.getString(key), key, actions, input));
     }
     pane.setLeft(buttonPane);
   }
