@@ -41,7 +41,7 @@ public class SettingView extends Tab {
 
   private void setupTab() {
     VBox vbox = new VBox();
-    vbox.setAlignment(Pos.CENTER_RIGHT);
+    vbox.setAlignment(Pos.TOP_LEFT);
     vbox.setSpacing(10);
 
     turtleImageDropdown = new TurtleImageDropdown(resourceBundle.getString("LoadImage"));
@@ -61,7 +61,7 @@ public class SettingView extends Tab {
     HelpButton helpButton = new HelpButton(resourceBundle);
 
     vbox.getChildren()
-        .addAll(turtleImageDropdown, penColorPicker, backgroundColorPicker, languageDropdown, helpButton);
+        .addAll(helpButton, turtleImageDropdown, penColorPicker, backgroundColorPicker, languageDropdown);
     setContent(vbox);
   }
 

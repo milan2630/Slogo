@@ -3,26 +3,33 @@ package view.SettingsTab;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
-public class LanguageDropdown extends ComboBox<String> {
-  private String language;
+public class LanguageDropdown extends HBox {
+
+  private ComboBox<String> comboBox;
+
   private static final String DEFAULT_LANGUAGE = "English";
-
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
-  protected LanguageDropdown(String prompt){
-    setPromptText(prompt);
-    setValue(DEFAULT_LANGUAGE);
-    this.language = DEFAULT_LANGUAGE;
+  protected LanguageDropdown(String prompt) {
+    comboBox = new ComboBox<>();
+    comboBox.setValue(DEFAULT_LANGUAGE);
+    comboBox.getItems().addAll(getLanguages());
+    Text text = new Text();
+    text.setText(prompt);
+    getChildren().addAll(text, comboBox);
 
-    getItems().addAll(getLanguages());
-    setOnAction(e -> changeLanguage(this.valueProperty().get()));
+    setPadding((new Insets(10, 5, 10, 5)));
+    setAlignment(Pos.CENTER);
+    setSpacing(10.0);
+    text.getStyleClass().add("settings-text");
   }
 
-  protected String getLanguage() {
-    return language;
-  }
 
   private List<String> getLanguages() {
     File directoryPath = new File(LANGUAGE_PATH);
@@ -35,8 +42,13 @@ public class LanguageDropdown extends ComboBox<String> {
     return languages;
   }
 
-  private void changeLanguage(String s) {
-    this.language = s;
+  protected String getLanguage() {
+    return comboBox.getValue();
+  }
+
+
+  private void setLanguage(String language) {
+    comboBox.setValue(language);
   }
 
 
