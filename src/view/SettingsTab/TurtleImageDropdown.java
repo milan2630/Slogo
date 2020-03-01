@@ -10,12 +10,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
+import org.w3c.dom.ls.LSOutput;
 import view.Actions;
 
 public class TurtleImageDropdown extends LabeledDropdown {
 
-  private static final String RESOURCE_PATH = "resources";
-  private static final String TURTLE_PATH = "/Turtles";
+  private static final String RESOURCE_PATH = "resources/";
+  private static final String TURTLE_PATH = "Turtles/";
+  private static final String DEFAULT_TURTLE = "turtle.png";
 
   private ComboBox<String> comboBox;
 
@@ -23,9 +25,10 @@ public class TurtleImageDropdown extends LabeledDropdown {
     super(prompt, methodName, target);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
+    comboBox.setValue(DEFAULT_TURTLE);
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
     comboBox.setOnAction(
-        handler -> handleAction(comboBox.getValue() + TURTLE_PATH, methodName, target));
+        handler -> handleAction(comboBox.getValue(), methodName, target));
     getChildren().add(comboBox);
   }
 

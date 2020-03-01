@@ -23,7 +23,6 @@ public class LanguageDropdown extends LabeledDropdown {
     getChildren().add(comboBox);
   }
 
-
   private List<String> getLanguages() {
     File directoryPath = new File(LANGUAGE_PATH);
     List<String> languages = new ArrayList<>();
