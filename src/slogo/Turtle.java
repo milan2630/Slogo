@@ -175,9 +175,6 @@ public class Turtle {
         return ret;
     }
 
-    private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
-
-    }
 
     private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
         Variable<Double> var = variableExplorer.addDoubleVarByName(iteratorName, startVal);
