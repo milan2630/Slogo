@@ -26,13 +26,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class SettingView {
+public class SettingView extends Tab {
 
   private static ResourceBundle resourceBundle;
   private static ResourceBundle imageBundle;
   private static ResourceBundle languageBundle;
   private String language;
-  private Tab myTab;
   private List<PropertyChangeListener> listener;
   private String penColorData;
   private String backgroundColorData;
@@ -46,21 +45,16 @@ public class SettingView {
   private static final String LANGUAGE_PATH = "src/resources/languages/";
   private final int IMAGE_HEIGHT = 283;
   private final int IMAGE_WIDTH = 500;
-  private static final double PADDING = 5;
 
   public SettingView(String language) {
+    super("SettingTab");
     this.language = language;
     resourceBundle = ResourceBundle
         .getBundle(PREFIX + language);
     imageBundle = ResourceBundle.getBundle(PREFIX + IMAGE_PATH);
-    myTab = new Tab(resourceBundle.getString("SettingTab"));
     listener = new ArrayList<>();
     this.language = language;
     setupTab();
-  }
-
-  public Tab getTab() {
-    return myTab;
   }
 
   private void setupTab() {
@@ -92,7 +86,7 @@ public class SettingView {
     help.setOnAction(e -> handleHelpScreen());
     vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox, help);
     vbox.setSpacing(10.0);
-    myTab.setContent(vbox);
+    setContent(vbox);
   }
 
   private ObservableList<String> getTurtleImages() {
