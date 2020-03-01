@@ -44,7 +44,7 @@ public class Turtle {
     public void changeLanguage(String lang){
         language = lang;
     }
-    public String actOnCommand(Command command, List<String> params) throws ParsingException {
+    /*public String actOnCommand(Command command, List<String> params) throws ParsingException {
         return callMethod(command, params) + "";
     }
 
@@ -409,7 +409,7 @@ public class Turtle {
         return 0.0;
     }
 
-/*
+*//*
     private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
         double oldX = myX;
         double oldY = myY;
@@ -417,8 +417,8 @@ public class Turtle {
         // TODO: tell Controller and clear TrailView in Visualizer, won't work until design change
         return Math.hypot(myX - oldX, myY - oldY);
     }
- */
-
+ *//*
+*/
     public double getX() {
         return myX;
     }
@@ -439,7 +439,7 @@ public class Turtle {
         return showing;
     }
 
-    private ImmutableTurtle getImmutableTurtle(){
+    public ImmutableTurtle getImmutableTurtle(){
         return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
     }
 
@@ -473,4 +473,14 @@ public class Turtle {
         internalStates = new ArrayList<>();
         return copy;
     }
+
+    public void incrementX(double addX){
+        myX+=addX;
+    }
+
+    public void incrementY(double addY){
+        myY+=addY;
+    }
+
+
 }
