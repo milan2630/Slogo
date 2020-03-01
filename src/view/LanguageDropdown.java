@@ -15,7 +15,7 @@ public class LanguageDropdown extends ComboBox<String> {
     setPromptText(prompt);
     setValue(DEFAULT_LANGUAGE);
     this.language = DEFAULT_LANGUAGE;
-    
+
     getItems().addAll(getLanguages());
     setOnAction(e -> changeLanguage(this.valueProperty().get()));
   }
