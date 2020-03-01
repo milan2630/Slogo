@@ -14,11 +14,12 @@ public class ColorPickerBox extends HBox {
   private ColorPicker colorPicker;
 
   protected ColorPickerBox(String prompt) {
-    setPadding((new Insets(10, 5, 10, 5)));
-    setAlignment(Pos.CENTER);
     Text text = new Text(prompt);
     colorPicker = new ColorPicker();
     getChildren().addAll(text, colorPicker);
+
+    setPadding((new Insets(10, 5, 10, 5)));
+    setAlignment(Pos.CENTER);
     setSpacing(10.0);
     text.getStyleClass().add("settings-text");
   }

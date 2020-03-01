@@ -11,6 +11,7 @@ import java.util.*;
 
 public class SettingView extends Tab {
 
+  public static final String DEFAULT_TURTLE_IMAGE = "turtle.png";
   private static ResourceBundle resourceBundle;
 
   private List<PropertyChangeListener> listener;
@@ -40,11 +41,12 @@ public class SettingView extends Tab {
 
   private void setupTab() {
     VBox vbox = new VBox();
-    vbox.setAlignment(Pos.CENTER);
+    vbox.setAlignment(Pos.CENTER_RIGHT);
     vbox.setSpacing(10);
 
     turtleImageDropdown = new TurtleImageDropdown(resourceBundle.getString("LoadImage"));
     turtleImageDropdown.setOnAction(e -> saveFile());
+    turtleImageDropdown.setImageFilename(DEFAULT_TURTLE_IMAGE);
 
     languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
@@ -64,7 +66,7 @@ public class SettingView extends Tab {
   }
 
   private void saveFile() {
-    String filename = turtleImageDropdown.valueProperty().get();
+    String filename = turtleImageDropdown.getImageFilename();
     notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = "Turtles/" + filename);
   }
 
