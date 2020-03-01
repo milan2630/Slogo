@@ -14,9 +14,9 @@ and distinguish which commands corresponds to particular actions. The backend mu
 
 ### External View
 
-The backend will be controlling the updating of the view based on when it receives the parsing information. Therefore, the view must have an external API to control the turtle's movement on the screen. Additionally, the backend will be receiving input from the Console in the View so the API must include the ability to get commands from the console. 
+The backend will be controlling the updating of the View based on when it receives the parsing information. Therefore, the View must have an external API to control the turtle's movement on the screen. Additionally, the backend will be receiving input from the Console in the View so the API must include the ability to get commands from the console. 
 
 
 ### Internal View
-The internal view will handle the rendering process for the visualization of our turtle and the terminal.
+The internal View will handle the rendering process for the visualization of our turtle and the terminal.
 

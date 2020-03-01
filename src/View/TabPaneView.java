@@ -1,4 +1,4 @@
-package view;
+package View;
 
 import java.beans.PropertyChangeListener;
 
@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import view.SettingsTab.SettingView;
+import View.SettingsTab.SettingView;
 
 
 public class TabPaneView {

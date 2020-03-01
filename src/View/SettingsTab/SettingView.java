@@ -1,16 +1,13 @@
-package view.SettingsTab;
+package View.SettingsTab;
 
-import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Constructor;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
-import java.beans.PropertyChangeListener;
 import java.util.*;
-import view.Actions;
-import view.Terminal.InputButton;
+import View.Actions;
+import slogo.ReflectionException;
 
 public class SettingView extends Tab {
 
@@ -18,7 +15,7 @@ public class SettingView extends Tab {
   private static final String RESOURCES_TERMINAL = "resources/Layouts/SettingsTab/";
   private static ResourceBundle actionResources;
   private static ResourceBundle uiResources;
-  private static final String CLASS_PATH = "view.SettingsTab.";
+  private static final String CLASS_PATH = "View.SettingsTab.";
 
   public SettingView(String language, Actions actions) {
     super("SettingTab");
@@ -41,7 +38,7 @@ public class SettingView extends Tab {
         LabeledDropdown dropdown = (LabeledDropdown) constructor.newInstance(prompt, key, actions);
         vbox.getChildren().add(dropdown);
       } catch (Exception e) {
-        e.printStackTrace();
+        throw new ReflectionException("InvalidClass",key);
       }
     }
 

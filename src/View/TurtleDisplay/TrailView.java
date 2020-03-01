@@ -1,4 +1,4 @@
-package view.TurtleDisplay;
+package View.TurtleDisplay;
 
 import java.util.ArrayList;
 import java.util.List;

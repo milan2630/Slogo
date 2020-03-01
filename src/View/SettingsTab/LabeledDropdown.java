@@ -1,15 +1,17 @@
-package view.SettingsTab;
+package View.SettingsTab;
 
 import java.lang.reflect.Method;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import view.Actions;
+import View.Actions;
+import slogo.ReflectionException;
 
 public abstract class LabeledDropdown extends HBox {
 
-  protected LabeledDropdown(String prompt, String methodName, Actions target) {
+
+  protected LabeledDropdown(String prompt) {
     Text text = new Text(prompt);
     getChildren().add(text);
     setPadding((new Insets(10, 5, 10, 5)));
@@ -23,8 +25,7 @@ public abstract class LabeledDropdown extends HBox {
       Method m = target.getClass().getDeclaredMethod(methodName, String.class);
       m.invoke(target, value);
     } catch (Exception e) {
-      // FIXME: typically make your own custom exception to throw
-      throw new RuntimeException("Improper configuration", e);
+      throw new ReflectionException("InvalidMethod", methodName);
     }
   }
 }

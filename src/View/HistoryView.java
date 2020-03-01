@@ -1,4 +1,4 @@
-package view;
+package View;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;

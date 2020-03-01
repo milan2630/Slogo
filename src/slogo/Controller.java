@@ -2,8 +2,8 @@ package slogo;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import view.Actions;
-import view.Visualizer;
+import View.Actions;
+import View.Visualizer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

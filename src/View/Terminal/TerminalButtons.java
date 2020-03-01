@@ -1,11 +1,11 @@
-package view.Terminal;
+package View.Terminal;
 
 import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
-import view.Actions;
+import View.Actions;
 
 public class TerminalButtons extends VBox {
 

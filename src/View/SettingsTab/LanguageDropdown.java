@@ -1,10 +1,10 @@
-package view.SettingsTab;
+package View.SettingsTab;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.ComboBox;
-import view.Actions;
+import View.Actions;
 
 public class LanguageDropdown extends LabeledDropdown {
 
@@ -14,7 +14,7 @@ public class LanguageDropdown extends LabeledDropdown {
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
   protected LanguageDropdown(String prompt, String methodName, Actions target) {
-    super(prompt, methodName, target);
+    super(prompt);
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_LANGUAGE);
     comboBox.getItems().addAll(getLanguages());

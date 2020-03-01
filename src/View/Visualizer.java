@@ -1,4 +1,4 @@
-package view;
+package View;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import slogo.FrontEndExternal;
 import slogo.ImmutableTurtle;
 import slogo.ParsingException;
-import view.Terminal.Terminal;
-import view.TurtleDisplay.Display;
+import View.Terminal.Terminal;
+import View.TurtleDisplay.Display;
 
 public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 

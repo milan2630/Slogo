@@ -1,8 +1,8 @@
-package view.Terminal;
+package View.Terminal;
 
 import java.util.ResourceBundle;
 import javafx.scene.layout.BorderPane;
-import view.Actions;
+import View.Actions;
 
 public class Terminal extends BorderPane {
 
