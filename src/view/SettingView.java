@@ -30,22 +30,17 @@ import java.util.*;
 public class SettingView extends Tab {
 
   private static ResourceBundle resourceBundle;
-  private static ResourceBundle imageBundle;
 
   private List<PropertyChangeListener> listener;
   private String penColorData;
   private String backgroundColorData;
   private String turtleImage;
 
-
   private static final String PEN_COLOR = "Pen Color";
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String TURTLE_IMAGE = "TurtleImage";
   private static final String PREFIX = "resources/ui/";
-  private static final String IMAGE_PATH = "TurtleImages";
-  private static final String HELP_IMAGES_PATH = "resources";
-  private final int IMAGE_HEIGHT = 283;
-  private final int IMAGE_WIDTH = 500;
+
   private LanguageDropdown languageDropdown;
   private TurtleImageDropdown turtleImageDropdown;
   private ColorPickerBox backgroundColorPicker;
@@ -53,9 +48,7 @@ public class SettingView extends Tab {
 
   public SettingView(String language) {
     super("SettingTab");
-    resourceBundle = ResourceBundle
-        .getBundle(PREFIX + language);
-    imageBundle = ResourceBundle.getBundle(PREFIX + IMAGE_PATH);
+    resourceBundle = ResourceBundle.getBundle(PREFIX + language);
     listener = new ArrayList<>();
     setupTab();
   }
@@ -70,18 +63,16 @@ public class SettingView extends Tab {
 
     languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
-
     penColorPicker = new ColorPickerBox(resourceBundle.getString("PenColor"));
     penColorPicker.setOnAction(e -> setPenColor());
 
     backgroundColorPicker = new ColorPickerBox(resourceBundle.getString("BackgroundColor"));
     backgroundColorPicker.setOnAction(e -> setBackgroundColor());
 
-    Button help = createButton(resourceBundle.getString("HelpButton"));
-    help.setOnAction(e -> handleHelpScreen());
+    HelpButton helpButton = new HelpButton(resourceBundle);
+
     vbox.getChildren()
-        .addAll(turtleImageDropdown, penColorPicker, backgroundColorPicker, languageDropdown, help);
-    vbox.setSpacing(10.0);
+        .addAll(turtleImageDropdown, penColorPicker, backgroundColorPicker, languageDropdown, helpButton);
     setContent(vbox);
   }
 
@@ -89,44 +80,6 @@ public class SettingView extends Tab {
     String filename = turtleImageDropdown.valueProperty().get();
     notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = "turtles/" + filename);
   }
-
-  private void handleHelpScreen() {
-    final Stage dialog = new Stage();
-    dialog.initModality(Modality.NONE);
-    ScrollPane scrollPane = new ScrollPane();
-    VBox helpImages = createHelpScreen();
-    scrollPane.setContent(helpImages);
-    Scene dialogScene = new Scene(scrollPane);
-    dialog.setScene(dialogScene);
-    dialog.setTitle(resourceBundle.getString("HelpWindow"));
-    dialog.show();
-  }
-
-  private VBox createHelpScreen() {
-    VBox vbox = new VBox();
-    List<String> images = getHelpImages();
-    for (String image : images) {
-      Image i = new Image(this.getClass().getClassLoader().getResourceAsStream(image));
-      ImageView im = new ImageView(i);
-      im.setFitHeight(IMAGE_HEIGHT);
-      im.setFitWidth(IMAGE_WIDTH);
-      vbox.getChildren().add(im);
-    }
-    return vbox;
-  }
-
-  private List<String> getHelpImages() {
-    File directoryPath = new File(HELP_IMAGES_PATH);
-    List<String> images = new ArrayList<>();
-    for (String s : directoryPath.list()) {
-      if (s.contains("Help")) {
-        images.add(s);
-      }
-    }
-    Collections.sort(images);
-    return images;
-  }
-
 
   private void setBackgroundColor() {
     Color value = backgroundColorPicker.getColor();
@@ -153,15 +106,8 @@ public class SettingView extends Tab {
     listener.add(newListener);
   }
 
-  private Button createButton(String text) {
-    Button button = new Button();
-    button.setText(text);
-    return button;
-  }
-
   protected String getLanguage() {
     return languageDropdown.getLanguage();
   }
-
 
 }
