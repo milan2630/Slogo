@@ -2,13 +2,14 @@ package slogo.Commands;
 
 import slogo.CommandManager;
 import slogo.ParsingException;
+import slogo.Turtle;
 import slogo.VariableExplorer;
 
 import java.util.List;
 
 public abstract class BackEndCommand implements Command {
 
-    public abstract double executeCommand(CommandManager commandManager, List<String> params) throws ParsingException;
+    public abstract double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException;
 
     public double getDoubleParameter(String val, VariableExplorer variableExplorer) throws ParsingException {
         try{

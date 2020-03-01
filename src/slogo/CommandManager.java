@@ -51,8 +51,13 @@ public class CommandManager {
         //String methodName = myResources.getString(key);
         String methodName = EXECUTE_COMMAND_METHOD_NAME;
         try {
-            Method method = command.getClass().getDeclaredMethod(methodName, CommandManager.class, List.class);
-            double ret = (double) method.invoke(command, this, params);
+            double ret = 0;
+            for(Turtle turtle: turtles){
+                if(turtle.isActive()){
+                    Method method = command.getClass().getDeclaredMethod(methodName, CommandManager.class, Turtle.class, List.class);
+                    ret = (double) method.invoke(command, this, turtle, params);
+                }
+            }
             //internalStates.add(myTurtle.getImmutableTurtle());
             return ret;
         } catch (NoSuchMethodException | IllegalAccessException e) {
