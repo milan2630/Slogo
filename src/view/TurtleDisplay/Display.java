@@ -12,11 +12,16 @@ import slogo.ImmutableTurtle;
 
 public class Display extends Pane {
 
-  private Image turtleImage = getImageByName("Turtles/turtle.png");
   private TrailView trail;
   private TurtleView turtle;
+  private static final String TURTLE_PATH = "Turtles/";
+  private static final String DEFAULT_TURTLE_IMAGE = "turtle.png";
+  private Image turtleImage = getImageByName(TURTLE_PATH + DEFAULT_TURTLE_IMAGE);
+
+
   private static final Color DEFAULT_PEN_COLOR = Color.NAVY;
   private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+
 
   public Display() {
     resetPane();
@@ -72,7 +77,8 @@ public class Display extends Pane {
   }
 
   public void setTurtleImage(String filename) {
-    Image image = getImageByName(filename);
+    System.out.println(TURTLE_PATH + filename);
+    Image image = getImageByName(TURTLE_PATH + filename);
     turtleImage = image;
     turtle.setGraphicImage(image);
   }

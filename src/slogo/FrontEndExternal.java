@@ -22,11 +22,6 @@ public interface FrontEndExternal {
   public ImmutableTurtle getCurrentTurtle();
 
   /**
-   * @return the language that was set by the user
-   */
-  public String getLanguage();
-
-  /**
    * Handle an error and tell the User what issue occurred
    *
    * @param error the error that was thrown in the backend

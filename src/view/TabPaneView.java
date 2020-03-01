@@ -17,12 +17,12 @@ public class TabPaneView {
   private TabPane tabPane;
   private VariableView variableView;
 
-  public TabPaneView(String language) {
+  public TabPaneView(String language, Actions actions) {
     tabPane = new TabPane();
     tabPane.getStyleClass().add("tabPane");
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-      createSettingTab(language);
+      createSettingTab(language, actions);
   }
 
   protected TabPane getTabPane() {
@@ -33,12 +33,8 @@ public class TabPaneView {
     historyView.addChangeListener(newListener);
   }
 
-  protected void addChangeSettingsListener(PropertyChangeListener newListener) {
-    settingView.addChangeListener(newListener);
-  }
-
-  private void createSettingTab(String language) {
-    settingView = new SettingView(language);
+  private void createSettingTab(String language, Actions actions) {
+    settingView = new SettingView(language, actions);
     tabPane.getTabs().add(settingView);
   }
 
@@ -55,9 +51,6 @@ public class TabPaneView {
   public void createHistoryTab(String language, ObservableList historyList) {
     historyView = new HistoryView(language, historyList);
     tabPane.getTabs().add(historyView.getTab());
-  }
-  public String getLanguage(){
-    return settingView.getLanguage();
   }
 
 }

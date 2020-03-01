@@ -136,12 +136,10 @@ public class Parser implements BackEndExternal{
 
                 }
                 Collections.reverse(params);
-                System.out.println("Before");
                 for(ImmutableTurtle t: commandManager.getInternalStates()){
                     System.out.println(t.getY());
                 }
                 String result = commandManager.actOnCommand(topCom, params) + "";
-                System.out.println("After");
                 for(ImmutableTurtle t: commandManager.getInternalStates()){
                     System.out.println(t.getY());
                 }

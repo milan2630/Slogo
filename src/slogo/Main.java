@@ -7,7 +7,6 @@ import javafx.stage.Stage;
  * Feel free to completely change this code or delete it entirely.
  */
 public class Main extends Application {
-  private static final String LANGUAGE = "English";
 
   /**
    * Start of the program.
@@ -18,6 +17,6 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    new Controller(primaryStage, LANGUAGE);
+    new Controller(primaryStage);
   }
 }

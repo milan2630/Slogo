@@ -6,8 +6,8 @@ import view.Actions;
 
 public class Terminal extends BorderPane {
 
-  public static final String RESOURCES_TERMINAL = "resources/Layouts/Terminal/";
-  public static final String RESOURCES_UI = "resources/UI/";
+  private static final String RESOURCES_TERMINAL = "resources/Layouts/Terminal/";
+  private static final String RESOURCES_UI = "resources/UI/";
   private static ResourceBundle actionResources;
   private static ResourceBundle uiResources;
   private TerminalButtons buttons;
