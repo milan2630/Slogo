@@ -2,9 +2,10 @@
   -fx-font-family: Helvetia;
 }
 
-.terminal {
+.Terminal {
   -fx-background-color: #131313;
 }
+
 .button {
   -fx-background-color: #2E2E2E;
   -fx-text-fill: #2E86AB;
@@ -20,13 +21,14 @@
   -fx-background-color: #222222;
 }
 
-.error-label {
-  -fx-text-fill: #CF6679;
+.error-bar {
+  -fx-background-color: #1E1E1E;
+  -fx-fill: #CF6679;
+  -fx-padding: 10;
 }
 
-.error-box {
-  -fx-background-color: #1E1E1E;
-  -fx-background-radius: 4;
+.error-text{
+  -fx-fill: #CF6679;
 }
 
 .input-box {

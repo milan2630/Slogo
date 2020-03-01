@@ -7,7 +7,7 @@ import slogo.Controller;
 
 public class InputButton extends Button {
 
-  public InputButton(String promptText, String methodName, Actions target, TextArea input) {
+  public InputButton(String promptText, String methodName, Actions target, TerminalInput input) {
     setText(promptText);
     getStyleClass().add("terminal-button");
     setOnAction(handler -> {
