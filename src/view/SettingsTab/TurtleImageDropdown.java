@@ -9,29 +9,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
-public class TurtleImageDropdown extends HBox {
+public class TurtleImageDropdown extends LabeledDropdown {
 
   private static final String TURTLE_IMAGES_PATH = "resources/Turtles";
 
   private ComboBox<String> comboBox;
 
   protected TurtleImageDropdown(String prompt) {
+    super(prompt);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
-    Text text = new Text(prompt);
-    getChildren().addAll(text, comboBox);
-
-    setPadding((new Insets(10, 5, 10, 5)));
-    setAlignment(Pos.CENTER);
-    setSpacing(10.0);
-    text.getStyleClass().add("settings-text");
+    getChildren().add(comboBox);
   }
 
   protected void setOnAction(EventHandler<ActionEvent> value) {

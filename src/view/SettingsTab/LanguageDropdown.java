@@ -3,13 +3,9 @@ package view.SettingsTab;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
-public class LanguageDropdown extends HBox {
+public class LanguageDropdown extends LabeledDropdown {
 
   private ComboBox<String> comboBox;
 
@@ -17,17 +13,12 @@ public class LanguageDropdown extends HBox {
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
   protected LanguageDropdown(String prompt) {
+    super(prompt);
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_LANGUAGE);
     comboBox.getItems().addAll(getLanguages());
-    Text text = new Text();
-    text.setText(prompt);
-    getChildren().addAll(text, comboBox);
 
-    setPadding((new Insets(10, 5, 10, 5)));
-    setAlignment(Pos.CENTER);
-    setSpacing(10.0);
-    text.getStyleClass().add("settings-text");
+    getChildren().add(comboBox);
   }
 
 
@@ -42,14 +33,12 @@ public class LanguageDropdown extends HBox {
     return languages;
   }
 
-  protected String getLanguage() {
+  protected String getValue() {
     return comboBox.getValue();
   }
 
-
-  private void setLanguage(String language) {
+  private void getValue(String language) {
     comboBox.setValue(language);
   }
-
 
 }

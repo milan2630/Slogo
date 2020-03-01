@@ -2,38 +2,28 @@ package view.SettingsTab;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
-public class ColorPickerBox extends HBox {
+public class ColorPickerBox extends LabeledDropdown {
 
   private ColorPicker colorPicker;
 
   protected ColorPickerBox(String prompt) {
-    Text text = new Text(prompt);
+    super(prompt);
     colorPicker = new ColorPicker();
-    getChildren().addAll(text, colorPicker);
-
-    setPadding((new Insets(10, 5, 10, 5)));
-    setAlignment(Pos.CENTER);
-    setSpacing(10.0);
-    text.getStyleClass().add("settings-text");
+    getChildren().add(colorPicker);
   }
-
 
   protected void setOnAction(EventHandler<ActionEvent> value) {
     colorPicker.setOnAction(value);
   }
 
-  protected void setColor(Color value) {
-    colorPicker.setValue(value);
+  protected void setValue(String value) {
+    colorPicker.setValue(Color.web(value));
   }
 
-  protected Color getColor() {
-    return colorPicker.getValue();
+  protected String getValue() {
+    return colorPicker.getValue().toString();
   }
 }
