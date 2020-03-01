@@ -151,11 +151,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   }
 
   @Override
-  public String getLanguage() {
-    return tabPaneView.getLanguage();
-  }
-
-  @Override
   public void displayError(Exception error) {
     terminal.setErrorText(error.getMessage());
   }

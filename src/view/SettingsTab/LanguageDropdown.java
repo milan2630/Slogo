@@ -18,7 +18,8 @@ public class LanguageDropdown extends LabeledDropdown {
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_LANGUAGE);
     comboBox.getItems().addAll(getLanguages());
-
+    comboBox.setOnAction(
+        handler -> handleAction(comboBox.getValue(), methodName, target));
     getChildren().add(comboBox);
   }
 

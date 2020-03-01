@@ -17,8 +17,8 @@ public class Controller implements PropertyChangeListener {
   private Actions myActions;
   private Turtle myTurtle;
   private History myHistory;
-
-  private String language;
+  private static final String DEFAULT_LANGUAGE = "English";
+  private String language = DEFAULT_LANGUAGE;
   private List<ImmutableTurtle> turtleList;
 
   public Controller(Stage stage, String language) {
@@ -37,8 +37,8 @@ public class Controller implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    System.out.println("=================== \n " + evt.getPropertyName());
     if (evt.getPropertyName().equals("Run")){
-      language = myVisualizer.getLanguage();
       myParser.setLanguage(language);
       myTurtle.changeLanguage(language);
       String command = evt.getNewValue().toString();

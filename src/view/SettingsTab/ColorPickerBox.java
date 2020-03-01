@@ -13,6 +13,8 @@ public class ColorPickerBox extends LabeledDropdown {
   protected ColorPickerBox(String prompt, String methodName, Actions target) {
     super(prompt, methodName, target);
     colorPicker = new ColorPicker();
+    colorPicker.setOnAction(
+        handler -> handleAction(colorPicker.getValue().toString(), methodName, target));
     getChildren().add(colorPicker);
   }
 

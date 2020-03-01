@@ -52,8 +52,5 @@ public class TabPaneView {
     historyView = new HistoryView(language, historyList);
     tabPane.getTabs().add(historyView.getTab());
   }
-  public String getLanguage(){
-    return settingView.getLanguage();
-  }
 
 }

@@ -19,9 +19,9 @@ public abstract class LabeledDropdown extends HBox {
     text.getStyleClass().add("settings-text");
   }
 
-  public void handleAction(String value, String methodName, Actions target) {
+  protected void handleAction(String value, String methodName, Actions target) {
     try {
-      Method m = target.getClass().getDeclaredMethod(methodName, TextArea.class);
+      Method m = target.getClass().getDeclaredMethod(methodName, String.class);
       m.invoke(target, value);
     } catch (Exception e) {
       // FIXME: typically make your own custom exception to throw
