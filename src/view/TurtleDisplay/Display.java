@@ -31,15 +31,15 @@ public class Display {
 
     bindOriginToCenter();
 
-    pane.getChildren().addAll(trail.getPane(), turtle.getPane());
+    pane.getChildren().addAll(trail, turtle.getPane());
   }
 
   private void bindOriginToCenter() {
     turtle.getPane().translateXProperty().bind(pane.widthProperty().divide(2));
     turtle.getPane().translateYProperty().bind(pane.heightProperty().divide(2));
 
-    trail.getPane().translateXProperty().bind(pane.widthProperty().divide(2));
-    trail.getPane().translateYProperty().bind(pane.heightProperty().divide(2));
+    trail.translateXProperty().bind(pane.widthProperty().divide(2));
+    trail.translateYProperty().bind(pane.heightProperty().divide(2));
   }
 
   public void moveTurtle(Point2D newCoordinate) {
