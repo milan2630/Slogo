@@ -6,6 +6,8 @@ import view.Actions;
 
 public class Terminal extends BorderPane {
 
+  public static final String RESOURCES_TERMINAL = "resources/Layouts/";
+  public static final String RESOURCES_UI = "resources/UI/";
   private static ResourceBundle actionResources;
   private static ResourceBundle uiResources;
   private TerminalButtons buttons;
@@ -14,9 +16,8 @@ public class Terminal extends BorderPane {
   private static final double HEIGHT = 150;
 
   public Terminal(String language, Actions actions) {
-    actionResources = ResourceBundle
-        .getBundle("resources/Actions/" + language);
-    uiResources = ResourceBundle.getBundle("resources/UI/" + language);
+    actionResources = ResourceBundle.getBundle(RESOURCES_TERMINAL + "Terminal");
+    uiResources = ResourceBundle.getBundle(RESOURCES_UI + language);
     setPrefHeight(HEIGHT);
 
     errorBar = new ErrorBar();
