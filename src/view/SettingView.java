@@ -36,6 +36,8 @@ public class SettingView extends Tab {
   private String penColorData;
   private String backgroundColorData;
   private String turtleImage;
+
+
   private static final String PEN_COLOR = "Pen Color";
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String TURTLE_IMAGE = "TurtleImage";
@@ -46,6 +48,8 @@ public class SettingView extends Tab {
   private final int IMAGE_WIDTH = 500;
   private LanguageDropdown languageDropdown;
   private TurtleImageDropdown turtleImageDropdown;
+  private ColorPickerBox backgroundColorPicker;
+  private ColorPickerBox penColorPicker;
 
   public SettingView(String language) {
     super("SettingTab");
@@ -66,19 +70,17 @@ public class SettingView extends Tab {
 
     languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
-    //Color Picker for Background and Pen Color
-    ColorPicker penColor = new ColorPicker();
-    ColorPicker backgroundColor = new ColorPicker();
-    penColor.setOnAction(e -> setPenColor(penColor.getValue()));
-    backgroundColor.setOnAction(e -> setBackgroundColor(backgroundColor.getValue()));
-    HBox penColorBox = getColorPickerBox(resourceBundle.getString("PenColor"), penColor);
-    HBox backgroundColorBox = getColorPickerBox(resourceBundle.getString("BackgroundColor"),
-        backgroundColor);
+
+    penColorPicker = new ColorPickerBox(resourceBundle.getString("PenColor"));
+    penColorPicker.setOnAction(e -> setPenColor());
+
+    backgroundColorPicker = new ColorPickerBox(resourceBundle.getString("BackgroundColor"));
+    backgroundColorPicker.setOnAction(e -> setBackgroundColor());
 
     Button help = createButton(resourceBundle.getString("HelpButton"));
     help.setOnAction(e -> handleHelpScreen());
     vbox.getChildren()
-        .addAll(turtleImageDropdown, penColorBox, backgroundColorBox, languageDropdown, help);
+        .addAll(turtleImageDropdown, penColorPicker, backgroundColorPicker, languageDropdown, help);
     vbox.setSpacing(10.0);
     setContent(vbox);
   }
@@ -126,23 +128,14 @@ public class SettingView extends Tab {
   }
 
 
-  private void setBackgroundColor(Color value) {
+  private void setBackgroundColor() {
+    Color value = backgroundColorPicker.getColor();
     notifyListeners(BACKGROUND_COLOR, backgroundColorData, backgroundColorData = value.toString());
   }
 
-  private void setPenColor(Color value) {
+  private void setPenColor() {
+    Color value = penColorPicker.getColor();
     notifyListeners(PEN_COLOR, penColorData, penColorData = value.toString());
-  }
-
-
-  private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
-    HBox hbox = new HBox();
-    hbox.setPadding((new Insets(10, 5, 10, 5)));
-    Text text = new Text(str);
-    hbox.getChildren().addAll(text, colorPicker);
-    hbox.setSpacing(10.0);
-    text.getStyleClass().add("settings-text");
-    return hbox;
   }
 
   private void notifyListeners(String property, String oldValue, String newValue) {
