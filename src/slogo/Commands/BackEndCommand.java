@@ -1,9 +1,6 @@
 package slogo.Commands;
 
-import slogo.CommandManager;
-import slogo.ParsingException;
-import slogo.Turtle;
-import slogo.VariableExplorer;
+import slogo.*;
 
 import java.util.List;
 
@@ -28,4 +25,15 @@ public abstract class BackEndCommand implements Command {
             }
         }
     }
+
+    public double repeatAction(CommandManager commandManager, String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
+        Variable<Double> var = commandManager.getVariableExplorer().addDoubleVarByName(iteratorName, startVal);
+        Parser newParser = new Parser(commandManager);
+        while(var.getValue() <= endVal){
+            newParser.parseCommands(command);
+            var.setValue(var.getValue()+iterationVal);
+        }
+        return newParser.getFinalReturn();
+    }
+
 }

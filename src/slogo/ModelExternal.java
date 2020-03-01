@@ -16,7 +16,10 @@ public class ModelExternal implements BackEndExternal{
 
     @Override
     public List<ImmutableTurtle> parseCommands(String input) throws ParsingException {
-        Parser parser = new Parser(language, commandManager);
-        return parser.parseCommands(input);
+        Parser parser = new Parser(commandManager);
+        parser.parseCommands(input);
+        List<ImmutableTurtle> ret = commandManager.getInternalStates();
+        commandManager.clearInternalStates();
+        return ret;
     }
 }

@@ -176,13 +176,7 @@ public class Turtle {
     }
 
     private double repeat(RepeatCommand command, List<String> params) throws ParsingException {
-        double numTimes = getDoubleParameter(params.get(0));
-        if(numTimes == 0 || stripBracketParam(params.get(1)).equals("")){
-            return 0;
-        }
-        double ret = repeatAction(params.get(1), ":repcount", 1.0, numTimes, 1.0);
-        variableExplorer.removeVariableByName(":repcount");
-        return ret;
+
     }
 
     private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {

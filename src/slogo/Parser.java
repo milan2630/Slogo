@@ -9,8 +9,8 @@ public class Parser implements BackEndExternal{
     private CommandManager commandManager;
     private String language;
     private double finalReturn;
-    public Parser(String lang, CommandManager cm){
-        language = lang;
+    public Parser(CommandManager cm){
+        language = cm.getLanguage();
         finalReturn = 0;
         factory = new CommandFactory(language, cm.getMethodExplorer());
         commandManager = cm;
@@ -22,12 +22,24 @@ public class Parser implements BackEndExternal{
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseCommands(String input) throws ParsingException{
-        //System.out.println("AAA");
-        //System.out.println(input);
-        //System.out.println("AAA");
+        System.out.println("AAA");
+        System.out.println(input);
+        System.out.println("AAA");
+        if(input == null || input.length() == 0){
+            return new ArrayList<>();
+        }
         input = input.toLowerCase();
+        input = stripBrackets(input);
+        System.out.println(input);
         List<String> entityList = getEntitiesFromString(input);
         return parseEntityList(entityList);
+    }
+
+    private String stripBrackets(String input) {
+        if(input.charAt(0) == '[' && input.charAt(input.length()-1) == ']'){
+            return input.substring(1, input.length()-1);
+        }
+        return input;
     }
 
 
@@ -36,6 +48,7 @@ public class Parser implements BackEndExternal{
         if(noCommentString.equals("")){
             return new ArrayList<>();
         }
+        noCommentString = noCommentString.strip();
         noCommentString = noCommentString.replaceAll("\\s+", " ");
         String[] entities = noCommentString.split(" ");
         return combineBrackets(entities);
@@ -144,7 +157,7 @@ public class Parser implements BackEndExternal{
                     System.out.println(t.getY());
                 }
                 states.addAll(commandManager.getInternalStates());
-                commandManager.clearInternalStates();
+                //commandManager.clearInternalStates();
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
                     //System.out.println("OnArgs: " + result);

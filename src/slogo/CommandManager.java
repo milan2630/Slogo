@@ -27,9 +27,11 @@ public class CommandManager {
     private VariableExplorer variableExplorer;
     private List<ImmutableTurtle> internalStates;
     private List<Turtle> turtles;
+    private String language;
 
 
     public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, String lang){
+        language = lang;
         frontend = v;
         methodExplorer = me;
         variableExplorer = ve;
@@ -88,6 +90,10 @@ public class CommandManager {
 
     public List<Turtle> getTurtles(){
         return turtles;
+    }
+
+    public String getLanguage(){
+        return language;
     }
 
 }
