@@ -1,4 +1,4 @@
-package view;
+package view.SettingsTab;
 
 import java.beans.PropertyChangeEvent;
 import javafx.geometry.Pos;
@@ -93,7 +93,7 @@ public class SettingView extends Tab {
     listener.add(newListener);
   }
 
-  protected String getLanguage() {
+  public String getLanguage() {
     return languageDropdown.getLanguage();
   }
 

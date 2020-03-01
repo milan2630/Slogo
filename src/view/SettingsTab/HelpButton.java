@@ -1,4 +1,4 @@
-package view;
+package view.SettingsTab;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import view.SettingsTab.SettingView;
 
 
 public class TabPaneView {

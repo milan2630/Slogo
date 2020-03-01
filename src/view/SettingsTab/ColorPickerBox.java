@@ -1,4 +1,4 @@
-package view;
+package view.SettingsTab;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
