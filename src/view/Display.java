@@ -77,7 +77,7 @@ public class Display {
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  protected void updateTurtleImage(String filename){
+  protected void setTurtleImage(String filename){
     Image image = getImageByName(filename);
     turtleImage = image;
     turtle.setGraphicImage(image);

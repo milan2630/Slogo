@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -27,8 +26,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   private Display display;
   private TabPaneView tabPaneView;
   private Terminal terminal;
-  private Actions actions;
-
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 500;
   private final String RESET = "Reset";
@@ -93,23 +90,42 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
         display.resetPane();
         break;
       case PEN_COLOR:
-        display.setPenColor(Color.web(evt.getNewValue().toString()));
+        setPenColor(Color.web(evt.getNewValue().toString()));
         break;
       case BACKGROUND_COLOR:
-        display.setBackgroundColor(Color.web(evt.getNewValue().toString()));
+        setBackgroundColor(Color.web(evt.getNewValue().toString()));
         break;
       case HISTORY_VARIABLE:
-        terminal.setInputText(evt.getNewValue().toString());
+        setInputText(evt.getNewValue().toString());
         break;
       case TURTLE_IMAGE:
-        display.updateTurtleImage(evt.getNewValue().toString());
+        setTurtleImage(evt.getNewValue().toString());
         break;
     }
   }
 
+  public void setPenColor(Color color) {
+    display.setPenColor(color);
+  }
+
+  public void setBackgroundColor(Color color){
+    display.setBackgroundColor(color);
+  }
+
+  public void setTurtleImage(String filename){
+    display.setTurtleImage(filename);
+  }
+
+  public void setInputText(String text){
+    terminal.setInputText(text);
+  }
+
+  public void resetDisplay(){
+    display.resetPane();
+  }
+
   @Override
   public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException {
-
     for (ImmutableTurtle turtle : turtleList) {
       display.setTurtleHeading(turtle.getHeading());
       display.setPenState(turtle.getPenState());
@@ -149,10 +165,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     tabPaneView.addChangeHistoryListener(this);
     tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);
-  }
-
-  public void resetDisplay(){
-    display.resetPane();
   }
 
 }
