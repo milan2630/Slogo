@@ -62,14 +62,12 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     Pane displayNode = display.getPane();
     displayNode.getStyleClass().add("display");
 
-    Node terminalNode = terminal.getPane();
-
     TabPane tabNode = tabPaneView.getTabPane();
 
     root.setCenter(displayNode);
     BorderPane.setAlignment(tabNode, Pos.TOP_LEFT);
     root.setLeft(tabNode);
-    root.setBottom(terminalNode);
+    root.setBottom(terminal);
   }
 
   private void setBundle() {

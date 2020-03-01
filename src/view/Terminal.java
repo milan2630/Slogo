@@ -11,30 +11,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import slogo.Controller;
 
-public class Terminal {
+public class Terminal extends BorderPane{
 
-  private BorderPane pane;
   private static ResourceBundle actionResources;
   private static ResourceBundle uiResources;
   private Actions actions;
   private VBox buttonPane;
   private TextArea input;
   private Label errors;
-  // application state
-  private Controller controller;
   private static final double HEIGHT = 150;
   private static final double BUTTON_PANE_WIDTH = 100;
   private static final double ERROR_PANE_HEIGHT = 25;
-  private static final String DEFAULT_RESOURCE_ACTIONS = "resources/Actions/default";
 
   protected Terminal(String language, Actions actions) {
     this.actions = actions;
     actionResources = ResourceBundle
         .getBundle("resources/Actions/"+language);
     uiResources = ResourceBundle.getBundle("resources/ui/" + language);
-    this.pane = new BorderPane();
-    pane.setPrefHeight(HEIGHT);
-    pane.getStyleClass().add("terminal");
+    setPrefHeight(HEIGHT);
+    getStyleClass().add("terminal");
     createInput();
     createButtonPane();
     createErrorPane();
@@ -53,7 +48,7 @@ public class Terminal {
     for (String key : Collections.list(actionResources.getKeys())) {
       buttonPane.getChildren().add(new InputButton(actionResources.getString(key), key, actions, input));
     }
-    pane.setLeft(buttonPane);
+    setLeft(buttonPane);
   }
 
   private void createInput() {
@@ -63,7 +58,7 @@ public class Terminal {
     input.setPrefHeight(HEIGHT - ERROR_PANE_HEIGHT);
     input.setPromptText(uiResources.getString("TerminalPrompt"));
     input.setFocusTraversable(false);
-    pane.setCenter(input);
+    setCenter(input);
   }
 
   private void createErrorPane() {
@@ -72,11 +67,7 @@ public class Terminal {
     errors = new Label();
     errors.getStyleClass().add("error-label");
     errorPane.setLeft(errors);
-    pane.setTop(errorPane);
-  }
-
-  protected Pane getPane() {
-    return this.pane;
+    setTop(errorPane);
   }
 
   protected void setInputText(String text) {
