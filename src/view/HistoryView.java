@@ -1,9 +1,6 @@
 package view;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -23,7 +20,7 @@ public class HistoryView {
     public HistoryView(String language, ObservableList<String> historyList){
         this.language= language;
         resourceBundle = ResourceBundle
-                .getBundle("resources/ui/" + language);
+                .getBundle("resources/UI/" + language);
         myTab = new Tab(resourceBundle.getString("HistoryTab"));
         history = historyList;
         list = new ListView<String>();

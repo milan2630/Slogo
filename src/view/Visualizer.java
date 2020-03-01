@@ -72,11 +72,11 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   private void setBundle() {
     try {
       resourceBundle = ResourceBundle
-          .getBundle("resources/ui/" + language);
+          .getBundle("resources/UI/" + language);
     } catch (MissingResourceException e) {
       this.language = DEFAULT_LANGUAGE;
       resourceBundle = ResourceBundle
-          .getBundle("resources/ui/" + language);
+          .getBundle("resources/UI/" + language);
     }
   }
 

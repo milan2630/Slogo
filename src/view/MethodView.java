@@ -23,7 +23,7 @@ public class MethodView {
     public MethodView(String language, ObservableMap savedMethodNames){
         this.language = language;
         methods = savedMethodNames;
-        resourceBundle = ResourceBundle.getBundle("resources/ui/" + language);
+        resourceBundle = ResourceBundle.getBundle("resources/UI/" + language);
         listView = new ListView<String>();
         listener = new ArrayList<>();
         myTab = new Tab(resourceBundle.getString("MethodTab"));

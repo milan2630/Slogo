@@ -16,7 +16,7 @@ public class Terminal extends BorderPane {
   public Terminal(String language, Actions actions) {
     actionResources = ResourceBundle
         .getBundle("resources/Actions/" + language);
-    uiResources = ResourceBundle.getBundle("resources/ui/" + language);
+    uiResources = ResourceBundle.getBundle("resources/UI/" + language);
     setPrefHeight(HEIGHT);
 
     errorBar = new ErrorBar();

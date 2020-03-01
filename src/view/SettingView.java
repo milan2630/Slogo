@@ -21,7 +21,7 @@ public class SettingView extends Tab {
   private static final String PEN_COLOR = "Pen Color";
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String TURTLE_IMAGE = "TurtleImage";
-  private static final String PREFIX = "resources/ui/";
+  private static final String PREFIX = "resources/UI/";
   private static final Color DEFAULT_PEN_COLOR = Color.NAVY;
   private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
 
