@@ -23,12 +23,16 @@ public class Turtle {
     private double myHeading;
     private int penState;
     private int showing;
+    private int myID;
+    private boolean isActive;
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
     private String language;
     private List<ImmutableTurtle> internalStates;
 
-    public Turtle(MethodExplorer me, VariableExplorer ve, String lang){
+    public Turtle(MethodExplorer me, VariableExplorer ve, String lang, int id, boolean active){
+        myID = id;
+        isActive = active;
         myX = 0;
         myY = 0;
         myHeading = 0;
@@ -222,10 +226,7 @@ public class Turtle {
     }
 
     private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
-        Double pixBackward = getDoubleParameter(params.get(0));
-        myY-= pixBackward * Math.cos(Math.toRadians(myHeading));
-        myX-= pixBackward * Math.sin(Math.toRadians(myHeading));
-        return pixBackward;
+
     }
 
     private double turnLeft(LeftCommand left, List<String> params) throws ParsingException {
@@ -482,5 +483,7 @@ public class Turtle {
         myY+=addY;
     }
 
-
+    public boolean isActive() {
+        return isActive;
+    }
 }

@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class CommandManager {
     private static final String RESOURCES = "resources";
@@ -25,7 +26,7 @@ public class CommandManager {
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
     private List<ImmutableTurtle> internalStates;
-    private Turtle myTurtle;
+    private List<Turtle> turtles;
 
 
     public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, String lang){
@@ -34,7 +35,9 @@ public class CommandManager {
         variableExplorer = ve;
         myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
         internalStates = new ArrayList<>();
-        myTurtle = new Turtle(methodExplorer, variableExplorer, lang);
+        Turtle startTurtle = new Turtle(methodExplorer, variableExplorer, lang, 1, true);
+        turtles = new ArrayList<>();
+        turtles.add(startTurtle);
     }
 
 
@@ -78,7 +81,8 @@ public class CommandManager {
         return variableExplorer;
     }
 
-    public Turtle getTurtle(){
-        return myTurtle;
+    public List<Turtle> getTurtles(){
+        return turtles;
     }
+
 }

@@ -33,7 +33,7 @@ public class Controller implements PropertyChangeListener {
     myVE = new VariableExplorer();
     this.language = language;
     backendManager = new ModelExternal(language, myME, myVE, myVisualizer);
-    myTurtle = new Turtle(myME, myVE, language);
+    //myTurtle = new Turtle(myME, myVE, language);
     myHistory = new History();
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
         myME.getMethodNames());
@@ -43,6 +43,7 @@ public class Controller implements PropertyChangeListener {
   public void propertyChange(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("Run")){
       language = myVisualizer.getLanguage();
+      //FIXME
       //myParser.setLanguage(language);
       //myTurtle.changeLanguage(language);
       String command = evt.getNewValue().toString();
@@ -55,6 +56,7 @@ public class Controller implements PropertyChangeListener {
         myVisualizer.displayError(e);
       }
     }
+    //FIXME
     if (evt.getPropertyName().equals("Reset")){
       myTurtle.setToHome();
       myTurtle.setHeading(0);
