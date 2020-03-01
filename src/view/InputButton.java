@@ -3,7 +3,6 @@ package view;
 import java.lang.reflect.Method;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import slogo.Controller;
 
 public class InputButton extends Button {
 
