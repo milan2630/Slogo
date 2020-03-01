@@ -218,29 +218,6 @@ public class Turtle {
         return var.getValue();
     }
 
-    private double moveForward(ForwardCommand forward, List<String> params) throws ParsingException{
-        Double pixForward = getDoubleParameter(params.get(0));
-        myY+= pixForward * Math.cos(Math.toRadians(myHeading));
-        myX+= pixForward * Math.sin(Math.toRadians(myHeading));
-        return pixForward;
-    }
-
-    private double moveBack(BackwardCommand backward, List<String> params) throws ParsingException {
-
-    }
-
-    private double turnLeft(LeftCommand left, List<String> params) throws ParsingException {
-        Double degreesLeft = getDoubleParameter(params.get(0));
-        myHeading -= degreesLeft;
-        return myHeading;
-    }
-
-    private double turnRight(RightCommand right, List<String> params) throws ParsingException {
-        Double degreesRight = getDoubleParameter(params.get(0));
-        myHeading += degreesRight;
-        return myHeading;
-    }
-
     private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ParsingException {
         Double heading = getDoubleParameter(params.get(0));
         myHeading = heading;
@@ -485,5 +462,9 @@ public class Turtle {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void incrementHeading(double turn){
+        myHeading+=turn;
     }
 }
