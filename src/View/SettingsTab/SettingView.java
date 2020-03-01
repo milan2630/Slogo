@@ -38,9 +38,13 @@ public class SettingView extends Tab {
         LabeledDropdown dropdown = (LabeledDropdown) constructor.newInstance(prompt, key, actions);
         vbox.getChildren().add(dropdown);
       } catch (Exception e) {
-        throw new ReflectionException("InvalidClass",key);
+        throw new ReflectionException("InvalidClass", key);
       }
     }
+
+    LabeledSlider slider = new LabeledSlider("ree", "handleThickness", actions);
+
+    vbox.getChildren().add(slider);
 
     HelpButton helpButton = new HelpButton(uiResources);
     vbox.getChildren().add(helpButton);

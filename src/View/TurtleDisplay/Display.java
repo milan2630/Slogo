@@ -76,6 +76,10 @@ public class Display extends Pane {
     setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
+  public void setPenThickness(Double thickness){
+    trail.setCurrentThickness(thickness);
+  }
+
   public void setTurtleImage(String filename) {
     System.out.println(TURTLE_PATH + filename);
     Image image = getImageByName(TURTLE_PATH + filename);

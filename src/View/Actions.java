@@ -11,6 +11,7 @@ public class Actions {
   private static final String RUN = "Run";
   private static final String RESET = "Reset";
   private static final String PEN_COLOR = "Pen Color";
+  private static final String THICKNESS = "Thickness";
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String HISTORY_VARIABLE = "HistoryVariable";
   private static final String TURTLE_IMAGE = "TurtleImage";
@@ -47,6 +48,10 @@ public class Actions {
 
   public void handlePenColor(String value){
     notifyListeners(PEN_COLOR, this.data, this.data = value);
+  }
+
+  public void handleThickness(String value){
+    notifyListeners(THICKNESS, this.data, this.data = value);
   }
 
 
