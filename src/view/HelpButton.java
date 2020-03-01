@@ -18,7 +18,7 @@ public class HelpButton extends Button {
 
   private final int IMAGE_HEIGHT = 283;
   private final int IMAGE_WIDTH = 500;
-  private static final String HELP_IMAGES_PATH = "resources";
+  private static final String HELP_IMAGES_PATH = "resources/HelpImages";
   private static ResourceBundle resourceBundle;
 
 

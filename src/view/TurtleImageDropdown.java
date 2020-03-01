@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 public class TurtleImageDropdown extends ComboBox<String> {
-  private static final String TURTLE_IMAGES_PATH = "resources/turtles";
+  private static final String TURTLE_IMAGES_PATH = "resources/Turtles";
 
 
   protected TurtleImageDropdown(String prompt){

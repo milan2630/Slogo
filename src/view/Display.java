@@ -12,7 +12,7 @@ import slogo.ImmutableTurtle;
 
 public class Display {
 
-  private Image turtleImage = getImageByName("turtles/turtle.png");
+  private Image turtleImage = getImageByName("Turtles/turtle.png");
   private Pane pane;
   private TrailView trail;
   private TurtleView turtle;

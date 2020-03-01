@@ -1,30 +1,12 @@
 package view;
 
 import java.beans.PropertyChangeEvent;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class SettingView extends Tab {
@@ -78,7 +60,7 @@ public class SettingView extends Tab {
 
   private void saveFile() {
     String filename = turtleImageDropdown.valueProperty().get();
-    notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = "turtles/" + filename);
+    notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = "Turtles/" + filename);
   }
 
   private void setBackgroundColor() {
