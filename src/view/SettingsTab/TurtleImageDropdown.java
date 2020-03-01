@@ -29,11 +29,11 @@ public class TurtleImageDropdown extends LabeledDropdown {
     comboBox.setOnAction(value);
   }
 
-  protected String getImageFilename() {
+  protected String setValue() {
     return comboBox.getValue();
   }
 
-  protected void setImageFilename(String filename){
+  protected void setValue(String filename){
     comboBox.setValue(filename);
   }
 

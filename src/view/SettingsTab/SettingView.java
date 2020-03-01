@@ -46,7 +46,7 @@ public class SettingView extends Tab {
 
     turtleImageDropdown = new TurtleImageDropdown(resourceBundle.getString("LoadImage"));
     turtleImageDropdown.setOnAction(e -> saveFile());
-    turtleImageDropdown.setImageFilename(DEFAULT_TURTLE_IMAGE);
+    turtleImageDropdown.setValue(DEFAULT_TURTLE_IMAGE);
 
     languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
@@ -66,7 +66,7 @@ public class SettingView extends Tab {
   }
 
   private void saveFile() {
-    String filename = turtleImageDropdown.getImageFilename();
+    String filename = turtleImageDropdown.setValue();
     notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = "Turtles/" + filename);
   }
 
