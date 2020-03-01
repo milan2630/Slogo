@@ -38,7 +38,7 @@ public class TabPaneView {
 
   private void createSettingTab(String language) {
     settingView = new SettingView(language);
-    tabPane.getTabs().add(settingView.getTab());
+    tabPane.getTabs().add(settingView);
   }
 
   public void createMethodTab(String language, ObservableMap methodList) {

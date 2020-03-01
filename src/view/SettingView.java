@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -30,8 +31,7 @@ public class SettingView extends Tab {
 
   private static ResourceBundle resourceBundle;
   private static ResourceBundle imageBundle;
-  private static ResourceBundle languageBundle;
-  private String language;
+
   private List<PropertyChangeListener> listener;
   private String penColorData;
   private String backgroundColorData;
@@ -42,23 +42,23 @@ public class SettingView extends Tab {
   private static final String PREFIX = "resources/ui/";
   private static final String IMAGE_PATH = "TurtleImages";
   private static final String HELP_IMAGES_PATH = "resources";
-  private static final String LANGUAGE_PATH = "src/resources/languages/";
   private final int IMAGE_HEIGHT = 283;
   private final int IMAGE_WIDTH = 500;
+  private LanguageDropdown languageDropdown;
 
   public SettingView(String language) {
     super("SettingTab");
-    this.language = language;
     resourceBundle = ResourceBundle
         .getBundle(PREFIX + language);
     imageBundle = ResourceBundle.getBundle(PREFIX + IMAGE_PATH);
     listener = new ArrayList<>();
-    this.language = language;
     setupTab();
   }
 
   private void setupTab() {
     VBox vbox = new VBox();
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setSpacing(10);
     //Combo Boc for Selecting Image
     ComboBox<String> setTurtleImage = new ComboBox<>();
     setTurtleImage.setPromptText(resourceBundle.getString("LoadImage"));
@@ -75,16 +75,12 @@ public class SettingView extends Tab {
     HBox backgroundColorBox = getColorPickerBox(resourceBundle.getString("BackgroundColor"),
         backgroundColor);
 
-    //Select Language
-    List<String> contents = getLanguages();
-    ComboBox<String> languageBox = new ComboBox<>();
-    languageBox.setPromptText(resourceBundle.getString("SelectLanguage"));
-    languageBox.getItems().addAll(contents);
-    languageBox.setOnAction(e -> changeLanguage(languageBox.valueProperty().get()));
+    languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
     Button help = createButton(resourceBundle.getString("HelpButton"));
     help.setOnAction(e -> handleHelpScreen());
-    vbox.getChildren().addAll(setTurtleImage, penColorBox, backgroundColorBox, languageBox, help);
+    vbox.getChildren()
+        .addAll(setTurtleImage, penColorBox, backgroundColorBox, languageDropdown, help);
     vbox.setSpacing(10.0);
     setContent(vbox);
   }
@@ -138,24 +134,6 @@ public class SettingView extends Tab {
     return images;
   }
 
-  private List<String> getLanguages() {
-    File directoryPath = new File(LANGUAGE_PATH);
-    List<String> languages = new ArrayList<>();
-    for (String s : directoryPath.list()) {
-      int index = s.indexOf(".");
-      String substring = s.substring(0, index);
-      languages.add(substring);
-    }
-    return languages;
-  }
-
-  private void changeLanguage(String s) {
-    this.language = s;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
 
   private void setBackgroundColor(Color value) {
     notifyListeners(BACKGROUND_COLOR, backgroundColorData, backgroundColorData = value.toString());
@@ -202,6 +180,10 @@ public class SettingView extends Tab {
     Button button = new Button();
     button.setText(text);
     return button;
+  }
+
+  protected String getLanguage() {
+    return languageDropdown.getLanguage();
   }
 
 
