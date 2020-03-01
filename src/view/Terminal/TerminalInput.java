@@ -1,4 +1,4 @@
-package view;
+package view.Terminal;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;

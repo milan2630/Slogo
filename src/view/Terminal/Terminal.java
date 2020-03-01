@@ -1,7 +1,8 @@
-package view;
+package view.Terminal;
 
 import java.util.ResourceBundle;
 import javafx.scene.layout.BorderPane;
+import view.Actions;
 
 public class Terminal extends BorderPane {
 
@@ -12,7 +13,7 @@ public class Terminal extends BorderPane {
   private ErrorBar errorBar;
   private static final double HEIGHT = 150;
 
-  protected Terminal(String language, Actions actions) {
+  public Terminal(String language, Actions actions) {
     actionResources = ResourceBundle
         .getBundle("resources/Actions/" + language);
     uiResources = ResourceBundle.getBundle("resources/ui/" + language);
@@ -27,11 +28,11 @@ public class Terminal extends BorderPane {
     setLeft(buttons);
   }
 
-  protected void setInputText(String text) {
+  public void setInputText(String text) {
     input.setText(text);
   }
 
-  protected void setErrorText(String text) {
+  public void setErrorText(String text) {
     errorBar.setText(text);
   }
 

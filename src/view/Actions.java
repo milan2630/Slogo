@@ -13,17 +13,17 @@ public class Actions {
   private String data;
   private List<PropertyChangeListener> listeners = new ArrayList<>();
 
-  protected void handleRun(TextArea input) {
+  public void handleRun(TextArea input) {
     if (input.getText().length() > 0) {
       notifyListeners(RUN, this.data, this.data = input.getText());
     }
   }
 
-  protected void handleClear(TextArea input) {
+  public void handleClear(TextArea input) {
     input.clear();
   }
 
-  protected void handleReset(TextArea input) {
+  public void handleReset(TextArea input) {
     notifyListeners(RESET, this.data, this.data = input.getText());
   }
 

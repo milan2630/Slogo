@@ -1,4 +1,4 @@
-package view;
+package view.TurtleDisplay;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -17,14 +17,14 @@ public class Display {
   private TrailView trail;
   private TurtleView turtle;
 
-  protected Display() {
+  public Display() {
     this.pane = new Pane();
 
     setBackgroundColor(Color.web("868686"));
     resetPane();
   }
 
-  protected void resetPane() {
+  public void resetPane() {
     pane.getChildren().clear();
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
     this.trail = new TrailView(5.0, Color.WHITE);
@@ -42,7 +42,7 @@ public class Display {
     trail.getPane().translateYProperty().bind(pane.heightProperty().divide(2));
   }
 
-  protected void moveTurtle(Point2D newCoordinate) {
+  public void moveTurtle(Point2D newCoordinate) {
     Point2D oldCoordinate = turtle.getPosition();
     turtle.setPosition(newCoordinate);
     if (turtle.isPenActive()==1) {
@@ -50,40 +50,40 @@ public class Display {
     }
   }
 
-  protected ImmutableTurtle getTurtleState() {
+  public ImmutableTurtle getTurtleState() {
     return new ImmutableTurtle(turtle.getPosition().getX(),
         turtle.getPosition().getY(), turtle.getHeading(), turtle.isPenActive(),
         turtle.isTurtleVisible());
   }
 
-  protected void setTurtleHeading(double newHeading) {
+  public void setTurtleHeading(double newHeading) {
     turtle.setHeading(newHeading);
   }
 
-  protected void setTurtleVisibility(int state) {
+  public void setTurtleVisibility(int state) {
     turtle.setTurtleVisible(state);
   }
 
-  protected void setPenState(int state) {
+  public void setPenState(int state) {
     turtle.setPenActive(state);
   }
 
-  protected Pane getPane() {
+  public Pane getPane() {
     return this.pane;
   }
 
-  protected void setBackgroundColor(Color color) {
+  public void setBackgroundColor(Color color) {
     pane.setBackground(
         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  protected void setTurtleImage(String filename){
+  public void setTurtleImage(String filename){
     Image image = getImageByName(filename);
     turtleImage = image;
     turtle.setGraphicImage(image);
   }
   
-  protected void setPenColor(Color currentColor) {
+  public void setPenColor(Color currentColor) {
     trail.setCurrentColor(currentColor);
   }
 

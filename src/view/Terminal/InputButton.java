@@ -1,8 +1,10 @@
-package view;
+package view.Terminal;
 
 import java.lang.reflect.Method;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import view.Actions;
+import view.Terminal.TerminalInput;
 
 public class InputButton extends Button {
 
