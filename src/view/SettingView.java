@@ -185,7 +185,7 @@ public class SettingView {
     Text text = new Text(str);
     hbox.getChildren().addAll(text, colorPicker);
     hbox.setSpacing(10.0);
-    text.getStyleClass().add("color-picker-box");
+    text.getStyleClass().add("settings-text");
     return hbox;
   }
 

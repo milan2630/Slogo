@@ -37,35 +37,13 @@
 }
 
 .display {
-  -fx-border-color: #2E2E2E;
-  -fx-border-width: 4;
+  -fx-border-color: #222222;
+  -fx-border-width: 10;
 }
 
 .tab-pane {
   -fx-background-color: #222222;
   -fx-text-fill: #2E86AB;
-}
-
-.tab {
-  -fx-background-color: #2E2E2E;
-  -fx-background-radius: 4;
-}
-
-.tab:selected {
-  -fx-background-color: #2E86AB;
-}
-
-.tab .tab-label {
-  -fx-alignment: CENTER;
-  -fx-text-fill: gray;
-}
-
-.tab:selected .tab-label {
-  -fx-text-fill: #1E1E1E;
-}
-
-.tab-pane .tab-header-area .tab-header-background {
-  -fx-opacity: 0;
 }
 
 .tab-box {
@@ -80,6 +58,7 @@
 
 .list-view {
   -fx-background-color: #2E2E2E;
+
 }
 
 .list-view .list-cell:even {
@@ -94,29 +73,6 @@
 
 .color-picker {
   -fx-background-color: #2E2E2E;
-<<<<<<< HEAD:src/resources/styles/default.css
-  -fx-background-radius: 0 15 15 0;
-}
-
-.color-picker .color-picker-label .text {
-  -fx-fill: #2E86AB;
-}
-
-.color-picker-box {
-  -fx-fill: gray;
-}
-
-.combo-box {
-  -fx-background-color: #2E2E2E;
-  -fx-text-base-color: #2E86AB;
-  -fx-background-radius: 0 15 15 0;
-}
-
-.table-view .column-header,
-.table-view .column-header-background .filler {
-  -fx-background-color: #2E86AB;
-}
-=======
   -fx-background-radius: 4 15 15 4;
 }
 
@@ -145,4 +101,3 @@
 }
 
 
->>>>>>> jrr59:src/resources/Styles/default.css
