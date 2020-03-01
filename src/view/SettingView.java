@@ -45,6 +45,7 @@ public class SettingView extends Tab {
   private final int IMAGE_HEIGHT = 283;
   private final int IMAGE_WIDTH = 500;
   private LanguageDropdown languageDropdown;
+  private TurtleImageDropdown turtleImageDropdown;
 
   public SettingView(String language) {
     super("SettingTab");
@@ -59,12 +60,11 @@ public class SettingView extends Tab {
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.CENTER);
     vbox.setSpacing(10);
-    //Combo Boc for Selecting Image
-    ComboBox<String> setTurtleImage = new ComboBox<>();
-    setTurtleImage.setPromptText(resourceBundle.getString("LoadImage"));
-    ObservableList<String> images = getTurtleImages();
-    setTurtleImage.itemsProperty().bind(new SimpleObjectProperty<>(images));
-    setTurtleImage.setOnAction(e -> saveFile(setTurtleImage.valueProperty().get()));
+
+    turtleImageDropdown = new TurtleImageDropdown(resourceBundle.getString("LoadImage"));
+    turtleImageDropdown.setOnAction(e -> saveFile());
+
+    languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
     //Color Picker for Background and Pen Color
     ColorPicker penColor = new ColorPicker();
@@ -75,26 +75,17 @@ public class SettingView extends Tab {
     HBox backgroundColorBox = getColorPickerBox(resourceBundle.getString("BackgroundColor"),
         backgroundColor);
 
-    languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
-
     Button help = createButton(resourceBundle.getString("HelpButton"));
     help.setOnAction(e -> handleHelpScreen());
     vbox.getChildren()
-        .addAll(setTurtleImage, penColorBox, backgroundColorBox, languageDropdown, help);
+        .addAll(turtleImageDropdown, penColorBox, backgroundColorBox, languageDropdown, help);
     vbox.setSpacing(10.0);
     setContent(vbox);
   }
 
-  private ObservableList<String> getTurtleImages() {
-    File directoryPath = new File(HELP_IMAGES_PATH);
-    List<String> images = new ArrayList<>();
-    for (String s : directoryPath.list()) {
-      if (s.contains("turtle")) {
-        images.add(s);
-      }
-    }
-    Collections.sort(images);
-    return FXCollections.observableList(images);
+  private void saveFile() {
+    String filename = turtleImageDropdown.valueProperty().get();
+    notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = "turtles/" + filename);
   }
 
   private void handleHelpScreen() {
@@ -143,13 +134,6 @@ public class SettingView extends Tab {
     notifyListeners(PEN_COLOR, penColorData, penColorData = value.toString());
   }
 
-  private void saveFile(String str) {
-    notifyListeners(TURTLE_IMAGE, turtleImage, turtleImage = str);
-  }
-
-  private void showMessage(Alert.AlertType type, String message) {
-    new Alert(type, message).showAndWait();
-  }
 
   private HBox getColorPickerBox(String str, ColorPicker colorPicker) {
     HBox hbox = new HBox();
