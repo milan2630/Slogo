@@ -22,13 +22,12 @@ public class Controller implements PropertyChangeListener {
   private String language = DEFAULT_LANGUAGE;
   private List<ImmutableTurtle> turtleList;
 
-  public Controller(Stage stage, String language) {
+  public Controller(Stage stage) {
     myActions = new Actions();
     myActions.addChangeListener(this);
     myVisualizer = new Visualizer(stage, language, myActions);
     myME = new MethodExplorer();
     myVE = new VariableExplorer();
-    this.language = language;
     myParser = new Parser(language, myME);
     myTurtle = new Turtle(myME, myVE, language);
     myHistory = new History();
@@ -59,7 +58,6 @@ public class Controller implements PropertyChangeListener {
         myVisualizer.setTurtleImage(value);
         break;
     }
-
   }
 
   private void handleReset() {
