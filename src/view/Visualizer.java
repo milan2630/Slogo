@@ -47,8 +47,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
     display = new Display();
 
-    tabPaneView = new TabPaneView(language);
-    tabPaneView.addChangeSettingsListener(this);
+    tabPaneView = new TabPaneView(language, actions);
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);

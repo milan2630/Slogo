@@ -10,35 +10,35 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
+import view.Actions;
 
 public class TurtleImageDropdown extends LabeledDropdown {
 
-  private static final String TURTLE_IMAGES_PATH = "resources/Turtles";
+  private static final String RESOURCE_PATH = "resources";
+  private static final String TURTLE_PATH = "/Turtles";
 
   private ComboBox<String> comboBox;
 
-  protected TurtleImageDropdown(String prompt) {
-    super(prompt);
+  protected TurtleImageDropdown(String prompt, String methodName, Actions target) {
+    super(prompt, methodName, target);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
+    comboBox.setOnAction(
+        handler -> handleAction(comboBox.getValue() + TURTLE_PATH, methodName, target));
     getChildren().add(comboBox);
-  }
-
-  protected void setOnAction(EventHandler<ActionEvent> value) {
-    comboBox.setOnAction(value);
   }
 
   protected String setValue() {
     return comboBox.getValue();
   }
 
-  protected void setValue(String filename){
+  protected void setValue(String filename) {
     comboBox.setValue(filename);
   }
 
   private ObservableList<String> getTurtleImages() {
-    File directoryPath = new File(TURTLE_IMAGES_PATH);
+    File directoryPath = new File(RESOURCE_PATH + TURTLE_PATH);
     List<String> images = Arrays.asList(directoryPath.list());
     Collections.sort(images);
     return FXCollections.observableList(images);

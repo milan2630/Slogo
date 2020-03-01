@@ -4,13 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
+import view.Actions;
 
 public class ColorPickerBox extends LabeledDropdown {
 
   private ColorPicker colorPicker;
 
-  protected ColorPickerBox(String prompt) {
-    super(prompt);
+  protected ColorPickerBox(String prompt, String methodName, Actions target) {
+    super(prompt, methodName, target);
     colorPicker = new ColorPicker();
     getChildren().add(colorPicker);
   }
