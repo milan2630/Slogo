@@ -1,22 +1,26 @@
 package slogo;
 
 import javafx.stage.Stage;
+import slogo.Commands.Command;
 import view.Actions;
 import view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class Controller implements PropertyChangeListener {
 
   private Visualizer myVisualizer;
-  private Parser myParser;
+  private ModelExternal backendManager;
   private MethodExplorer myME;
   private VariableExplorer myVE;
   private Actions myActions;
   private Turtle myTurtle;
   private History myHistory;
+  private CommandManager commandManager;
 
   private String language;
   private List<ImmutableTurtle> turtleList;
@@ -28,7 +32,7 @@ public class Controller implements PropertyChangeListener {
     myME = new MethodExplorer();
     myVE = new VariableExplorer();
     this.language = language;
-    myParser = new Parser(language, myME);
+    backendManager = new ModelExternal(language, myME, myVE, myVisualizer);
     myTurtle = new Turtle(myME, myVE, language);
     myHistory = new History();
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
@@ -39,11 +43,11 @@ public class Controller implements PropertyChangeListener {
   public void propertyChange(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("Run")){
       language = myVisualizer.getLanguage();
-      myParser.setLanguage(language);
-      myTurtle.changeLanguage(language);
+      //myParser.setLanguage(language);
+      //myTurtle.changeLanguage(language);
       String command = evt.getNewValue().toString();
       try {
-        turtleList = myParser.parseCommands(command, myTurtle);
+        turtleList = backendManager.parseCommands(command);
         myHistory.addInput(command);
         myVisualizer.updateTurtle(turtleList);
       }
