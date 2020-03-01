@@ -4,7 +4,7 @@ import slogo.*;
 
 import java.util.List;
 
-public class ForwardCommand implements Command {
+public class ForwardCommand extends BackEndCommand {
 
     @Override
     public int getNumArguments() {
@@ -19,23 +19,4 @@ public class ForwardCommand implements Command {
         commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
         return pixForward;
     }
-
-    private double getDoubleParameter(String val, VariableExplorer variableExplorer) throws ParsingException {
-        try{
-            return Double.parseDouble(val);
-        }
-        catch (NumberFormatException e){
-            if(variableExplorer.getVariable(val) != null){
-                return (Double) variableExplorer.getVariable(val).getValue();
-            }
-            else if(val.indexOf(":") == 0){
-                variableExplorer.addDoubleVarByName(val, 0.0);
-                return 0.0;
-            }
-            else{
-                throw new ParsingException("UnrecognizedEntity", val);
-            }
-        }
-    }
-
 }
