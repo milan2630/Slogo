@@ -7,10 +7,15 @@ import javafx.scene.control.ComboBox;
 
 public class LanguageDropdown extends ComboBox<String> {
   private String language;
+  private static final String DEFAULT_LANGUAGE = "English";
+
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
   protected LanguageDropdown(String prompt){
     setPromptText(prompt);
+    setValue(DEFAULT_LANGUAGE);
+    this.language = DEFAULT_LANGUAGE;
+    
     getItems().addAll(getLanguages());
     setOnAction(e -> changeLanguage(this.valueProperty().get()));
   }
