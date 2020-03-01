@@ -34,12 +34,4 @@ public class LanguageDropdown extends LabeledDropdown {
     return languages;
   }
 
-  protected String getValue() {
-    return comboBox.getValue();
-  }
-
-  private void getValue(String language) {
-    comboBox.setValue(language);
-  }
-
 }

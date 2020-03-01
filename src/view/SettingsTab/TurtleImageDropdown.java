@@ -7,10 +7,7 @@ import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
-import org.w3c.dom.ls.LSOutput;
 import view.Actions;
 
 public class TurtleImageDropdown extends LabeledDropdown {
@@ -30,14 +27,6 @@ public class TurtleImageDropdown extends LabeledDropdown {
     comboBox.setOnAction(
         handler -> handleAction(comboBox.getValue(), methodName, target));
     getChildren().add(comboBox);
-  }
-
-  protected String setValue() {
-    return comboBox.getValue();
-  }
-
-  protected void setValue(String filename) {
-    comboBox.setValue(filename);
   }
 
   private ObservableList<String> getTurtleImages() {

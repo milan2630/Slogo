@@ -22,7 +22,6 @@ public class SettingView extends Tab {
 
   public SettingView(String language, Actions actions) {
     super("SettingTab");
-
     actionResources = ResourceBundle.getBundle(RESOURCES_TERMINAL + language);
     uiResources = ResourceBundle.getBundle(PREFIX + language);
     setupTab(actions);
@@ -47,10 +46,8 @@ public class SettingView extends Tab {
     }
 
     HelpButton helpButton = new HelpButton(uiResources);
+    vbox.getChildren().add(helpButton);
 
-//    vbox.getChildren()
-//        .addAll(helpButton, turtleImageDropdown, penColorPicker, backgroundColorPicker,
-//            languageDropdown);
     setContent(vbox);
   }
 
