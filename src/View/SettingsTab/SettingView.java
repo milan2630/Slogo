@@ -42,9 +42,8 @@ public class SettingView extends Tab {
       }
     }
 
-    LabeledSlider slider = new LabeledSlider("ree", "handleThickness", actions);
-
-    vbox.getChildren().add(slider);
+//    LabeledSlider slider = new LabeledSlider("ree", "handleThickness", actions);
+//    vbox.getChildren().add(slider);
 
     HelpButton helpButton = new HelpButton(uiResources);
     vbox.getChildren().add(helpButton);
