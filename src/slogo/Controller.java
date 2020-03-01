@@ -1,5 +1,6 @@
 package slogo;
 
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import view.Actions;
 import view.Visualizer;
@@ -37,24 +38,47 @@ public class Controller implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println("=================== \n " + evt.getPropertyName());
-    if (evt.getPropertyName().equals("Run")){
-      myParser.setLanguage(language);
-      myTurtle.changeLanguage(language);
-      String command = evt.getNewValue().toString();
-      try {
-        turtleList = myParser.parseCommands(command, myTurtle);
-        myHistory.addInput(command);
-        myVisualizer.updateTurtle(turtleList);
-      }
-      catch(ParsingException e) {
-        myVisualizer.displayError(e);
-      }
+    String value = evt.getNewValue().toString();
+    switch (evt.getPropertyName()){
+      case "Run":
+        handleRun(value);
+        break;
+      case "Reset":
+        handleReset();
+        break;
+      case "Language":
+        this.language = value;
+        break;
+      case "Pen Color":
+        myVisualizer.setPenColor(Color.web(value));
+        break;
+      case "Background Color":
+        myVisualizer.setBackgroundColor(Color.web(value));
+        break;
+      case "TurtleImage":
+        myVisualizer.setTurtleImage(value);
+        break;
     }
-    if (evt.getPropertyName().equals("Reset")){
-      myTurtle.setToHome();
-      myTurtle.setHeading(0);
-      myVisualizer.resetDisplay();
+
+  }
+
+  private void handleReset() {
+    myTurtle.setToHome();
+    myTurtle.setHeading(0);
+    myVisualizer.resetDisplay();
+  }
+
+  private void handleRun(String value) {
+    myParser.setLanguage(language);
+    myTurtle.changeLanguage(language);
+    String command = value;
+    try {
+      turtleList = myParser.parseCommands(command, myTurtle);
+      myHistory.addInput(command);
+      myVisualizer.updateTurtle(turtleList);
+    }
+    catch(ParsingException e) {
+      myVisualizer.displayError(e);
     }
   }
 
