@@ -58,7 +58,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   }
 
   private void addPanesToRoot(BorderPane root) {
-    Pane displayNode = display.getPane();
+    Pane displayNode = display;
     displayNode.getStyleClass().add("display");
 
     TabPane tabNode = tabPaneView.getTabPane();
@@ -140,10 +140,10 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   }
 
   private Boolean checkTurtleOutOfBounds(ImmutableTurtle turtle) {
-    return turtle.getX() > display.getPane().getWidth() / 2
-        || turtle.getX() < -1 * display.getPane().getWidth() / 2 ||
-        turtle.getY() > display.getPane().getHeight() / 2 || turtle.getY() < -1 *
-        display.getPane().getHeight() / 2;
+    return turtle.getX() > display.getWidth() / 2
+        || turtle.getX() < -1 * display.getWidth() / 2 ||
+        turtle.getY() > display.getHeight() / 2 || turtle.getY() < -1 *
+        display.getHeight() / 2;
   }
 
   @Override

@@ -7,23 +7,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 
-public class TurtleView {
+public class TurtleView extends Pane {
 
   private ImageView graphic;
   private Point2D position;
   private int turtleVisible = 1;
   private int penActive = 1;
   private double heading;
-  private Pane pane;
 
   protected TurtleView(Image image, double x, double y, double heading) {
-    this.pane = new Pane();
     this.graphic = new ImageView(image);
     graphic.setFitWidth(50);
     graphic.setFitHeight(50);
 
     Point2D point = new Point2D(x, y);
-    pane.getChildren().add(graphic);
+    getChildren().add(graphic);
 
     setPosition(point);
     setHeading(heading);
@@ -60,16 +58,12 @@ public class TurtleView {
     return penActive;
   }
 
-  protected void setGraphicImage(Image image){
+  protected void setGraphicImage(Image image) {
     graphic.setImage(image);
   }
 
   protected void setPenActive(int penActive) {
     this.penActive = penActive;
-  }
-
-  protected Node getPane() {
-    return this.pane;
   }
 
 }

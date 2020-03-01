@@ -22,6 +22,9 @@ public class SettingView extends Tab {
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String TURTLE_IMAGE = "TurtleImage";
   private static final String PREFIX = "resources/ui/";
+  private static final Color DEFAULT_PEN_COLOR = Color.NAVY;
+  private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+
 
   private LanguageDropdown languageDropdown;
   private TurtleImageDropdown turtleImageDropdown;
@@ -46,10 +49,12 @@ public class SettingView extends Tab {
     languageDropdown = new LanguageDropdown(resourceBundle.getString("SelectLanguage"));
 
     penColorPicker = new ColorPickerBox(resourceBundle.getString("PenColor"));
+    penColorPicker.setColor(DEFAULT_PEN_COLOR);
     penColorPicker.setOnAction(e -> setPenColor());
 
     backgroundColorPicker = new ColorPickerBox(resourceBundle.getString("BackgroundColor"));
     backgroundColorPicker.setOnAction(e -> setBackgroundColor());
+    backgroundColorPicker.setColor(DEFAULT_BACKGROUND_COLOR);
 
     HelpButton helpButton = new HelpButton(resourceBundle);
 

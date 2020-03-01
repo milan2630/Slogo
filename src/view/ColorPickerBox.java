@@ -23,11 +23,16 @@ public class ColorPickerBox extends HBox {
     text.getStyleClass().add("settings-text");
   }
 
-  protected void setOnAction(EventHandler<ActionEvent> value){
+
+  protected void setOnAction(EventHandler<ActionEvent> value) {
     colorPicker.setOnAction(value);
   }
 
-  protected Color getColor(){
+  protected void setColor(Color value) {
+    colorPicker.setValue(value);
+  }
+
+  protected Color getColor() {
     return colorPicker.getValue();
   }
 }
