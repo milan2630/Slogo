@@ -70,7 +70,7 @@ public class Display extends Pane {
   public void setPenState(int state) {
     turtle.setPenActive(state);
   }
-  
+
   public void setBackgroundColor(Color color) {
     setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
