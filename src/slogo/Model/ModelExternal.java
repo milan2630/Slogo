@@ -6,7 +6,7 @@ import slogo.Model.Parsing.Parser;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.VariableExplorer;
-import view.Visualizer;
+import slogo.view.Visualizer;
 
 import java.util.List;
 

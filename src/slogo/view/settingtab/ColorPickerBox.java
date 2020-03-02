@@ -1,7 +1,7 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
 import javafx.scene.control.ColorPicker;
-import view.Actions;
+import slogo.view.Actions;
 
 public class ColorPickerBox extends LabeledDropdown {
 

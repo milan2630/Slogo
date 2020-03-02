@@ -1,4 +1,4 @@
-package view;
+package slogo.view;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

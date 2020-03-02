@@ -1,4 +1,4 @@
-package view.TurtleDisplay;
+package slogo.view.turtledisplay;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;

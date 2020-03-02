@@ -1,4 +1,4 @@
-package view.Terminal;
+package slogo.view.terminal;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;

@@ -1,4 +1,4 @@
-package view;
+package slogo.view;
 
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -6,7 +6,7 @@ import javafx.collections.ObservableMap;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import view.SettingsTab.SettingView;
+import slogo.view.settingtab.SettingView;
 
 
 public class TabPaneView {

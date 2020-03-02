@@ -1,6 +1,6 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
-import view.Actions;
+import slogo.view.Actions;
 import javafx.scene.control.Slider;
 
 public class LabeledSlider extends LabeledDropdown {

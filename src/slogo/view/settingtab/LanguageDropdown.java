@@ -1,10 +1,10 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.ComboBox;
-import view.Actions;
+import slogo.view.Actions;
 
 public class LanguageDropdown extends LabeledDropdown {
 

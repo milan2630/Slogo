@@ -1,11 +1,11 @@
-package view.Terminal;
+package slogo.view.terminal;
 
 import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
-import view.Actions;
+import slogo.view.Actions;
 
 public class TerminalButtons extends VBox {
 

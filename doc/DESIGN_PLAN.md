@@ -3,7 +3,7 @@
 ## Milan Bhat (mb554), Ryan Weeratunga (rkw14), Robert Chen (rec43), Jaidha Rosenblatt (jrr59)
 
 
-Our program design involves a front-end view which handles everything displayed to the user, a backend Model which handles the logic of commands, and a Controller to send information back and forth between appropriate classes. The Controller is responsible for communicating with both the front end and backend. 
+Our program design involves a front-end slogo.view which handles everything displayed to the user, a backend Model which handles the logic of commands, and a Controller to send information back and forth between appropriate classes. The Controller is responsible for communicating with both the front end and backend. 
 
 
 ### Introduction:

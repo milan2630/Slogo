@@ -1,4 +1,4 @@
-package view;
+package slogo.view;
 
 import java.util.*;
 
@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 import slogo.FrontEndExternal;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
-import view.Terminal.Terminal;
-import view.TurtleDisplay.Display;
+import slogo.view.terminal.Terminal;
+import slogo.view.turtledisplay.Display;
 
 public class Visualizer implements FrontEndExternal {
 

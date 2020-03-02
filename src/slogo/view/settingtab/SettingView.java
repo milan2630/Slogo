@@ -1,11 +1,11 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
 import java.lang.reflect.Constructor;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
-import view.Actions;
+import slogo.view.Actions;
 import slogo.ReflectionException;
 
 public class SettingView extends VBox {
@@ -14,7 +14,7 @@ public class SettingView extends VBox {
   private static final String RESOURCES_TERMINAL = "resources/Layouts/SettingsTab/";
   private static ResourceBundle actionResources;
   private static ResourceBundle uiResources;
-  private static final String CLASS_PATH = "view.SettingsTab.";
+  private static final String CLASS_PATH = "slogo.view.settingtab.";
 
   public SettingView(String language, Actions actions) {
     actionResources = ResourceBundle.getBundle(RESOURCES_TERMINAL + language);

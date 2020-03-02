@@ -1,4 +1,4 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
 import java.io.File;
 import java.util.ArrayList;

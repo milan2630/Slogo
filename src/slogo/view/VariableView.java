@@ -1,4 +1,4 @@
-package view;
+package slogo.view;
 
 import javafx.collections.*;
 import javafx.geometry.Pos;

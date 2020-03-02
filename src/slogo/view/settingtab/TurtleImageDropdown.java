@@ -1,4 +1,4 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
 import java.io.File;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
-import view.Actions;
+import slogo.view.Actions;
 
 public class TurtleImageDropdown extends LabeledDropdown {
 

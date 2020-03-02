@@ -7,8 +7,8 @@ import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Explorers.Variables.VariableExplorer;
 import slogo.Model.ModelExternal;
 import slogo.Model.TurtleModel.ImmutableTurtle;
-import view.Actions;
-import view.Visualizer;
+import slogo.view.Actions;
+import slogo.view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

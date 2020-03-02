@@ -1,4 +1,4 @@
-package view;
+package slogo.view;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
