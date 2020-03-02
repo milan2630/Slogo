@@ -1,4 +1,6 @@
-package slogo.Commands;
+package slogo.Commands.TurtleCommands;
+
+import slogo.Commands.Command;
 
 public class ShowTurtleCommand implements Command {
     @Override

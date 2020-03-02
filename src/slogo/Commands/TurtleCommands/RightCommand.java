@@ -1,13 +1,13 @@
-package slogo.Commands;
-
+package slogo.Commands.TurtleCommands;
 
 import slogo.CommandManager;
+import slogo.Commands.BackEndCommand;
 import slogo.ParsingException;
 import slogo.Turtle;
 
 import java.util.List;
 
-public class LeftCommand extends BackEndCommand {
+public class RightCommand extends BackEndCommand {
 
     @Override
     public int getNumArguments() {
@@ -16,9 +16,9 @@ public class LeftCommand extends BackEndCommand {
 
     @Override
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
-        Double degreesLeft = getDoubleParameter(params.get(0), commandManager.getVariableExplorer());
-        myTurtle.incrementHeading(degreesLeft * -1);
+        Double degreesRight = getDoubleParameter(params.get(0), commandManager.getVariableExplorer());
+        myTurtle.incrementHeading(degreesRight);
         commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
-        return degreesLeft;
+        return degreesRight;
     }
 }
