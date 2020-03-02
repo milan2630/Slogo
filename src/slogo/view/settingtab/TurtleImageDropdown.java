@@ -14,7 +14,6 @@ public class TurtleImageDropdown extends LabelAndAction {
 
   private static final String RESOURCE_PATH = "resources/";
   private static final String TURTLE_PATH = "turtles/";
-  private static final String DEFAULT_TURTLE = "turtle.png";
 
   private ComboBox<String> comboBox;
 
@@ -22,7 +21,7 @@ public class TurtleImageDropdown extends LabelAndAction {
     super(language, methodName);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
-    comboBox.setValue(DEFAULT_TURTLE);
+    comboBox.setValue(getDefaultFromKey(methodName));
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
     comboBox.setOnAction(
         handler -> handleAction(comboBox.getValue(), methodName, target));

@@ -1,8 +1,7 @@
 package slogo.view.settingtab;
 
 import java.lang.reflect.Constructor;
-import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
+
 import javafx.scene.layout.VBox;
 
 import java.util.*;

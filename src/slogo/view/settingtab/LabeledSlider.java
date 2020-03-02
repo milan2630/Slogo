@@ -9,6 +9,7 @@ public class LabeledSlider extends LabelAndAction {
     super(language, methodName);
     Slider slider = new Slider();
     slider.setShowTickLabels(true);
+    slider.setValue(Double.parseDouble(getDefaultFromKey(methodName)));
     slider.setMax(30);
     slider.setMajorTickUnit(5);
     slider.valueProperty().addListener((observable, oldValue, newValue) ->

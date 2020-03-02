@@ -36,7 +36,7 @@ public class TurtleMover extends LabelAndAction {
     slider = new Slider();
     slider.setShowTickLabels(true);
     slider.setMax(100);
-    slider.setValue(DEFAULT_VALUE);
+    slider.setValue(Double.parseDouble(getDefaultFromKey(methodName)));
     slider.setMajorTickUnit(20);
   }
 
@@ -55,7 +55,7 @@ public class TurtleMover extends LabelAndAction {
   private Button createButton(String commandName) {
     String command = getCommandByKey(commandName, 1);
     Button button = new Button();
-    button.setText(command + " " + DEFAULT_VALUE);
+    button.setText(command + " " + Integer.parseInt(getDefaultFromKey(methodName)));
 
     slider.valueProperty().addListener(
         (obs, oldValue, newValue) -> button.setText(command + " " + newValue.intValue()));

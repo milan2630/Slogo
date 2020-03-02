@@ -15,7 +15,8 @@ public abstract class LabelAndAction extends HBox {
 
   private static ResourceBundle uiResources;
   private ResourceBundle commandBundle;
-
+  private static final String DEFAULT_RESOURCE_PATH = "resources/states/Default";
+  private ResourceBundle defaultsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
 
   protected LabelAndAction(String language, String methodName) {
     uiResources = ResourceBundle.getBundle(UI_PATH + language);
@@ -41,5 +42,9 @@ public abstract class LabelAndAction extends HBox {
     } catch (Exception e) {
       throw new ReflectionException("InvalidMethod", methodName);
     }
+  }
+
+  protected String getDefaultFromKey(String key){
+    return defaultsResources.getString(key);
   }
 }

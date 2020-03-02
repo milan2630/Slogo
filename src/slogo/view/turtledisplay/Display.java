@@ -1,5 +1,6 @@
 package slogo.view.turtledisplay;
 
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -15,23 +16,22 @@ public class Display extends Pane {
   private TrailView trail;
   private TurtleView turtle;
   private static final String TURTLE_PATH = "turtles/";
-  private static final String DEFAULT_TURTLE_IMAGE = "turtle.png";
-  private Image turtleImage = getImageByName(TURTLE_PATH + DEFAULT_TURTLE_IMAGE);
-
-
-  private static final Color DEFAULT_PEN_COLOR = Color.NAVY;
-  private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
-
+  private static final String DEFAULT_RESOURCE_PATH = "resources/states/Default";
+  private ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
+  private Image turtleImage;
 
   public Display() {
+    turtleImage = getImageByName(TURTLE_PATH + resourceBundle.getString("handleTurtleImage"));
     resetPane();
   }
 
   public void resetPane() {
+
     getChildren().clear();
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
-    this.trail = new TrailView(5.0, DEFAULT_PEN_COLOR);
-    setBackgroundColor(DEFAULT_BACKGROUND_COLOR);
+    this.trail = new TrailView(Double.parseDouble(resourceBundle.getString("handleThickness")),
+        Color.web(resourceBundle.getString("handlePenColor")));
+    setBackgroundColor(Color.web(resourceBundle.getString("handleBackgroundColor")));
     bindOriginToCenter();
 
     getChildren().addAll(trail, turtle);
@@ -75,7 +75,7 @@ public class Display extends Pane {
     setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  public void setPenThickness(Double thickness){
+  public void setPenThickness(Double thickness) {
     trail.setCurrentThickness(thickness);
   }
 
