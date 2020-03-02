@@ -36,4 +36,11 @@ public abstract class BackEndCommand implements Command {
         return newParser.getFinalReturn();
     }
 
+    public String removeOuterBrackets(String input){
+        if(input.charAt(0) == '[' && input.charAt(input.length()-1) == ']'){
+            return input.substring(1, input.length()-1);
+        }
+        return input;
+    }
+
 }
