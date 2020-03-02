@@ -8,7 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import slogo.ImmutableTurtle;
+import slogo.Model.TurtleModel.ImmutableTurtle;
 
 public class Display extends Pane {
 

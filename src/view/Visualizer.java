@@ -13,8 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
-import slogo.ImmutableTurtle;
-import slogo.ParsingException;
+import slogo.Model.TurtleModel.ImmutableTurtle;
+import slogo.Model.ErrorHandling.ParsingException;
 import view.Terminal.Terminal;
 import view.TurtleDisplay.Display;
 
