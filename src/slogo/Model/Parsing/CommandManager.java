@@ -1,5 +1,6 @@
 package slogo.Model.Parsing;
 
+import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Commands.Command;
 import slogo.Model.TurtleModel.ImmutableTurtle;
@@ -13,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandManager {
+public class CommandManager implements BackEndExternal {
     private static final String EXECUTE_COMMAND_METHOD_NAME = "executeCommand";
 
     private Visualizer frontend;
@@ -35,8 +36,23 @@ public class CommandManager {
         turtles.add(startTurtle);
     }
 
+    @Override
+    public List<ImmutableTurtle> parseCommands(String input) throws ParsingException {
+        Parser parser = new Parser(this);
+        parser.parseCommands(input);
+        List<ImmutableTurtle> ret = getInternalStates();
+        clearInternalStates();
+        System.out.println("States:");
+        for(ImmutableTurtle t: ret){
+            System.out.println(t.getY());
+        }
+        return ret;
+    }
 
-    public double actOnCommand(Command command, List<String> params) throws ParsingException {
+
+
+
+    protected double actOnCommand(Command command, List<String> params) throws ParsingException {
         try {
             double ret = 0;
             for(Turtle turtle: turtles){
@@ -76,6 +92,7 @@ public class CommandManager {
         return turtles;
     }
 
+    @Override
     public void setLanguage(String lang){
         language = lang;
     }
