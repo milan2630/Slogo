@@ -1,20 +1,35 @@
 package slogo.view;
 
 import java.lang.reflect.Method;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import slogo.ReflectionException;
 
 public class TurtleMover extends VBox {
 
-  private double increment = 10;
+  private Slider slider;
   private Actions actions;
 
   public TurtleMover(String language, Actions actions) {
     this.actions = actions;
     setAlignment(Pos.CENTER);
+
+    slider = new Slider();
+    slider.setShowTickLabels(true);
+    slider.setMax(100);
+    slider.setValue(10);
+    slider.setMajorTickUnit(20);
+
+    GridPane box = createMovementController();
+
+    getChildren().addAll(slider, box);
+  }
+
+  private GridPane createMovementController() {
     GridPane box = new GridPane();
     box.setPrefSize(10, 10);
 
@@ -24,20 +39,23 @@ public class TurtleMover extends VBox {
     Button bottom = createButton("bottom", "bk");
     box.add(bottom, 1, 2);
 
-    Button left = createButton("left", "lt");
+    Button left = createButton("turn left", "lt");
     box.add(left, 0, 1);
 
-    Button right = createButton("right", "rt");
+    Button right = createButton("turn right", "rt");
     box.add(right, 2, 1);
-
-    getChildren().add(box);
+    return box;
   }
 
   private Button createButton(String prompt, String commandName) {
     Button button = new Button();
-    button.setText(prompt + " " + increment);
-    String command = commandName + " " + increment;
-    button.setOnAction(value -> handleAction(command, "handleTurtleMovement", actions));
+
+    slider.valueProperty().addListener((obs, oldValue, newValue) ->
+    {
+      button.setText(commandName + " " + newValue.intValue());
+    });
+
+    button.setOnAction(value -> handleAction(button.getText(), "handleTurtleMovement", actions));
     return button;
   }
 
