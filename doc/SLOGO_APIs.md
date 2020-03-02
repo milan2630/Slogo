@@ -12,11 +12,11 @@ The backend will be running external modules so there will be no methods that ot
 The backend must be able to read the xml file 
 and distinguish which commands corresponds to particular actions. The backend must have methods for determining actions based on the input. This means that there will be an API that returns transfers of data of the commands between classes.
 
-### External View
+### External view
 
-The backend will be controlling the updating of the View based on when it receives the parsing information. Therefore, the View must have an external API to control the turtle's movement on the screen. Additionally, the backend will be receiving input from the Console in the View so the API must include the ability to get commands from the console. 
+The backend will be controlling the updating of the view based on when it receives the parsing information. Therefore, the view must have an external API to control the turtle's movement on the screen. Additionally, the backend will be receiving input from the Console in the view so the API must include the ability to get commands from the console. 
 
 
-### Internal View
-The internal View will handle the rendering process for the visualization of our turtle and the terminal.
+### Internal view
+The internal view will handle the rendering process for the visualization of our turtle and the terminal.
 

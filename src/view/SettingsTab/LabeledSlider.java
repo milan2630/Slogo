@@ -1,6 +1,6 @@
-package View.SettingsTab;
+package view.SettingsTab;
 
-import View.Actions;
+import view.Actions;
 import javafx.scene.control.Slider;
 
 public class LabeledSlider extends LabeledDropdown {

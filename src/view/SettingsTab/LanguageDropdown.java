@@ -1,10 +1,10 @@
-package View.SettingsTab;
+package view.SettingsTab;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.ComboBox;
-import View.Actions;
+import view.Actions;
 
 public class LanguageDropdown extends LabeledDropdown {
 

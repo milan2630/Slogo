@@ -5,8 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.beans.EventHandler;
-import View.TurtleDisplay.TrailView;
-import View.TurtleDisplay.TurtleView;
+import view.TurtleDisplay.TrailView;
+import view.TurtleDisplay.TurtleView;
 
 
 /**

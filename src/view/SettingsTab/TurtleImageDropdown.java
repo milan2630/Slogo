@@ -1,4 +1,4 @@
-package View.SettingsTab;
+package view.SettingsTab;
 
 import java.io.File;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
-import View.Actions;
+import view.Actions;
 
 public class TurtleImageDropdown extends LabeledDropdown {
 

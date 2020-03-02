@@ -1,4 +1,4 @@
-package View.TurtleDisplay;
+package view.TurtleDisplay;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;

@@ -1,7 +1,7 @@
-package View.SettingsTab;
+package view.SettingsTab;
 
 import javafx.scene.control.ColorPicker;
-import View.Actions;
+import view.Actions;
 
 public class ColorPickerBox extends LabeledDropdown {
 

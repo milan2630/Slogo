@@ -1,11 +1,11 @@
-package View.SettingsTab;
+package view.SettingsTab;
 
 import java.lang.reflect.Method;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import View.Actions;
+import view.Actions;
 import slogo.ReflectionException;
 
 public abstract class LabeledDropdown extends HBox {

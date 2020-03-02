@@ -1,4 +1,4 @@
-package View.TurtleDisplay;
+package view.TurtleDisplay;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
