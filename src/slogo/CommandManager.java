@@ -7,8 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 public class CommandManager {
     private static final String EXECUTE_COMMAND_METHOD_NAME = "executeCommand";
@@ -27,17 +25,13 @@ public class CommandManager {
         methodExplorer = me;
         variableExplorer = ve;
         internalStates = new ArrayList<>();
-        Turtle startTurtle = new Turtle(methodExplorer, variableExplorer, lang, 1, true);
+        Turtle startTurtle = new Turtle(1, true);
         turtles = new ArrayList<>();
         turtles.add(startTurtle);
     }
 
 
     public double actOnCommand(Command command, List<String> params) throws ParsingException {
-        return callMethod(command, params);
-    }
-
-    private double callMethod(Command command, List<String> params) throws ParsingException {
         try {
             double ret = 0;
             for(Turtle turtle: turtles){
@@ -46,7 +40,6 @@ public class CommandManager {
                     ret = (double) method.invoke(command, this, turtle, params);
                 }
             }
-            //internalStates.add(myTurtle.getImmutableTurtle());
             return ret;
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new ParsingException("ExecuteMissing", command.toString());
@@ -54,7 +47,7 @@ public class CommandManager {
             if(e.getCause() instanceof ParsingException){
                 throw (ParsingException) e.getCause();
             }
-            throw new ParsingException("CommandExecuteError", command.toString());//TODO implemenet Command.toString()
+            throw new ParsingException("CommandExecuteError", command.toString());
         }
     }
 
@@ -76,6 +69,10 @@ public class CommandManager {
 
     public List<Turtle> getTurtles(){
         return turtles;
+    }
+
+    public void setLanguage(String lang){
+        language = lang;
     }
 
     public String getLanguage(){

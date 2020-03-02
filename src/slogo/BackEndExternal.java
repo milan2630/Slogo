@@ -16,36 +16,6 @@ public interface BackEndExternal {
      */
     public List<ImmutableTurtle> parseCommands(String input) throws ParsingException;
 
-   /* *//**
-     * Makes the appropriate changes to the backend version of the Turtle, Pen, and Trail based
-     * on a command
-     * @param command the command to act on
-     * @throws SlogoRuntimeException if the command cannot be executed
-     *//*
-    public void actOnCommand(Command command) throws SlogoRuntimeException;
-
-    *//**
-     * Used by the frontend to determine new turtle location
-     * @return the x coordinate of the Turtle after a command
-     *//*
-    public double getTurtleX();
-
-    *//**
-     * Used by the frontend to determine new turtle location
-     * @return the y coordinate of the Turtle after a command
-     *//*
-    public double getTutleY();
-
-    *//**
-     * Used by the frontend to determine new turtle heading
-     * @return the heading of the Turtle after a command
-     *//*
-    public double getTurtleHeading();
-
-    *//**
-     * Used by the frontend to determine if a Trail should be made
-     * @return the heading of the Turtle after a command
-     *//*
-    public int getPenState();*/
+    public void setLanguage(String lang);
 
 }
