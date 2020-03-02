@@ -5,12 +5,13 @@ import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import slogo.ReflectionException;
 
 public class TurtleMover extends VBox {
 
+  public static final int DEFAULT_VALUE = 10;
   private Slider slider;
   private Actions actions;
   private ResourceBundle resourceBundle;
@@ -21,32 +22,29 @@ public class TurtleMover extends VBox {
     this.actions = actions;
     setAlignment(Pos.CENTER);
 
-    slider = new Slider();
-    slider.setShowTickLabels(true);
-    slider.setMax(100);
-    slider.setValue(10);
-    slider.setMajorTickUnit(20);
-
-    GridPane box = createMovementController();
+    createSlider();
+    HBox box = createMovementController();
 
     getChildren().addAll(slider, box);
   }
 
-  private GridPane createMovementController() {
-    GridPane box = new GridPane();
-    box.setPrefSize(10, 10);
+  private void createSlider() {
+    slider = new Slider();
+    slider.setShowTickLabels(true);
+    slider.setMax(100);
+    slider.setValue(DEFAULT_VALUE);
+    slider.setMajorTickUnit(20);
+  }
+
+  private HBox createMovementController() {
+    HBox box = new HBox();
 
     Button top = createButton("Forward");
-    box.add(top, 1, 0);
-
     Button bottom = createButton("Backward");
-    box.add(bottom, 1, 2);
-
     Button left = createButton("Left");
-    box.add(left, 0, 1);
-
     Button right = createButton("Right");
-    box.add(right, 2, 1);
+
+    box.getChildren().addAll(top, bottom, left, right);
     return box;
   }
 
@@ -54,11 +52,10 @@ public class TurtleMover extends VBox {
     //Splitting command by | ex: forward|fd
     String[] raw = resourceBundle.getString(commandName).split("\\|");
     Button button = new Button();
+    button.setText(raw[0] + " " + DEFAULT_VALUE);
 
-    slider.valueProperty().addListener((obs, oldValue, newValue) ->
-    {
-      button.setText(raw[0] + " " + newValue.intValue());
-    });
+    slider.valueProperty().addListener(
+        (obs, oldValue, newValue) -> button.setText(raw[0] + " " + newValue.intValue()));
 
     button.setOnAction(value -> handleAction(button.getText(), "handleTurtleMovement", actions));
     return button;
