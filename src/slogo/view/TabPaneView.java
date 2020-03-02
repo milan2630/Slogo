@@ -42,7 +42,7 @@ public class TabPaneView {
   }
 
   private void createTurtleMoverTab(String language, Actions actions){
-    TurtleMover turtleMover = new TurtleMover();
+    TurtleMover turtleMover = new TurtleMover(language, actions);
     Tab tab = new Tab("TODO");
     tab.setContent(turtleMover);
     tabPane.getTabs().add(tab);

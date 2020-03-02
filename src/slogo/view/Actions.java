@@ -17,6 +17,8 @@ public class Actions {
   private static final String TURTLE_IMAGE = "Turtle Image";
   private static final String LANGUAGE = "Language";
   private static final String PEN_STATUS = "Pen Status";
+  private static final String MOVE_TURTLE = "Move Turtle";
+
 
   private String data;
   private List<PropertyChangeListener> listeners = new ArrayList<>();
@@ -57,6 +59,10 @@ public class Actions {
 
   public void handlePenStatus(String value) {
     notifyListeners(PEN_STATUS, this.data, this.data = value);
+  }
+
+  public void handleTurtleMovement(String command){
+    notifyListeners(RUN, this.data, this.data = command);
   }
 
   private void notifyListeners(String property, String oldValue, String newValue) {

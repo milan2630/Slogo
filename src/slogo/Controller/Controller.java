@@ -65,6 +65,7 @@ public class Controller implements PropertyChangeListener {
       case "Pen Status":
         //FIXME update pen status in backend
         myVisualizer.setPenStatus(Integer.parseInt(value));
+        break;
     }
   }
 
@@ -84,7 +85,7 @@ public class Controller implements PropertyChangeListener {
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
-    catch(ParsingException e) {
+    catch(Exception e) {
       myVisualizer.displayError(e);
     }
   }
