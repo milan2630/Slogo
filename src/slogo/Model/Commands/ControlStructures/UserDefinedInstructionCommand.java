@@ -1,11 +1,10 @@
 package slogo.Model.Commands.ControlStructures;
 
-import slogo.Model.Parsing.CommandManager;
 import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.DoubleVariable;
 import slogo.Model.Explorers.Variables.Variable;
-import slogo.Model.Parsing.Parser;
+import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.util.ArrayList;
@@ -93,9 +92,8 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         }
         setArguments(inputs);
         String com = getExecutableCommands();
-        Parser newParser = new Parser(commandManager);
-        newParser.parseCommands(com);
+        double ret = commandManager.parseCommands(com);
         commandManager.getVariableExplorer().removeVariablesByNames(getArgumentNames());
-        return newParser.getFinalReturn();
+        return ret;
     }
 }

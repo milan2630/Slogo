@@ -75,7 +75,7 @@ public class Controller implements PropertyChangeListener {
     //myTurtle.changeLanguage(language);
     String command = value;
     try {
-      turtleList = backendManager.parseCommands(command);;
+      turtleList = backendManager.parseTurtleStatesFromCommands(command);;
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
