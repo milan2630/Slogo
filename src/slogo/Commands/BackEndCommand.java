@@ -49,4 +49,10 @@ public abstract class BackEndCommand implements Command {
         return new BigDecimal(input).setScale(13, RoundingMode.HALF_UP).doubleValue() == 0.0;
     }
 
+    public String toString(){
+        String[] nameParts = this.getClass().toString().split("\\.");
+        String className = nameParts[nameParts.length - 1];
+        return className.split("@")[0];
+    }
+
 }
