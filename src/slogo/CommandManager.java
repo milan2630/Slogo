@@ -11,16 +11,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class CommandManager {
-    private static final String RESOURCES = "resources";
-    private static final String METHOD_RESOURCES = "CommandMethodNames";
-    private static final String DEFAULT_METHOD_RESOURCE_PACKAGE = RESOURCES + "/" + METHOD_RESOURCES + ".";
-    private static final String TURTLE_METHODS_PROPERTIES = "turtleMethods";
-    private static final String TURTLE_METHODS_FILEPATH = DEFAULT_METHOD_RESOURCE_PACKAGE + TURTLE_METHODS_PROPERTIES;
-    private ResourceBundle myResources;
-
     private static final String EXECUTE_COMMAND_METHOD_NAME = "executeCommand";
-
-
 
     private Visualizer frontend;
     private MethodExplorer methodExplorer;
@@ -35,7 +26,6 @@ public class CommandManager {
         frontend = v;
         methodExplorer = me;
         variableExplorer = ve;
-        myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
         internalStates = new ArrayList<>();
         Turtle startTurtle = new Turtle(methodExplorer, variableExplorer, lang, 1, true);
         turtles = new ArrayList<>();
@@ -48,15 +38,11 @@ public class CommandManager {
     }
 
     private double callMethod(Command command, List<String> params) throws ParsingException {
-        //String[] classParts = command.getClass().toString().split("\\.");
-        //String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
-        //String methodName = myResources.getString(key);
-        String methodName = EXECUTE_COMMAND_METHOD_NAME;
         try {
             double ret = 0;
             for(Turtle turtle: turtles){
                 if(turtle.isActive()){
-                    Method method = command.getClass().getDeclaredMethod(methodName, CommandManager.class, Turtle.class, List.class);
+                    Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
                     ret = (double) method.invoke(command, this, turtle, params);
                 }
             }

@@ -9,15 +9,6 @@ import java.util.*;
 import java.util.List;
 
 public class Turtle {
-
-    private static final String RESOURCES = "resources";
-    private static final String METHOD_RESOURCES = "CommandMethodNames";
-    private static final String DEFAULT_METHOD_RESOURCE_PACKAGE = RESOURCES + "/" + METHOD_RESOURCES + ".";
-    private static final String TURTLE_METHODS_PROPERTIES = "turtleMethods";
-    private static final String TURTLE_METHODS_FILEPATH = DEFAULT_METHOD_RESOURCE_PACKAGE + TURTLE_METHODS_PROPERTIES;
-    private ResourceBundle myResources;
-
-
     private double myX;
     private double myY;
     private double myHeading;
@@ -38,7 +29,6 @@ public class Turtle {
         myHeading = 0;
         penState = 1;
         showing = 1;
-        myResources = ResourceBundle.getBundle(TURTLE_METHODS_FILEPATH);
         methodExplorer = me;
         variableExplorer = ve;
         language = lang;
