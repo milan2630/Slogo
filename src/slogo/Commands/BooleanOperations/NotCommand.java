@@ -1,4 +1,6 @@
-package slogo.Commands;
+package slogo.Commands.BooleanOperations;
+
+import slogo.Commands.Command;
 
 public class NotCommand implements Command {
     @Override
