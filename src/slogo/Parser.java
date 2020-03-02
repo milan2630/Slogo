@@ -22,15 +22,14 @@ public class Parser implements BackEndExternal{
      * @return a list of commands to execute
      */
     public List<ImmutableTurtle> parseCommands(String input) throws ParsingException{
-        System.out.println("AAA");
-        System.out.println(input);
-        System.out.println("AAA");
+//        System.out.println("AAA");
+//        System.out.println(input);
+//        System.out.println("AAA");
         if(input == null || input.length() == 0){
             return new ArrayList<>();
         }
         input = input.toLowerCase();
         input = stripBrackets(input);
-        System.out.println(input);
         List<String> entityList = getEntitiesFromString(input);
         return parseEntityList(entityList);
     }
@@ -149,13 +148,8 @@ public class Parser implements BackEndExternal{
 
                 }
                 Collections.reverse(params);
-                for(ImmutableTurtle t: commandManager.getInternalStates()){
-                    System.out.println(t.getY());
-                }
                 String result = commandManager.actOnCommand(topCom, params) + "";
-                for(ImmutableTurtle t: commandManager.getInternalStates()){
-                    System.out.println(t.getY());
-                }
+
                 states.addAll(commandManager.getInternalStates());
                 //commandManager.clearInternalStates();
                 if(commandStack.size() > 0) {
