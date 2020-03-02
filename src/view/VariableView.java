@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import slogo.*;
+import slogo.Model.Explorers.Variables.Variable;
 
 import java.util.ResourceBundle;
 

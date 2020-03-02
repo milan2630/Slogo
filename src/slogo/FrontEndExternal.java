@@ -1,5 +1,8 @@
 package slogo;
 
+import slogo.Model.ErrorHandling.ParsingException;
+import slogo.Model.TurtleModel.ImmutableTurtle;
+
 import java.util.List;
 
 /**
