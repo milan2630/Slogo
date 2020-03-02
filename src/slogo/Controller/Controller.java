@@ -6,7 +6,7 @@ import slogo.Model.BackEndExternal;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Explorers.Variables.VariableExplorer;
-import slogo.Model.Parsing.CommandManager;
+import slogo.Model.CommandManager;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import view.Actions;
 import view.Visualizer;

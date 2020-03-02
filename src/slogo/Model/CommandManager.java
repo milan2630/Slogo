@@ -1,6 +1,5 @@
-package slogo.Model.Parsing;
+package slogo.Model;
 
-import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Commands.Command;
 import slogo.Model.TurtleModel.ImmutableTurtle;
