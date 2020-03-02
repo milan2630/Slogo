@@ -7,6 +7,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import slogo.view.settingtab.SettingView;
+import slogo.view.settingtab.TurtleMover;
 
 
 public class TabPaneView {
@@ -25,8 +26,6 @@ public class TabPaneView {
     tabPane.getStyleClass().add("tabPane");
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-    createTurtleMoverTab(language, actions);
-
     createSettingTab(language, actions);
   }
 
@@ -38,13 +37,6 @@ public class TabPaneView {
     settingView = new SettingView(language, actions);
     Tab tab = new Tab(uiResources.getString("SettingTab"));
     tab.setContent(settingView);
-    tabPane.getTabs().add(tab);
-  }
-
-  private void createTurtleMoverTab(String language, Actions actions){
-    TurtleMover turtleMover = new TurtleMover(language, actions);
-    Tab tab = new Tab("TODO");
-    tab.setContent(turtleMover);
     tabPane.getTabs().add(tab);
   }
 

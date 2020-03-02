@@ -1,31 +1,35 @@
-package slogo.view;
+package slogo.view.settingtab;
 
 import java.lang.reflect.Method;
-import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import slogo.ReflectionException;
+import slogo.view.Actions;
 
-public class TurtleMover extends VBox {
+public class TurtleMover extends LabelAndAction {
 
   public static final int DEFAULT_VALUE = 10;
   private Slider slider;
   private Actions actions;
-  private ResourceBundle resourceBundle;
-  private final static String LANGUAGE_PATH = "resources/Languages/";
+  private String methodName;
 
-  public TurtleMover(String language, Actions actions) {
-    resourceBundle = ResourceBundle.getBundle(LANGUAGE_PATH + language);
+  public TurtleMover(String language, String methodName, Actions actions) {
+    super(language, methodName);
+
+    VBox wrapper = new VBox();
     this.actions = actions;
+    this.methodName = methodName;
     setAlignment(Pos.CENTER);
 
     createSlider();
     HBox box = createMovementController();
 
-    getChildren().addAll(slider, box);
+    wrapper.getChildren().addAll(slider, box);
+
+    getChildren().add(wrapper);
   }
 
   private void createSlider() {
@@ -49,15 +53,15 @@ public class TurtleMover extends VBox {
   }
 
   private Button createButton(String commandName) {
-    //Splitting command by | ex: forward|fd
-    String[] raw = resourceBundle.getString(commandName).split("\\|");
+    String command = getCommandByKey(commandName, 1);
     Button button = new Button();
-    button.setText(raw[0] + " " + DEFAULT_VALUE);
+    button.setText(command + " " + DEFAULT_VALUE);
 
     slider.valueProperty().addListener(
-        (obs, oldValue, newValue) -> button.setText(raw[0] + " " + newValue.intValue()));
+        (obs, oldValue, newValue) -> button.setText(command + " " + newValue.intValue()));
 
-    button.setOnAction(value -> handleAction(button.getText(), "handleTurtleMovement", actions));
+    button.setOnAction(value -> handleAction(button.getText(), methodName, actions));
+    button.getStyleClass().add("turtle-control-button");
     return button;
   }
 

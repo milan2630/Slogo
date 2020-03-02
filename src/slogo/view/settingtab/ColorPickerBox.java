@@ -7,8 +7,8 @@ public class ColorPickerBox extends LabelAndAction {
 
   private ColorPicker colorPicker;
 
-  protected ColorPickerBox(String prompt, String methodName, Actions target) {
-    super(prompt);
+  protected ColorPickerBox(String language, String methodName, Actions target) {
+    super(language, methodName);
     colorPicker = new ColorPicker();
     colorPicker.setOnAction(
         handler -> handleAction(colorPicker.getValue().toString(), methodName, target));

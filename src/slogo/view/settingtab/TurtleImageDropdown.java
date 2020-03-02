@@ -18,8 +18,8 @@ public class TurtleImageDropdown extends LabelAndAction {
 
   private ComboBox<String> comboBox;
 
-  protected TurtleImageDropdown(String prompt, String methodName, Actions target) {
-    super(prompt);
+  protected TurtleImageDropdown(String language, String methodName, Actions target) {
+    super(language, methodName);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_TURTLE);

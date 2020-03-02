@@ -20,23 +20,24 @@ public class SettingView extends VBox {
   public SettingView(String language, Actions actions) {
     actionResources = ResourceBundle.getBundle(RESOURCES_TERMINAL + language);
     uiResources = ResourceBundle.getBundle(PREFIX + language);
-    setupTab(actions);
+    setupTab(language, actions);
   }
 
-  private void setupTab(Actions actions) {
+  private void setupTab(String language, Actions actions) {
     setSpacing(2);
     List<String> buttonList = Collections.list(actionResources.getKeys());
     Collections.sort(buttonList);
 
     for (String key : buttonList) {
       try {
-        String prompt = uiResources.getString(key);
         Class<?> clazz = Class.forName(CLASS_PATH + actionResources.getString(key));
         Constructor<?> constructor = clazz
             .getDeclaredConstructor(String.class, String.class, Actions.class);
-        LabelAndAction dropdown = (LabelAndAction) constructor.newInstance(prompt, key, actions);
-        getChildren().add(dropdown);
+        LabelAndAction o = (LabelAndAction) constructor.newInstance(language, key, actions);
+
+        getChildren().add(o);
       } catch (Exception e) {
+        e.printStackTrace();
         throw new ReflectionException("InvalidClass", key);
       }
     }

@@ -13,8 +13,8 @@ public class LanguageDropdown extends LabelAndAction {
   private static final String DEFAULT_LANGUAGE = "English";
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
-  protected LanguageDropdown(String prompt, String methodName, Actions target) {
-    super(prompt);
+  protected LanguageDropdown(String language, String methodName, Actions target) {
+    super(language, methodName);
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_LANGUAGE);
     comboBox.getItems().addAll(getLanguages());

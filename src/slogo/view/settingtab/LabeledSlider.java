@@ -5,8 +5,8 @@ import javafx.scene.control.Slider;
 
 public class LabeledSlider extends LabelAndAction {
 
-  protected LabeledSlider(String prompt, String methodName, Actions target) {
-    super(prompt);
+  protected LabeledSlider(String language, String methodName, Actions target) {
+    super(language, methodName);
     Slider slider = new Slider();
     slider.setShowTickLabels(true);
     slider.setMax(30);

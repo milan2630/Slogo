@@ -27,7 +27,7 @@ public class Visualizer implements FrontEndExternal {
   private TabPaneView tabPaneView;
   private Terminal terminal;
   private static final double SCENE_WIDTH = 800;
-  private static final double SCENE_HEIGHT = 500;
+  private static final double SCENE_HEIGHT = 600;
 
   public Visualizer(Stage stage, String language, Actions actions) {
     this.language = language;

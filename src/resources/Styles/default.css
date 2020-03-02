@@ -21,6 +21,10 @@
   -fx-text-fill: -fx-base-background;
 }
 
+.turtle-control-button {
+  -fx-pref-width: 60px;
+}
+
 .button-box {
   -fx-background-color: -fx-base-background;
 }
