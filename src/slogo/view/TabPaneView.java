@@ -25,7 +25,9 @@ public class TabPaneView {
     tabPane.getStyleClass().add("tabPane");
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-      createSettingTab(language, actions);
+    createTurtleMoverTab(language, actions);
+
+    createSettingTab(language, actions);
   }
 
   protected TabPane getTabPane() {
@@ -34,9 +36,16 @@ public class TabPaneView {
 
   private void createSettingTab(String language, Actions actions) {
     settingView = new SettingView(language, actions);
-    Tab settings = new Tab(uiResources.getString("SettingTab"));
-    settings.setContent(settingView);
-    tabPane.getTabs().add(settings);
+    Tab tab = new Tab(uiResources.getString("SettingTab"));
+    tab.setContent(settingView);
+    tabPane.getTabs().add(tab);
+  }
+
+  private void createTurtleMoverTab(String language, Actions actions){
+    TurtleMover turtleMover = new TurtleMover();
+    Tab tab = new Tab("TODO");
+    tab.setContent(turtleMover);
+    tabPane.getTabs().add(tab);
   }
 
   public void createMethodTab(String language, ObservableMap methodList) {
