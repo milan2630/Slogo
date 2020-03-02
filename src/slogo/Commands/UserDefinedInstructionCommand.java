@@ -1,13 +1,12 @@
 package slogo.Commands;
 
+import slogo.*;
 import slogo.Commands.Command;
-import slogo.DoubleVariable;
-import slogo.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDefinedInstructionCommand implements Command {
+public class UserDefinedInstructionCommand extends BackEndCommand {
     private String myCommands;
     private String name;
     private int numArguments;
@@ -44,7 +43,7 @@ public class UserDefinedInstructionCommand implements Command {
         return myCommands;
     }
 
-    public String getExecutableCommands(){
+    private String getExecutableCommands(){
         String executable = "";
         for(int i = 0; i < arguments.size(); i++){
             executable = executable + "make " + arguments.get(i).getName() + " " + arguments.get(i).getValue() + " ";
@@ -53,7 +52,7 @@ public class UserDefinedInstructionCommand implements Command {
         return executable;
     }
 
-    public List<String> getArgumentNames(){
+    private List<String> getArgumentNames(){
         List<String> names = new ArrayList<>();
         for(Variable var: arguments){
             names.add(var.getName());
@@ -75,10 +74,23 @@ public class UserDefinedInstructionCommand implements Command {
         return numArguments;
     }
 
-    public void setArguments(List<Double> args) {
+    private void setArguments(List<Double> args) {
         for(int i = 0; i < args.size(); i++){
             arguments.get(i).setValue(args.get(i));
         }
     }
 
+    @Override
+    public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
+        List<Double> inputs = new ArrayList<>();
+        for(int i = 0; i < params.size(); i++){
+            inputs.add(getDoubleParameter(params.get(i), commandManager.getVariableExplorer()));
+        }
+        setArguments(inputs);
+        String com = getExecutableCommands();
+        Parser newParser = new Parser(commandManager);
+        newParser.parseCommands(com);
+        commandManager.getVariableExplorer().removeVariablesByNames(getArgumentNames());
+        return newParser.getFinalReturn();
+    }
 }
