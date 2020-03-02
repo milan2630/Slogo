@@ -96,6 +96,10 @@ public class Visualizer implements FrontEndExternal {
     display.setPenThickness(thickness);
   }
 
+  public void setPenStatus(int active){
+    display.setPenState(active);
+  }
+
   @Override
   public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException {
     for (ImmutableTurtle turtle : turtleList) {

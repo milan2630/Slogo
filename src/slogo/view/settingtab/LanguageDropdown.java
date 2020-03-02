@@ -6,7 +6,7 @@ import java.util.List;
 import javafx.scene.control.ComboBox;
 import slogo.view.Actions;
 
-public class LanguageDropdown extends LabeledDropdown {
+public class LanguageDropdown extends LabelAndAction {
 
   private ComboBox<String> comboBox;
 

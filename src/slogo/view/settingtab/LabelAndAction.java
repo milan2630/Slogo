@@ -8,10 +8,10 @@ import javafx.scene.text.Text;
 import slogo.view.Actions;
 import slogo.ReflectionException;
 
-public abstract class LabeledDropdown extends HBox {
+public abstract class LabelAndAction extends HBox {
 
 
-  protected LabeledDropdown(String prompt) {
+  protected LabelAndAction(String prompt) {
     Text text = new Text(prompt);
     getChildren().add(text);
     setPadding((new Insets(10, 5, 10, 5)));

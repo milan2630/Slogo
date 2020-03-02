@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import slogo.view.Actions;
 
-public class TurtleImageDropdown extends LabeledDropdown {
+public class TurtleImageDropdown extends LabelAndAction {
 
   private static final String RESOURCE_PATH = "resources/";
   private static final String TURTLE_PATH = "turtles/";

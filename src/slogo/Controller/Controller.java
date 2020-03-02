@@ -56,11 +56,14 @@ public class Controller implements PropertyChangeListener {
       case "Background Color":
         myVisualizer.setBackgroundColor(Color.web(value));
         break;
-      case "TurtleImage":
+      case "Turtle Image":
         myVisualizer.setTurtleImage(value);
         break;
       case "Thickness":
         myVisualizer.setPenThickness(Double.parseDouble(value));
+        break;
+      case "Pen Status":
+        myVisualizer.setPenStatus(Integer.parseInt(value));
     }
   }
 

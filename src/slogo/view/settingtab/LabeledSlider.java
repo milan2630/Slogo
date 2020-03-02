@@ -3,7 +3,7 @@ package slogo.view.settingtab;
 import slogo.view.Actions;
 import javafx.scene.control.Slider;
 
-public class LabeledSlider extends LabeledDropdown {
+public class LabeledSlider extends LabelAndAction {
 
   protected LabeledSlider(String prompt, String methodName, Actions target) {
     super(prompt);

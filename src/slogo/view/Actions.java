@@ -14,8 +14,9 @@ public class Actions {
   private static final String THICKNESS = "Thickness";
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String HISTORY_VARIABLE = "HistoryVariable";
-  private static final String TURTLE_IMAGE = "TurtleImage";
+  private static final String TURTLE_IMAGE = "Turtle Image";
   private static final String LANGUAGE = "Language";
+  private static final String PEN_STATUS = "Pen Status";
 
   private String data;
   private List<PropertyChangeListener> listeners = new ArrayList<>();
@@ -46,14 +47,17 @@ public class Actions {
     notifyListeners(BACKGROUND_COLOR, this.data, this.data = value);
   }
 
-  public void handlePenColor(String value){
+  public void handlePenColor(String value) {
     notifyListeners(PEN_COLOR, this.data, this.data = value);
   }
 
-  public void handleThickness(String value){
+  public void handleThickness(String value) {
     notifyListeners(THICKNESS, this.data, this.data = value);
   }
 
+  public void handlePenStatus(String value) {
+    notifyListeners(PEN_STATUS, this.data, this.data = value);
+  }
 
   private void notifyListeners(String property, String oldValue, String newValue) {
     for (PropertyChangeListener name : listeners) {

@@ -2,6 +2,7 @@ package slogo.view.settingtab;
 
 import java.lang.reflect.Constructor;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
@@ -23,8 +24,7 @@ public class SettingView extends VBox {
   }
 
   private void setupTab(Actions actions) {
-    setAlignment(Pos.TOP_LEFT);
-    setSpacing(10);
+    setSpacing(2);
     List<String> buttonList = Collections.list(actionResources.getKeys());
     Collections.sort(buttonList);
 
@@ -34,7 +34,7 @@ public class SettingView extends VBox {
         Class<?> clazz = Class.forName(CLASS_PATH + actionResources.getString(key));
         Constructor<?> constructor = clazz
             .getDeclaredConstructor(String.class, String.class, Actions.class);
-        LabeledDropdown dropdown = (LabeledDropdown) constructor.newInstance(prompt, key, actions);
+        LabelAndAction dropdown = (LabelAndAction) constructor.newInstance(prompt, key, actions);
         getChildren().add(dropdown);
       } catch (Exception e) {
         throw new ReflectionException("InvalidClass", key);

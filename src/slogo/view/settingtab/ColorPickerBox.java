@@ -3,7 +3,7 @@ package slogo.view.settingtab;
 import javafx.scene.control.ColorPicker;
 import slogo.view.Actions;
 
-public class ColorPickerBox extends LabeledDropdown {
+public class ColorPickerBox extends LabelAndAction {
 
   private ColorPicker colorPicker;
 

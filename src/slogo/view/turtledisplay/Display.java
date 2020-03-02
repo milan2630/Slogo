@@ -49,6 +49,7 @@ public class Display extends Pane {
     Point2D oldCoordinate = turtle.getPosition();
     turtle.setPosition(newCoordinate);
     if (turtle.isPenActive() == 1) {
+      System.out.println("ree");
       trail.addLine(oldCoordinate, newCoordinate);
     }
   }
