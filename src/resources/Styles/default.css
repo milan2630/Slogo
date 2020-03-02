@@ -103,4 +103,13 @@
   -fx-text-base-color: #1E1E1E;
 }
 
+.slider .track {
+  -fx-background-color:  #2E2E2E;
+}
+
+.slider .thumb {
+  -fx-background-color:  #2E86AB;
+}
+
+
 
