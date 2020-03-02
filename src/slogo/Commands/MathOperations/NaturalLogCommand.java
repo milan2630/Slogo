@@ -1,4 +1,6 @@
-package slogo.Commands;
+package slogo.Commands.MathOperations;
+
+import slogo.Commands.Command;
 
 public class NaturalLogCommand implements Command {
     @Override
