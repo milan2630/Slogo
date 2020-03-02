@@ -20,6 +20,10 @@ public class ModelExternal implements BackEndExternal{
         parser.parseCommands(input);
         List<ImmutableTurtle> ret = commandManager.getInternalStates();
         commandManager.clearInternalStates();
+        System.out.println("States:");
+        for(ImmutableTurtle t: ret){
+            System.out.println(t.getY());
+        }
         return ret;
     }
 }
