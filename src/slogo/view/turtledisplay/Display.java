@@ -14,7 +14,7 @@ public class Display extends Pane {
 
   private TrailView trail;
   private TurtleView turtle;
-  private static final String TURTLE_PATH = "Turtles/";
+  private static final String TURTLE_PATH = "turtles/";
   private static final String DEFAULT_TURTLE_IMAGE = "turtle.png";
   private Image turtleImage = getImageByName(TURTLE_PATH + DEFAULT_TURTLE_IMAGE);
 
@@ -81,7 +81,6 @@ public class Display extends Pane {
   }
 
   public void setTurtleImage(String filename) {
-    System.out.println(TURTLE_PATH + filename);
     Image image = getImageByName(TURTLE_PATH + filename);
     turtleImage = image;
     turtle.setGraphicImage(image);

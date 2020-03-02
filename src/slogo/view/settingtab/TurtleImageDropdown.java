@@ -13,7 +13,7 @@ import slogo.view.Actions;
 public class TurtleImageDropdown extends LabeledDropdown {
 
   private static final String RESOURCE_PATH = "resources/";
-  private static final String TURTLE_PATH = "Turtles/";
+  private static final String TURTLE_PATH = "turtles/";
   private static final String DEFAULT_TURTLE = "turtle.png";
 
   private ComboBox<String> comboBox;
