@@ -2,6 +2,8 @@ package slogo.Commands;
 
 import slogo.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public abstract class BackEndCommand implements Command {
@@ -41,6 +43,10 @@ public abstract class BackEndCommand implements Command {
             return input.substring(1, input.length()-1);
         }
         return input;
+    }
+
+    public boolean isZero(double input){
+        return new BigDecimal(input).setScale(13, RoundingMode.HALF_UP).doubleValue() == 0.0;
     }
 
 }
