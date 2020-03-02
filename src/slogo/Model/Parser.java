@@ -2,7 +2,6 @@ package slogo.Model;
 
 import slogo.Model.Commands.Command;
 import slogo.Model.ErrorHandling.ParsingException;
-import slogo.Model.TurtleModel.ImmutableTurtle;
 
 import java.util.*;
 
@@ -96,7 +95,6 @@ public class Parser{
     }
 
     private double parseEntityList(List<String> entityList) throws ParsingException {
-        List<ImmutableTurtle> states = new ArrayList<>();
 
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
@@ -112,8 +110,13 @@ public class Parser{
                 argumentStack.push(item);
                 //System.out.println("OnArgs: " + item);
             }
-            ret = combineCommandsArgs(states, argumentStack, commandStack, countFromStack);
+            ret = combineCommandsArgs(argumentStack, commandStack, countFromStack);
         }
+        checkUnfulfilledCommands(commandStack);
+        return ret;
+    }
+
+    private void checkUnfulfilledCommands(Stack<Command> commandStack) throws ParsingException {
         if(commandStack.size() > 0){
             String unfulfilled = "";
             while(commandStack.size() > 0){
@@ -121,7 +124,6 @@ public class Parser{
             }
             throw new ParsingException("UnfulfilledCommands", unfulfilled);
         }
-        return ret;
     }
 
     private void pushCommand(Stack<Command> commandStack, String item) throws ParsingException {
@@ -129,11 +131,10 @@ public class Parser{
         commandStack.push(com);
     }
 
-    private double combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Stack<Integer> countFromStack) throws ParsingException {
+    private double combineCommandsArgs(Stack<String> argumentStack, Stack<Command> commandStack, Stack<Integer> countFromStack) throws ParsingException {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
-
             while(numArguments - countFromStack.peek() >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
                 //System.out.println("OffCommand: " + topCom.toString());
@@ -148,7 +149,6 @@ public class Parser{
                 Collections.reverse(params);
                 String result = commandManager.actOnCommand(topCom, params) + "";
 
-                states.addAll(commandManager.getInternalStates());
                 //commandManager.clearInternalStates();
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
