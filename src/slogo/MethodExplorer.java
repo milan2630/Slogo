@@ -2,7 +2,7 @@ package slogo;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import slogo.Commands.UserDefinedInstructionCommand;
+import slogo.Commands.ControlStructures.UserDefinedInstructionCommand;
 
 import java.util.HashMap;
 

@@ -14,21 +14,30 @@ public class CommandFactory {
     private static final String CLASS_SUFFIX = "Command";
     private static final String RESOURCES = "resources";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-    private static final String COMMAND_RESOURCES = "languages";
-    private static final String DEFAULT_COMMAND_PACKAGE = COMMAND_RESOURCES + ".";
-    private static final String DEFAULT_COMMAND_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_PACKAGE;
-    private ResourceBundle myResources;
+
+    private static final String COMMAND_NAME_RESOURCES = "languages";
+    private static final String DEFAULT_COMMAND_NAME_PACKAGE = COMMAND_NAME_RESOURCES + ".";
+    private static final String DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_NAME_PACKAGE;
+
+    private static final String COMMAND_LOCATION_RESOURCES = "CommandPackageLocations";
+    private static final String DEFAULT_COMMAND_LOCATION_PACKAGE = COMMAND_LOCATION_RESOURCES + ".";
+    private static final String DEFAULT_COMMAND_LOCATION_FILENAME = "CommandLocations";
+    private static final String DEFAULT_COMMAND_LOCATION_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_LOCATION_PACKAGE + DEFAULT_COMMAND_LOCATION_FILENAME;
+
+    private ResourceBundle myCommandNameResources;
+    private ResourceBundle myCommandLocationResources;
 
     private Map<String, String> commands;
     private MethodExplorer methodExplorer;
 
     public CommandFactory(String lang, MethodExplorer me){
+        myCommandLocationResources = ResourceBundle.getBundle(DEFAULT_COMMAND_LOCATION_RESOURCE_PACKAGE);
         setupLanguage(lang);
         methodExplorer = me;
     }
 
     public void setupLanguage(String lang) {
-        myResources = ResourceBundle.getBundle(DEFAULT_COMMAND_RESOURCE_PACKAGE + lang);
+        myCommandNameResources = ResourceBundle.getBundle(DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE + lang);
         initializeMap();
     }
 
@@ -37,7 +46,9 @@ public class CommandFactory {
             return methodExplorer.getMethod(commandCall);
         }
         try {
-            String className = CLASS_PREFIX + commands.get(commandCall) + CLASS_SUFFIX;
+            String commandName = commands.get(commandCall);
+            String className = CLASS_PREFIX + myCommandLocationResources.getString(commandName) + "." + commandName + CLASS_SUFFIX;
+            System.out.println(className);
             Class<?> commandClass = Class.forName(className);
             Constructor<?> commandConstructor = commandClass.getConstructor();
             return (Command) commandConstructor.newInstance();
@@ -64,8 +75,8 @@ public class CommandFactory {
 
     private void initializeMap() {
         commands = new HashMap<>();
-        for (String key : myResources.keySet()) {
-            String val = myResources.getString(key);
+        for (String key : myCommandNameResources.keySet()) {
+            String val = myCommandNameResources.getString(key);
             String[] options = val.split("\\|");
             for(String option: options){
                 commands.put(option, key);

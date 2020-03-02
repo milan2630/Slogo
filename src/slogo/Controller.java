@@ -2,34 +2,37 @@ package slogo;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import slogo.Commands.Command;
 import view.Actions;
 import view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class Controller implements PropertyChangeListener {
 
   private Visualizer myVisualizer;
-  private Parser myParser;
-  private MethodExplorer myME;
-  private VariableExplorer myVE;
+  private ModelExternal backendManager;
   private Actions myActions;
-  private Turtle myTurtle;
   private History myHistory;
+  private CommandManager commandManager;
   private static final String DEFAULT_LANGUAGE = "English";
   private String language = DEFAULT_LANGUAGE;
+
   private List<ImmutableTurtle> turtleList;
 
   public Controller(Stage stage) {
     myActions = new Actions();
     myActions.addChangeListener(this);
     myVisualizer = new Visualizer(stage, language, myActions);
-    myME = new MethodExplorer();
-    myVE = new VariableExplorer();
-    myParser = new Parser(language, myME);
-    myTurtle = new Turtle(myME, myVE, language);
+    MethodExplorer myME = new MethodExplorer();
+    VariableExplorer myVE = new VariableExplorer();
+    this.language = language;
+    backendManager = new ModelExternal(language, myME, myVE, myVisualizer);
+    //myTurtle = new Turtle(myME, myVE, language);
     myHistory = new History();
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
         myME.getMethodNames());
@@ -60,18 +63,19 @@ public class Controller implements PropertyChangeListener {
     }
   }
 
+  //FIXME
   private void handleReset() {
-    myTurtle.setToHome();
-    myTurtle.setHeading(0);
+    //myTurtle.setToHome();
+    //myTurtle.setHeading(0);
     myVisualizer.resetDisplay();
   }
 
   private void handleRun(String value) {
-    myParser.setLanguage(language);
-    myTurtle.changeLanguage(language);
+    //myParser.setLanguage(language);
+    //myTurtle.changeLanguage(language);
     String command = value;
     try {
-      turtleList = myParser.parseCommands(command, myTurtle);
+      turtleList = backendManager.parseCommands(command);;
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
