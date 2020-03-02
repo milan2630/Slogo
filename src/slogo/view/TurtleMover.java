@@ -1,7 +1,7 @@
 package slogo.view;
 
 import java.lang.reflect.Method;
-import javafx.beans.value.ObservableValue;
+import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -13,8 +13,11 @@ public class TurtleMover extends VBox {
 
   private Slider slider;
   private Actions actions;
+  private ResourceBundle resourceBundle;
+  private final static String LANGUAGE_PATH = "resources/Languages/";
 
   public TurtleMover(String language, Actions actions) {
+    resourceBundle = ResourceBundle.getBundle(LANGUAGE_PATH + language);
     this.actions = actions;
     setAlignment(Pos.CENTER);
 
@@ -33,26 +36,28 @@ public class TurtleMover extends VBox {
     GridPane box = new GridPane();
     box.setPrefSize(10, 10);
 
-    Button top = createButton("top", "fd");
+    Button top = createButton("Forward");
     box.add(top, 1, 0);
 
-    Button bottom = createButton("bottom", "bk");
+    Button bottom = createButton("Backward");
     box.add(bottom, 1, 2);
 
-    Button left = createButton("turn left", "lt");
+    Button left = createButton("Left");
     box.add(left, 0, 1);
 
-    Button right = createButton("turn right", "rt");
+    Button right = createButton("Right");
     box.add(right, 2, 1);
     return box;
   }
 
-  private Button createButton(String prompt, String commandName) {
+  private Button createButton(String commandName) {
+    //Splitting command by | ex: forward|fd
+    String[] raw = resourceBundle.getString(commandName).split("\\|");
     Button button = new Button();
 
     slider.valueProperty().addListener((obs, oldValue, newValue) ->
     {
-      button.setText(commandName + " " + newValue.intValue());
+      button.setText(raw[0] + " " + newValue.intValue());
     });
 
     button.setOnAction(value -> handleAction(button.getText(), "handleTurtleMovement", actions));
