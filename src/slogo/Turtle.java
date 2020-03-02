@@ -16,12 +16,9 @@ public class Turtle {
     private int showing;
     private int myID;
     private boolean isActive;
-    private MethodExplorer methodExplorer;
-    private VariableExplorer variableExplorer;
-    private String language;
     private List<ImmutableTurtle> internalStates;
 
-    public Turtle(MethodExplorer me, VariableExplorer ve, String lang, int id, boolean active){
+    public Turtle(int id, boolean active){
         myID = id;
         isActive = active;
         myX = 0;
@@ -29,15 +26,9 @@ public class Turtle {
         myHeading = 0;
         penState = 1;
         showing = 1;
-        methodExplorer = me;
-        variableExplorer = ve;
-        language = lang;
         internalStates = new ArrayList<>();
     }
 
-    public void changeLanguage(String lang){
-        language = lang;
-    }
 /*
 
 
@@ -185,12 +176,6 @@ public class Turtle {
         return 0.0;
     }
 
-    private double isAnd(AndCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) != 0 && getDoubleParameter(params.get(1)) != 0){
-            return 1.0;
-        }
-        return 0.0;
-    }
 
     private double isOr(OrCommand command, List<String> params) throws ParsingException {
         if(getDoubleParameter(params.get(0)) != 0 || getDoubleParameter(params.get(1)) != 0){

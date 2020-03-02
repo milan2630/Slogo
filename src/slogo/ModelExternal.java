@@ -6,12 +6,10 @@ import java.util.List;
 
 public class ModelExternal implements BackEndExternal{
 
-    CommandManager commandManager;
-    String language;
+    private CommandManager commandManager;
 
     public ModelExternal(String lang, MethodExplorer me, VariableExplorer ve, Visualizer v){
         commandManager = new CommandManager(v, me, ve, lang);
-        language = lang;
     }
 
     @Override
@@ -25,5 +23,10 @@ public class ModelExternal implements BackEndExternal{
             System.out.println(t.getY());
         }
         return ret;
+    }
+
+    @Override
+    public void setLanguage(String lang) {
+        commandManager.setLanguage(lang);
     }
 }

@@ -4,15 +4,13 @@ import slogo.Commands.Command;
 
 import java.util.*;
 
-public class Parser implements BackEndExternal{
+public class Parser{
     private CommandFactory factory;
     private CommandManager commandManager;
-    private String language;
     private double finalReturn;
     public Parser(CommandManager cm){
-        language = cm.getLanguage();
         finalReturn = 0;
-        factory = new CommandFactory(language, cm.getMethodExplorer());
+        factory = new CommandFactory(cm.getLanguage(), cm.getMethodExplorer());
         commandManager = cm;
     }
 

@@ -18,7 +18,6 @@ public class Controller implements PropertyChangeListener {
   private ModelExternal backendManager;
   private Actions myActions;
   private History myHistory;
-  private CommandManager commandManager;
   private static final String DEFAULT_LANGUAGE = "English";
   private String language = DEFAULT_LANGUAGE;
 
@@ -30,9 +29,7 @@ public class Controller implements PropertyChangeListener {
     myVisualizer = new Visualizer(stage, language, myActions);
     MethodExplorer myME = new MethodExplorer();
     VariableExplorer myVE = new VariableExplorer();
-    this.language = language;
     backendManager = new ModelExternal(language, myME, myVE, myVisualizer);
-    //myTurtle = new Turtle(myME, myVE, language);
     myHistory = new History();
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
         myME.getMethodNames());
