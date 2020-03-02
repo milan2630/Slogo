@@ -62,7 +62,6 @@ public class TurtleView extends Pane {
   }
 
   protected void setPenActive(int penActive) {
-    System.out.println(penActive);
     this.penActive = penActive;
   }
 
