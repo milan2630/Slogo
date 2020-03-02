@@ -1,12 +1,13 @@
-package slogo.Commands;
+package slogo.Commands.ControlStructures;
 
 import slogo.CommandManager;
+import slogo.Commands.BackEndCommand;
 import slogo.ParsingException;
 import slogo.Turtle;
 
 import java.util.List;
 
-public class RepeatCommand extends BackEndCommand{
+public class RepeatCommand extends BackEndCommand {
 
     @Override
     public int getNumArguments() {

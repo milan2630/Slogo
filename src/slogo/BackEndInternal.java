@@ -2,7 +2,7 @@ package slogo;
 
 
 import slogo.Commands.Command;
-import slogo.Commands.UserDefinedInstructionCommand;
+import slogo.Commands.ControlStructures.UserDefinedInstructionCommand;
 
 import java.util.List;
 
