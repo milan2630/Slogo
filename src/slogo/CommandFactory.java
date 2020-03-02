@@ -48,7 +48,6 @@ public class CommandFactory {
         try {
             String commandName = commands.get(commandCall);
             String className = CLASS_PREFIX + myCommandLocationResources.getString(commandName) + "." + commandName + CLASS_SUFFIX;
-            System.out.println(className);
             Class<?> commandClass = Class.forName(className);
             Constructor<?> commandConstructor = commandClass.getConstructor();
             return (Command) commandConstructor.newInstance();

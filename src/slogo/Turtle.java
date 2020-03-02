@@ -38,51 +38,8 @@ public class Turtle {
     public void changeLanguage(String lang){
         language = lang;
     }
-    /*public String actOnCommand(Command command, List<String> params) throws ParsingException {
-        return callMethod(command, params) + "";
-    }
+/*
 
-    private double callMethod(Command command, List<String> params) throws ParsingException {
-        String[] classParts = command.getClass().toString().split("\\.");
-        String key = classParts[classParts.length - 1].replace("Command", ""); //TODO change command to be generalized
-        String methodName = myResources.getString(key);
-        try {
-            Method method = this.getClass().getDeclaredMethod(methodName, command.getClass(), List.class);
-            double ret = (double) method.invoke(this, command, params);
-            internalStates.add(this.getImmutableTurtle());
-            return ret;
-        } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new ParsingException("ExecuteMissing", command.toString());
-        } catch (InvocationTargetException e) {
-            if(e.getCause() instanceof ParsingException){
-                throw (ParsingException) e.getCause();
-            }
-            throw new ParsingException("CommandExecuteError", command.toString());//TODO implemenet Command.toString()
-        }
-    }
-
-
-
-    private double ifElseCommand(IfElseCommand command, List<String> params) throws ParsingException {
-
-    }
-
-
-    private double repeatAction(String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
-        Variable<Double> var = variableExplorer.addDoubleVarByName(iteratorName, startVal);
-        Parser newParser = new Parser(language, methodExplorer);
-        while(var.getValue() <= endVal){
-            parseInternalCommand(newParser, command);
-            var.setValue(var.getValue()+iterationVal);
-        }
-        removeLastInternalState();
-        return newParser.getFinalReturn();
-    }
-
-    private void parseInternalCommand(Parser newParser, String s) throws ParsingException {
-        List<ImmutableTurtle> stateList = newParser.parseCommands(stripBracketParam(s), this);
-        internalStates.addAll(stateList);
-    }
 
 
     private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ParsingException {
@@ -137,11 +94,6 @@ public class Turtle {
         double oldY = myY;
         setToHome();
         return Math.hypot(myX - oldX, myY - oldY);
-    }
-
-    private double sum(SumCommand command, List<String> params) throws ParsingException {
-
-        return getDoubleParameter(params.get(0)) + getDoubleParameter(params.get(1));
     }
 
     private double subtract(DifferenceCommand command, List<String> params) throws ParsingException {
