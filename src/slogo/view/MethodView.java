@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,29 @@ public class MethodView {
 
     private void setupListView() {
         methods.addListener((MapChangeListener.Change<? extends String, ? extends UserDefinedInstructionCommand> c)-> handle(c));
+        listView.getSelectionModel().selectedItemProperty().addListener(e-> displayMethod());
     }
 
+    private void displayMethod() {
+        String s = listView.getSelectionModel().getSelectedItem();
+        int space = s.indexOf(" ");
+        String methodName = s.substring(0, space);
+        methodName+=" [ ";
+        String methodArgs = s.substring(space);
+        String args = methodArgs.replace(" ", "");
+        int parameters = Integer.parseInt(args);
+        for (int i=0; i< parameters; i++){
+            methodName +="? ";
+        }
+        methodName = "]";
+        notifyListeners("MethodDisplay",listView.getSelectionModel().getSelectedItem() , methodName);
+    }
+    private void notifyListeners(String property, String oldValue, String newValue) {
+        //TODO make single prop listener
+        for (PropertyChangeListener name : listener) {
+            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+        }
+    }
     private void handle(MapChangeListener.Change<? extends String,? extends UserDefinedInstructionCommand> c) {
         if (c.wasAdded()){
             String str = ""+methods.get(c.getKey()).getNumArguments();
@@ -52,7 +74,6 @@ public class MethodView {
             listView.getItems().remove(c.getKey());
         }
     }
-
 
     private Button makeClearButton() {
         Button clearButton = new Button(resourceBundle.getString("ClearButton"));
