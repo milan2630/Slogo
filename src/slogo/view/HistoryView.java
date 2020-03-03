@@ -13,22 +13,20 @@ import java.util.*;
 public class HistoryView {
     private static ResourceBundle resourceBundle;
     private static ResourceBundle actionBundle;
-    private static final String RESOURCES_TERMINAL = "resources/Layouts/SettingsTab/";
+    private static final String RESOURCES_HISTORY = "resources/Layouts/SettingsTab/";
+    private static final String RESOURCES_LAYOUT = "resources/UI/";
     private String language;
     private Tab myTab;
     private ObservableList<String> history;
     private ListView<String> list;
-    private List<PropertyChangeListener> listener;
     private Actions actions;
     public HistoryView(String language, ObservableList<String> historyList, Actions actions){
         this.language= language;
-        resourceBundle = ResourceBundle
-                .getBundle("resources/UI/" + language);
-        actionBundle = ResourceBundle.getBundle(RESOURCES_TERMINAL+language);
+        resourceBundle = ResourceBundle.getBundle(RESOURCES_LAYOUT + language);
+        actionBundle = ResourceBundle.getBundle(RESOURCES_HISTORY +language);
         myTab = new Tab(resourceBundle.getString("HistoryTab"));
         history = historyList;
         list = new ListView<String>();
-        listener = new ArrayList<>();
         this.actions = actions;
         setupTab();
     }
@@ -39,8 +37,6 @@ public class HistoryView {
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
-
-
         Button clearButton = new Button(resourceBundle.getString("ClearButton"));
         list.itemsProperty().bind(new SimpleObjectProperty<>(history));
         clearButton.setOnMouseClicked(e->emptyHistory());
@@ -54,22 +50,12 @@ public class HistoryView {
         actions.handleHistoryVariable(list.getSelectionModel().getSelectedItem());
     }
 
-    public void addChangeListener(PropertyChangeListener newListener) {
-        listener.add(newListener);
-    }
 
-    private void notifyListeners(String property, String oldValue, String newValue) {
-        //TODO make single prop listener
-        for (PropertyChangeListener name : listener) {
-            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
-        }
-    }
+
     private void emptyHistory() {
         if (!history.isEmpty()) {
             history.clear();
         }
-//        for (String str: history)
-//            history.remove(str);
     }
 }
 

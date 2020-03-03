@@ -69,6 +69,9 @@ public class Controller implements PropertyChangeListener {
       case "HistoryVariable":
         myVisualizer.setInputText(value);
         break;
+      case "Change Turtle State":
+        myVisualizer.setInputText(evt.getOldValue().toString()+" "+evt.getNewValue().toString());
+        break;
     }
   }
 

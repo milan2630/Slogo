@@ -106,6 +106,7 @@ public class Visualizer implements FrontEndExternal {
       display.setTurtleHeading(turtle.getHeading());
       display.setPenState(turtle.getPenState());
       display.setTurtleVisibility(turtle.getShowing());
+      tabPaneView.updateTurtleTab(turtleList);
       if (checkTurtleOutOfBounds(turtle)) {
         throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
       }
