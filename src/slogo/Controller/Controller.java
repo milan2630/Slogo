@@ -66,6 +66,9 @@ public class Controller implements PropertyChangeListener {
         //FIXME update pen status in backend
         myVisualizer.setPenStatus(Integer.parseInt(value));
         break;
+      case "HistoryVariable":
+        myVisualizer.setInputText(value);
+        break;
     }
   }
 

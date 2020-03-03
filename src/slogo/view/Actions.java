@@ -65,6 +65,8 @@ public class Actions {
     notifyListeners(RUN, this.data, this.data = command);
   }
 
+  public void handleHistoryVariable (String value) { notifyListeners(HISTORY_VARIABLE, this.data, this.data=value); }
+
   private void notifyListeners(String property, String oldValue, String newValue) {
     for (PropertyChangeListener name : listeners) {
       name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));

@@ -17,6 +17,7 @@ public class TabPaneView {
   private TabPane tabPane;
   private VariableView variableView;
   private static ResourceBundle uiResources;
+  private Actions actions;
   private static final String PREFIX = "resources/UI/";
 
   public TabPaneView(String language, Actions actions) {
@@ -28,6 +29,7 @@ public class TabPaneView {
     createTurtleMoverTab(language, actions);
 
     createSettingTab(language, actions);
+    this.actions = actions;
   }
 
   protected TabPane getTabPane() {
@@ -59,7 +61,7 @@ public class TabPaneView {
   }
 
   public void createHistoryTab(String language, ObservableList historyList) {
-    historyView = new HistoryView(language, historyList);
+    historyView = new HistoryView(language, historyList, actions);
     tabPane.getTabs().add(historyView.getTab());
   }
 

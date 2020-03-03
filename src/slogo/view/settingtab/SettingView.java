@@ -40,7 +40,6 @@ public class SettingView extends VBox {
         throw new ReflectionException("InvalidClass", key);
       }
     }
-
     HelpButton helpButton = new HelpButton(uiResources);
     getChildren().add(helpButton);
   }
