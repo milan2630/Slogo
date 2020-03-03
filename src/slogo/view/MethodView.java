@@ -49,21 +49,20 @@ public class MethodView {
         String s = listView.getSelectionModel().getSelectedItem();
         int space = s.indexOf(" ");
         String methodName = s.substring(0, space);
-        methodName+=" [ ";
         String methodArgs = s.substring(space);
         String args = methodArgs.replace(" ", "");
         int parameters = Integer.parseInt(args);
-        for (int i=0; i< parameters; i++){
-            methodName +="? ";
-        }
-        methodName = "]";
-        notifyListeners("MethodDisplay",listView.getSelectionModel().getSelectedItem() , methodName);
+        String display = determineDisplay(methodName, parameters);
+        System.out.println("Selected");
+
     }
-    private void notifyListeners(String property, String oldValue, String newValue) {
-        //TODO make single prop listener
-        for (PropertyChangeListener name : listener) {
-            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    private String determineDisplay(String name, int parameters){
+        String result = name+ " [ ";
+        for (int i=0; i< parameters; i++){
+            result +="? ";
         }
+        result = "]";
+        return result;
     }
     private void handle(MapChangeListener.Change<? extends String,? extends UserDefinedInstructionCommand> c) {
         if (c.wasAdded()){
