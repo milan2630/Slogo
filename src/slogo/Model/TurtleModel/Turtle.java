@@ -25,63 +25,6 @@ public class Turtle {
     }
 
 /*
-
-
-
-    private double setHeading(SetHeadingCommand setHeading, List<String> params) throws ParsingException {
-        Double heading = getDoubleParameter(params.get(0));
-        myHeading = heading;
-        return myHeading;
-    }
-
-    private double setTowards(SetTowardsCommand setTowards, List<String> params) throws ParsingException {
-        Double towardX = getDoubleParameter(params.get(0));
-        Double towardY = getDoubleParameter(params.get(1));
-
-        if(towardX == myX && towardY == myY) {
-            throw new ParsingException("TowardSelfException");
-        }
-
-        double oldHeading = myHeading;
-        myHeading = Math.toDegrees(Math.atan((towardX-myX)/(towardY-myY)));
-        return myHeading - oldHeading;
-    }
-
-    private double setPosition(SetPositionCommand setPosition, List<String> params) throws ParsingException {
-        double oldX = myX;
-        double oldY = myY;
-        myX = getDoubleParameter(params.get(0));
-        myY = getDoubleParameter(params.get(1));
-        return Math.hypot(myX - oldX, myY - oldY);
-    }
-
-    private double setPenDown(PenDownCommand penDown, List<String> params) throws ParsingException {
-        penState = 1;
-        return penState;
-    }
-
-    private double setPenUp(PenUpCommand penUp, List<String> params) throws ParsingException {
-        penState = 0;
-        return penState;
-    }
-
-    private double showTurtle(ShowTurtleCommand showTurtle, List<String> params) throws ParsingException {
-        showing = 1;
-        return showing;
-    }
-
-    private double hideTurtle(HideTurtleCommand hideTurtle, List<String> params) throws ParsingException {
-        showing = 0;
-        return showing;
-    }
-
-    private double goHome(GoHomeCommand goHome, List<String> params) throws ParsingException {
-        double oldX = myX;
-        double oldY = myY;
-        setToHome();
-        return Math.hypot(myX - oldX, myY - oldY);
-    }
-
     private double subtract(DifferenceCommand command, List<String> params) throws ParsingException {
         return getDoubleParameter(params.get(0)) - getDoubleParameter(params.get(1));
     }
