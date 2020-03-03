@@ -1,8 +1,8 @@
-package view.Terminal;
+package slogo.view.terminal;
 
 import java.util.ResourceBundle;
 import javafx.scene.layout.BorderPane;
-import view.Actions;
+import slogo.view.Actions;
 
 public class Terminal extends BorderPane {
 

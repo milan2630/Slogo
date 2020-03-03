@@ -8,8 +8,8 @@ import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Explorers.Variables.VariableExplorer;
 import slogo.Model.CommandManager;
 import slogo.Model.TurtleModel.ImmutableTurtle;
-import view.Actions;
-import view.Visualizer;
+import slogo.view.Actions;
+import slogo.view.Visualizer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -57,8 +57,15 @@ public class Controller implements PropertyChangeListener {
       case "Background Color":
         myVisualizer.setBackgroundColor(Color.web(value));
         break;
-      case "TurtleImage":
+      case "Turtle Image":
         myVisualizer.setTurtleImage(value);
+        break;
+      case "Thickness":
+        myVisualizer.setPenThickness(Double.parseDouble(value));
+        break;
+      case "Pen Status":
+        //FIXME update pen status in backend
+        myVisualizer.setPenStatus(Integer.parseInt(value));
         break;
     }
   }
@@ -79,7 +86,7 @@ public class Controller implements PropertyChangeListener {
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
-    catch(ParsingException e) {
+    catch(Exception e) {
       myVisualizer.displayError(e);
     }
   }

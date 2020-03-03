@@ -1,4 +1,4 @@
-package view.TurtleDisplay;
+package slogo.view.turtledisplay;
 
 import java.util.ArrayList;
 import java.util.List;

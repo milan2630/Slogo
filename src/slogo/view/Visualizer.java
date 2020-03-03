@@ -1,7 +1,5 @@
-package view;
+package slogo.view;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.*;
 
 import javafx.collections.ObservableList;
@@ -17,10 +15,10 @@ import javafx.stage.Stage;
 import slogo.FrontEndExternal;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
-import view.Terminal.Terminal;
-import view.TurtleDisplay.Display;
+import slogo.view.terminal.Terminal;
+import slogo.view.turtledisplay.Display;
 
-public class Visualizer implements FrontEndExternal, PropertyChangeListener {
+public class Visualizer implements FrontEndExternal {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
@@ -29,12 +27,7 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   private TabPaneView tabPaneView;
   private Terminal terminal;
   private static final double SCENE_WIDTH = 800;
-  private static final double SCENE_HEIGHT = 500;
-  private final String RESET = "Reset";
-  private static final String PEN_COLOR = "Pen Color";
-  private static final String BACKGROUND_COLOR = "Background Color";
-  private static final String HISTORY_VARIABLE = "HistoryVariable";
-  private static final String TURTLE_IMAGE = "TurtleImage";
+  private static final double SCENE_HEIGHT = 600;
 
   public Visualizer(Stage stage, String language, Actions actions) {
     this.language = language;
@@ -79,32 +72,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
     }
   }
 
-  /**
-   * Implements Observer Design pattern
-   *
-   * @param evt
-   */
-  @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    switch (evt.getPropertyName()) {
-      case RESET:
-        display.resetPane();
-        break;
-      case PEN_COLOR:
-        setPenColor(Color.web(evt.getNewValue().toString()));
-        break;
-      case BACKGROUND_COLOR:
-        setBackgroundColor(Color.web(evt.getNewValue().toString()));
-        break;
-      case HISTORY_VARIABLE:
-        setInputText(evt.getNewValue().toString());
-        break;
-      case TURTLE_IMAGE:
-        setTurtleImage(evt.getNewValue().toString());
-        break;
-    }
-  }
-
   public void setPenColor(Color color) {
     display.setPenColor(color);
   }
@@ -123,6 +90,14 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
 
   public void resetDisplay(){
     display.resetPane();
+  }
+
+  public void setPenThickness(Double thickness){
+    display.setPenThickness(thickness);
+  }
+
+  public void setPenStatus(int active){
+    display.setPenState(active);
   }
 
   @Override
@@ -158,7 +133,6 @@ public class Visualizer implements FrontEndExternal, PropertyChangeListener {
   public void bindTabs(String language, ObservableList history, ObservableList variables,
       ObservableMap methods) {
     tabPaneView.createHistoryTab(language, history);
-    tabPaneView.addChangeHistoryListener(this);
     tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);
   }

@@ -39,15 +39,11 @@ public class CommandManager implements BackEndExternal {
     public List<ImmutableTurtle> parseTurtleStatesFromCommands(String input) throws ParsingException {
         clearInternalStates();
         parseCommands(input);
-
-
         List<ImmutableTurtle> ret = getInternalStates();
         System.out.println("States:");
         for(ImmutableTurtle t: ret){
             System.out.println(t.getY());
         }
-
-
         return getInternalStates();
     }
 

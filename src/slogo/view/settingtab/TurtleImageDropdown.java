@@ -1,4 +1,4 @@
-package view.SettingsTab;
+package slogo.view.settingtab;
 
 import java.io.File;
 import java.util.Arrays;
@@ -8,21 +8,20 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
-import view.Actions;
+import slogo.view.Actions;
 
-public class TurtleImageDropdown extends LabeledDropdown {
+public class TurtleImageDropdown extends LabelAndAction {
 
   private static final String RESOURCE_PATH = "resources/";
-  private static final String TURTLE_PATH = "Turtles/";
-  private static final String DEFAULT_TURTLE = "turtle.png";
+  private static final String TURTLE_PATH = "turtles/";
 
   private ComboBox<String> comboBox;
 
-  protected TurtleImageDropdown(String prompt, String methodName, Actions target) {
-    super(prompt, methodName, target);
+  protected TurtleImageDropdown(String language, String methodName, Actions target) {
+    super(language, methodName);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
-    comboBox.setValue(DEFAULT_TURTLE);
+    comboBox.setValue(getDefaultFromKey(methodName));
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
     comboBox.setOnAction(
         handler -> handleAction(comboBox.getValue(), methodName, target));

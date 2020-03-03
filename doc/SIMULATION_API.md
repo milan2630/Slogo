@@ -23,7 +23,7 @@
 *  Cell Subclasses
     *  ForageCell
         * public ForageCell(String state, int x, int y) 
-            * Internal since it is not public to the view
+            * Internal since it is not public to the slogo.view
         * public int getFoodPher() 
             * Internal 
         * public int getHomePher() 

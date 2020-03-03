@@ -1,10 +1,9 @@
-package view.Terminal;
+package slogo.view.terminal;
 
 import java.lang.reflect.Method;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import view.Actions;
-import view.Terminal.TerminalInput;
+import slogo.view.Actions;
 
 public class InputButton extends Button {
 

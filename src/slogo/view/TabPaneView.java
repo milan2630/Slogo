@@ -1,12 +1,13 @@
-package view;
+package slogo.view;
 
-import java.beans.PropertyChangeListener;
-
+import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import view.SettingsTab.SettingView;
+import slogo.view.settingtab.SettingView;
+import slogo.view.settingtab.TurtleMover;
 
 
 public class TabPaneView {
@@ -16,26 +17,27 @@ public class TabPaneView {
   private MethodView methodView;
   private TabPane tabPane;
   private VariableView variableView;
+  private static ResourceBundle uiResources;
+  private static final String PREFIX = "resources/UI/";
 
   public TabPaneView(String language, Actions actions) {
+    uiResources = ResourceBundle.getBundle(PREFIX + language);
     tabPane = new TabPane();
     tabPane.getStyleClass().add("tabPane");
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-      createSettingTab(language, actions);
+    createSettingTab(language, actions);
   }
 
   protected TabPane getTabPane() {
     return tabPane;
   }
 
-  protected void addChangeHistoryListener(PropertyChangeListener newListener) {
-    historyView.addChangeListener(newListener);
-  }
-
   private void createSettingTab(String language, Actions actions) {
     settingView = new SettingView(language, actions);
-    tabPane.getTabs().add(settingView);
+    Tab tab = new Tab(uiResources.getString("SettingTab"));
+    tab.setContent(settingView);
+    tabPane.getTabs().add(tab);
   }
 
   public void createMethodTab(String language, ObservableMap methodList) {
