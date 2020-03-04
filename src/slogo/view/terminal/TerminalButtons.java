@@ -1,6 +1,7 @@
 package slogo.view.terminal;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,14 +10,26 @@ import slogo.view.Actions;
 
 public class TerminalButtons extends VBox {
 
-  protected TerminalButtons(ResourceBundle actionResources, Actions actions, TerminalInput input) {
+  private static ResourceBundle layout;
+  private static ResourceBundle prompts;
+
+  private static final String RESOURCES_TERMINAL_PATH = "resources/UI/Layouts";
+  private static final String RESOURCES_PROMPT_PATH = "resources/UI/";
+
+
+  protected TerminalButtons(String language, Actions actions, TerminalInput input) {
+    layout = ResourceBundle.getBundle(RESOURCES_TERMINAL_PATH);
+    prompts = ResourceBundle.getBundle(RESOURCES_PROMPT_PATH + language);
+
+    List<String> buttonList = Arrays.asList(layout.getString("Terminal").split(","));
+
     setPadding(new Insets(5));
     getStyleClass().add("button-box");
     setAlignment(Pos.CENTER);
     setSpacing(10);
 
-    for (String key : Collections.list(actionResources.getKeys())) {
-      InputButton button = new InputButton(actionResources.getString(key), key, actions, input);
+    for (String key : buttonList) {
+      InputButton button = new InputButton(prompts.getString(key), key, actions, input);
       getChildren().add(button);
     }
   }

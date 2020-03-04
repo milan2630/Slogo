@@ -3,17 +3,17 @@ package slogo.view.settingtab;
 import javafx.scene.control.CheckBox;
 import slogo.view.Actions;
 
-public class LabeledCheckBox extends LabelAndAction {
+public class PenStateCheckbox extends LabelAndAction {
 
-  protected LabeledCheckBox(String language, String methodName, Actions target) {
+  protected PenStateCheckbox(String language, String methodName, Actions target) {
     super(language, methodName);
     CheckBox checkBox = new CheckBox();
     getChildren().add(checkBox);
     checkBox.setSelected(true);
     checkBox.selectedProperty().addListener(
         handler -> {
-          int status = checkBox.isSelected() ? 1 : 0;
-          handleAction(Integer.toString(status), methodName, target);
+          String status = checkBox.isSelected() ? "pu" : "pd";
+          handleAction(status, methodName, target);
         });
   }
 }
