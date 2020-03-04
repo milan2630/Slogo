@@ -35,7 +35,6 @@ public class SettingView extends VBox {
 
     for (String key : buttonList) {
       try {
-        System.out.println(classMap.getString(key));
         Class<?> clazz = Class.forName(CLASS_PATH + classMap.getString(key));
         Constructor<?> constructor = clazz
             .getDeclaredConstructor(String.class, String.class, Actions.class);
