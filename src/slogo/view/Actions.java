@@ -19,6 +19,7 @@ public class Actions {
   private static final String PEN_STATUS = "Pen Status";
   private static final String MOVE_TURTLE = "Move Turtle";
   private static final String TURTLE_STATE = "Change Turtle State";
+  private static final String METHOD_DISPLAy = "Method Display";
 
   private String data;
   private List<PropertyChangeListener> listeners = new ArrayList<>();
@@ -68,6 +69,8 @@ public class Actions {
   public void handleHistoryVariable (String value) { notifyListeners(HISTORY_VARIABLE, this.data, this.data=value); }
 
   public void handleTurtleState(String id, String showing) { notifyListeners(TURTLE_STATE, id, showing);}
+
+  public void handleMethodDisplay(String value){ notifyListeners(METHOD_DISPLAy, this.data, this.data = value);}
 
   private void notifyListeners(String property, String oldValue, String newValue) {
     for (PropertyChangeListener name : listeners) {

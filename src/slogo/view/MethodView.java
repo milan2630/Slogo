@@ -2,17 +2,16 @@ package slogo.view;
 
 import javafx.collections.*;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import javafx.util.Pair;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MethodView {
     private static ResourceBundle resourceBundle;
@@ -21,10 +20,12 @@ public class MethodView {
     private ObservableMap<String, UserDefinedInstructionCommand> methods;
     private ListView<String> listView;
     private List<PropertyChangeListener> listener;
-    public MethodView(String language, ObservableMap savedMethodNames){
+    private Actions actions;
+    public MethodView(String language, ObservableMap savedMethodNames, Actions actions){
         this.language = language;
         methods = savedMethodNames;
         resourceBundle = ResourceBundle.getBundle("resources/UI/" + language);
+        this.actions = actions;
         listView = new ListView<String>();
         listener = new ArrayList<>();
         myTab = new Tab(resourceBundle.getString("MethodTab"));
@@ -42,7 +43,7 @@ public class MethodView {
 
     private void setupListView() {
         methods.addListener((MapChangeListener.Change<? extends String, ? extends UserDefinedInstructionCommand> c)-> handle(c));
-        listView.getSelectionModel().selectedItemProperty().addListener(e-> displayMethod());
+        listView.setOnMouseClicked(e -> displayMethod());
     }
 
     private void displayMethod() {
@@ -53,12 +54,13 @@ public class MethodView {
         int parameters = Integer.parseInt(methodArgs);
         if (parameters > 0 ) {
             String display = determineDisplay(methodName, parameters);
-            displayDialogBox(display, parameters);
+            displayDialogBox(methodName, display, parameters);
         }
-        //to green [ ] [ fd 50 ]
+        else
+            setTerminal(methodName, null);
     }
 
-    private void displayDialogBox(String display, int parameters) {
+    private void displayDialogBox(String methodName, String display, int parameters) {
         Dialog dialog = new Dialog();
         //TODO make not hard coded
         VBox vbox = new VBox();
@@ -73,11 +75,37 @@ public class MethodView {
         dialog.setHeaderText(display);
         vbox.setSpacing(10);
         dialog.getDialogPane().setContent(vbox);
-//        Optional<List<String>> result = dialog.showAndWait();
-//        result.ifPresent(name -> {
-//            System.out.println(name);
-//        });
+        dialog.setResultConverter(new Callback<ButtonType, List<String>>() {
+            @Override
+            public List<String> call(ButtonType b) {
+                if (b == ButtonType.OK) {
+                    List<String> parameters = new ArrayList<>();
+                    for (Node n: vbox.getChildren()){
+                        TextField f = (TextField) n;
+                        parameters.add(f.getText());
+                    }
+                    return parameters;
+                }
+
+                return null;
+            }
+        });
+        Optional<List<String>> result = dialog.showAndWait();
+        if (result.isPresent()){
+            setTerminal(methodName, result.get());
+        }
     }
+
+    private void setTerminal(String methodName, List<String> parameters) {
+        String display = methodName;
+        if (parameters != null){
+            for (String arg: parameters)
+                display+=" "+arg;
+        }
+
+        actions.handleMethodDisplay(display);
+    }
+
 
     private String determineDisplay(String name, int parameters){
         String result = name+ " [ ";

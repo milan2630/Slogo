@@ -53,7 +53,7 @@ public class TabPaneView {
   }
 
   public void createMethodTab(String language, ObservableMap methodList) {
-    methodView = new MethodView(language, methodList);
+    methodView = new MethodView(language, methodList, actions);
     tabPane.getTabs().add(methodView.getTab());
   }
 
@@ -67,8 +67,11 @@ public class TabPaneView {
     tabPane.getTabs().add(historyView.getTab());
   }
 
-  public void updateTurtleTab(List<ImmutableTurtle> turtleList){
-    turtleTabView.setTable(turtleList);
+  public void updateTurtleTab(ImmutableTurtle turtle){
+    turtleTabView.setTable(turtle);
   }
 
+    public void setHistoryLanguage(String newLanguage) {
+      historyView.setLanguage(newLanguage);
+    }
 }

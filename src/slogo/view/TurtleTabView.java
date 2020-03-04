@@ -84,8 +84,8 @@ public class TurtleTabView {
      */
     public Tab getTab(){ return myTab; }
 
-    public void setTable(List<ImmutableTurtle> list){
-        //tableView.getItems().clear();
+    public void setTable(ImmutableTurtle turtle){
+        List<ImmutableTurtle> list = List.of(turtle);
         tableView.setItems(FXCollections.observableList(list));
     }
 }

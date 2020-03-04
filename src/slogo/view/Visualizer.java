@@ -106,7 +106,7 @@ public class Visualizer implements FrontEndExternal {
       display.setTurtleHeading(turtle.getHeading());
       display.setPenState(turtle.getPenState());
       display.setTurtleVisibility(turtle.getShowing());
-      tabPaneView.updateTurtleTab(turtleList);
+      tabPaneView.updateTurtleTab(turtle);
       if (checkTurtleOutOfBounds(turtle)) {
         throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
       }
@@ -138,4 +138,7 @@ public class Visualizer implements FrontEndExternal {
     tabPaneView.createVariableTab(language, variables);
   }
 
+    public void setHistoryLanguage(String newLanguage) {
+      tabPaneView.setHistoryLanguage(newLanguage);
+    }
 }

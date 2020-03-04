@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import slogo.Model.Parsing.LanguageConverter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -56,6 +57,15 @@ public class HistoryView {
         if (!history.isEmpty()) {
             history.clear();
         }
+    }
+
+    public void setLanguage(String newLanguage) {
+        LanguageConverter languageConverter = new LanguageConverter(language, newLanguage);
+        for (int i =0; i<history.size(); i++){
+            String oldString = history.get(i);
+            history.set(i ,languageConverter.translateString(oldString));
+        }
+        language = newLanguage;
     }
 }
 
