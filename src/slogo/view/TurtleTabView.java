@@ -1,13 +1,17 @@
 package slogo.view;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.ReflectionException;
@@ -43,7 +47,7 @@ public class TurtleTabView {
             TableColumn column = createColumn(col);
             tableView.getColumns().add(column);
         }
-        tableView.setEditable(true);
+        tableView.setEditable(false);
         tableView.refresh();
         vbox.getChildren().add(tableView);
         vbox.setAlignment(Pos.CENTER);
@@ -52,30 +56,39 @@ public class TurtleTabView {
 
     private TableColumn createColumn(String col) {
         TableColumn column = new TableColumn(col.toUpperCase());
-        column.setCellValueFactory(new PropertyValueFactory<ImmutableTurtle,Object>(col));
         try {
-            Method m = this.getClass().getDeclaredMethod(actionResources.getString(col), TableColumn.class);
-            m.invoke(this, column);
+            Method m = this.getClass().getDeclaredMethod(actionResources.getString(col), TableColumn.class, String.class);
+            m.invoke(this, column, col);
         } catch (Exception e) {
             throw new ReflectionException("InvalidMethod", actionResources.getString(col));
         }
         return column;
     }
 
-    private void addUneditableColumn(TableColumn c){
-        //do nothing
+    private void addUneditableColumn(TableColumn c, String col){
+        c.setCellValueFactory(new PropertyValueFactory<ImmutableTurtle,Object>(col));
     }
 
-    private void addEditableColumn(TableColumn c){
-        c.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        c.setOnEditCommit(e-> editTurtleState((TableColumn.CellEditEvent)e));
+    private void addCheckBox(TableColumn c, String col){
+        c.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<ImmutableTurtle,Boolean>, ObservableValue<Boolean>>()
+                {
+                    //This callback tell the cell how to bind the data model 'Registered' property to
+                    //the cell, itself.
+                    @Override
+                    public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ImmutableTurtle, Boolean> param)
+                    {
+                        return new SimpleBooleanProperty(param.getValue().getShowing() == 1);
+                    }
+                });
+        c.setCellFactory(CheckBoxTableCell.forTableColumn(c));
+        tableView.setOnMouseClicked(e -> editTurtleState());
     }
 
-    private void editTurtleState(TableColumn.CellEditEvent e) {
-        if (e != null) {
+    private void editTurtleState() {
             ImmutableTurtle t = tableView.getSelectionModel().getSelectedItem();
-            actions.handleTurtleState(t.getX() + "", e.getNewValue() + "");
-        }
+            String status = t.getShowing()!=1 ? "pu" : "pd";
+            actions.handleTurtleState(t.getX() + "", status);
     }
 
     /**
