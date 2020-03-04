@@ -5,6 +5,7 @@ import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.DoubleVariable;
 import slogo.Model.Explorers.Variables.Variable;
+import slogo.Model.Parsing.LanguageConverter;
 import slogo.Model.Parsing.Parser;
 import slogo.Model.TurtleModel.Turtle;
 
@@ -12,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDefinedInstructionCommand extends BackEndCommand {
+    private static final String MAKE_DEFAULT = "make";
     private String myCommands;
     private String name;
     private int numArguments;
     private List<DoubleVariable> arguments;
-
+    private String make;
 
     public UserDefinedInstructionCommand(String name, String commands, List<String> parNames){
         myCommands=commands;
@@ -26,6 +28,7 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         for(int i = 0; i < numArguments; i++){
             arguments.add(new DoubleVariable(parNames.get(i), 0.0)); //TODO error checking
         }
+        make = MAKE_DEFAULT;
     }
 
     public UserDefinedInstructionCommand(String name, List<String> parNames){
@@ -51,7 +54,7 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
     private String getExecutableCommands(){
         String executable = "";
         for(int i = 0; i < arguments.size(); i++){
-            executable = executable + "make " + arguments.get(i).getName() + " " + arguments.get(i).getValue() + " ";
+            executable = executable + make+" "+ arguments.get(i).getName() + " " + arguments.get(i).getValue() + " ";
         }
         executable = executable + myCommands;
         return executable;
@@ -97,5 +100,11 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         newParser.parseCommands(com);
         commandManager.getVariableExplorer().removeVariablesByNames(getArgumentNames());
         return newParser.getFinalReturn();
+    }
+
+    public void translateCommands(LanguageConverter languageConverter) {
+        String oldCommands = myCommands;
+        myCommands = languageConverter.translateString(oldCommands);
+        make = languageConverter.translateString(make);
     }
 }

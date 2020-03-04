@@ -1,11 +1,13 @@
 package slogo.view;
 
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.view.settingtab.SettingView;
 import slogo.view.settingtab.TurtleMover;
 
@@ -15,6 +17,7 @@ public class TabPaneView {
   private SettingView settingView;
   private HistoryView historyView;
   private MethodView methodView;
+  private TurtleTabView turtleTabView;
   private TabPane tabPane;
   private VariableView variableView;
   private static ResourceBundle uiResources;
@@ -28,6 +31,7 @@ public class TabPaneView {
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     createSettingTab(language, actions);
+    createTurtleTab(language, actions);
     this.actions = actions;
   }
 
@@ -42,8 +46,14 @@ public class TabPaneView {
     tabPane.getTabs().add(tab);
   }
 
+  private void createTurtleTab(String language, Actions actions) {
+    turtleTabView = new TurtleTabView(language, actions);
+    Tab tab = new Tab(uiResources.getString("TurtleTab"));
+    tabPane.getTabs().add(turtleTabView.getTab());
+  }
+
   public void createMethodTab(String language, ObservableMap methodList) {
-    methodView = new MethodView(language, methodList);
+    methodView = new MethodView(language, methodList, actions);
     tabPane.getTabs().add(methodView.getTab());
   }
 
@@ -57,4 +67,11 @@ public class TabPaneView {
     tabPane.getTabs().add(historyView.getTab());
   }
 
+  public void updateTurtleTab(ImmutableTurtle turtle){
+    turtleTabView.setTable(turtle);
+  }
+
+    public void setHistoryLanguage(String newLanguage) {
+      historyView.setLanguage(newLanguage);
+    }
 }

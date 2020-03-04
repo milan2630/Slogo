@@ -48,6 +48,8 @@ public class Controller implements PropertyChangeListener {
         handleReset();
         break;
       case "Language":
+        backendManager.setLanguage(value);
+        myVisualizer.setHistoryLanguage(value);
         this.language = value;
         break;
       case "Pen Color":
@@ -67,6 +69,12 @@ public class Controller implements PropertyChangeListener {
         myVisualizer.setPenStatus(Integer.parseInt(value));
         break;
       case "HistoryVariable":
+        myVisualizer.setInputText(value);
+        break;
+      case "Change Turtle State":
+        myVisualizer.setInputText(evt.getPropagationId().toString()+" "+evt.getNewValue().toString());
+        break;
+      case "Method Display":
         myVisualizer.setInputText(value);
         break;
     }
