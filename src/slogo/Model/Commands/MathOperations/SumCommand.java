@@ -1,6 +1,6 @@
 package slogo.Model.Commands.MathOperations;
 
-import slogo.Model.CommandManager;
+import slogo.Model.Parsing.CommandManager;
 import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.TurtleModel.Turtle;

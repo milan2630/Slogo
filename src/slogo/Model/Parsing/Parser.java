@@ -1,4 +1,4 @@
-package slogo.Model;
+package slogo.Model.Parsing;
 
 import slogo.Model.Commands.Command;
 import slogo.Model.ErrorHandling.ParsingException;
