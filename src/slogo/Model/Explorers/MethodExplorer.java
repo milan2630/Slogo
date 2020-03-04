@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
 import slogo.Model.ErrorHandling.ParsingException;
+import slogo.Model.Parsing.LanguageConverter;
 
 import java.util.HashMap;
 
@@ -25,6 +26,13 @@ public class MethodExplorer {
             return methodMap.get(name);
         }
         return null;
+    }
+
+    public void convertLanguage(String oldLanguage, String newLanguage){
+        LanguageConverter languageConverter = new LanguageConverter(oldLanguage, newLanguage);
+        for (String name: methodMap.keySet()){
+            methodMap.get(name).translateCommands(languageConverter);
+        }
     }
 
     public ObservableMap<String, UserDefinedInstructionCommand> getMethodNames(){

@@ -1,6 +1,7 @@
 package slogo.view.turtledisplay;
 
 import javafx.geometry.Point2D;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -57,9 +58,7 @@ public class TurtleView extends Pane {
     return penActive;
   }
 
-  protected void setGraphicImage(Image image) {
-    graphic.setImage(image);
-  }
+  protected void setGraphicImage(Image image) { graphic.setImage(image); }
 
   protected void setPenActive(int penActive) {
     this.penActive = penActive;

@@ -101,6 +101,7 @@ public class CommandManager implements BackEndExternal {
 
     @Override
     public void setLanguage(String lang){
+        methodExplorer.convertLanguage(this.language, lang);
         language = lang;
     }
 
