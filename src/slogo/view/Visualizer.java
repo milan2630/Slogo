@@ -44,7 +44,7 @@ public class Visualizer implements FrontEndExternal {
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-    scene.getStylesheets().add("resources/UI/default.css");
+    scene.getStylesheets().add("resources/Styles/default.css");
     stage.setScene(scene);
     stage.show();
   }
