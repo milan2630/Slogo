@@ -77,6 +77,7 @@ public class CommandManager {
     }
 
     public void setLanguage(String lang){
+        methodExplorer.convertLanguage(this.language, lang);
         language = lang;
     }
 
