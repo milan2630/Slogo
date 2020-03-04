@@ -48,12 +48,13 @@ public class MethodView {
 
     private void displayMethod() {
         String s = listView.getSelectionModel().getSelectedItem();
-        int space = s.indexOf('\t');
-        String methodName = s.substring(0, space);
-        String methodArgs = s.substring(space+1);
+        String str = s.replace("\t", " ");
+        int space = str.indexOf(" ");
+        String methodName = str.substring(0, space);
+        String methodArgs = str.substring(str.indexOf("(")+1, str.indexOf(")"));
         int parameters = Integer.parseInt(methodArgs);
         if (parameters > 0 ) {
-            String display = determineDisplay(methodName, parameters);
+            String display = determineDisplay(methodName, parameters, str.substring(str.indexOf("[")));
             displayDialogBox(methodName, display, parameters);
         }
         else
@@ -107,23 +108,25 @@ public class MethodView {
     }
 
 
-    private String determineDisplay(String name, int parameters){
+    private String determineDisplay(String name, int parameters, String command){
         String result = name+ " [ ";
         for (int i=0; i< parameters; i++){
             result +="? ";
         }
-        result += "]";
+        result += "] ";
+        result+= command;
         return result;
     }
     private void handle(MapChangeListener.Change<? extends String,? extends UserDefinedInstructionCommand> c) {
         if (c.wasAdded()){
-            String str = ""+methods.get(c.getKey()).getNumArguments();
+            String str = "("+methods.get(c.getKey()).getNumArguments()+") ["+methods.get(c.getKey()).getCommands()+"]";
             listView.getItems().add(c.getKey()+"\t"+str);
         }
-        if (c.wasRemoved()){
+        else if (c.wasRemoved()){
             listView.getItems().remove(c.getKey());
         }
     }
+
 
     private Button makeClearButton() {
         Button clearButton = new Button(resourceBundle.getString("ClearButton"));

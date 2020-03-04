@@ -68,7 +68,12 @@ public class Actions {
 
   public void handleHistoryVariable (String value) { notifyListeners(HISTORY_VARIABLE, this.data, this.data=value); }
 
-  public void handleTurtleState(String id, String showing) { notifyListeners(TURTLE_STATE, id, showing);}
+  public void handleTurtleState(String id, String showing) {
+    PropertyChangeEvent e = new PropertyChangeEvent(this, TURTLE_STATE, this.data, this.data = showing);
+    e.setPropagationId(id);
+    notifyListeners(TURTLE_STATE, e);
+  }
+
 
   public void handleMethodDisplay(String value){ notifyListeners(METHOD_DISPLAy, this.data, this.data = value);}
 
@@ -77,6 +82,13 @@ public class Actions {
       name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
     }
   }
+
+  private void notifyListeners(String property, PropertyChangeEvent e) {
+    for (PropertyChangeListener name : listeners) {
+      name.propertyChange(e);
+    }
+  }
+
 
   public void addChangeListener(PropertyChangeListener newListener) {
     listeners.add(newListener);

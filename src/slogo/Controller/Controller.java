@@ -72,7 +72,7 @@ public class Controller implements PropertyChangeListener {
         myVisualizer.setInputText(value);
         break;
       case "Change Turtle State":
-        myVisualizer.setInputText(evt.getOldValue().toString()+" "+evt.getNewValue().toString());
+        myVisualizer.setInputText(evt.getPropagationId().toString()+" "+evt.getNewValue().toString());
         break;
       case "Method Display":
         myVisualizer.setInputText(value);
