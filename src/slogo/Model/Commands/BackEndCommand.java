@@ -3,7 +3,7 @@ package slogo.Model.Commands;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.Variable;
 import slogo.Model.Explorers.Variables.VariableExplorer;
-import slogo.Model.CommandManager;
+import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.math.BigDecimal;
