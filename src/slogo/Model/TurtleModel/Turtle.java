@@ -25,67 +25,6 @@ public class Turtle {
     }
 
 /*
-    private double subtract(DifferenceCommand command, List<String> params) throws ParsingException {
-        return getDoubleParameter(params.get(0)) - getDoubleParameter(params.get(1));
-    }
-
-    private double multiply(ProductCommand command, List<String> params) throws ParsingException {
-        return getDoubleParameter(params.get(0)) * getDoubleParameter(params.get(1));
-    }
-
-    private double divide(QuotientCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(1)) == 0){
-            throw new ParsingException("DivideZero", params.get(1));
-        }
-        return getDoubleParameter(params.get(0)) / getDoubleParameter(params.get(1));
-    }
-
-    private double getRemainder(RemainderCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(1)) == 0){
-            throw new ParsingException("DivideZero", params.get(1));
-        }
-        return getDoubleParameter(params.get(0)) % getDoubleParameter(params.get(1));
-    }
-
-    private double negate(MinusCommand command, List<String> params) throws ParsingException {
-        return getDoubleParameter(params.get(0)) *-1;
-    }
-
-    private double getRandomNum(RandomCommand command, List<String> params) throws ParsingException{
-        return getDoubleParameter(params.get(0)) * Math.random();
-    }
-
-    private double getSine(SineCommand command, List<String> params) throws ParsingException{
-        return Math.sin(getDoubleParameter(params.get(0)));
-    }
-
-    private double getCos(CosineCommand command, List<String> params) throws ParsingException{
-        return Math.cos(getDoubleParameter(params.get(0)));
-    }
-
-    private double getTan(TangentCommand command, List<String> params) throws ParsingException{
-        return Math.tan(getDoubleParameter(params.get(0)));
-    }
-
-    private double getArcTan(ArcTangentCommand command, List<String> params) throws ParsingException{
-        return Math.atan(getDoubleParameter(params.get(0)));
-    }
-
-    private double getNaturalLog(NaturalLogCommand command, List<String> params) throws ParsingException{
-        if(getDoubleParameter(params.get(0)) < 0){
-            throw new ParsingException("LogOfNeg");
-        }
-        return Math.log(getDoubleParameter(params.get(0)));
-    }
-
-    private double raiseToPower(PowerCommand command, List<String> params) throws ParsingException {
-        return Math.pow(getDoubleParameter(params.get(0)), getDoubleParameter(params.get(1)));
-    }
-
-    private double getPi(PiCommand command, List<String> params) throws ParsingException {
-        return Math.PI;
-    }
-
     private double isLesser(LessThanCommand command, List<String> params) throws ParsingException {
         if(getDoubleParameter(params.get(0)) < getDoubleParameter(params.get(1))){
             return 1.0;
