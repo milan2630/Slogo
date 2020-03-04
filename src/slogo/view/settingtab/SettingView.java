@@ -11,25 +11,32 @@ import slogo.ReflectionException;
 public class SettingView extends VBox {
 
   private static final String PREFIX = "resources/UI/";
-  private static final String RESOURCES_TERMINAL = "resources/Layouts/SettingsTab/";
-  private static ResourceBundle actionResources;
-  private static ResourceBundle uiResources;
+  private static final String RESOURCES_CLASSES = PREFIX + "ReflectionClass";
+  private static final String RESOURCES_LAYOUTS = PREFIX + "Layouts";
+
+  private static ResourceBundle classMap;
+  private static ResourceBundle prompts;
+  private static ResourceBundle layouts;
+
+
   private static final String CLASS_PATH = "slogo.view.settingtab.";
 
   public SettingView(String language, Actions actions) {
-    actionResources = ResourceBundle.getBundle(RESOURCES_TERMINAL + language);
-    uiResources = ResourceBundle.getBundle(PREFIX + language);
+    classMap = ResourceBundle.getBundle(RESOURCES_CLASSES);
+    layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
+    prompts = ResourceBundle.getBundle(PREFIX + language);
+
     setupTab(language, actions);
   }
 
   private void setupTab(String language, Actions actions) {
+    List<String> buttonList = Arrays.asList(layouts.getString("SettingView").split(","));
     setSpacing(2);
-    List<String> buttonList = Collections.list(actionResources.getKeys());
-    Collections.sort(buttonList);
 
     for (String key : buttonList) {
       try {
-        Class<?> clazz = Class.forName(CLASS_PATH + actionResources.getString(key));
+        System.out.println(classMap.getString(key));
+        Class<?> clazz = Class.forName(CLASS_PATH + classMap.getString(key));
         Constructor<?> constructor = clazz
             .getDeclaredConstructor(String.class, String.class, Actions.class);
         LabelAndAction o = (LabelAndAction) constructor.newInstance(language, key, actions);
@@ -40,7 +47,7 @@ public class SettingView extends VBox {
         throw new ReflectionException("InvalidClass", key);
       }
     }
-    HelpButton helpButton = new HelpButton(uiResources);
+    HelpButton helpButton = new HelpButton(prompts);
     getChildren().add(helpButton);
   }
 }

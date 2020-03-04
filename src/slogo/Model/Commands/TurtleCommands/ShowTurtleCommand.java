@@ -1,11 +1,21 @@
 package slogo.Model.Commands.TurtleCommands;
 
-import slogo.Model.Commands.Command;
+import slogo.Model.Commands.BackEndCommand;
+import slogo.Model.Parsing.CommandManager;
+import slogo.Model.TurtleModel.Turtle;
 
-public class ShowTurtleCommand implements Command {
+import java.util.List;
+
+public class ShowTurtleCommand extends BackEndCommand {
+
     @Override
     public int getNumArguments() {
         return 0;
     }
 
+    public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) {
+        myTurtle.setShowing(1);
+        commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
+        return 1;
+    }
 }

@@ -1,13 +1,22 @@
 package slogo.Model.Commands.TurtleCommands;
 
-import slogo.Model.Commands.Command;
+import slogo.Model.Commands.BackEndCommand;
+import slogo.Model.Parsing.CommandManager;
+import slogo.Model.TurtleModel.Turtle;
 
-public class PenDownCommand implements Command {
+import java.util.List;
 
+public class PenDownCommand extends BackEndCommand {
 
     @Override
     public int getNumArguments() {
         return 0;
+    }
+
+    public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) {
+        myTurtle.setPenState(1);
+        commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
+        return 1;
     }
 
 }
