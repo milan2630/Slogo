@@ -1,10 +1,9 @@
 package slogo.Model.Commands;
 
-import slogo.Model.Parsing.CommandManager;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.Variable;
 import slogo.Model.Explorers.Variables.VariableExplorer;
-import slogo.Model.Parsing.Parser;
+import slogo.Model.CommandManager;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.math.BigDecimal;
@@ -35,12 +34,12 @@ public abstract class BackEndCommand implements Command {
 
     public double repeatAction(CommandManager commandManager, String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
         Variable<Double> var = commandManager.getVariableExplorer().addDoubleVarByName(iteratorName, startVal);
-        Parser newParser = new Parser(commandManager);
+        double ret = 0;
         while(var.getValue() <= endVal){
-            newParser.parseCommands(command);
+            ret = commandManager.parseCommands(command);
             var.setValue(var.getValue()+iterationVal);
         }
-        return newParser.getFinalReturn();
+        return ret;
     }
 
     public String removeOuterBrackets(String input){

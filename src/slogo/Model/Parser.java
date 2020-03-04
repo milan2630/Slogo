@@ -1,17 +1,14 @@
-package slogo.Model.Parsing;
+package slogo.Model;
 
 import slogo.Model.Commands.Command;
 import slogo.Model.ErrorHandling.ParsingException;
-import slogo.Model.TurtleModel.ImmutableTurtle;
 
 import java.util.*;
 
 public class Parser{
     private CommandFactory factory;
     private CommandManager commandManager;
-    private double finalReturn;
     public Parser(CommandManager cm){
-        finalReturn = 0;
         factory = new CommandFactory(cm.getLanguage(), cm.getMethodExplorer());
         commandManager = cm;
     }
@@ -19,14 +16,13 @@ public class Parser{
     /**
      * Creates a list of commands to execute in order based on the input from the console
      * @param input from the Console
-     * @return a list of commands to execute
      */
-    public List<ImmutableTurtle> parseCommands(String input) throws ParsingException {
+    public double parseCommands(String input) throws ParsingException {
 //        System.out.println("AAA");
 //        System.out.println(input);
 //        System.out.println("AAA");
         if(input == null || input.length() == 0){
-            return new ArrayList<>();
+            return 0;
         }
         input = input.toLowerCase();
         input = stripBrackets(input);
@@ -89,21 +85,21 @@ public class Parser{
     private String removeComments(String input) {
         String[] lineList = input.split("\n");
         List<String> noComments = new ArrayList<>();
-        for(int i = 0; i < lineList.length; i++){
-            if(lineList[i].indexOf("#") != 0 && !lineList[i].equals("")){
-                noComments.add(lineList[i]);
+        for (String s : lineList) {
+            if (s.indexOf("#") != 0 && !s.equals("")) {
+                noComments.add(s);
             }
         }
         String[] noCommentArray = noComments.toArray(new String[0]);
         return String.join(" ", noCommentArray);
     }
 
-    private List<ImmutableTurtle> parseEntityList(List<String> entityList) throws ParsingException {
-        List<ImmutableTurtle> states = new ArrayList<>();
+    private double parseEntityList(List<String> entityList) throws ParsingException {
 
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
         Stack<Integer> countFromStack = new Stack<>();
+        double ret = 0;
         for(String item: entityList){
             if(factory.isCommand(item)){
                 pushCommand(commandStack, item);
@@ -114,8 +110,13 @@ public class Parser{
                 argumentStack.push(item);
                 //System.out.println("OnArgs: " + item);
             }
-            combineCommandsArgs(states, argumentStack, commandStack, countFromStack);
+            ret = combineCommandsArgs(argumentStack, commandStack, countFromStack);
         }
+        checkUnfulfilledCommands(commandStack);
+        return ret;
+    }
+
+    private void checkUnfulfilledCommands(Stack<Command> commandStack) throws ParsingException {
         if(commandStack.size() > 0){
             String unfulfilled = "";
             while(commandStack.size() > 0){
@@ -123,7 +124,6 @@ public class Parser{
             }
             throw new ParsingException("UnfulfilledCommands", unfulfilled);
         }
-        return states;
     }
 
     private void pushCommand(Stack<Command> commandStack, String item) throws ParsingException {
@@ -131,11 +131,10 @@ public class Parser{
         commandStack.push(com);
     }
 
-    private void combineCommandsArgs(List<ImmutableTurtle> states, Stack<String> argumentStack, Stack<Command> commandStack, Stack<Integer> countFromStack) throws ParsingException {
+    private double combineCommandsArgs(Stack<String> argumentStack, Stack<Command> commandStack, Stack<Integer> countFromStack) throws ParsingException {
         int numArguments = argumentStack.size();
         try {
             Command topCom = commandStack.peek();
-
             while(numArguments - countFromStack.peek() >= topCom.getNumArguments()){
                 topCom = commandStack.pop();
                 //System.out.println("OffCommand: " + topCom.toString());
@@ -150,7 +149,6 @@ public class Parser{
                 Collections.reverse(params);
                 String result = commandManager.actOnCommand(topCom, params) + "";
 
-                states.addAll(commandManager.getInternalStates());
                 //commandManager.clearInternalStates();
                 if(commandStack.size() > 0) {
                     argumentStack.add(result);
@@ -160,21 +158,13 @@ public class Parser{
                     topCom = commandStack.peek();
                 }
                 else{
-                    finalReturn = Double.parseDouble(result);
-                    break;
+                    return Double.parseDouble(result);
                 }
             }
         }
         catch(EmptyStackException e){
             throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
         }
-    }
-
-    public double getFinalReturn(){
-        return finalReturn;
-    }
-
-    public void setLanguage(String lang){
-        factory.setupLanguage(lang);
+        return 0;
     }
 }

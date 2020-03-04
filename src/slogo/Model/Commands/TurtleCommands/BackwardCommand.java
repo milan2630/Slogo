@@ -1,6 +1,6 @@
 package slogo.Model.Commands.TurtleCommands;
 
-import slogo.Model.Parsing.CommandManager;
+import slogo.Model.CommandManager;
 import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.TurtleModel.Turtle;
@@ -16,7 +16,7 @@ public class BackwardCommand extends BackEndCommand {
 
     @Override
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
-        Double pixBackward = getDoubleParameter(params.get(0), commandManager.getVariableExplorer());
+        double pixBackward = getDoubleParameter(params.get(0), commandManager.getVariableExplorer());
         myTurtle.incrementX(pixBackward * Math.sin(Math.toRadians(myTurtle.getHeading())) * -1);
         myTurtle.incrementY(pixBackward * Math.cos(Math.toRadians(myTurtle.getHeading())) * -1);
         commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());

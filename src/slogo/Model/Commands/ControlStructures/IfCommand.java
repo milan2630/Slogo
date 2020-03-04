@@ -1,9 +1,8 @@
 package slogo.Model.Commands.ControlStructures;
 
-import slogo.Model.Parsing.CommandManager;
 import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
-import slogo.Model.Parsing.Parser;
+import slogo.Model.CommandManager;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.util.List;
@@ -21,8 +20,6 @@ public class IfCommand extends BackEndCommand {
         if(isZero(expr)){
             return 0.0;
         }
-        Parser newParser = new Parser(commandManager);
-        newParser.parseCommands(params.get(1));
-        return newParser.getFinalReturn();
+        return commandManager.parseCommands(params.get(1));
     }
 }
