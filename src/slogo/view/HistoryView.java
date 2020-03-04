@@ -12,8 +12,6 @@ import java.util.*;
 
 public class HistoryView {
     private static ResourceBundle resourceBundle;
-    private static ResourceBundle actionBundle;
-    private static final String RESOURCES_TERMINAL = "resources/Layouts/SettingsTab/";
     private String language;
     private Tab myTab;
     private ObservableList<String> history;
@@ -24,10 +22,9 @@ public class HistoryView {
         this.language= language;
         resourceBundle = ResourceBundle
                 .getBundle("resources/UI/" + language);
-        actionBundle = ResourceBundle.getBundle(RESOURCES_TERMINAL+language);
         myTab = new Tab(resourceBundle.getString("HistoryTab"));
         history = historyList;
-        list = new ListView<String>();
+        list = new ListView<>();
         listener = new ArrayList<>();
         this.actions = actions;
         setupTab();
