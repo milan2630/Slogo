@@ -24,51 +24,7 @@ public class Turtle {
         internalStates = new ArrayList<>();
     }
 
-/*
-    private double isLesser(LessThanCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) < getDoubleParameter(params.get(1))){
-            return 1.0;
-        }
-        return 0.0;
-    }
-
-    private double isGreater(GreaterThanCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) > getDoubleParameter(params.get(1))){
-            return 1.0;
-        }
-        return 0.0;
-    }
-
-    private double isEqual(EqualCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) == getDoubleParameter(params.get(1))){
-            return 1.0;
-        }
-        return 0.0;
-    }
-
-    private double isNotEqual(NotEqualCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) != getDoubleParameter(params.get(1))){
-            return 1.0;
-        }
-        return 0.0;
-    }
-
-
-    private double isOr(OrCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) != 0 || getDoubleParameter(params.get(1)) != 0){
-            return 1.0;
-        }
-        return 0.0;
-    }
-
-    private double getNot(NotCommand command, List<String> params) throws ParsingException {
-        if(getDoubleParameter(params.get(0)) == 0){
-            return 1.0;
-        }
-        return 0.0;
-    }
-
-*//*
+    /*
     private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
         double oldX = myX;
         double oldY = myY;
@@ -76,8 +32,7 @@ public class Turtle {
         // TODO: tell Controller and clear TrailView in Visualizer, won't work until design change
         return Math.hypot(myX - oldX, myY - oldY);
     }
- *//*
-*/
+ */
     public double getX() {
         return myX;
     }
