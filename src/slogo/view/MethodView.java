@@ -62,20 +62,26 @@ public class MethodView {
     }
 
     private void displayDialogBox(String methodName, String display, int parameters) {
-        Dialog dialog = new Dialog();
-        //TODO make not hard coded
-        VBox vbox = new VBox();
-        for (int i =0; i<parameters; i++){
-            TextField input = new TextField();
-            int j = i+1;
-            input.setPromptText("Parameter "+j);
-            vbox.getChildren().add(input);
+        VBox vbox = createInputFields(parameters);
+        Dialog dialog = getDialog(display, vbox);
+        Optional<List<String>> result = dialog.showAndWait();
+        if (result.isPresent()){
+            setTerminal(methodName, result.get());
         }
+    }
+
+    private Dialog getDialog(String display, VBox vbox) {
+        Dialog dialog = new Dialog();
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        dialog.setTitle("o7planning");
+        //TODO make not hard coded
+        dialog.setTitle("planning");
         dialog.setHeaderText(display);
-        vbox.setSpacing(10);
         dialog.getDialogPane().setContent(vbox);
+        setupInput(vbox, dialog);
+        return dialog;
+    }
+
+    private void setupInput(VBox vbox, Dialog dialog) {
         dialog.setResultConverter(new Callback<ButtonType, List<String>>() {
             @Override
             public List<String> call(ButtonType b) {
@@ -87,14 +93,22 @@ public class MethodView {
                     }
                     return parameters;
                 }
-
                 return null;
             }
         });
-        Optional<List<String>> result = dialog.showAndWait();
-        if (result.isPresent()){
-            setTerminal(methodName, result.get());
+    }
+
+    private VBox createInputFields(int parameters) {
+        VBox vbox = new VBox();
+        for (int i =0; i<parameters; i++){
+            TextField input = new TextField();
+            int j = i+1;
+            //TODO make not hard coded
+            input.setPromptText("Parameter "+j);
+            vbox.getChildren().add(input);
         }
+        vbox.setSpacing(10);
+        return vbox;
     }
 
     private void setTerminal(String methodName, List<String> parameters) {
