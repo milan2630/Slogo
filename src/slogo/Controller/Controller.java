@@ -92,7 +92,7 @@ public class Controller implements PropertyChangeListener {
   private void handleReset() {
     //myTurtle.setToHome();
     //myTurtle.setHeading(0);
-    myVisualizer.resetDisplay();
+    myVisualizer.resetTrail();
   }
 
   private void handleRun(String value) {
