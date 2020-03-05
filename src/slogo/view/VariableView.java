@@ -16,9 +16,10 @@ public class VariableView <E>{
     private ObservableList<Variable> variables;
     private Tab myTab;
     private TableView<Variable> tableView;
+    private static final String RESOURCE_PATH = "resources/UI/";
     private static ResourceBundle resourceBundle;
     public VariableView(String language, ObservableList variableList){
-        resourceBundle = ResourceBundle.getBundle("resources/UI/" + language);
+        resourceBundle = ResourceBundle.getBundle(RESOURCE_PATH + language);
         variables=variableList;
         myTab = new Tab(resourceBundle.getString("VariableTab"));
         this.tableView = new TableView<Variable>(variables);
@@ -73,6 +74,5 @@ public class VariableView <E>{
         if (!variables.isEmpty()) {
             variables.clear();
         }
-        //tableView.refresh();
     }
 }

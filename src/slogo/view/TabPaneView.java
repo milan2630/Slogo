@@ -31,8 +31,6 @@ public class TabPaneView {
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     createSettingTab(language, actions);
-    createPaletteTab(language, actions);
-    
     createTurtleTab(language, actions);
     this.actions = actions;
   }
@@ -42,8 +40,8 @@ public class TabPaneView {
   }
 
 
-  private void createPaletteTab(String language, Actions actions) {
-    PaletteView paletteView = new PaletteView(language,actions);
+  public void createPaletteTab(String language, ObservableList list) {
+    PaletteView paletteView = new PaletteView(language,list);
     Tab tab = new Tab(uiResources.getString("PaletteTab"));
     tab.setContent(paletteView);
     tabPane.getTabs().add(tab);
