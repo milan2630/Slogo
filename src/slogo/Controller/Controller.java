@@ -2,10 +2,10 @@ package slogo.Controller;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import slogo.Model.ErrorHandling.ParsingException;
+import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Explorers.Variables.VariableExplorer;
-import slogo.Model.ModelExternal;
+import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.view.Actions;
 import slogo.view.Visualizer;
@@ -17,7 +17,7 @@ import java.util.List;
 public class Controller implements PropertyChangeListener {
 
   private Visualizer myVisualizer;
-  private ModelExternal backendManager;
+  private BackEndExternal backendManager;
   private Actions myActions;
   private History myHistory;
   private static final String DEFAULT_LANGUAGE = "English";
@@ -31,7 +31,7 @@ public class Controller implements PropertyChangeListener {
     myVisualizer = new Visualizer(stage, language, myActions);
     MethodExplorer myME = new MethodExplorer();
     VariableExplorer myVE = new VariableExplorer();
-    backendManager = new ModelExternal(language, myME, myVE, myVisualizer);
+    backendManager = new CommandManager(myVisualizer, myME, myVE, language);
     myHistory = new History();
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
         myME.getMethodNames());
@@ -48,6 +48,8 @@ public class Controller implements PropertyChangeListener {
         handleReset();
         break;
       case "Language":
+        backendManager.setLanguage(value);
+        myVisualizer.setHistoryLanguage(value);
         this.language = value;
         break;
       case "Pen Color":
@@ -69,6 +71,12 @@ public class Controller implements PropertyChangeListener {
       case "HistoryVariable":
         myVisualizer.setInputText(value);
         break;
+      case "Change Turtle State":
+        myVisualizer.setInputText(evt.getPropagationId().toString()+" "+evt.getNewValue().toString());
+        break;
+      case "Method Display":
+        myVisualizer.setInputText(value);
+        break;
     }
   }
 
@@ -84,7 +92,7 @@ public class Controller implements PropertyChangeListener {
     //myTurtle.changeLanguage(language);
     String command = value;
     try {
-      turtleList = backendManager.parseCommands(command);;
+      turtleList = backendManager.parseTurtleStatesFromCommands(command);;
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }

@@ -34,4 +34,5 @@ public class History {
     }
     public ObservableList getInputs(){ return pastInputs;}
 
+
 }

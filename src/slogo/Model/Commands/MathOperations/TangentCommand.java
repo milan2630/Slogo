@@ -1,10 +1,20 @@
 package slogo.Model.Commands.MathOperations;
 
-import slogo.Model.Commands.Command;
+import slogo.Model.Commands.BackEndCommand;
+import slogo.Model.ErrorHandling.ParsingException;
+import slogo.Model.Parsing.CommandManager;
+import slogo.Model.TurtleModel.Turtle;
 
-public class TangentCommand implements Command {
+import java.util.List;
+
+public class TangentCommand extends BackEndCommand {
+
     @Override
     public int getNumArguments() {
         return 1;
+    }
+
+    public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
+        return Math.tan(getDoubleParameter(params.get(0), commandManager.getVariableExplorer()));
     }
 }

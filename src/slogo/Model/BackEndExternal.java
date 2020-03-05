@@ -15,7 +15,7 @@ public interface BackEndExternal {
      * @param input from the Console
      * @return a list of ImmutableTurtle states to execute
      */
-    public List<ImmutableTurtle> parseCommands(String input) throws ParsingException;
+    public List<ImmutableTurtle> parseTurtleStatesFromCommands(String input) throws ParsingException;
 
     public void setLanguage(String lang);
 
