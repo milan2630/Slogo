@@ -104,7 +104,7 @@ public class Controller implements PropertyChangeListener {
   private void handleRun(String value) {
     String command = value;
     try {
-      turtleList = backendManager.parseTurtleStatesFromCommands(command);;
+      turtleList = backendManager.parseTurtleStatesFromCommands(command);
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }

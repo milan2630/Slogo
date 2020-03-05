@@ -18,6 +18,8 @@ public class ClearScreenCommand extends BackEndCommand {
         double oldY = myTurtle.getY();
         myTurtle.setToHome();
         myTurtle.setHeading(0);
+        myTurtle.setPenState(1);
+        myTurtle.setShowing(1);
         commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
         //make sure frontend knows to clear trailview
         return Math.hypot(myTurtle.getX() - oldX, myTurtle.getY() - oldY);
