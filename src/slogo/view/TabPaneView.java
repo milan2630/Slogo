@@ -31,12 +31,22 @@ public class TabPaneView {
 
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     createSettingTab(language, actions);
+    createPaletteTab(language, actions);
+    
     createTurtleTab(language, actions);
     this.actions = actions;
   }
 
   protected TabPane getTabPane() {
     return tabPane;
+  }
+
+
+  private void createPaletteTab(String language, Actions actions) {
+    PaletteView paletteView = new PaletteView(language,actions);
+    Tab tab = new Tab(uiResources.getString("PaletteTab"));
+    tab.setContent(paletteView);
+    tabPane.getTabs().add(tab);
   }
 
   private void createSettingTab(String language, Actions actions) {
