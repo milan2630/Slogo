@@ -86,39 +86,13 @@ public class Parser{
             catch (ArrayIndexOutOfBoundsException e){
                 throw new ParsingException("MissingCloseBracket");
             }
-            
+
             ret = combineCommandsArgs(argumentStack, commandStack, countFromStack);
         }
         checkUnfulfilledCommands(commandStack);
         return ret;
     }
-
-    private String getNextEntity(List<String> entityList) throws ParsingException {
-
-        String item = entityList.get(indexInEntityList);
-        if(item.equals("[")){
-            indexInEntityList++;
-            int bracketsSeen = 1;
-            try {
-                while (bracketsSeen != 0) {
-                    if (entityList.get(indexInEntityList).contains("]")) {
-                        bracketsSeen--;
-                    }
-                    if (entityList.get(indexInEntityList).contains("[")) {
-                        bracketsSeen++;
-                    }
-                    item = item + " " + entityList.get(indexInEntityList);
-                    indexInEntityList++;
-                }
-            }
-            catch (ArrayIndexOutOfBoundsException e){
-                throw new ParsingException("MissingCloseBracket");
-            }
-            indexInEntityList--;
-        }
-        return item;
-    }
-
+    
     private void checkUnfulfilledCommands(Stack<Command> commandStack) throws ParsingException {
         if(commandStack.size() > 0){
             String unfulfilled = "";
