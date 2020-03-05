@@ -100,9 +100,9 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         return ret;
     }
 
-    public void translateCommands(LanguageConverter languageConverter) {
+    public void translateCommands(LanguageConverter languageConverter, String newLanguage) {
         String oldCommands = myCommands;
-        myCommands = languageConverter.translateString(oldCommands);
-        make = languageConverter.translateString(make);
+        myCommands = languageConverter.translateString(oldCommands, newLanguage);
+        make = languageConverter.translateString(make, newLanguage);
     }
 }

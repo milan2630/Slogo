@@ -16,13 +16,13 @@ public class LanguageConverter {
     private static final String DEFAULT_COMMAND_NAME_PACKAGE = COMMAND_NAME_RESOURCES + ".";
     private static final String DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_NAME_PACKAGE;
 
-    public LanguageConverter(String oldLanguage, String newLanguage){
+    public LanguageConverter(String oldLanguage){
         myOldLanguageResources = ResourceBundle.getBundle(DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE + oldLanguage);
-        myNewLanguageResources = ResourceBundle.getBundle(DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE + newLanguage);
         initializeMap();
     }
 
-    public String translateString(String command) {
+    public String translateString(String command, String newLanguage) {
+        initializeSecondLanguage(newLanguage);
         String[] splits = command.split("\\s");
         splits = command.trim().split("\\s+");
         for (int i = 0; i < splits.length; i++) {
@@ -35,6 +35,14 @@ public class LanguageConverter {
         return result;
     }
 
+    public String getCommand(String command){
+        String result = "";
+        command = command.trim();
+        if (oldCommands.containsKey(command))
+            result = oldCommands.get(command);
+        return result;
+    }
+
     private void initializeMap() {
         oldCommands = new HashMap<>();
         for (String key : myOldLanguageResources.keySet()) {
@@ -44,6 +52,9 @@ public class LanguageConverter {
                 oldCommands.put(option, key);
             }
         }
+    }
+    private void initializeSecondLanguage(String newLanguage){
+        myNewLanguageResources = ResourceBundle.getBundle(DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE + newLanguage);
         newCommands = new HashMap<>();
         for (String key : myNewLanguageResources.keySet()) {
             String val = myNewLanguageResources.getString(key);

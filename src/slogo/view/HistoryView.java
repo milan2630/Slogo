@@ -44,26 +44,20 @@ public class HistoryView {
 
         myTab.setContent(vbox);
     }
-
     private void print() {
         actions.handleHistoryVariable(list.getSelectionModel().getSelectedItem());
     }
-
-
-
     private void emptyHistory() {
         if (!history.isEmpty()) {
             history.clear();
         }
     }
-
     public void setLanguage(String newLanguage) {
-        LanguageConverter languageConverter = new LanguageConverter(language, newLanguage);
+        LanguageConverter languageConverter = new LanguageConverter(language);
         for (int i =0; i<history.size(); i++){
             String oldString = history.get(i);
-            history.set(i ,languageConverter.translateString(oldString));
+            history.set(i ,languageConverter.translateString(oldString, newLanguage));
         }
         language = newLanguage;
     }
 }
-

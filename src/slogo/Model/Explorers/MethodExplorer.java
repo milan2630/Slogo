@@ -29,9 +29,9 @@ public class MethodExplorer {
     }
 
     public void convertLanguage(String oldLanguage, String newLanguage){
-        LanguageConverter languageConverter = new LanguageConverter(oldLanguage, newLanguage);
+        LanguageConverter languageConverter = new LanguageConverter(oldLanguage);
         for (String name: methodMap.keySet()){
-            methodMap.get(name).translateCommands(languageConverter);
+            methodMap.get(name).translateCommands(languageConverter, newLanguage);
         }
     }
 
