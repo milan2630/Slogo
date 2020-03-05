@@ -8,9 +8,18 @@ import java.util.*;
 public class Parser{
     private CommandFactory factory;
     private CommandManager commandManager;
+    private Stack<Command> unlimitedParametersCommands;
+    private Stack<String> argumentStack;
+    private Stack<Command> commandStack;
+    private Stack<Integer> countFromStack;
     public Parser(CommandManager cm){
         factory = new CommandFactory(cm.getLanguage(), cm.getMethodExplorer());
         commandManager = cm;
+        unlimitedParametersCommands = new Stack<>();
+        argumentStack = new Stack<>();
+        commandStack = new Stack<>();
+        countFromStack = new Stack<>();
+        countFromStack.push(0);
     }
 
     /**
@@ -31,35 +40,66 @@ public class Parser{
 
 
     private double parseEntityList(EntityListIterator entityIterator) throws ParsingException {
-
-        Stack<String> argumentStack = new Stack<>();
-        Stack<Command> commandStack = new Stack<>();
-        Stack<Integer> countFromStack = new Stack<>();
-        double ret = 0;
+        double lastReturn = 0;
         while(entityIterator.hasNext()){
             try {
                 String item = entityIterator.next();
-                if(factory.isCommand(item)){
-                    pushCommand(commandStack, item);
-                    //System.out.println("OnCommand: " + item);
-                    countFromStack.push(argumentStack.size());
+                item = checkStartUnlimitedParameters(entityIterator, item);
+                if(item.equals(")")){
+                    handleStacksAtEndOfUnlimitedParameters(lastReturn);
+                    if(entityIterator.hasNext()){
+                        item = entityIterator.next();
+                    } else if(argumentStack.size() != countFromStack.peek()+1){
+                        throw new ParsingException("MissingCloseBracket", ")");
+                    } else{
+                        return lastReturn;
+                    }
                 }
-                else{
-                    argumentStack.push(item);
-                    //System.out.println("OnArgs: " + item);
-                }
+                determineCommandOrArg(item);
             }
             catch (ArrayIndexOutOfBoundsException e){
-                throw new ParsingException("MissingCloseBracket");
+                throw new ParsingException("MissingCloseBracket", "]");
             }
-
-            ret = combineCommandsArgs(argumentStack, commandStack, countFromStack);
+            lastReturn = combineCommandsArgs();
         }
-        checkUnfulfilledCommands(commandStack);
-        return ret;
+        checkUnfulfilledCommands();
+        return lastReturn;
     }
 
-    private void checkUnfulfilledCommands(Stack<Command> commandStack) throws ParsingException {
+    private void handleStacksAtEndOfUnlimitedParameters(double lastReturn) {
+        unlimitedParametersCommands.pop();
+        commandStack.pop();
+        countFromStack.pop();
+        argumentStack.push(lastReturn + "");
+    }
+
+    private void determineCommandOrArg(String item) throws ParsingException {
+        if(factory.isCommand(item)){
+            pushCommand(item);
+            System.out.println("OnCommand: " + item);
+        }
+        else{
+            argumentStack.push(item);
+            System.out.println("OnArgs: " + item);
+        }
+    }
+
+    private String checkStartUnlimitedParameters(EntityListIterator entityIterator, String item) throws ParsingException {
+        if(item.equals("(")){
+            item = entityIterator.next();
+            if(!factory.isCommand(item)){
+                throw new ParsingException("UnlimitedParamNotCommand", item);
+            }
+
+            unlimitedParametersCommands.push(pushCommand(item));
+            System.out.println("OnUnlimited: " + item);
+            System.out.println("OnCommand: " + item);
+            item = entityIterator.next();
+        }
+        return item;
+    }
+
+    private void checkUnfulfilledCommands() throws ParsingException {
         if(commandStack.size() > 0){
             String unfulfilled = "";
             while(commandStack.size() > 0){
@@ -69,45 +109,58 @@ public class Parser{
         }
     }
 
-    private void pushCommand(Stack<Command> commandStack, String item) throws ParsingException {
+    private Command pushCommand(String item) throws ParsingException {
         Command com = factory.getCommand(item);
         commandStack.push(com);
+        countFromStack.push(argumentStack.size());
+        System.out.println("OnInteger: " + argumentStack.size());
+        return com;
     }
 
-    private double combineCommandsArgs(Stack<String> argumentStack, Stack<Command> commandStack, Stack<Integer> countFromStack) throws ParsingException {
-        int numArguments = argumentStack.size();
+    private double combineCommandsArgs() throws ParsingException {
+        double ret = 0;
         try {
-            Command topCom = commandStack.peek();
-            while(numArguments - countFromStack.peek() >= topCom.getNumArguments()){
-                topCom = commandStack.pop();
-                //System.out.println("OffCommand: " + topCom.toString());
-                List<String> params = new ArrayList<>();
-                for(int i = 0; i < numArguments - countFromStack.peek(); i++){
-                    String s = argumentStack.pop();
-                    //System.out.println("OffArgs: " + s);
-                    params.add(s);
-                    //params.add(argumentStack.pop());
-
-                }
-                Collections.reverse(params);
-                String result = commandManager.actOnCommand(topCom, params) + "";
-
-                //commandManager.clearInternalStates();
-                if(commandStack.size() > 0) {
-                    argumentStack.add(result);
-                    //System.out.println("OnArgs: " + result);
-                    countFromStack.pop();
-                    numArguments = argumentStack.size();
-                    topCom = commandStack.peek();
+            while(!commandStack.isEmpty()){
+                Command topCom = commandStack.peek();
+                int numArguments = argumentStack.size();
+                if(numArguments - countFromStack.peek() >= topCom.getNumArguments()) {
+                    topCom = commandStack.pop();
+                    System.out.println("OffCommand: " + topCom.toString());
+                    List<String> params = getParametersFromArgStack(numArguments);
+                    ret = commandManager.actOnCommand(topCom, params);
+                    String result = ret + "";
+                    if (!unlimitedParametersCommands.isEmpty() && topCom == unlimitedParametersCommands.peek()) {
+                        commandStack.push(topCom);
+                        System.out.println("OnCommandA: " + topCom.toString());
+                    }
+                    else {
+                        argumentStack.push(result);
+                        System.out.println("OnArgs: " + result);
+                        System.out.println("OffInteger: " + countFromStack.pop());
+                        //countFromStack.pop();
+                    }
                 }
                 else{
-                    return Double.parseDouble(result);
+                    return ret;
                 }
             }
         }
         catch(EmptyStackException e){
             throw new ParsingException("UnrecognizedEntity", argumentStack.peek());
         }
-        return 0;
+        return ret;
+    }
+
+    private List<String> getParametersFromArgStack(int numArguments) {
+        List<String> params = new ArrayList<>();
+        for (int i = 0; i < numArguments - countFromStack.peek(); i++) {
+            String s = argumentStack.pop();
+            System.out.println("OffArgs: " + s);
+            params.add(s);
+            //params.add(argumentStack.pop());
+
+        }
+        Collections.reverse(params);
+        return params;
     }
 }

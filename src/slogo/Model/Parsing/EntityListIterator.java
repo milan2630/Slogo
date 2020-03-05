@@ -23,7 +23,7 @@ public class EntityListIterator implements Iterator {
         indexInEntityList = 0;
         bracketChars = new HashMap<>();
         bracketChars.put(OPEN_BRACKET, CLOSED_BRACKET);
-        bracketChars.put(OPEN_PARENTHESES, CLOSED_PARENTHESES);
+
     }
 
     private String stripBrackets(String input) {
