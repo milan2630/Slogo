@@ -29,6 +29,7 @@ public class Turtle {
         double oldX = myX;
         double oldY = myY;
         setToHome();
+        // set heading to 0
         // TODO: tell Controller and clear TrailView in Visualizer, won't work until design change
         return Math.hypot(myX - oldX, myY - oldY);
     }

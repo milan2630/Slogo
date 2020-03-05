@@ -37,6 +37,10 @@ public class Controller implements PropertyChangeListener {
         myME.getMethodNames());
   }
 
+  // public Controller(File file) { set the variables based on the xml file
+
+  //}
+
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     String value = evt.getNewValue().toString();
@@ -82,14 +86,19 @@ public class Controller implements PropertyChangeListener {
 
   //FIXME
   private void handleReset() {
-    //myTurtle.setToHome();
-    //myTurtle.setHeading(0);
+    try {
+      turtleList = backendManager.parseTurtleStatesFromCommands("clearscreen");
+      myHistory.addInput("clearscreen");
+      myVisualizer.updateTurtle(turtleList);
+    }
+    catch(Exception e) {
+      myVisualizer.displayError(e);
+    }
+
     myVisualizer.resetDisplay();
   }
 
   private void handleRun(String value) {
-    //myParser.setLanguage(language);
-    //myTurtle.changeLanguage(language);
     String command = value;
     try {
       turtleList = backendManager.parseTurtleStatesFromCommands(command);;
@@ -101,6 +110,5 @@ public class Controller implements PropertyChangeListener {
     }
   }
 
-  //TODO: set language
   // check for screen bounds
 }
