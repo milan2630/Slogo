@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
+import slogo.Model.Explorers.PaletteExplorer;
 import slogo.Model.Explorers.Variables.VariableExplorer;
 import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.ImmutableTurtle;
@@ -29,12 +30,13 @@ public class Controller implements PropertyChangeListener {
     myActions = new Actions();
     myActions.addChangeListener(this);
     myVisualizer = new Visualizer(stage, language, myActions);
-    MethodExplorer myME = new MethodExplorer();
+    PaletteExplorer myPE = new PaletteExplorer(language, myActions);
+    MethodExplorer myME = new MethodExplorer(language);
     VariableExplorer myVE = new VariableExplorer();
-    backendManager = new CommandManager(myVisualizer, myME, myVE, language);
+    backendManager = new CommandManager(myVisualizer, myME, myVE, myPE, language);
     myHistory = new History();
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
-        myME.getMethodNames());
+        myME.getMethodNames(), myPE.getList());
   }
 
   @Override
@@ -42,6 +44,8 @@ public class Controller implements PropertyChangeListener {
     String value = evt.getNewValue().toString();
     switch (evt.getPropertyName()){
       case "Run":
+        Color c = Color.RED;
+        System.out.println(c.toString());
         handleRun(value);
         break;
       case "Reset":
@@ -76,6 +80,10 @@ public class Controller implements PropertyChangeListener {
         break;
       case "Method Display":
         myVisualizer.setInputText(value);
+        break;
+      case "Background Color Index":
+        //TODO update backend index of background color
+
         break;
     }
   }

@@ -3,6 +3,7 @@ package slogo.Model.Parsing;
 import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Commands.Command;
+import slogo.Model.Explorers.PaletteExplorer;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.TurtleModel.Turtle;
 import slogo.Model.ErrorHandling.ParsingException;
@@ -20,16 +21,18 @@ public class CommandManager implements BackEndExternal {
     private Visualizer frontend;
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
+    private PaletteExplorer paletteExplorer;
     private List<ImmutableTurtle> internalStates;
     private List<Turtle> turtles;
     private String language;
 
 
-    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, String lang){
+    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, String lang){
         language = lang;
         frontend = v;
         methodExplorer = me;
         variableExplorer = ve;
+        paletteExplorer = pe;
         internalStates = new ArrayList<>();
         Turtle startTurtle = new Turtle(1, true);
         turtles = new ArrayList<>();
@@ -102,7 +105,7 @@ public class CommandManager implements BackEndExternal {
 
     @Override
     public void setLanguage(String lang){
-        methodExplorer.convertLanguage(this.language, lang);
+        methodExplorer.convertLanguage(lang);
         language = lang;
     }
 

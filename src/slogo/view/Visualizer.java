@@ -132,10 +132,11 @@ public class Visualizer implements FrontEndExternal {
   }
 
   public void bindTabs(String language, ObservableList history, ObservableList variables,
-      ObservableMap methods) {
+      ObservableMap methods, ObservableList palette) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);
+    tabPaneView.createPaletteTab(language, palette);
   }
 
     public void setHistoryLanguage(String newLanguage) {
