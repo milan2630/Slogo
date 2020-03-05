@@ -6,7 +6,6 @@ import slogo.Model.Explorers.Variables.DoubleVariable;
 import slogo.Model.Explorers.Variables.Variable;
 import slogo.Model.Parsing.CommandManager;
 import slogo.Model.Parsing.LanguageConverter;
-import slogo.Model.Parsing.Parser;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.util.ArrayList;
