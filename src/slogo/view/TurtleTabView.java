@@ -1,12 +1,12 @@
 package slogo.view;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -81,13 +81,14 @@ public class TurtleTabView {
                         return new SimpleBooleanProperty(param.getValue().getShowing() == 1);
                     }
                 });
-        c.setCellFactory(CheckBoxTableCell.forTableColumn(c));
-        tableView.setOnMouseClicked(e -> editTurtleState());
+        CheckBoxTableCell cell = new CheckBoxTableCell();
+        c.setCellFactory(cell.forTableColumn(c));
+        tableView.setOnMouseClicked(e -> editTurtleState(cell));
     }
 
-    private void editTurtleState() {
+    private void editTurtleState(CheckBoxTableCell c) {
             ImmutableTurtle t = tableView.getSelectionModel().getSelectedItem();
-            String status = t.getShowing()!=1 ? "pu" : "pd";
+            String status = t.getShowing()==1 ? "pu" : "pd";
             actions.handleTurtleState(t.getX() + "", status);
     }
 
