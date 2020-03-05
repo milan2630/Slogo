@@ -11,9 +11,10 @@ import java.util.HashMap;
 public class MethodExplorer {
 
     private ObservableMap<String, UserDefinedInstructionCommand> methodMap;
-
-    public MethodExplorer(){
+    private LanguageConverter languageConverter;
+    public MethodExplorer(String language){
         methodMap = FXCollections.observableMap(new HashMap<>());
+        languageConverter = new LanguageConverter(language);
     }
 
     public void addMethod(UserDefinedInstructionCommand method) throws ParsingException {
@@ -28,11 +29,11 @@ public class MethodExplorer {
         return null;
     }
 
-    public void convertLanguage(String oldLanguage, String newLanguage){
-        LanguageConverter languageConverter = new LanguageConverter(oldLanguage);
+    public void convertLanguage( String newLanguage){
         for (String name: methodMap.keySet()){
             methodMap.get(name).translateCommands(languageConverter, newLanguage);
         }
+        languageConverter.updateLanguage(newLanguage);
     }
 
     public ObservableMap<String, UserDefinedInstructionCommand> getMethodNames(){

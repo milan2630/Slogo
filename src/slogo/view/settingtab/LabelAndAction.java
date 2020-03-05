@@ -40,6 +40,7 @@ public abstract class LabelAndAction extends HBox {
       Method m = target.getClass().getDeclaredMethod(methodName, String.class);
       m.invoke(target, value);
     } catch (Exception e) {
+      e.printStackTrace();
       throw new ReflectionException("InvalidMethod", methodName);
     }
   }
