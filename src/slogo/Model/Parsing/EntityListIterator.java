@@ -2,10 +2,7 @@ package slogo.Model.Parsing;
 
 import slogo.Model.ErrorHandling.ParsingException;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EntityListIterator implements Iterator {
 
@@ -19,12 +16,45 @@ public class EntityListIterator implements Iterator {
     private int indexInEntityList;
     private Map<String, String> bracketChars;
 
-    public EntityListIterator(List<String> itemList){
-        entityList = itemList;
+    public EntityListIterator(String input) throws ParsingException{
+        input = input.toLowerCase();
+        input = stripBrackets(input);
+        entityList = getEntitiesFromString(input);
         indexInEntityList = 0;
         bracketChars = new HashMap<>();
         bracketChars.put(OPEN_BRACKET, CLOSED_BRACKET);
-        bracketChars.put(OPEN_PARENTHESES, CLOSED_PARENTHESES);
+
+    }
+
+    private String stripBrackets(String input) {
+        if(input.charAt(0) == '[' && input.charAt(input.length()-1) == ']'){
+            return input.substring(1, input.length()-1);
+        }
+        return input;
+    }
+
+
+    private List<String> getEntitiesFromString(String input) throws ParsingException {
+        String noCommentString = removeComments(input);
+        if(noCommentString.equals("")){
+            return new ArrayList<>();
+        }
+        noCommentString = noCommentString.strip();
+        noCommentString = noCommentString.replaceAll("\\s+", " ");
+        String[] entities = noCommentString.split(" ");
+        return Arrays.asList(entities);
+    }
+
+    private String removeComments(String input) {
+        String[] lineList = input.split("\n");
+        List<String> noComments = new ArrayList<>();
+        for (String s : lineList) {
+            if (s.indexOf("#") != 0 && !s.equals("")) {
+                noComments.add(s);
+            }
+        }
+        String[] noCommentArray = noComments.toArray(new String[0]);
+        return String.join(" ", noCommentArray);
     }
 
     @Override
