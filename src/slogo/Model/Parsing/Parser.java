@@ -8,9 +8,11 @@ import java.util.*;
 public class Parser{
     private CommandFactory factory;
     private CommandManager commandManager;
+    private int indexInEntityList;
     public Parser(CommandManager cm){
         factory = new CommandFactory(cm.getLanguage(), cm.getMethodExplorer());
         commandManager = cm;
+        indexInEntityList = 0;
     }
 
     /**
@@ -46,40 +48,7 @@ public class Parser{
         noCommentString = noCommentString.strip();
         noCommentString = noCommentString.replaceAll("\\s+", " ");
         String[] entities = noCommentString.split(" ");
-        return combineBrackets(entities);
-    }
-
-    private List<String> combineBrackets(String[] entities) throws ParsingException {
-        List<String> entityList = new ArrayList<>();
-        for(int i = 0; i < entities.length; i++){
-            if(entities[i].equals("[")){
-
-                i++;
-                int bracketsSeen = 1;
-                String item = "[";
-                try {
-                    while (bracketsSeen != 0) {
-                        if (entities[i].contains("]")) {
-                            bracketsSeen--;
-                        }
-                        if (entities[i].contains("[")) {
-                            bracketsSeen++;
-                        }
-                        item = item + " " + entities[i];
-                        i++;
-                    }
-                }
-                catch (ArrayIndexOutOfBoundsException e){
-                    throw new ParsingException("MissingCloseBracket");
-                }
-                i--;
-                entityList.add(item);
-            }
-            else{
-                entityList.add(entities[i]);
-            }
-        }
-        return entityList;
+        return Arrays.asList(entities);
     }
 
     private String removeComments(String input) {
@@ -99,23 +68,31 @@ public class Parser{
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
         Stack<Integer> countFromStack = new Stack<>();
+        Iterator<String> entityIterator = new EntityListIterator(entityList);
         double ret = 0;
-        for(String item: entityList){
-            if(factory.isCommand(item)){
-                pushCommand(commandStack, item);
-                //System.out.println("OnCommand: " + item);
-                countFromStack.push(argumentStack.size());
+        while(entityIterator.hasNext()){
+            try {
+                String item = entityIterator.next();
+                if(factory.isCommand(item)){
+                    pushCommand(commandStack, item);
+                    //System.out.println("OnCommand: " + item);
+                    countFromStack.push(argumentStack.size());
+                }
+                else{
+                    argumentStack.push(item);
+                    //System.out.println("OnArgs: " + item);
+                }
             }
-            else{
-                argumentStack.push(item);
-                //System.out.println("OnArgs: " + item);
+            catch (ArrayIndexOutOfBoundsException e){
+                throw new ParsingException("MissingCloseBracket");
             }
+
             ret = combineCommandsArgs(argumentStack, commandStack, countFromStack);
         }
         checkUnfulfilledCommands(commandStack);
         return ret;
     }
-
+    
     private void checkUnfulfilledCommands(Stack<Command> commandStack) throws ParsingException {
         if(commandStack.size() > 0){
             String unfulfilled = "";
