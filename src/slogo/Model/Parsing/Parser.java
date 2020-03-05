@@ -24,49 +24,17 @@ public class Parser{
         if(input == null || input.length() == 0){
             return 0;
         }
-        input = input.toLowerCase();
-        input = stripBrackets(input);
-        List<String> entityList = getEntitiesFromString(input);
-        return parseEntityList(entityList);
-    }
-
-    private String stripBrackets(String input) {
-        if(input.charAt(0) == '[' && input.charAt(input.length()-1) == ']'){
-            return input.substring(1, input.length()-1);
-        }
-        return input;
+        EntityListIterator entityIterator = new EntityListIterator(input);
+        return parseEntityList(entityIterator);
     }
 
 
-    private List<String> getEntitiesFromString(String input) throws ParsingException {
-        String noCommentString = removeComments(input);
-        if(noCommentString.equals("")){
-            return new ArrayList<>();
-        }
-        noCommentString = noCommentString.strip();
-        noCommentString = noCommentString.replaceAll("\\s+", " ");
-        String[] entities = noCommentString.split(" ");
-        return Arrays.asList(entities);
-    }
 
-    private String removeComments(String input) {
-        String[] lineList = input.split("\n");
-        List<String> noComments = new ArrayList<>();
-        for (String s : lineList) {
-            if (s.indexOf("#") != 0 && !s.equals("")) {
-                noComments.add(s);
-            }
-        }
-        String[] noCommentArray = noComments.toArray(new String[0]);
-        return String.join(" ", noCommentArray);
-    }
-
-    private double parseEntityList(List<String> entityList) throws ParsingException {
+    private double parseEntityList(EntityListIterator entityIterator) throws ParsingException {
 
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
         Stack<Integer> countFromStack = new Stack<>();
-        EntityListIterator entityIterator = new EntityListIterator(entityList);
         double ret = 0;
         while(entityIterator.hasNext()){
             try {
