@@ -8,11 +8,9 @@ import java.util.*;
 public class Parser{
     private CommandFactory factory;
     private CommandManager commandManager;
-    private int indexInEntityList;
     public Parser(CommandManager cm){
         factory = new CommandFactory(cm.getLanguage(), cm.getMethodExplorer());
         commandManager = cm;
-        indexInEntityList = 0;
     }
 
     /**
@@ -68,7 +66,7 @@ public class Parser{
         Stack<String> argumentStack = new Stack<>();
         Stack<Command> commandStack = new Stack<>();
         Stack<Integer> countFromStack = new Stack<>();
-        Iterator<String> entityIterator = new EntityListIterator(entityList);
+        EntityListIterator entityIterator = new EntityListIterator(entityList);
         double ret = 0;
         while(entityIterator.hasNext()){
             try {
@@ -92,7 +90,7 @@ public class Parser{
         checkUnfulfilledCommands(commandStack);
         return ret;
     }
-    
+
     private void checkUnfulfilledCommands(Stack<Command> commandStack) throws ParsingException {
         if(commandStack.size() > 0){
             String unfulfilled = "";

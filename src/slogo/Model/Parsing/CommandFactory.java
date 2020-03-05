@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class CommandFactory {
 
@@ -29,7 +30,7 @@ public class CommandFactory {
     private ResourceBundle myCommandNameResources;
     private ResourceBundle myCommandLocationResources;
 
-    private Map<String, String> commands;
+    private Map<Pattern, String> commands;
     private MethodExplorer methodExplorer;
 
     public CommandFactory(String lang, MethodExplorer me){
@@ -48,7 +49,7 @@ public class CommandFactory {
             return methodExplorer.getMethod(commandCall);
         }
         try {
-            String commandName = commands.get(commandCall);
+            String commandName = getCommandOfficialName(commandCall);
             String className = CLASS_PREFIX + myCommandLocationResources.getString(commandName) + "." + commandName + CLASS_SUFFIX;
             Class<?> commandClass = Class.forName(className);
             Constructor<?> commandConstructor = commandClass.getConstructor();
@@ -67,7 +68,7 @@ public class CommandFactory {
     }
 
     public boolean isCommand(String item) {
-        return methodExplorer.getMethod(item) != null || commands.containsKey(item);
+        return methodExplorer.getMethod(item) != null || getCommandOfficialName(item) != null;
     }
 
     public boolean isUserDefined(String commandName){
@@ -78,12 +79,23 @@ public class CommandFactory {
         commands = new HashMap<>();
         for (String key : myCommandNameResources.keySet()) {
             String val = myCommandNameResources.getString(key);
-            String[] options = val.split("\\|");
-            for(String option: options){
-                commands.put(option, key);
-            }
+            commands.put(Pattern.compile(val), key);
         }
     }
+
+    private String getCommandOfficialName(String command){
+        for (Pattern key : commands.keySet()) {
+            if(match(command, key)) {
+                return commands.get(key);
+            }
+        }
+        return null;
+    }
+
+    private boolean match (String text, Pattern regex) {
+        return regex.matcher(text).matches();
+    }
+
 
 
 }
