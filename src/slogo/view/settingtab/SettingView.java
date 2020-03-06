@@ -48,5 +48,7 @@ public class SettingView extends VBox {
     }
     HelpButton helpButton = new HelpButton(prompts);
     getChildren().add(helpButton);
+    LoadXML loadButton = new LoadXML();
+    getChildren().add(loadButton);
   }
 }

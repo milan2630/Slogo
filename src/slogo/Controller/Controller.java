@@ -22,7 +22,6 @@ public class Controller implements PropertyChangeListener {
   private BackEndExternal backendManager;
   private Actions myActions;
   private History myHistory;
-  private XMLParser myXMLParser;
   private static final String DEFAULT_LANGUAGE = "English";
   private String language = DEFAULT_LANGUAGE;
 
@@ -90,6 +89,9 @@ public class Controller implements PropertyChangeListener {
       case "Background Color Index":
         //TODO update backend index of background color
 
+        break;
+      case "Load XML":
+        System.out.println(value);
         break;
     }
   }
