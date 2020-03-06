@@ -24,6 +24,9 @@ public class CommandManager implements BackEndExternal {
     private PaletteExplorer paletteExplorer;
     private List<ImmutableTurtle> internalStates;
     private List<Turtle> turtles;
+    private String language;
+    private List<ImmutableTurtle> previousInternalStates;
+    private List<Turtle> previousTurtles;
     private LanguageConverter languageConverter;
 
 
@@ -37,6 +40,8 @@ public class CommandManager implements BackEndExternal {
         Turtle startTurtle = new Turtle(1);
         turtles = new ArrayList<>();
         turtles.add(startTurtle);
+        previousInternalStates = new ArrayList<>();
+        previousTurtles = new ArrayList<>();
     }
 
     @Override
@@ -50,9 +55,31 @@ public class CommandManager implements BackEndExternal {
         for(ImmutableTurtle t: ret){
             System.out.println(t.getY());
         }
-
+        backupTurtleList();
+        backupInternalStateList();
 
         return getInternalStates();
+    }
+
+    @Override
+    public List<ImmutableTurtle> undoAction(){
+        turtles = previousTurtles;
+        previousTurtles = new ArrayList<>();
+        return previousInternalStates;
+    }
+
+    private void backupInternalStateList() {
+        previousInternalStates = new ArrayList<>();
+        for(ImmutableTurtle turtle: internalStates){
+            previousInternalStates.add(new Turtle(turtle));
+        }
+    }
+
+    private void backupTurtleList() {
+        previousTurtles = new ArrayList<>();
+        for(Turtle turtle: turtles){
+            previousTurtles.add(new Turtle(turtle));
+        }
     }
 
     public double parseCommands(String input) throws ParsingException {
