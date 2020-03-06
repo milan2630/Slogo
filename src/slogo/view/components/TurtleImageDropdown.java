@@ -1,6 +1,7 @@
 package slogo.view.settingtab;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -24,13 +25,16 @@ public class TurtleImageDropdown extends LabelAndAction {
     comboBox.setValue(getDefaultFromKey(methodName));
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
     comboBox.setOnAction(
-        handler -> handleAction(comboBox.getValue(), methodName, target));
+        handler -> handleAction(comboBox.getValue().substring(0, comboBox.getValue().indexOf("\t")), methodName, target));
     getChildren().add(comboBox);
   }
 
   private ObservableList<String> getTurtleImages() {
     File directoryPath = new File(RESOURCE_PATH + TURTLE_PATH);
-    List<String> images = Arrays.asList(directoryPath.list());
+    List<String> images = FXCollections.observableList(new ArrayList<>());
+    for (int i =0; i<directoryPath.list().length; i++){
+      images.add(i+"\t"+directoryPath.list()[i]);
+    }
     Collections.sort(images);
     return FXCollections.observableList(images);
   }

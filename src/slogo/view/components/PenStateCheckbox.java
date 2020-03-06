@@ -1,19 +1,19 @@
-package slogo.view.settingtab;
+package slogo.view.components;
 
 import javafx.scene.control.CheckBox;
 import slogo.view.Actions;
 
-public class PenStateCheckbox extends LabelAndAction {
+public class PenStateCheckbox extends Component {
 
-  protected PenStateCheckbox(String language, String methodName, Actions target) {
-    super(language, methodName);
+  protected PenStateCheckbox(String language, String key, Actions actions) {
+    super(language, key, actions);
     CheckBox checkBox = new CheckBox();
-    getChildren().add(checkBox);
     checkBox.setSelected(true);
     checkBox.selectedProperty().addListener(
         handler -> {
           String status = checkBox.isSelected() ? "pu" : "pd";
-          handleAction(status, methodName, target);
+          handleAction(status);
         });
+    getChildren().add(checkBox);
   }
 }

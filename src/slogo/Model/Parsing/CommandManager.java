@@ -27,10 +27,11 @@ public class CommandManager implements BackEndExternal {
     private String language;
     private List<ImmutableTurtle> previousInternalStates;
     private List<Turtle> previousTurtles;
+    private LanguageConverter languageConverter;
 
 
-    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, String lang){
-        language = lang;
+    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, LanguageConverter lang){
+        languageConverter = lang;
         frontend = v;
         methodExplorer = me;
         variableExplorer = ve;
@@ -140,11 +141,10 @@ public class CommandManager implements BackEndExternal {
     @Override
     public void setLanguage(String lang){
         methodExplorer.convertLanguage(lang);
-        language = lang;
     }
 
-    public String getLanguage(){
-        return language;
+    public LanguageConverter getLanguageConverter(){
+        return languageConverter;
     }
 
 }

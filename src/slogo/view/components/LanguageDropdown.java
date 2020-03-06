@@ -1,25 +1,26 @@
-package slogo.view.settingtab;
+package slogo.view.components;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import slogo.view.Actions;
 
-public class LanguageDropdown extends LabelAndAction {
+public class LanguageDropdown extends Component {
 
   private ComboBox<String> comboBox;
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
-  protected LanguageDropdown(String language, String methodName, Actions target) {
-    super(language, methodName);
+  protected LanguageDropdown(String language, String key, Actions actions) {
+    super(language, key, actions);
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_LANGUAGE);
     comboBox.getItems().addAll(getLanguages());
     comboBox.setOnAction(
-        handler -> handleAction(comboBox.getValue(), methodName, target));
+        handler -> handleAction(comboBox.getValue()));
     getChildren().add(comboBox);
   }
 
