@@ -53,7 +53,7 @@ public interface FrontEndExternal {
    *
    * @param color the color to set it to
    */
-  void setBackgroundColor(Color color);
+  void setBackgroundColor(int color);
 
   /**
    * Set text to the terminal input

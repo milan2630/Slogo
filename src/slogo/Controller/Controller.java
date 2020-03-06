@@ -55,21 +55,8 @@ public class Controller implements PropertyChangeListener {
         myVisualizer.setHistoryLanguage(value);
         this.language = value;
         break;
-      case "Pen Color":
-        myVisualizer.setPenColor(Color.web(value));
-        break;
       case "Background Color":
-        myVisualizer.setBackgroundColor(Color.web(value));
-        break;
-      case "Turtle Image":
-        myVisualizer.setTurtleImage(value);
-        break;
-      case "Thickness":
-        myVisualizer.setPenThickness(Double.parseDouble(value));
-        break;
-      case "Pen Status":
-        //FIXME update pen status in backend
-        myVisualizer.setPenStatus(Integer.parseInt(value));
+        myVisualizer.setBackgroundColor(0);
         break;
       case "Input Change":
         myVisualizer.setInputText(value);
@@ -87,7 +74,7 @@ public class Controller implements PropertyChangeListener {
   private void handleReset() {
     //myTurtle.setToHome();
     //myTurtle.setHeading(0);
-    myVisualizer.resetTrail();
+    myVisualizer.resetTrail(0);
   }
 
   private void handleRun(String command) {

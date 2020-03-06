@@ -31,18 +31,8 @@ public class TurtleView extends Pane {
     this.turtle = new Turtle(turtleImage, 0, 0, 0);
     this.trail = new Trail(Double.parseDouble(defaults.getString("PenThickness")),
         Color.web(defaults.getString("PenColor")));
-    setBackgroundColor(Color.web(defaults.getString("BackgroundColor")));
-    bindOriginToCenter();
 
     getChildren().addAll(trail, turtle);
-  }
-
-  private void bindOriginToCenter() {
-    turtle.translateXProperty().bind(widthProperty().divide(2));
-    turtle.translateYProperty().bind(heightProperty().divide(2));
-
-    trail.translateXProperty().bind(widthProperty().divide(2));
-    trail.translateYProperty().bind(heightProperty().divide(2));
   }
 
   public void moveTurtle(Point2D newCoordinate) {
@@ -65,9 +55,6 @@ public class TurtleView extends Pane {
     turtle.setPenActive(state);
   }
 
-  public void setBackgroundColor(Color color) {
-    setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-  }
 
   public void setPenThickness(Double thickness) {
     trail.setCurrentThickness(thickness);

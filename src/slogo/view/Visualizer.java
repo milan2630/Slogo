@@ -4,7 +4,6 @@ import java.util.*;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
@@ -16,14 +15,14 @@ import slogo.FrontEndExternal;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.view.terminal.Terminal;
-import slogo.view.turtledisplay.TurtleView;
+import slogo.view.turtledisplay.TurtleManager;
 
 public class Visualizer implements FrontEndExternal {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
   private String language;
-  private TurtleView display;
+  private TurtleManager turtleManager;
   private TabPaneView tabPaneView;
   private Terminal terminal;
   private static final double SCENE_WIDTH = 800;
@@ -38,9 +37,10 @@ public class Visualizer implements FrontEndExternal {
 
     terminal = new Terminal(language, actions);
 
-    display = new TurtleView(1);
+    turtleManager = new TurtleManager();
 
     tabPaneView = new TabPaneView(language, actions);
+
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -50,7 +50,7 @@ public class Visualizer implements FrontEndExternal {
   }
 
   private void addPanesToRoot(BorderPane root) {
-    Pane displayNode = display;
+    Pane displayNode = turtleManager;
     displayNode.getStyleClass().add("display");
 
     TabPane tabNode = tabPaneView.getTabPane();
@@ -72,47 +72,22 @@ public class Visualizer implements FrontEndExternal {
     }
   }
 
-  public void setPenColor(Color color) {
-    display.setPenColor(color);
-  }
-
-  public void setBackgroundColor(Color color) {
-    display.setBackgroundColor(color);
-  }
-
-  public void setTurtleImage(String filename) {
-    display.setTurtleImage(filename);
+  public void setBackgroundColor(int index) {
+    //TODO replace with get color by index
+    turtleManager.setBackgroundColor(Color.RED);
   }
 
   public void setInputText(String text) {
     terminal.setInputText(text);
   }
 
-  public void resetTrail() {
-    display.reset();
-  }
-
-  public void setPenThickness(Double thickness) {
-    display.setPenThickness(thickness);
-  }
-
-  public void setPenStatus(int active) {
-    display.setPenState(active);
+  public void resetTrail(int turtleIndex) {
+    turtleManager.resetTrail(turtleIndex);
   }
 
   @Override
   public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException {
-    for (ImmutableTurtle turtle : turtleList) {
-      display.setTurtleHeading(turtle.getHeading());
-      display.setPenState(turtle.getPenState());
-      display.setTurtleVisibility(turtle.getShowing());
-      display.setPenThickness(turtle.getPenThickness());
-      tabPaneView.updateTurtleTab(turtle);
-      if (checkTurtleOutOfBounds(turtle)) {
-        throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
-      }
-      display.moveTurtle(new Point2D(turtle.getX(), -1 * turtle.getY()));
-    }
+    turtleManager.updateTurtles(turtleList);
   }
 
   @Override
@@ -132,12 +107,5 @@ public class Visualizer implements FrontEndExternal {
   @Override
   public void setHistoryLanguage(String newLanguage) {
     tabPaneView.setHistoryLanguage(newLanguage);
-  }
-
-  private Boolean checkTurtleOutOfBounds(ImmutableTurtle turtle) {
-    return turtle.getX() > display.getWidth() / 2
-        || turtle.getX() < -1 * display.getWidth() / 2 ||
-        turtle.getY() > display.getHeight() / 2 || turtle.getY() < -1 *
-        display.getHeight() / 2;
   }
 }
