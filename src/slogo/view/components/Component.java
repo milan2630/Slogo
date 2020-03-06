@@ -2,11 +2,11 @@ package slogo.view.components;
 
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import slogo.ReflectionException;
 import slogo.view.Actions;
 
-public abstract class Component extends HBox {
+public abstract class Component extends Pane {
 
   private static final String RESOURCES_UI_PATH = "resources/UI/";
   private static final String RESOURCES_COMMAND_PATH = "resources/Languages/";
@@ -49,7 +49,7 @@ public abstract class Component extends HBox {
     return defaultsResources.getString(key);
   }
 
-  protected String getPromptFromKey(String key) {
+  public String getPromptFromKey() {
     return promptBundle.getString(key);
   }
 

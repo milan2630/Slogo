@@ -15,7 +15,9 @@ public class SettingView extends VBox {
 
   private static final String PREFIX = "resources/UI/";
   private static final String RESOURCES_LAYOUTS = PREFIX + "Layouts";
-  public static final int PADDING = 2;
+  public static final int W_PADDING = 10;
+  public static final int V_PADDING = 2;
+
   private static ResourceBundle layouts;
 
   public SettingView(String language, Actions actions) {
@@ -28,21 +30,25 @@ public class SettingView extends VBox {
     HBox hbox = new HBox();
     Text text = new Text(prompt);
     hbox.getChildren().add(text);
-    hbox.setPadding((new Insets(PADDING, PADDING, PADDING, PADDING)));
+    hbox.setPadding((new Insets(W_PADDING, W_PADDING, W_PADDING, W_PADDING)));
     hbox.setAlignment(Pos.CENTER);
-    hbox.setSpacing(PADDING);
+    hbox.setSpacing(V_PADDING);
     text.getStyleClass().add("settings-text");
     return hbox;
   }
 
   private void setupTab(String language, Actions actions) {
     List<String> buttonList = Arrays.asList(layouts.getString("SettingView").split(","));
-    setSpacing(PADDING);
+    setSpacing(V_PADDING);
     ComponentFactory componentFactory = new ComponentFactory();
 
     for (String key : buttonList) {
+      HBox hbox = new HBox();
       Component component = componentFactory.getComponent(language, key, actions);
-      getChildren().add(component);
+      hbox.getChildren().add(createLabel(component.getPromptFromKey()));
+      hbox.getChildren().add(component);
+
+      getChildren().add(hbox);
     }
   }
 }
