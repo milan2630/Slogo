@@ -10,19 +10,18 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import slogo.Model.TurtleModel.ImmutableTurtle;
 
 public class Display extends Pane {
 
   private TrailView trail;
   private TurtleView turtle;
   private static final String TURTLE_PATH = "turtles/";
-  private static final String DEFAULT_RESOURCE_PATH = "resources/states/Default";
+  private static final String DEFAULT_RESOURCE_PATH = "resources/UI/Default";
   private ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
   private Image turtleImage;
 
   public Display() {
-    turtleImage = getImageByName(TURTLE_PATH + resourceBundle.getString("handleTurtleImage"));
+    turtleImage = getImageByName(TURTLE_PATH + resourceBundle.getString("TurtleImage"));
     resetPane();
   }
 
@@ -30,9 +29,9 @@ public class Display extends Pane {
 
     getChildren().clear();
     this.turtle = new TurtleView(turtleImage, 0, 0, 0);
-    this.trail = new TrailView(Double.parseDouble(resourceBundle.getString("handleThickness")),
-        Color.web(resourceBundle.getString("handlePenColor")));
-    setBackgroundColor(Color.web(resourceBundle.getString("handleBackgroundColor")));
+    this.trail = new TrailView(Double.parseDouble(resourceBundle.getString("PenThickness")),
+        Color.web(resourceBundle.getString("PenColor")));
+    setBackgroundColor(Color.web(resourceBundle.getString("BackgroundColor")));
     bindOriginToCenter();
 
     getChildren().addAll(trail, turtle);
@@ -54,21 +53,15 @@ public class Display extends Pane {
     }
   }
 
-  public ImmutableTurtle getTurtleState() {
-    return new ImmutableTurtle(turtle.getPosition().getX(),
-        turtle.getPosition().getY(), turtle.getHeading(), turtle.isPenActive(),
-        turtle.isTurtleVisible());
-  }
-
   public void setTurtleHeading(double newHeading) {
     turtle.setHeading(newHeading);
   }
 
-  public void setTurtleVisibility(int state) {
+  public void setTurtleVisibility(double state) {
     turtle.setTurtleVisible(state);
   }
 
-  public void setPenState(int state) {
+  public void setPenState(double state) {
     turtle.setPenActive(state);
   }
 

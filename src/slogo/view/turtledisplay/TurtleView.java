@@ -11,8 +11,8 @@ public class TurtleView extends Pane {
 
   private ImageView graphic;
   private Point2D position;
-  private int turtleVisible = 1;
-  private int penActive = 1;
+  private double turtleVisible = 1;
+  private double penActive = 1;
   private double heading;
 
   protected TurtleView(Image image, double x, double y, double heading) {
@@ -45,22 +45,22 @@ public class TurtleView extends Pane {
     graphic.setRotate(this.heading = heading);
   }
 
-  protected int isTurtleVisible() {
+  protected double isTurtleVisible() {
     return turtleVisible;
   }
 
-  protected void setTurtleVisible(int isVisible) {
+  protected void setTurtleVisible(double isVisible) {
     this.turtleVisible = isVisible;
     graphic.setVisible(isVisible == 1);
   }
 
-  protected int isPenActive() {
+  protected double isPenActive() {
     return penActive;
   }
 
   protected void setGraphicImage(Image image) { graphic.setImage(image); }
 
-  protected void setPenActive(int penActive) {
+  protected void setPenActive(double penActive) {
     this.penActive = penActive;
   }
 

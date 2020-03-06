@@ -47,15 +47,11 @@ public class Parser{
                 item = checkStartUnlimitedParameters(entityIterator, item);
                 if(item.equals(")")){
                     handleStacksAtEndOfUnlimitedParameters(lastReturn);
-                    if(entityIterator.hasNext()){
-                        item = entityIterator.next();
-                    } else if(argumentStack.size() != countFromStack.peek()+1){
-                        throw new ParsingException("MissingCloseBracket", ")");
-                    } else{
-                        return lastReturn;
-                    }
                 }
-                determineCommandOrArg(item);
+                else{
+                    determineCommandOrArg(item);
+                }
+
             }
             catch (ArrayIndexOutOfBoundsException e){
                 throw new ParsingException("MissingCloseBracket", "]");
@@ -132,6 +128,9 @@ public class Parser{
                     if (!unlimitedParametersCommands.isEmpty() && topCom == unlimitedParametersCommands.peek()) {
                         commandStack.push(topCom);
                         System.out.println("OnCommandA: " + topCom.toString());
+                        if(topCom.getNumArguments() > 1){
+                            argumentStack.push(result);
+                        }
                     }
                     else {
                         argumentStack.push(result);

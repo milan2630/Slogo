@@ -17,6 +17,11 @@ public interface BackEndExternal {
      */
     public List<ImmutableTurtle> parseTurtleStatesFromCommands(String input) throws ParsingException;
 
+    /**
+     * Changes the parsing language to the given language as well as
+     * converting all methods from previous language to new one
+     * @param lang is the new Properties file name to implement
+     */
     public void setLanguage(String lang);
 
 }

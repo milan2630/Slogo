@@ -3,58 +3,39 @@ package slogo.Model.TurtleModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Turtle {
+public class Turtle implements ImmutableTurtle{
+    private static final double DEFAULT_PEN_THICKNESS = 10;
     private double myX;
     private double myY;
     private double myHeading;
-    private int penState;
-    private int showing;
-    private int myID;
-    private boolean isActive;
-    private List<ImmutableTurtle> internalStates;
+    private double myPenState;
+    private double myShowing;
+    private double myIsActive;
+    private double myPenThickness;
+    private double myPenColorIndex;
+    private double myTurtleImageIndex;
+    private double myId;
 
-    public Turtle(int id, boolean active){
-        myID = id;
-        isActive = active;
-        myX = 0;
-        myY = 0;
-        myHeading = 0;
-        penState = 1;
-        showing = 1;
-        internalStates = new ArrayList<>();
+    public Turtle(int id){
+        this(0, 0, 0, 1, 1, 1, DEFAULT_PEN_THICKNESS, 0,0, id);
     }
 
-    /*
-    private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
-        double oldX = myX;
-        double oldY = myY;
-        setToHome();
-        // TODO: tell Controller and clear TrailView in Visualizer, won't work until design change
-        return Math.hypot(myX - oldX, myY - oldY);
-    }
- */
-    public double getX() {
-        return myX;
-    }
-
-    public double getY() {
-        return myY;
-    }
-
-    public double getHeading() {
-        return myHeading;
-    }
-
-    public int getPenState(){
-        return penState;
-    }
-
-    public int getShowing(){
-        return showing;
+    public Turtle(double x, double y, double heading, double penState, double showing, double isActive,
+                           double penThickness, double penColorIndex, double turtleImageIndex, double id){
+        this.myX = x;
+        this.myY = y;
+        this.myHeading = heading;
+        this.myPenState = penState;
+        this.myShowing = showing;
+        this.myIsActive = isActive;
+        this.myPenThickness = penThickness;
+        this.myPenColorIndex = penColorIndex;
+        this.myTurtleImageIndex = turtleImageIndex;
+        this.myId = id;
     }
 
     public ImmutableTurtle getImmutableTurtle(){
-        return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
+        return this;
     }
 
     public void setX(double x) {
@@ -75,17 +56,27 @@ public class Turtle {
     }
 
     public void setPenState(int state) {
-        penState = state;
+        myPenState = state;
     }
 
     public void setShowing(int showing) {
-        this.showing = showing;
+        myShowing = showing;
     }
 
-    public List<ImmutableTurtle> getInternalStates() {
-        List<ImmutableTurtle> copy = new ArrayList<>(internalStates);
-        internalStates = new ArrayList<>();
-        return copy;
+    public void setIsActive(double isActive) {
+        myIsActive = isActive;
+    }
+
+    public void setPenColorIndex(double myPenColorIndex) {
+        this.myPenColorIndex = myPenColorIndex;
+    }
+
+    public void setPenThickness(double myPenThickness) {
+        this.myPenThickness = myPenThickness;
+    }
+
+    public void setTurtleImageIndex(double myTurtleImageIndex) {
+        this.myTurtleImageIndex = myTurtleImageIndex;
     }
 
     public void incrementX(double addX){
@@ -96,11 +87,57 @@ public class Turtle {
         myY+=addY;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
     public void incrementHeading(double turn){
         myHeading+=turn;
+    }
+
+    @Override
+    public double getX() {
+        return myX;
+    }
+
+    @Override
+    public double getY() {
+        return myY;
+    }
+
+    @Override
+    public double getHeading() {
+        return myHeading;
+    }
+
+    @Override
+    public double getPenState() {
+        return myPenState;
+    }
+
+    @Override
+    public double getShowing() {
+        return myShowing;
+    }
+
+    @Override
+    public double isActive() {
+        return myIsActive;
+    }
+
+    @Override
+    public double getPenColorIndex() {
+        return myPenColorIndex;
+    }
+
+    @Override
+    public double getPenThickness() {
+        return myPenThickness;
+    }
+
+    @Override
+    public double getTurtleImageIndex() {
+        return myTurtleImageIndex;
+    }
+
+    @Override
+    public double getID() {
+        return myId;
     }
 }

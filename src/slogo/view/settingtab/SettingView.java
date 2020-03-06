@@ -1,57 +1,58 @@
 package slogo.view.settingtab;
 
-import java.lang.reflect.Constructor;
-
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import java.util.*;
-
-import slogo.Model.Parsing.LanguageConverter;
+import javafx.scene.text.Text;
 import slogo.view.Actions;
-import slogo.ReflectionException;
+import slogo.view.components.Component;
+import slogo.view.components.ComponentFactory;
+
 
 public class SettingView extends VBox {
 
   private static final String PREFIX = "resources/UI/";
-  private static final String RESOURCES_CLASSES = PREFIX + "ReflectionClass";
   private static final String RESOURCES_LAYOUTS = PREFIX + "Layouts";
+  public static final int W_PADDING = 10;
+  public static final int V_PADDING = 2;
 
-  private static ResourceBundle classMap;
-  private static ResourceBundle prompts;
   private static ResourceBundle layouts;
 
-
-  private static final String CLASS_PATH = "slogo.view.settingtab.";
-
-  public SettingView(LanguageConverter language, Actions actions) {
-    classMap = ResourceBundle.getBundle(RESOURCES_CLASSES);
+  public SettingView(String language, Actions actions) {
     layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
-    prompts = ResourceBundle.getBundle(PREFIX + language.getLanguage());
 
     setupTab(language, actions);
   }
 
-  private void setupTab(LanguageConverter language, Actions actions) {
+  protected HBox createLabel(String prompt) {
+    HBox hbox = new HBox();
+    Text text = new Text(prompt);
+    hbox.getChildren().add(text);
+    hbox.setPadding((new Insets(W_PADDING, W_PADDING, W_PADDING, W_PADDING)));
+    hbox.setAlignment(Pos.CENTER);
+    hbox.setSpacing(V_PADDING);
+    text.getStyleClass().add("settings-text");
+    return hbox;
+  }
+
+  private void setupTab(String language, Actions actions) {
     List<String> buttonList = Arrays.asList(layouts.getString("SettingView").split(","));
-    setSpacing(2);
+    setSpacing(V_PADDING);
+    ComponentFactory componentFactory = new ComponentFactory();
 
     for (String key : buttonList) {
-      try {
-        Class<?> clazz = Class.forName(CLASS_PATH + classMap.getString(key));
-        Constructor<?> constructor = clazz
-            .getDeclaredConstructor(String.class, String.class, Actions.class);
-        LabelAndAction o = (LabelAndAction) constructor.newInstance(language.getLanguage(), key, actions);
+      HBox hbox = new HBox();
+      Component component = componentFactory.getComponent(language, key, actions);
+      hbox.getChildren().add(createLabel(component.getPromptFromKey()));
+      hbox.getChildren().add(component);
 
-        getChildren().add(o);
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new ReflectionException("InvalidClass", key);
-      }
+      getChildren().add(hbox);
     }
-    HelpButton helpButton = new HelpButton(prompts);
-    getChildren().add(helpButton);
-  }
-  public String getImage(String index){
-    return null;
+    //HelpButton helpButton = new HelpButton(prompts);
+    //getChildren().add(helpButton);
+    LoadXML loadButton = new LoadXML();
+    getChildren().add(loadButton);
   }
 }
