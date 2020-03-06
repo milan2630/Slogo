@@ -16,14 +16,14 @@ import slogo.FrontEndExternal;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.view.terminal.Terminal;
-import slogo.view.turtledisplay.Display;
+import slogo.view.turtledisplay.TurtleView;
 
 public class Visualizer implements FrontEndExternal {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
   private String language;
-  private Display display;
+  private TurtleView display;
   private TabPaneView tabPaneView;
   private Terminal terminal;
   private static final double SCENE_WIDTH = 800;
@@ -38,7 +38,7 @@ public class Visualizer implements FrontEndExternal {
 
     terminal = new Terminal(language, actions);
 
-    display = new Display();
+    display = new TurtleView(1);
 
     tabPaneView = new TabPaneView(language, actions);
     addPanesToRoot(root);
@@ -89,7 +89,7 @@ public class Visualizer implements FrontEndExternal {
   }
 
   public void resetTrail() {
-    display.resetPane();
+    display.reset();
   }
 
   public void setPenThickness(Double thickness) {
