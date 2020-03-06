@@ -62,6 +62,8 @@ public class PaletteExplorer {
         return backgroundIndex;
     }
 
+    public double getPenColor() { return penIndex; }
+
     public ObservableList getList(){ return list; }
 
 }
