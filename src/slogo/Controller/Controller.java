@@ -10,6 +10,7 @@ import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.view.Actions;
 import slogo.view.Visualizer;
+import slogo.xml.XMLParser;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -38,6 +39,10 @@ public class Controller implements PropertyChangeListener {
     myVisualizer.bindTabs(this.language, myHistory.getInputs(), myVE.getDisplayVariables(),
         myME.getMethodNames(), myPE.getList());
   }
+
+  // public Controller(File file) { set the variables based on the xml file
+
+  //}
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
@@ -85,22 +90,33 @@ public class Controller implements PropertyChangeListener {
         //TODO update backend index of background color
 
         break;
+      case "Load XML":
+        System.out.println(value);
+        break;
     }
   }
 
   //FIXME
   private void handleReset() {
-    //myTurtle.setToHome();
-    //myTurtle.setHeading(0);
+    /*
+    try {
+      turtleList = backendManager.parseTurtleStatesFromCommands("clearscreen");
+      myHistory.addInput("clearscreen");
+      myVisualizer.updateTurtle(turtleList);
+    }
+    catch(Exception e) {
+      myVisualizer.displayError(e);
+    }
+    // clearscreen not implemented right now
+     */
+
     myVisualizer.resetTrail();
   }
 
   private void handleRun(String value) {
-    //myParser.setLanguage(language);
-    //myTurtle.changeLanguage(language);
     String command = value;
     try {
-      turtleList = backendManager.parseTurtleStatesFromCommands(command);;
+      turtleList = backendManager.parseTurtleStatesFromCommands(command);
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
@@ -109,6 +125,5 @@ public class Controller implements PropertyChangeListener {
     }
   }
 
-  //TODO: set language
   // check for screen bounds
 }
