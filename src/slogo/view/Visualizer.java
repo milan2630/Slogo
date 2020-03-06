@@ -148,7 +148,7 @@ public class Visualizer implements FrontEndExternal {
   }
 
   @Override
-  public void bindTabs(String language, ObservableList history, ObservableList variables,
+  public void bindTabs(LanguageConverter language, ObservableList history, ObservableList variables,
       ObservableMap methods, ObservableList palette) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.createMethodTab(language, methods);
@@ -161,10 +161,4 @@ public class Visualizer implements FrontEndExternal {
     tabPaneView.setHistoryLanguage(newLanguage);
   }
 
-  private Boolean checkTurtleOutOfBounds(ImmutableTurtle turtle) {
-    return turtle.getX() > display.getWidth() / 2
-        || turtle.getX() < -1 * display.getWidth() / 2 ||
-        turtle.getY() > display.getHeight() / 2 || turtle.getY() < -1 *
-        display.getHeight() / 2;
-  }
 }

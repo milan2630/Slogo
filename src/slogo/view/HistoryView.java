@@ -47,11 +47,13 @@ public class HistoryView {
     private void print() {
         actions.handleHistoryVariable(list.getSelectionModel().getSelectedItem());
     }
+
     private void emptyHistory() {
         if (!history.isEmpty()) {
             history.clear();
         }
     }
+
     public void setLanguage(String newLanguage) {
         for (int i =0; i<history.size(); i++){
             String oldString = history.get(i);
