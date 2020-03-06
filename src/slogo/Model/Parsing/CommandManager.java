@@ -67,7 +67,7 @@ public class CommandManager implements BackEndExternal {
         try {
             double ret = 0;
             for(Turtle turtle: turtles){
-                if(turtle.isActive()==1){
+                if(turtle.isActive() == 1){
                     Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
                     ret = (double) method.invoke(command, this, turtle, params);
                 }
@@ -97,6 +97,14 @@ public class CommandManager implements BackEndExternal {
 
     public VariableExplorer getVariableExplorer(){
         return variableExplorer;
+    }
+
+    public PaletteExplorer getPaletteExplorer(){
+        return paletteExplorer;
+    }
+
+    public Visualizer getDisplay(){
+        return frontend;
     }
 
     public List<Turtle> getTurtles(){
