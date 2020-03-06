@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.paint.Color;
 import slogo.Model.ErrorHandling.ParsingException;
+import slogo.Model.Parsing.LanguageConverter;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public interface FrontEndExternal {
    * @param methods   a map of method name to commands
    * @param palette   a list of the current color palette
    */
-  void bindTabs(String language, ObservableList history, ObservableList variables,
-      ObservableMap methods, ObservableList palette);
+  void bindTabs(LanguageConverter language, ObservableList history, ObservableList variables,
+                ObservableMap methods, ObservableList palette);
 
   /**
    * Translates the history to a new language
