@@ -18,7 +18,7 @@ public interface FrontEndExternal {
    *
    * @param turtleList a list of turtle states from the backend
    */
-  public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException;
+  void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException;
 
 
   /**
@@ -26,38 +26,41 @@ public interface FrontEndExternal {
    *
    * @param error the error that was thrown in the backend
    */
-  public void displayError(Exception error);
+  void displayError(Exception error);
 
   /**
    * Passes a list of tabs as observable map and lists to be able to bind to their external methods
    * in the controller
    *
-   * @param language the current language
-   * @param history a list of previous commands
+   * @param language  the current language
+   * @param history   a list of previous commands
    * @param variables a list of current variables
-   * @param methods a map of method name to commands
-   * @param palette a list of the current color palette
+   * @param methods   a map of method name to commands
+   * @param palette   a list of the current color palette
    */
-  public void bindTabs(String language, ObservableList history, ObservableList variables,
+  void bindTabs(String language, ObservableList history, ObservableList variables,
       ObservableMap methods, ObservableList palette);
 
   /**
    * Translates the history to a new language
+   *
    * @param newLanguage the new language to set history to
    */
-  public void setHistoryLanguage(String newLanguage);
+  void setHistoryLanguage(String newLanguage);
 
   /**
    * Set the current background color of the display
+   *
    * @param color the color to set it to
    */
-  public void setBackgroundColor(Color color);
+  void setBackgroundColor(Color color);
 
   /**
    * Set text to the terminal input
+   *
    * @param text the text to display
    */
-  public void setInputText(String text);
+  void setInputText(String text);
 
 
 }
