@@ -87,7 +87,4 @@ public class TabPaneView {
       historyView.setLanguage(newLanguage);
     }
 
-    public String getFileName(String filename) {
-      return settingView.getImage(filename);
-    }
 }

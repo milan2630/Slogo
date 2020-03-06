@@ -1,4 +1,4 @@
-package slogo.view.settingtab;
+package slogo.view.components;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,8 +10,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import slogo.view.Actions;
+import slogo.view.components.Component;
 
-public class TurtleImageDropdown extends LabelAndAction {
+public class TurtleImageDropdown extends Component {
 
   private static final String RESOURCE_PATH = "resources/";
   private static final String TURTLE_PATH = "turtles/";
@@ -19,13 +20,13 @@ public class TurtleImageDropdown extends LabelAndAction {
   private ComboBox<String> comboBox;
 
   protected TurtleImageDropdown(String language, String methodName, Actions target) {
-    super(language, methodName);
+    super(language, methodName, target);
     ObservableList<String> images = getTurtleImages();
     comboBox = new ComboBox<>();
     comboBox.setValue(getDefaultFromKey(methodName));
     comboBox.itemsProperty().bind(new SimpleObjectProperty<>(images));
     comboBox.setOnAction(
-        handler -> handleAction(comboBox.getValue().substring(0, comboBox.getValue().indexOf("\t")), methodName, target));
+        handler -> handleAction(comboBox.getValue().substring(0, comboBox.getValue().indexOf("\t")+1)));
     getChildren().add(comboBox);
   }
 

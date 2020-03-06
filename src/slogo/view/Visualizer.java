@@ -96,7 +96,7 @@ public class Visualizer implements FrontEndExternal {
   }
 
   public void setTurtleImage(String filename){
-    display.setTurtleImage(tabPaneView.getFileName(filename));
+    display.setTurtleImage(filename);
   }
 
   public void setInputText(String text) {
@@ -135,11 +135,6 @@ public class Visualizer implements FrontEndExternal {
         || turtle.getX() < -1 * display.getWidth() / 2 ||
         turtle.getY() > display.getHeight() / 2 || turtle.getY() < -1 *
         display.getHeight() / 2;
-  }
-
-  @Override
-  public ImmutableTurtle getCurrentTurtle() {
-    return display.getTurtleState();
   }
 
   @Override
