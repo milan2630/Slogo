@@ -16,26 +16,22 @@ public class Actions {
   private static final String TURTLE_IMAGE = "Turtle Image";
   private static final String LANGUAGE = "Language";
   private static final String HISTORY_VARIABLE = "HistoryVariable";
-  private static final String PEN_STATUS = "Pen Status";
-  private static final String MOVE_TURTLE = "Move Turtle";
   private static final String TURTLE_STATE = "Change Turtle State";
   private static final String METHOD_DISPLAy = "Method Display";
 
   private String data;
   private List<PropertyChangeListener> listeners = new ArrayList<>();
 
-  public void handleRun(TextArea input) {
-    if (input.getText().length() > 0) {
-      notifyListeners(RUN, this.data, this.data = input.getText());
-    }
+  public void handleRun(String value) {
+    notifyListeners(RUN, this.data, this.data = value);
   }
 
-  public void handleClear(TextArea input) {
-    input.clear();
+  public void handleClear(String result) {
+    notifyListeners(HISTORY_VARIABLE, this.data, this.data = "");
   }
 
-  public void handleReset(TextArea input) {
-    notifyListeners(RESET, this.data, this.data = input.getText());
+  public void handleReset(String value) {
+    notifyListeners(RESET, this.data, value);
   }
 
   public void handleTurtleImage(String value) {
@@ -74,7 +70,6 @@ public class Actions {
     notifyListeners(TURTLE_STATE, e);
   }
 
-
   public void handleMethodDisplay(String value){ notifyListeners(METHOD_DISPLAy, this.data, this.data = value);}
 
   private void notifyListeners(String property, String oldValue, String newValue) {
@@ -88,8 +83,7 @@ public class Actions {
       name.propertyChange(e);
     }
   }
-
-
+  
   public void addChangeListener(PropertyChangeListener newListener) {
     listeners.add(newListener);
   }
