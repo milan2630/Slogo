@@ -63,6 +63,22 @@ public class Turtle implements ImmutableTurtle{
         myShowing = showing;
     }
 
+    public void setIsActive(double isActive) {
+        myIsActive = isActive;
+    }
+
+    public void setPenColorIndex(double myPenColorIndex) {
+        this.myPenColorIndex = myPenColorIndex;
+    }
+
+    public void setPenThickness(double myPenThickness) {
+        this.myPenThickness = myPenThickness;
+    }
+
+    public void setTurtleImageIndex(double myTurtleImageIndex) {
+        this.myTurtleImageIndex = myTurtleImageIndex;
+    }
+
     public void incrementX(double addX){
         myX+=addX;
     }
