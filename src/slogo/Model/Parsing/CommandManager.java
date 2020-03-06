@@ -34,7 +34,7 @@ public class CommandManager implements BackEndExternal {
         variableExplorer = ve;
         paletteExplorer = pe;
         internalStates = new ArrayList<>();
-        Turtle startTurtle = new Turtle(1, true);
+        Turtle startTurtle = new Turtle(1);
         turtles = new ArrayList<>();
         turtles.add(startTurtle);
     }
@@ -67,7 +67,7 @@ public class CommandManager implements BackEndExternal {
         try {
             double ret = 0;
             for(Turtle turtle: turtles){
-                if(turtle.isActive()){
+                if(turtle.isActive()==1){
                     Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
                     ret = (double) method.invoke(command, this, turtle, params);
                 }
