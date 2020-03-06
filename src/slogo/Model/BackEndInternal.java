@@ -3,6 +3,10 @@ package slogo.Model;
 
 import slogo.Model.Commands.Command;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
+import slogo.Model.ErrorHandling.ParsingException;
+import slogo.Model.Explorers.MethodExplorer;
+import slogo.Model.Explorers.Variables.VariableExplorer;
+import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.SlogoRuntimeException;
 
 import java.util.List;
@@ -13,43 +17,39 @@ import java.util.List;
 public interface BackEndInternal {
 
     /**
-     * Update the Turtle based on a given command
-     * @param command is the command to use as instructions
-     * @throws SlogoRuntimeException if the command cannot be executed
+     * Parse a set of commands from a string and return the double that the last command returns
+     * @param input String to parse
+     * @return the last return from the commands
+     * @throws ParsingException if there is an issue with the parsing string
      */
-    public void updateTurtle(Command command) throws SlogoRuntimeException;
+    public double parseCommands(String input) throws ParsingException;
 
     /**
-     * Update the Pen based on a given command
-     * @param command is the command to use as instructions
-     * @throws SlogoRuntimeException if the command cannot be executed
+     * Act on a Command by calling the Command's executeCommand method
+     * @param command the command to execute
+     * @param params list of parameters
+     * @return the double return value of the last command
+     * @throws ParsingException if there is an issue with executing the command, likely that the parameters are not valid
      */
-    public void updatePen(Command command) throws SlogoRuntimeException;
+    public double actOnCommand(Command command, List<String> params) throws ParsingException;
 
     /**
-     * Update the Trail based on a given command
-     * @param command is the command to use as instructions
-     * @throws SlogoRuntimeException if the command cannot be executed
+     * @return list of immutable turtles that was created during parsing
      */
-    public void updateTrail(Command command) throws SlogoRuntimeException;
+    public List<ImmutableTurtle> getInternalStates();
 
     /**
-     * Creates a variable based on a command
-     * @param command the command to use to create a variable
+     * @return the method explorer to access methods
      */
-    public void createVariable(Command command);
+    public MethodExplorer getMethodExplorer();
 
     /**
-     * Create a Method from a list of Commands
-     * A Methdod is a group of commands that can be called once and executed in order
-     * @param commandList
-     * @return a Method with the group of commands
+     * @return Variable Explorer to access variables
      */
-    public UserDefinedInstructionCommand createMethod(List<Command> commandList);
+    public VariableExplorer getVariableExplorer();
 
     /**
-     *Update the history that contains past actions
+     * @return the current language of the backend
      */
-    public void updateHistory();
-
+    public String getLanguage();
 }

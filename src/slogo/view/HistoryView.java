@@ -20,6 +20,7 @@ public class HistoryView {
     private ObservableList<String> history;
     private ListView<String> list;
     private Actions actions;
+    private LanguageConverter languageConverter;
     public HistoryView(String language, ObservableList<String> historyList, Actions actions){
         this.language= language;
         resourceBundle = ResourceBundle.getBundle(RESOURCES_LAYOUT + language);
@@ -27,6 +28,7 @@ public class HistoryView {
         history = historyList;
         list = new ListView<String>();
         this.actions = actions;
+        languageConverter = new LanguageConverter(language);
         setupTab();
     }
     public Tab getTab(){
@@ -53,11 +55,14 @@ public class HistoryView {
         }
     }
     public void setLanguage(String newLanguage) {
-        LanguageConverter languageConverter = new LanguageConverter(language);
         for (int i =0; i<history.size(); i++){
             String oldString = history.get(i);
-            history.set(i ,languageConverter.translateString(oldString, newLanguage));
+            String newString = languageConverter.translateString(oldString, newLanguage);
+            System.out.println(newString);
+            history.set(i ,newString);
         }
         language = newLanguage;
+        languageConverter.updateLanguage(newLanguage);
+
     }
 }

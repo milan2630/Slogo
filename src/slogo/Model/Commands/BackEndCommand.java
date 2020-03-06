@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class BackEndCommand implements Command {
 
-    public abstract double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException;
+
 
     public double getDoubleParameter(String val, VariableExplorer variableExplorer) throws ParsingException {
         try{
@@ -57,6 +57,11 @@ public abstract class BackEndCommand implements Command {
         String[] nameParts = this.getClass().toString().split("\\.");
         String className = nameParts[nameParts.length - 1];
         return className.split("@")[0];
+    }
+
+    public int getIntegerParameter(String val, VariableExplorer variableExplorer) throws ParsingException {
+        double unRounded = getDoubleParameter(val, variableExplorer);
+        return  (int) Math.round(unRounded);
     }
 
 }

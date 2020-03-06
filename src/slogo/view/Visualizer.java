@@ -76,27 +76,27 @@ public class Visualizer implements FrontEndExternal {
     display.setPenColor(color);
   }
 
-  public void setBackgroundColor(Color color){
+  public void setBackgroundColor(Color color) {
     display.setBackgroundColor(color);
   }
 
-  public void setTurtleImage(String filename){
+  public void setTurtleImage(String filename) {
     display.setTurtleImage(filename);
   }
 
-  public void setInputText(String text){
+  public void setInputText(String text) {
     terminal.setInputText(text);
   }
 
-  public void resetDisplay(){
+  public void resetTrail() {
     display.resetPane();
   }
 
-  public void setPenThickness(Double thickness){
+  public void setPenThickness(Double thickness) {
     display.setPenThickness(thickness);
   }
 
-  public void setPenStatus(int active){
+  public void setPenStatus(int active) {
     display.setPenState(active);
   }
 
@@ -106,6 +106,7 @@ public class Visualizer implements FrontEndExternal {
       display.setTurtleHeading(turtle.getHeading());
       display.setPenState(turtle.getPenState());
       display.setTurtleVisibility(turtle.getShowing());
+      display.setPenThickness(turtle.getPenThickness());
       tabPaneView.updateTurtleTab(turtle);
       if (checkTurtleOutOfBounds(turtle)) {
         throw new ParsingException("OutOfBoundsException", turtleList.indexOf(turtle));
@@ -114,31 +115,29 @@ public class Visualizer implements FrontEndExternal {
     }
   }
 
+  @Override
+  public void displayError(Exception error) {
+    terminal.setErrorText(error.getMessage());
+  }
+
+  @Override
+  public void bindTabs(String language, ObservableList history, ObservableList variables,
+      ObservableMap methods, ObservableList palette) {
+    tabPaneView.createHistoryTab(language, history);
+    tabPaneView.createMethodTab(language, methods);
+    tabPaneView.createVariableTab(language, variables);
+    tabPaneView.createPaletteTab(language, palette);
+  }
+
+  @Override
+  public void setHistoryLanguage(String newLanguage) {
+    tabPaneView.setHistoryLanguage(newLanguage);
+  }
+
   private Boolean checkTurtleOutOfBounds(ImmutableTurtle turtle) {
     return turtle.getX() > display.getWidth() / 2
         || turtle.getX() < -1 * display.getWidth() / 2 ||
         turtle.getY() > display.getHeight() / 2 || turtle.getY() < -1 *
         display.getHeight() / 2;
   }
-
-  @Override
-  public ImmutableTurtle getCurrentTurtle() {
-    return display.getTurtleState();
-  }
-
-  @Override
-  public void displayError(Exception error) {
-    terminal.setErrorText(error.getMessage());
-  }
-
-  public void bindTabs(String language, ObservableList history, ObservableList variables,
-      ObservableMap methods) {
-    tabPaneView.createHistoryTab(language, history);
-    tabPaneView.createMethodTab(language, methods);
-    tabPaneView.createVariableTab(language, variables);
-  }
-
-    public void setHistoryLanguage(String newLanguage) {
-      tabPaneView.setHistoryLanguage(newLanguage);
-    }
 }

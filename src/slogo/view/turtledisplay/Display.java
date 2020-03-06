@@ -54,21 +54,15 @@ public class Display extends Pane {
     }
   }
 
-  public ImmutableTurtle getTurtleState() {
-    return new ImmutableTurtle(turtle.getPosition().getX(),
-        turtle.getPosition().getY(), turtle.getHeading(), turtle.isPenActive(),
-        turtle.isTurtleVisible());
-  }
-
   public void setTurtleHeading(double newHeading) {
     turtle.setHeading(newHeading);
   }
 
-  public void setTurtleVisibility(int state) {
+  public void setTurtleVisibility(double state) {
     turtle.setTurtleVisible(state);
   }
 
-  public void setPenState(int state) {
+  public void setPenState(double state) {
     turtle.setPenActive(state);
   }
 

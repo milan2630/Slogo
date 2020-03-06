@@ -3,6 +3,7 @@ package slogo.Model.Parsing;
 import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Commands.Command;
+import slogo.Model.Explorers.PaletteExplorer;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.TurtleModel.Turtle;
 import slogo.Model.ErrorHandling.ParsingException;
@@ -20,18 +21,20 @@ public class CommandManager implements BackEndExternal {
     private Visualizer frontend;
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
+    private PaletteExplorer paletteExplorer;
     private List<ImmutableTurtle> internalStates;
     private List<Turtle> turtles;
     private String language;
 
 
-    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, String lang){
+    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, String lang){
         language = lang;
         frontend = v;
         methodExplorer = me;
         variableExplorer = ve;
+        paletteExplorer = pe;
         internalStates = new ArrayList<>();
-        Turtle startTurtle = new Turtle(1, true);
+        Turtle startTurtle = new Turtle(1);
         turtles = new ArrayList<>();
         turtles.add(startTurtle);
     }
@@ -64,7 +67,7 @@ public class CommandManager implements BackEndExternal {
         try {
             double ret = 0;
             for(Turtle turtle: turtles){
-                if(turtle.isActive()){
+                if(turtle.isActive() == 1){
                     Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
                     ret = (double) method.invoke(command, this, turtle, params);
                 }
@@ -96,13 +99,21 @@ public class CommandManager implements BackEndExternal {
         return variableExplorer;
     }
 
+    public PaletteExplorer getPaletteExplorer(){
+        return paletteExplorer;
+    }
+
+    public Visualizer getDisplay(){
+        return frontend;
+    }
+
     public List<Turtle> getTurtles(){
         return turtles;
     }
 
     @Override
     public void setLanguage(String lang){
-        methodExplorer.convertLanguage(this.language, lang);
+        methodExplorer.convertLanguage(lang);
         language = lang;
     }
 
