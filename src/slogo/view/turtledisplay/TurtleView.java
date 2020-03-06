@@ -1,12 +1,8 @@
 package slogo.view.turtledisplay;
 
 import java.util.ResourceBundle;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 

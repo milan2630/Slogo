@@ -1,6 +1,5 @@
 package slogo.view.turtledisplay;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +31,13 @@ public class TurtleManager extends Pane {
       }
       TurtleView turtle = turtleMap.get(i);
       turtle.setPenState(turtleProperties.getPenState());
+      System.out.println("heading: " + turtleProperties.getHeading());
       turtle.setTurtleHeading(turtleProperties.getHeading());
       turtle.setPenThickness(turtleProperties.getPenThickness());
       if (checkTurtleOutOfBounds(turtleProperties)) {
         throw new ParsingException("OutOfBoundsException", i);
       }
-      turtle.moveTurtle(new Point2D(turtleProperties.getX(), turtleProperties.getY()));
+      turtle.moveTurtle(new Point2D(turtleProperties.getX(), -1* turtleProperties.getY()));
 //      turtle.setPenColor(turtleProperties.getPenColorIndex());
     }
     updatePane();
@@ -56,9 +56,8 @@ public class TurtleManager extends Pane {
     return turtle;
   }
 
-
   public void setBackgroundColor(Color color) {
-    setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+    setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   private void updatePane() {
