@@ -4,6 +4,7 @@ import java.util.*;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
@@ -12,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.Model.Parsing.LanguageConverter;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.view.terminal.Terminal;
@@ -25,22 +27,22 @@ public class Visualizer implements FrontEndExternal {
   private TurtleManager turtleManager;
   private TabPaneView tabPaneView;
   private Terminal terminal;
+  private LanguageConverter languageConverter;
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 600;
 
-  public Visualizer(Stage stage, String language, Actions actions) {
-    this.language = language;
+  public Visualizer(Stage stage, LanguageConverter language, Actions actions) {
+    languageConverter = language;
     setBundle();
     stage.setTitle(resourceBundle.getString("Title"));
 
     BorderPane root = new BorderPane();
 
-    terminal = new Terminal(language, actions);
+    terminal = new Terminal(languageConverter, actions);
 
     turtleManager = new TurtleManager();
 
-    tabPaneView = new TabPaneView(language, actions);
-
+    tabPaneView = new TabPaneView(languageConverter, actions);
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -54,7 +56,6 @@ public class Visualizer implements FrontEndExternal {
     displayNode.getStyleClass().add("display");
 
     TabPane tabNode = tabPaneView.getTabPane();
-
 
     root.setCenter(displayNode);
     BorderPane.setAlignment(tabNode, Pos.TOP_LEFT);
@@ -73,31 +74,21 @@ public class Visualizer implements FrontEndExternal {
     }
   }
 
-  public void setBackgroundColor(int index) {
-    //TODO replace with get color by index
-    turtleManager.setBackgroundColor(Color.RED);
-  }
-
   public void setInputText(String text) {
     terminal.setInputText(text);
-  }
-
-  public void resetTrail(int turtleIndex) {
-    turtleManager.resetTrail(turtleIndex);
   }
 
   @Override
   public void updateTurtle(List<ImmutableTurtle> turtleList) throws ParsingException {
     turtleManager.updateTurtles(turtleList);
   }
-
   @Override
   public void displayError(Exception error) {
     terminal.setErrorText(error.getMessage());
   }
 
   @Override
-  public void bindTabs(String language, ObservableList history, ObservableList variables,
+  public void bindTabs(LanguageConverter language, ObservableList history, ObservableList variables,
       ObservableMap methods, ObservableList palette) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.createMethodTab(language, methods);
@@ -109,4 +100,15 @@ public class Visualizer implements FrontEndExternal {
   public void setHistoryLanguage(String newLanguage) {
     tabPaneView.setHistoryLanguage(newLanguage);
   }
+
+  @Override
+  //FIXME
+  public void setBackgroundColor(double color) {
+    turtleManager.setBackgroundColor(Color.RED);
+  }
+
+  public void resetTrail(int index){
+    turtleManager.resetTrail(index);
+  }
+
 }
