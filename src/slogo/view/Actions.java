@@ -4,30 +4,29 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.TextArea;
 
 public class Actions {
 
-  private static final String RUN = "Run";
+  private static final String COMMAND = "Command";
   private static final String RESET = "Reset";
   private static final String PEN_COLOR = "Pen Color";
   private static final String THICKNESS = "Thickness";
   private static final String BACKGROUND_COLOR = "Background Color";
   private static final String TURTLE_IMAGE = "Turtle Image";
   private static final String LANGUAGE = "Language";
-  private static final String HISTORY_VARIABLE = "HistoryVariable";
+  private static final String TERMINAL_INPUT = "Input Change";
   private static final String TURTLE_STATE = "Change Turtle State";
-  private static final String METHOD_DISPLAy = "Method Display";
+  private static final String METHOD_DISPLAY = "Method Display";
 
   private String data;
   private List<PropertyChangeListener> listeners = new ArrayList<>();
 
-  public void handleRun(String value) {
-    notifyListeners(RUN, this.data, this.data = value);
+  public void handleCommand(String value) {
+    notifyListeners(COMMAND, this.data, this.data = value);
   }
 
   public void handleClear(String result) {
-    notifyListeners(HISTORY_VARIABLE, this.data, this.data = "");
+    notifyListeners(TERMINAL_INPUT, this.data, this.data = "");
   }
 
   public void handleReset(String value) {
@@ -54,15 +53,7 @@ public class Actions {
     notifyListeners(THICKNESS, this.data, this.data = value);
   }
 
-  public void handlePenStatus(String value) {
-    notifyListeners(RUN, this.data, this.data = value);
-  }
-
-  public void handleTurtleMovement(String command){
-    notifyListeners(RUN, this.data, this.data = command);
-  }
-
-  public void handleHistoryVariable (String value) { notifyListeners(HISTORY_VARIABLE, this.data, this.data=value); }
+  public void handleHistoryVariable (String value) { notifyListeners(TERMINAL_INPUT, this.data, this.data=value); }
 
   public void handleTurtleState(String id, String showing) {
     PropertyChangeEvent e = new PropertyChangeEvent(this, TURTLE_STATE, this.data, this.data = showing);
@@ -70,7 +61,7 @@ public class Actions {
     notifyListeners(TURTLE_STATE, e);
   }
 
-  public void handleMethodDisplay(String value){ notifyListeners(METHOD_DISPLAy, this.data, this.data = value);}
+  public void handleMethodDisplay(String value){ notifyListeners(TERMINAL_INPUT, this.data, this.data = value);}
 
   private void notifyListeners(String property, String oldValue, String newValue) {
     for (PropertyChangeListener name : listeners) {
@@ -83,7 +74,7 @@ public class Actions {
       name.propertyChange(e);
     }
   }
-  
+
   public void addChangeListener(PropertyChangeListener newListener) {
     listeners.add(newListener);
   }

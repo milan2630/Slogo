@@ -3,6 +3,7 @@ package slogo.Controller;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.Model.BackEndExternal;
+import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.MethodExplorer;
 import slogo.Model.Explorers.PaletteExplorer;
 import slogo.Model.Explorers.Variables.VariableExplorer;
@@ -43,9 +44,7 @@ public class Controller implements PropertyChangeListener {
   public void propertyChange(PropertyChangeEvent evt) {
     String value = evt.getNewValue().toString();
     switch (evt.getPropertyName()){
-      case "Run":
-        Color c = Color.RED;
-        System.out.println(c.toString());
+      case "Command":
         handleRun(value);
         break;
       case "Reset":
@@ -72,18 +71,14 @@ public class Controller implements PropertyChangeListener {
         //FIXME update pen status in backend
         myVisualizer.setPenStatus(Integer.parseInt(value));
         break;
-      case "HistoryVariable":
+      case "Input Change":
         myVisualizer.setInputText(value);
         break;
       case "Change Turtle State":
         myVisualizer.setInputText(evt.getPropagationId().toString()+" "+evt.getNewValue().toString());
         break;
-      case "Method Display":
-        myVisualizer.setInputText(value);
-        break;
       case "Background Color Index":
         //TODO update backend index of background color
-
         break;
     }
   }
@@ -95,12 +90,11 @@ public class Controller implements PropertyChangeListener {
     myVisualizer.resetTrail();
   }
 
-  private void handleRun(String value) {
+  private void handleRun(String command) {
     //myParser.setLanguage(language);
     //myTurtle.changeLanguage(language);
-    String command = value;
     try {
-      turtleList = backendManager.parseTurtleStatesFromCommands(command);;
+      turtleList = backendManager.parseTurtleStatesFromCommands(command);
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
