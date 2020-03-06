@@ -10,6 +10,7 @@ import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.view.Actions;
 import slogo.view.Visualizer;
+import slogo.xml.XMLParser;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,6 +22,7 @@ public class Controller implements PropertyChangeListener {
   private BackEndExternal backendManager;
   private Actions myActions;
   private History myHistory;
+  private XMLParser myXMLParser;
   private static final String DEFAULT_LANGUAGE = "English";
   private String language = DEFAULT_LANGUAGE;
 
