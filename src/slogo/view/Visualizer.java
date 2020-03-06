@@ -55,6 +55,7 @@ public class Visualizer implements FrontEndExternal {
 
     TabPane tabNode = tabPaneView.getTabPane();
 
+
     root.setCenter(displayNode);
     BorderPane.setAlignment(tabNode, Pos.TOP_LEFT);
     root.setLeft(tabNode);

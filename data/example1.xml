@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<preferences>
+    <config>
+        <width>800</width>
+        <height>600</height>
+        <backgroundIndex>0</backgroundIndex>
+        <language>English</language>
+        <turtleCount>1</turtleCount>
+    </config>
+    <turtles>
+        <turtle>
+            <x>0</x>
+            <y>50</y>
+            <heading>45</heading>
+            <penState>1</penState>
+            <showing>1</showing>
+            <isActive>1</isActive>
+            <penThickness>5</penThickness>
+            <penIndex>0</penIndex>
+            <image>0</image>
+            <id>0</id>
+        </turtle>
+        <turtle>
+            <x>20</x>
+            <y>20</y>
+            <heading>20</heading>
+            <penState>0</penState>
+            <showing>0</showing>
+            <isActive>0</isActive>
+            <penThickness>20</penThickness>
+            <penIndex>20</penIndex>
+            <image>20</image>
+            <id>1</id>
+        </turtle>
+    </turtles>
+</preferences>
