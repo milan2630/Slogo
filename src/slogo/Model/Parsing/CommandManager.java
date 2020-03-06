@@ -24,7 +24,6 @@ public class CommandManager implements BackEndExternal {
     private PaletteExplorer paletteExplorer;
     private List<ImmutableTurtle> internalStates;
     private List<Turtle> turtles;
-    private String language;
     private List<ImmutableTurtle> previousInternalStates;
     private List<Turtle> previousTurtles;
     private LanguageConverter languageConverter;
