@@ -13,6 +13,7 @@ import slogo.view.Visualizer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CommandManager implements BackEndExternal {
@@ -22,10 +23,7 @@ public class CommandManager implements BackEndExternal {
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
     private PaletteExplorer paletteExplorer;
-    private List<ImmutableTurtle> internalStates;
-    private List<Turtle> turtles;
-    private List<ImmutableTurtle> previousInternalStates;
-    private List<Turtle> previousTurtles;
+    private TurtleManager turtleManager;
     private LanguageConverter languageConverter;
 
 
@@ -35,12 +33,8 @@ public class CommandManager implements BackEndExternal {
         methodExplorer = me;
         variableExplorer = ve;
         paletteExplorer = pe;
-        internalStates = new ArrayList<>();
-        Turtle startTurtle = new Turtle(1);
-        turtles = new ArrayList<>();
-        turtles.add(startTurtle);
-        previousInternalStates = new ArrayList<>();
-        previousTurtles = new ArrayList<>();
+        turtleManager = new TurtleManager();
+
     }
 
     @Override
@@ -54,32 +48,18 @@ public class CommandManager implements BackEndExternal {
         for(ImmutableTurtle t: ret){
             System.out.println(t.getY());
         }
-        backupTurtleList();
-        backupInternalStateList();
+        turtleManager.backupTurtleList();
+        turtleManager.backupInternalStateList();
 
         return getInternalStates();
     }
 
     @Override
     public List<ImmutableTurtle> undoAction(){
-        turtles = previousTurtles;
-        previousTurtles = new ArrayList<>();
-        return previousInternalStates;
+        return turtleManager.undoAction();
     }
 
-    private void backupInternalStateList() {
-        previousInternalStates = new ArrayList<>();
-        for(ImmutableTurtle turtle: internalStates){
-            previousInternalStates.add(new Turtle(turtle));
-        }
-    }
 
-    private void backupTurtleList() {
-        previousTurtles = new ArrayList<>();
-        for(Turtle turtle: turtles){
-            previousTurtles.add(new Turtle(turtle));
-        }
-    }
 
     public double parseCommands(String input) throws ParsingException {
         Parser parser = new Parser(this);
@@ -92,7 +72,9 @@ public class CommandManager implements BackEndExternal {
     protected double actOnCommand(Command command, List<String> params) throws ParsingException {
         try {
             double ret = 0;
-            for(Turtle turtle: turtles){
+            TurtleIterator iterator = turtleManager.iterator();
+            while(iterator.hasNext()){
+                Turtle turtle = iterator.next();
                 if(turtle.isActive() == 1){
                     Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
                     ret = (double) method.invoke(command, this, turtle, params);
@@ -110,11 +92,11 @@ public class CommandManager implements BackEndExternal {
     }
 
     public List<ImmutableTurtle> getInternalStates() {
-        return internalStates;
+        return turtleManager.getInternalStates();
     }
 
     private void clearInternalStates(){
-        internalStates = new ArrayList<>();
+        turtleManager.clearInternalStates();
     }
 
     public MethodExplorer getMethodExplorer() {
@@ -131,10 +113,6 @@ public class CommandManager implements BackEndExternal {
 
     public Visualizer getDisplay(){
         return frontend;
-    }
-
-    public List<Turtle> getTurtles(){
-        return turtles;
     }
 
     @Override
