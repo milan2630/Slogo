@@ -30,7 +30,7 @@ public class SettingView extends VBox {
     HBox hbox = new HBox();
     Text text = new Text(prompt);
     hbox.getChildren().add(text);
-    hbox.setPadding((new Insets(W_PADDING, W_PADDING, W_PADDING, W_PADDING)));
+    hbox.setPadding((new Insets(W_PADDING)));
     hbox.setAlignment(Pos.CENTER);
     hbox.setSpacing(V_PADDING);
     text.getStyleClass().add("settings-text");
