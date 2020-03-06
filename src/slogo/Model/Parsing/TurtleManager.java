@@ -1,53 +1,65 @@
 package slogo.Model.Parsing;
 
+import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.TurtleModel.Turtle;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.util.*;
 
 public class TurtleManager implements Iterable{
-    private List<ImmutableTurtle> internalStates;
-    private List<Turtle> turtles;
-    private List<ImmutableTurtle> previousInternalStates;
-    private List<Turtle> previousTurtles;
+    private Map<Double, List<ImmutableTurtle>> internalStates;
+    private Map<Double, Turtle> turtles;
+    private Map<Double, List<ImmutableTurtle>> previousInternalStates;
+    private Map<Double, Turtle> previousTurtles;
 
     public TurtleManager(){
-        internalStates = new ArrayList<>();
-        Turtle startTurtle = new Turtle(1);
-        turtles = new ArrayList<>();
-        turtles.add(startTurtle);
-        previousInternalStates = new ArrayList<>();
-        previousTurtles = new ArrayList<>();
+        internalStates = new HashMap<>();
+        turtles = new HashMap<>();
+        previousInternalStates = new HashMap<>();
+        previousTurtles = new HashMap<>();
+        addTurtle(1);
     }
 
     protected void backupInternalStateList() {
-        previousInternalStates = new ArrayList<>();
-        for(ImmutableTurtle turtle: internalStates){
-            previousInternalStates.add(new Turtle(turtle));
+        previousInternalStates = new HashMap<>();
+        for(double id: internalStates.keySet()){
+            for(ImmutableTurtle turtle: internalStates.get(id)){
+                previousInternalStates.putIfAbsent(id, new ArrayList<>());
+                previousInternalStates.get(id).add(new Turtle(turtle));
+            }
         }
+
     }
 
     protected void backupTurtleList() {
-        previousTurtles = new ArrayList<>();
-        for(Turtle turtle: turtles){
-            previousTurtles.add(new Turtle(turtle));
+        previousTurtles = new HashMap<>();
+        for(double id: turtles.keySet()){
+            previousTurtles.putIfAbsent(id, new Turtle(turtles.get(id)));
         }
     }
 
-    protected List<ImmutableTurtle> undoAction(){
+    protected Map<Double, List<ImmutableTurtle>> undoAction(){
         turtles = previousTurtles;
-        previousTurtles = new ArrayList<>();
+        previousTurtles = new HashMap<>();
         return previousInternalStates;
     }
 
-    protected List<ImmutableTurtle> getInternalStates() {
+    protected Map<Double, List<ImmutableTurtle>> getInternalStates() {
         return internalStates;
     }
 
+    public void addInternalState(Turtle turtle){
+        internalStates.putIfAbsent(turtle.getID(), new ArrayList<>());
+        internalStates.get(turtle.getID()).add(turtle.getImmutableTurtle());
+    }
+
     protected void clearInternalStates(){
-        internalStates = new ArrayList<>();
+        internalStates = new HashMap<>();
+    }
+
+    public void addTurtle(double id) {
+        turtles.putIfAbsent(id, new Turtle(id));
     }
 
     @Override

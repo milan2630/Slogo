@@ -12,9 +12,8 @@ import slogo.view.Visualizer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class CommandManager implements BackEndExternal {
     private static final String EXECUTE_COMMAND_METHOD_NAME = "executeCommand";
@@ -42,8 +41,11 @@ public class CommandManager implements BackEndExternal {
         clearInternalStates();
         parseCommands(input);
 
-
-        List<ImmutableTurtle> ret = getInternalStates();
+        Map<Double, List<ImmutableTurtle>> retMap = getInternalStates();
+        for(Double d: retMap.keySet()){
+            System.out.println(d);
+        }
+        List<ImmutableTurtle> ret = retMap.get(1.0);
         System.out.println("States:");
         for(ImmutableTurtle t: ret){
             System.out.println(t.getY());
@@ -51,11 +53,11 @@ public class CommandManager implements BackEndExternal {
         turtleManager.backupTurtleList();
         turtleManager.backupInternalStateList();
 
-        return getInternalStates();
+        return ret;
     }
 
     @Override
-    public List<ImmutableTurtle> undoAction(){
+    public Map<Double, List<ImmutableTurtle>> undoAction(){
         return turtleManager.undoAction();
     }
 
@@ -87,11 +89,12 @@ public class CommandManager implements BackEndExternal {
             if(e.getCause() instanceof ParsingException){
                 throw (ParsingException) e.getCause();
             }
+            e.printStackTrace();
             throw new ParsingException("CommandExecuteError", command.toString());
         }
     }
 
-    public List<ImmutableTurtle> getInternalStates() {
+    private Map<Double, List<ImmutableTurtle>> getInternalStates() {
         return turtleManager.getInternalStates();
     }
 
@@ -113,6 +116,10 @@ public class CommandManager implements BackEndExternal {
 
     public Visualizer getDisplay(){
         return frontend;
+    }
+
+    public TurtleManager getTurtleManager(){
+        return turtleManager;
     }
 
     @Override
