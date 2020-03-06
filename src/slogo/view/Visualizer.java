@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
+import slogo.Model.Parsing.LanguageConverter;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.view.terminal.Terminal;
@@ -26,21 +27,22 @@ public class Visualizer implements FrontEndExternal {
   private Display display;
   private TabPaneView tabPaneView;
   private Terminal terminal;
+  private LanguageConverter languageConverter;
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 600;
 
-  public Visualizer(Stage stage, String language, Actions actions) {
-    this.language = language;
+  public Visualizer(Stage stage, LanguageConverter language, Actions actions) {
+    languageConverter = language;
     setBundle();
     stage.setTitle(resourceBundle.getString("Title"));
 
     BorderPane root = new BorderPane();
 
-    terminal = new Terminal(language, actions);
+    terminal = new Terminal(languageConverter, actions);
 
     display = new Display();
 
-    tabPaneView = new TabPaneView(language, actions);
+    tabPaneView = new TabPaneView(languageConverter, actions);
     addPanesToRoot(root);
 
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -80,8 +82,21 @@ public class Visualizer implements FrontEndExternal {
     display.setBackgroundColor(color);
   }
 
+  public void setBackgroundColor(double index){
+    int i = (int) index;
+    Color newColor = tabPaneView.getColor(i);
+    display.setBackgroundColor(newColor);
+  }
+
+  public void setPenColor(double index){
+    int i = (int) index;
+    Color newColor = tabPaneView.getColor(i);
+    System.out.println(newColor.toString());
+    display.setPenColor(newColor);
+  }
+
   public void setTurtleImage(String filename){
-    display.setTurtleImage(filename);
+    display.setTurtleImage(tabPaneView.getFileName(filename));
   }
 
   public void setInputText(String text){
@@ -131,7 +146,7 @@ public class Visualizer implements FrontEndExternal {
     terminal.setErrorText(error.getMessage());
   }
 
-  public void bindTabs(String language, ObservableList history, ObservableList variables,
+  public void bindTabs(LanguageConverter language, ObservableList history, ObservableList variables,
       ObservableMap methods, ObservableList palette) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.createMethodTab(language, methods);

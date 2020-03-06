@@ -5,6 +5,8 @@ import java.lang.reflect.Constructor;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
+
+import slogo.Model.Parsing.LanguageConverter;
 import slogo.view.Actions;
 import slogo.ReflectionException;
 
@@ -21,15 +23,15 @@ public class SettingView extends VBox {
 
   private static final String CLASS_PATH = "slogo.view.settingtab.";
 
-  public SettingView(String language, Actions actions) {
+  public SettingView(LanguageConverter language, Actions actions) {
     classMap = ResourceBundle.getBundle(RESOURCES_CLASSES);
     layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
-    prompts = ResourceBundle.getBundle(PREFIX + language);
+    prompts = ResourceBundle.getBundle(PREFIX + language.getLanguage());
 
     setupTab(language, actions);
   }
 
-  private void setupTab(String language, Actions actions) {
+  private void setupTab(LanguageConverter language, Actions actions) {
     List<String> buttonList = Arrays.asList(layouts.getString("SettingView").split(","));
     setSpacing(2);
 
@@ -38,7 +40,7 @@ public class SettingView extends VBox {
         Class<?> clazz = Class.forName(CLASS_PATH + classMap.getString(key));
         Constructor<?> constructor = clazz
             .getDeclaredConstructor(String.class, String.class, Actions.class);
-        LabelAndAction o = (LabelAndAction) constructor.newInstance(language, key, actions);
+        LabelAndAction o = (LabelAndAction) constructor.newInstance(language.getLanguage(), key, actions);
 
         getChildren().add(o);
       } catch (Exception e) {
@@ -48,5 +50,8 @@ public class SettingView extends VBox {
     }
     HelpButton helpButton = new HelpButton(prompts);
     getChildren().add(helpButton);
+  }
+  public String getImage(String index){
+    return null;
   }
 }
