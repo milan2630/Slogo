@@ -1,42 +1,36 @@
-package slogo.view.settingtab;
+package slogo.view.components;
 
-import java.lang.reflect.Method;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import slogo.ReflectionException;
 import slogo.view.Actions;
 
-public class TurtleMover extends LabelAndAction {
+public class TurtleMover extends Component {
 
-  public static final int DEFAULT_VALUE = 10;
   private Slider slider;
   private Actions actions;
-  private String methodName;
+  private String key;
 
-  public TurtleMover(String language, String methodName, Actions actions) {
-    super(language, methodName);
+  public TurtleMover(String language, String key, Actions actions) {
+    super(language, key, actions);
 
     VBox wrapper = new VBox();
     this.actions = actions;
-    this.methodName = methodName;
-    setAlignment(Pos.CENTER);
+    this.key = key;
 
     createSlider();
     HBox box = createMovementController();
 
     wrapper.getChildren().addAll(slider, box);
-
-    getChildren().add(wrapper);
+    getChildren().add(box);
   }
 
   private void createSlider() {
     slider = new Slider();
     slider.setShowTickLabels(true);
     slider.setMax(100);
-    slider.setValue(Double.parseDouble(getDefaultFromKey(methodName)));
+    slider.setValue(Double.parseDouble(getDefaultFromKey(key)));
     slider.setMajorTickUnit(20);
   }
 
@@ -55,23 +49,14 @@ public class TurtleMover extends LabelAndAction {
   private Button createButton(String commandName) {
     String command = getCommandByKey(commandName, 1);
     Button button = new Button();
-    button.setText(command + " " + Integer.parseInt(getDefaultFromKey(methodName)));
+    button.setText(command + " " + Integer.parseInt(getDefaultFromKey(key)));
 
     slider.valueProperty().addListener(
         (obs, oldValue, newValue) -> button.setText(command + " " + newValue.intValue()));
 
-    button.setOnAction(value -> handleAction(button.getText(), methodName, actions));
+    button.setOnAction(value -> handleAction(button.getText()));
     button.getStyleClass().add("turtle-control-button");
     return button;
-  }
-
-  protected void handleAction(String value, String methodName, Actions target) {
-    try {
-      Method m = target.getClass().getDeclaredMethod(methodName, String.class);
-      m.invoke(target, value);
-    } catch (Exception e) {
-      throw new ReflectionException("InvalidMethod", methodName);
-    }
   }
 
 }

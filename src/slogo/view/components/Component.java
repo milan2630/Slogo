@@ -1,18 +1,15 @@
-package slogo.view;
+package slogo.view.components;
 
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import slogo.ReflectionException;
+import slogo.view.Actions;
 
-public class ComponentFactory {
+public abstract class Component extends HBox {
 
   private static final String RESOURCES_UI_PATH = "resources/UI/";
   private static final String RESOURCES_COMMAND_PATH = "resources/Languages/";
-  public static final int PADDING = 10;
   private static final String METHODS_PATH = RESOURCES_UI_PATH + "ReflectionMethods";
   private static final String DEFAULT_RESOURCE_PATH = RESOURCES_UI_PATH + "Default";
 
@@ -21,25 +18,16 @@ public class ComponentFactory {
   private ResourceBundle methodBundle;
   private ResourceBundle defaultsResources;
 
+  private String key;
   private Actions actions;
 
-  protected ComponentFactory(String language, String key, Actions actions) {
+  protected Component(String language, String key, Actions actions) {
     this.actions = actions;
+    this.key = key;
     defaultsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
     methodBundle = ResourceBundle.getBundle(METHODS_PATH);
     promptBundle = ResourceBundle.getBundle(RESOURCES_UI_PATH + language);
     commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH + language);
-  }
-
-  protected HBox createLabel(String key) {
-    HBox hbox = new HBox();
-    Text text = new Text(promptBundle.getString(key));
-    hbox.getChildren().add(text);
-    hbox.setPadding((new Insets(PADDING, PADDING, PADDING, PADDING)));
-    hbox.setAlignment(Pos.CENTER);
-    hbox.setSpacing(PADDING);
-    text.getStyleClass().add("settings-text");
-    return hbox;
   }
 
   protected String getCommandByKey(String key, int type) {
@@ -48,7 +36,7 @@ public class ComponentFactory {
     return raw.split("\\|")[type];
   }
 
-  protected void handleAction(String value, String key) {
+  protected void handleAction(String value) {
     try {
       Method m = actions.getClass().getDeclaredMethod(methodBundle.getString(key), String.class);
       m.invoke(actions, value);
@@ -59,6 +47,10 @@ public class ComponentFactory {
 
   protected String getDefaultFromKey(String key) {
     return defaultsResources.getString(key);
+  }
+
+  protected String getPromptFromKey(String key) {
+    return promptBundle.getString(key);
   }
 
 }

@@ -1,6 +1,5 @@
 package slogo.view;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -9,7 +8,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.view.settingtab.SettingView;
-import slogo.view.settingtab.TurtleMover;
 
 
 public class TabPaneView {
