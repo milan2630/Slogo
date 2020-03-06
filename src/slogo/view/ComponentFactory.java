@@ -13,18 +13,19 @@ public class ComponentFactory {
   private static final String RESOURCES_UI_PATH = "resources/UI/";
   private static final String RESOURCES_COMMAND_PATH = "resources/Languages/";
   public static final int PADDING = 10;
-  private static String PROMPTS_PATH;
   private static final String METHODS_PATH = RESOURCES_UI_PATH + "ReflectionMethods";
-  private Actions actions;
+  private static final String DEFAULT_RESOURCE_PATH = RESOURCES_UI_PATH + "Default";
+
   private static ResourceBundle promptBundle;
   private ResourceBundle commandBundle;
   private ResourceBundle methodBundle;
+  private ResourceBundle defaultsResources;
 
-  private static final String DEFAULT_RESOURCE_PATH = "resources/states/Default";
-  private ResourceBundle defaultsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
+  private Actions actions;
 
   protected ComponentFactory(String language, String key, Actions actions) {
     this.actions = actions;
+    defaultsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
     methodBundle = ResourceBundle.getBundle(METHODS_PATH);
     promptBundle = ResourceBundle.getBundle(RESOURCES_UI_PATH + language);
     commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH + language);
