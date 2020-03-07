@@ -92,8 +92,8 @@ public class TabPaneView {
     return paletteView.getImmutableList();
   }
 
-  public void updateTurtleTab(ImmutableTurtle turtle){
-    turtleTabView.setTable(turtle);
+  public void updateTurtleTab(Map<Double, List<ImmutableTurtle>> turtleList){
+    turtleTabView.setTable(turtleList);
   }
 
     public void setHistoryLanguage(String newLanguage) {
