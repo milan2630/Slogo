@@ -65,6 +65,9 @@ public class TurtleModelManager implements Iterable{
      * @return the internal States map
      */
     protected Map<Double, List<ImmutableTurtle>> getInternalStates() {
+        for(Turtle turtle: turtles.values()){
+            addInternalState(turtle);
+        }
         return internalStates;
     }
 
