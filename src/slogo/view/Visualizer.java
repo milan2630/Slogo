@@ -109,7 +109,7 @@ public class Visualizer implements FrontEndExternal {
     turtleManager.setBackgroundColor(Color.RED);
   }
 
-  public void resetTrail(int index){
+  public void resetTrail(double index){
     turtleManager.resetTrail(index);
   }
 

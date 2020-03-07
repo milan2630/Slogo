@@ -63,7 +63,7 @@ public interface FrontEndExternal {
    */
   void setInputText(String text);
 
-  void resetTrail(int index);
+  void resetTrail(double index);
 
 
 }

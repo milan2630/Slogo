@@ -15,11 +15,11 @@ import slogo.Model.TurtleModel.ImmutableTurtle;
 
 public class TurtleManager extends Pane {
 
-  private Map<Integer, TurtleView> turtleMap;
+  private Map<Double, TurtleView> turtleMap;
 
   public TurtleManager() {
     turtleMap = new HashMap<>();
-    turtleMap.put(0, createTurtle(0));
+    turtleMap.put(0.0, createTurtle(0));
     updatePane();
   }
 
@@ -27,30 +27,30 @@ public class TurtleManager extends Pane {
     for (int i = 0; i < turtles.size(); i++) {
       List<ImmutableTurtle> turtleList = turtles.get(i);
       if (turtleMap.get(i) == null) {
-        turtleMap.put(i, createTurtle(i));
+        turtleMap.put((double) i, createTurtle(i));
       }
-      for (ImmutableTurtle turtleState : turtleList){
-        TurtleView turtle = turtleMap.get(i);
+      for (ImmutableTurtle turtleState : turtleList) {
+        TurtleView turtle = turtleMap.get((double) i);
         turtle.setPenState(turtleState.getPenState());
         //      turtle.setPenColor(turtleProperties.getPenColorIndex());
         turtle.setTurtleHeading(turtleState.getHeading());
         turtle.setPenThickness(turtleState.getPenThickness());
         turtle.setTurtleVisibility(turtleState.getShowing());
         if (checkTurtleOutOfBounds(turtleState)) {
-          throw new ParsingException("OutOfBoundsException", i);
+          throw new ParsingException("OutOfBoundsException");
         }
-        turtle.moveTurtle(new Point2D(turtleState.getX(), -1* turtleState.getY()));
+        turtle.moveTurtle(new Point2D(turtleState.getX(), -1 * turtleState.getY()));
       }
     }
     updatePane();
   }
 
-  public void resetTrail(int i) {
+  public void resetTrail(double i) {
     TurtleView turtle = turtleMap.get(i);
     turtle.reset();
   }
 
-  private TurtleView createTurtle(int i) {
+  private TurtleView createTurtle(double i) {
     TurtleView turtle = new TurtleView(i);
     turtle.translateXProperty().bind(widthProperty().divide(2));
     turtle.translateYProperty().bind(heightProperty().divide(2));
@@ -64,7 +64,7 @@ public class TurtleManager extends Pane {
 
   private void updatePane() {
     getChildren().clear();
-    for (int index : turtleMap.keySet()) {
+    for (double index : turtleMap.keySet()) {
       getChildren().add(turtleMap.get(index));
     }
   }
