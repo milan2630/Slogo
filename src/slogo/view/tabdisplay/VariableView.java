@@ -1,7 +1,6 @@
 package slogo.view.tabdisplay;
 
 import javafx.collections.*;
-import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -9,7 +8,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.DoubleStringConverter;
 import slogo.Model.Explorers.Variables.Variable;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 
 import java.util.ResourceBundle;
 
@@ -17,18 +16,18 @@ public class VariableView <E>{
     private ObservableList<Variable> variables;
     private Tab myTab;
     private TableView<Variable> tableView;
-    private LanguageConverter languageConverter;
+    private LanguageHandler languageHandler;
     private static final String RESOURCE_PATH = "resources/UI/";
     private static final String METHOD_RESOURCES = RESOURCE_PATH+ "ReflectionMethods";
     private ResourceBundle resourceBundle;
     private ResourceBundle actionBundle;
-    public VariableView(LanguageConverter language, ObservableList variableList){
+    public VariableView(LanguageHandler language, ObservableList variableList){
         resourceBundle = ResourceBundle.getBundle(RESOURCE_PATH + language.getLanguage());
         actionBundle = ResourceBundle.getBundle(METHOD_RESOURCES);
         variables=variableList;
         myTab = new Tab(resourceBundle.getString("VariableTab"));
         this.tableView = new TableView<Variable>(variables);
-        languageConverter = language;
+        languageHandler = language;
         setupTab();
     }
 

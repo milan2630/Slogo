@@ -1,7 +1,6 @@
 package slogo;
 
 import javafx.application.Application;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.Controller.Controller;
 
@@ -13,7 +12,8 @@ public class Main extends Application {
   /**
    * Start of the program.
    */
-  public static void main(String[] args) { launch(args); }
+  public static void main(String[] args) {
+    launch(args); }
 
   @Override
   public void start(Stage primaryStage) {

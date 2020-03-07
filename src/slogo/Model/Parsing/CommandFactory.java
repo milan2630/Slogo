@@ -6,10 +6,7 @@ import slogo.Model.ErrorHandling.ParsingException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class CommandFactory {
 
@@ -25,10 +22,10 @@ public class CommandFactory {
     private ResourceBundle myCommandLocationResources;
 
     private MethodExplorer methodExplorer;
-    private LanguageConverter languageConverter;
-    public CommandFactory(LanguageConverter lang, MethodExplorer me){
+    private LanguageHandler languageHandler;
+    public CommandFactory(LanguageHandler lang, MethodExplorer me){
         myCommandLocationResources = ResourceBundle.getBundle(DEFAULT_COMMAND_LOCATION_RESOURCE_PACKAGE);
-        languageConverter = lang;
+        languageHandler = lang;
         methodExplorer = me;
     }
 
@@ -65,7 +62,7 @@ public class CommandFactory {
 
 
     private String getCommandOfficialName(String command){
-        return languageConverter.getCommandOfficialName(command);
+        return languageHandler.getCommandOfficialName(command);
     }
 
 }

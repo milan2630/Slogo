@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
 public class PaletteView extends GridPane {
@@ -27,14 +27,14 @@ public class PaletteView extends GridPane {
   private ResourceBundle methodsResources;
   private ResourceBundle resourceBundle;
   private Actions actions;
-  private LanguageConverter languageConverter;
+  private LanguageHandler languageHandler;
   private VBox background;
   private VBox pen;
   private final double COLOR_SCALE = 255.0;
 
-  public PaletteView(LanguageConverter language, ObservableList list, Actions actions) {
+  public PaletteView(LanguageHandler language, ObservableList list, Actions actions) {
     palette = list;
-    languageConverter = language;
+    languageHandler = language;
     methodsResources = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
     resourceBundle = ResourceBundle.getBundle((PREFIX+language.getLanguage()));
     this.actions = actions;

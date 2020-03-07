@@ -6,7 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.util.*;
 import javafx.scene.text.Text;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 import slogo.view.components.Component;
 import slogo.view.components.ComponentFactory;
@@ -21,7 +21,7 @@ public class SettingView extends VBox {
 
   private static ResourceBundle layouts;
 
-  public SettingView(LanguageConverter language, Actions actions) {
+  public SettingView(LanguageHandler language, Actions actions) {
     layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
 
     setupTab(language.getLanguage(), actions);

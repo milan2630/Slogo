@@ -6,7 +6,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class DialogWindow extends Dialog {
     private ResourceBundle resourceBundle;
 
-    public DialogWindow(String display, LanguageConverter language, int parameters) {
+    public DialogWindow(String display, LanguageHandler language, int parameters) {
         super();
         resourceBundle = ResourceBundle.getBundle("resources/UI/" + language.getLanguage());
         setupWindow(display, parameters);

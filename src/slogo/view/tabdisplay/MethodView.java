@@ -2,29 +2,25 @@ package slogo.view.tabdisplay;
 
 import javafx.collections.*;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
-import javafx.util.Pair;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
 public class MethodView {
     private ResourceBundle resourceBundle;
-    private LanguageConverter languageConverter;
+    private LanguageHandler languageHandler;
     private Tab myTab;
     private ObservableMap<String, UserDefinedInstructionCommand> methods;
     private ListView<String> listView;
     private List<PropertyChangeListener> listener;
     private Actions actions;
-    public MethodView(LanguageConverter language, ObservableMap savedMethodNames, Actions actions){
-        languageConverter = language;
+    public MethodView(LanguageHandler language, ObservableMap savedMethodNames, Actions actions){
+        languageHandler = language;
         methods = savedMethodNames;
         resourceBundle = ResourceBundle.getBundle("resources/UI/" + language.getLanguage());
         this.actions = actions;
@@ -64,7 +60,7 @@ public class MethodView {
     }
 
     private void displayDialogBox(String methodName, String display, int parameters) {
-        DialogWindow dialogWindow = new DialogWindow(display, languageConverter, parameters);
+        DialogWindow dialogWindow = new DialogWindow(display, languageHandler, parameters);
         Optional<List<String>> result = dialogWindow.showAndWait();
         if (result.isPresent()){
             setTerminal(methodName, result.get());

@@ -5,7 +5,7 @@ import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.DoubleVariable;
 import slogo.Model.Explorers.Variables.Variable;
 import slogo.Model.Parsing.CommandManager;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.util.ArrayList;
@@ -100,9 +100,9 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         return ret;
     }
 
-    public void translateCommands(LanguageConverter languageConverter, String newLanguage) {
+    public void translateCommands(LanguageHandler languageHandler, String newLanguage) {
         String oldCommands = myCommands;
-        myCommands = languageConverter.translateString(oldCommands, newLanguage);
-        make = languageConverter.translateString(make, newLanguage);
+        myCommands = languageHandler.translateString(oldCommands, newLanguage);
+        make = languageHandler.translateString(make, newLanguage);
     }
 }

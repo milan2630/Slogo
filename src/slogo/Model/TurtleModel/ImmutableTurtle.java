@@ -14,6 +14,8 @@ public interface ImmutableTurtle {
 
     public double isActive();
 
+    public double getActive();
+
     public double getPenColorIndex();
 
     public double getPenThickness();
