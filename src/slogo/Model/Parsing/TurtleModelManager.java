@@ -73,8 +73,9 @@ public class TurtleModelManager implements Iterable{
         }
     }
 
-    public void activateTurtle(double id){
+    public Turtle activateTurtle(double id){
         turtles.putIfAbsent(id, new Turtle(id));
         turtles.get(id).setIsActive(1);
+        return turtles.get(id);
     }
 }

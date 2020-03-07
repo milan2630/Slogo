@@ -79,18 +79,21 @@ public class CommandManager implements BackEndExternal {
 
 
     protected double actOnCommand(Command command, List<String> params) throws ParsingException {
+        double ret = 0;
         try {
-            Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
-            return (double) method.invoke(command, this, currentTurtle, params);
+            if(currentTurtle.isActive() == 1.0) {
+                Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
+                ret = (double) method.invoke(command, this, currentTurtle, params);
+            }
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new ParsingException("ExecuteMissing", command.toString());
         } catch (InvocationTargetException e) {
             if(e.getCause() instanceof ParsingException){
                 throw (ParsingException) e.getCause();
             }
-            e.printStackTrace();
             throw new ParsingException("CommandExecuteError", command.toString());
         }
+        return ret;
     }
 
     private Map<Double, List<ImmutableTurtle>> getInternalStates() {

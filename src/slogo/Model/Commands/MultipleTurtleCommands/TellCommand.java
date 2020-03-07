@@ -21,9 +21,8 @@ public class TellCommand extends BackEndCommand {
         turtleManager.inactivateAll();
         double currentTurtleID = 0;
         for(String idString: activeTurtleIDStrings){
-            System.out.println("A: " + idString);
             currentTurtleID = getIntegerParameter(idString, commandManager.getVariableExplorer());
-            turtleManager.activateTurtle(currentTurtleID);
+            turtleManager.addInternalState(turtleManager.activateTurtle(currentTurtleID));
         }
         return currentTurtleID;
     }
