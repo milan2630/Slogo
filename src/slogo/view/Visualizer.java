@@ -18,7 +18,7 @@ import slogo.view.tabdisplay.TabPaneView;
 import slogo.view.terminal.Terminal;
 import slogo.view.turtledisplay.TurtleManager;
 
-public class Visualizer implements FrontEndExternal {
+public class Visualizer extends BorderPane implements FrontEndExternal {
 
   private static final String DEFAULT_LANGUAGE = "English";
   private static ResourceBundle resourceBundle;
@@ -35,31 +35,28 @@ public class Visualizer implements FrontEndExternal {
     setBundle();
     stage.setTitle(resourceBundle.getString("Title"));
 
-    BorderPane root = new BorderPane();
-
     terminal = new Terminal(languageConverter, actions);
 
     turtleManager = new TurtleManager();
 
     tabPaneView = new TabPaneView(languageConverter, actions);
-    addPanesToRoot(root);
+    addPanesToRoot();
 
-    Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    Scene scene = new Scene(this, SCENE_WIDTH, SCENE_HEIGHT);
     scene.getStylesheets().add("resources/Styles/default.css");
     stage.setScene(scene);
     stage.show();
   }
 
-  private void addPanesToRoot(BorderPane root) {
+  private void addPanesToRoot() {
     Pane displayNode = turtleManager;
     displayNode.getStyleClass().add("display");
-
     TabPane tabNode = tabPaneView.getTabPane();
 
-    root.setCenter(displayNode);
+    setCenter(displayNode);
     BorderPane.setAlignment(tabNode, Pos.TOP_LEFT);
-    root.setLeft(tabNode);
-    root.setBottom(terminal);
+    setLeft(tabNode);
+    setBottom(terminal);
   }
 
   private void setBundle() {
@@ -79,8 +76,7 @@ public class Visualizer implements FrontEndExternal {
 
   @Override
   public void updateTurtle(Map<Double, List<ImmutableTurtle>> turtleList) throws ParsingException {
-    //Map<Integer, List<ImmutableTurtle>> turtles = new HashMap<>();
-    //turtles.put(0,turtleList);
+    turtleManager.setPalette(tabPaneView.getImmutablePaletteList());
     turtleManager.updateTurtles(turtleList);
   }
   @Override
