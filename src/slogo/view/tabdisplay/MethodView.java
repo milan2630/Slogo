@@ -64,53 +64,11 @@ public class MethodView {
     }
 
     private void displayDialogBox(String methodName, String display, int parameters) {
-        VBox vbox = createInputFields(parameters);
-        Dialog dialog = getDialog(display, vbox);
-        Optional<List<String>> result = dialog.showAndWait();
+        DialogWindow dialogWindow = new DialogWindow(display, languageConverter, parameters);
+        Optional<List<String>> result = dialogWindow.showAndWait();
         if (result.isPresent()){
             setTerminal(methodName, result.get());
         }
-    }
-
-    private Dialog getDialog(String display, VBox vbox) {
-        Dialog dialog = new Dialog();
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        //TODO make not hard coded
-        dialog.setTitle("planning");
-        dialog.setHeaderText(display);
-        dialog.getDialogPane().setContent(vbox);
-        setupInput(vbox, dialog);
-        return dialog;
-    }
-
-    private void setupInput(VBox vbox, Dialog dialog) {
-        dialog.setResultConverter(new Callback<ButtonType, List<String>>() {
-            @Override
-            public List<String> call(ButtonType b) {
-                if (b == ButtonType.OK) {
-                    List<String> parameters = new ArrayList<>();
-                    for (Node n: vbox.getChildren()){
-                        TextField f = (TextField) n;
-                        parameters.add(f.getText());
-                    }
-                    return parameters;
-                }
-                return null;
-            }
-        });
-    }
-
-    private VBox createInputFields(int parameters) {
-        VBox vbox = new VBox();
-        for (int i =0; i<parameters; i++){
-            TextField input = new TextField();
-            int j = i+1;
-            //TODO make not hard coded
-            input.setPromptText(resourceBundle.getString("Parameter")+" "+j);
-            vbox.getChildren().add(input);
-        }
-        vbox.setSpacing(10);
-        return vbox;
     }
 
     private void setTerminal(String methodName, List<String> parameters) {
@@ -155,5 +113,4 @@ public class MethodView {
         }
     }
     public Tab getTab(){ return myTab;}
-
 }

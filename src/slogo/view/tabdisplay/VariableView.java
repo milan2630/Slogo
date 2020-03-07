@@ -19,9 +19,12 @@ public class VariableView <E>{
     private TableView<Variable> tableView;
     private LanguageConverter languageConverter;
     private static final String RESOURCE_PATH = "resources/UI/";
-    private static ResourceBundle resourceBundle;
+    private static final String METHOD_RESOURCES = RESOURCE_PATH+ "ReflectionMethods";
+    private ResourceBundle resourceBundle;
+    private ResourceBundle actionBundle;
     public VariableView(LanguageConverter language, ObservableList variableList){
         resourceBundle = ResourceBundle.getBundle(RESOURCE_PATH + language.getLanguage());
+        actionBundle = ResourceBundle.getBundle(METHOD_RESOURCES);
         variables=variableList;
         myTab = new Tab(resourceBundle.getString("VariableTab"));
         this.tableView = new TableView<Variable>(variables);
@@ -68,11 +71,11 @@ public class VariableView <E>{
 
     private Button makeClearButton() {
         Button clearButton = new Button(resourceBundle.getString("ClearButton"));
-        clearButton.setOnAction(e->emptyVariables());
+        clearButton.setOnAction(e->empty());
         return clearButton;
     }
 
-    private void emptyVariables() {
+    private void empty() {
         if (!variables.isEmpty()) {
             variables.clear();
         }

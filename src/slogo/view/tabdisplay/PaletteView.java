@@ -1,6 +1,5 @@
 package slogo.view.tabdisplay;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,21 +9,14 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Pair;
 import slogo.Model.Parsing.LanguageConverter;
-import slogo.ReflectionException;
 import slogo.view.Actions;
-
-import javax.swing.*;
 
 public class PaletteView extends GridPane {
 
@@ -38,6 +30,7 @@ public class PaletteView extends GridPane {
   private LanguageConverter languageConverter;
   private VBox background;
   private VBox pen;
+  private final double COLOR_SCALE = 255.0;
 
   public PaletteView(LanguageConverter language, ObservableList list, Actions actions) {
     palette = list;
@@ -62,6 +55,7 @@ public class PaletteView extends GridPane {
     background.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("BackgroundPalette")));
     pen.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("PenPalette")));
   }
+
   private VBox bindList(String text){
     VBox vbox = new VBox();
     Label title = new Label();
@@ -103,15 +97,15 @@ public class PaletteView extends GridPane {
     }
     java.awt.Color c = new java.awt.Color(colorRGB[0], colorRGB[1], colorRGB[2]);
     int a = c.getAlpha();
-    double opacity = a / 255.0 ;
-    Color color = new Color(c.getRed()/255.0, c.getGreen()/255.0, c.getBlue()/255.0, opacity);
+    double opacity = a / COLOR_SCALE;
+    Color color = new Color(c.getRed()/ COLOR_SCALE, c.getGreen()/ COLOR_SCALE, c.getBlue()/ COLOR_SCALE, opacity);
     return color;
   }
 
   public void addColor(Color c){
-    int red = (int)(c.getRed() * 255);
-    int green = (int)(c.getGreen() * 255);
-    int blue = (int)(c.getBlue() * 255);
+    int red = (int)(c.getRed() * COLOR_SCALE);
+    int green = (int)(c.getGreen() * COLOR_SCALE);
+    int blue = (int)(c.getBlue() * COLOR_SCALE);
     palette.add(red+" "+green+" "+blue);
   }
 

@@ -1,6 +1,7 @@
 package slogo.view.tabdisplay;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.beans.Observable;
@@ -35,7 +36,7 @@ public class TabPaneView {
     tabPane = new TabPane();
     tabPane.getStyleClass().add("tabPane");
 
-    tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+    //tabPane.setTabClosingPolicy(TabClosingPolicy.);
     createSettingTab(language, actions);
     createTurtleTab(language, actions);
     this.actions = actions;

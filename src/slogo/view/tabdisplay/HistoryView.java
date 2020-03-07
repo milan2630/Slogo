@@ -3,19 +3,26 @@ package slogo.view.tabdisplay;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import slogo.Model.Parsing.LanguageConverter;
+import slogo.ReflectionException;
 import slogo.view.Actions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class HistoryView {
-    private static ResourceBundle resourceBundle;
-    private static final String RESOURCES_HISTORY = "resources/Layouts/SettingsTab/";
-    private static final String RESOURCES_LAYOUT = "resources/UI/";
+    private ResourceBundle resourceBundle;
+    private ResourceBundle layoutBundle;
+    private ResourceBundle methodBundle;
+    private static final String PREFIX = "resources/UI/";
+    private static final String RESOURCES_LAYOUT = PREFIX + "Layouts";
+    private static final String RESOURCES_METHODS = PREFIX+ "ReflectionMethods";
     private LanguageConverter languageConverter;
     private Tab myTab;
     private ObservableList<String> history;
@@ -23,7 +30,9 @@ public class HistoryView {
     private Actions actions;
     public HistoryView(LanguageConverter language, ObservableList<String> historyList, Actions actions){
         languageConverter= language;
-        resourceBundle = ResourceBundle.getBundle(RESOURCES_LAYOUT + language.getLanguage());
+        resourceBundle = ResourceBundle.getBundle(PREFIX + language.getLanguage());
+        layoutBundle = ResourceBundle.getBundle((RESOURCES_LAYOUT));
+        methodBundle = ResourceBundle.getBundle(RESOURCES_METHODS);
         myTab = new Tab(resourceBundle.getString("HistoryTab"));
         history = historyList;
         list = new ListView<String>();
@@ -37,19 +46,41 @@ public class HistoryView {
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(20);
-        Button clearButton = new Button(resourceBundle.getString("ClearButton"));
         list.itemsProperty().bind(new SimpleObjectProperty<>(history));
-        clearButton.setOnMouseClicked(e->emptyHistory());
         list.getSelectionModel().selectedItemProperty().addListener(e-> print());
-        vbox.getChildren().addAll(clearButton, list);
-
+        HBox buttons = createButtons();
+        vbox.getChildren().addAll(buttons, list);
         myTab.setContent(vbox);
     }
+
+    private HBox createButtons() {
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER);
+        String[] buttons = layoutBundle.getString("HistoryView").split(",");
+        for (String b: buttons){
+            hbox.getChildren().add(createButton(b));
+        }
+        return hbox;
+    }
+
+    private Node createButton(String b) {
+        Button button = new Button();
+        button.setText(resourceBundle.getString(b));
+        try {
+            Method m = this.getClass().getDeclaredMethod(methodBundle.getString(b));
+            m.invoke(this);
+        } catch (Exception e) {
+            throw new ReflectionException("InvalidMethod", methodBundle.getString(b));
+        }
+        return button;
+    }
+
     private void print() {
         actions.handleHistoryVariable(list.getSelectionModel().getSelectedItem());
     }
 
-    private void emptyHistory() {
+    private void empty() {
         if (!history.isEmpty()) {
             history.clear();
         }
@@ -59,7 +90,6 @@ public class HistoryView {
         for (int i =0; i<history.size(); i++){
             String oldString = history.get(i);
             String newString = languageConverter.translateString(oldString, newLanguage);
-            System.out.println(newString);
             history.set(i ,newString);
         }
     }

@@ -21,6 +21,7 @@ import slogo.view.Actions;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class TurtleTabView {
@@ -80,7 +81,7 @@ public class TurtleTabView {
                 new Callback<TableColumn.CellDataFeatures<ImmutableTurtle, Boolean>, ObservableValue<Boolean>>() {
                     @Override
                     public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ImmutableTurtle, Boolean> param) {
-                        return new SimpleBooleanProperty(param.getValue().getShowing() == 1);
+                        return new SimpleBooleanProperty(param.getValue().isActive() == 1);
                     }
                 });
         CheckBoxTableCell cell = new CheckBoxTableCell();
@@ -91,8 +92,8 @@ public class TurtleTabView {
     private void editTurtleState(CheckBoxTableCell c) {
         ImmutableTurtle t = tableView.getSelectionModel().getSelectedItem();
         if (t != null) {
-            String status = t.getShowing() == 1 ? "pu" : "pd";
-            actions.handleTurtleState(t.getX() + "", status);
+            String status = t.getShowing() == 1 ? "0.0" : "1.0";
+            actions.handleTurtleState(t.getID() + "", status);
         }
     }
     /**
@@ -104,10 +105,12 @@ public class TurtleTabView {
     }
     /**
      * reset table after each run with states of each turtle
-     * @param turtle list of turtles
+     * @param turtleList list of turtles
      */
-    public void setTable(ImmutableTurtle turtle) {
-        List<ImmutableTurtle> list = List.of(turtle);
-        tableView.setItems(FXCollections.observableList(list));
+    public void setTable(Map<Double, List<ImmutableTurtle>> turtleList) {
+        for (double i: turtleList.keySet()){
+            List<ImmutableTurtle> turtle = turtleList.get(i);
+            tableView.getItems().add(turtle.get(turtle.size()-1));
+        }
     }
 }

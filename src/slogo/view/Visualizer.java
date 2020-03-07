@@ -78,6 +78,7 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
   public void updateTurtle(Map<Double, List<ImmutableTurtle>> turtleList) throws ParsingException {
     turtleManager.setPalette(tabPaneView.getImmutablePaletteList());
     turtleManager.updateTurtles(turtleList);
+    tabPaneView.updateTurtleTab(turtleList);
   }
   @Override
   public void displayError(Exception error) {
