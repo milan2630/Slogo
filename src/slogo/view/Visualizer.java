@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.view.tabdisplay.TabPaneView;
@@ -26,20 +26,20 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
   private TurtleManager turtleManager;
   private TabPaneView tabPaneView;
   private Terminal terminal;
-  private LanguageConverter languageConverter;
+  private LanguageHandler languageHandler;
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 600;
 
-  public Visualizer(Stage stage, LanguageConverter language, Actions actions) {
-    languageConverter = language;
+  public Visualizer(Stage stage, LanguageHandler language, Actions actions) {
+    languageHandler = language;
     setBundle();
     stage.setTitle(resourceBundle.getString("Title"));
 
-    terminal = new Terminal(languageConverter, actions);
+    terminal = new Terminal(languageHandler, actions);
 
     turtleManager = new TurtleManager();
 
-    tabPaneView = new TabPaneView(languageConverter, actions);
+    tabPaneView = new TabPaneView(languageHandler, actions);
     addPanesToRoot();
 
     Scene scene = new Scene(this, SCENE_WIDTH, SCENE_HEIGHT);
@@ -86,8 +86,8 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
   }
 
   @Override
-  public void bindTabs(LanguageConverter language, ObservableList history, ObservableList variables,
-      ObservableMap methods, ObservableList palette) {
+  public void bindTabs(LanguageHandler language, ObservableList history, ObservableList variables,
+                       ObservableMap methods, ObservableList palette) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);

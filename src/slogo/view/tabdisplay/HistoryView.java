@@ -7,12 +7,10 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.ReflectionException;
 import slogo.view.Actions;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -23,13 +21,13 @@ public class HistoryView {
     private static final String PREFIX = "resources/UI/";
     private static final String RESOURCES_LAYOUT = PREFIX + "Layouts";
     private static final String RESOURCES_METHODS = PREFIX+ "ReflectionMethods";
-    private LanguageConverter languageConverter;
+    private LanguageHandler languageHandler;
     private Tab myTab;
     private ObservableList<String> history;
     private ListView<String> list;
     private Actions actions;
-    public HistoryView(LanguageConverter language, ObservableList<String> historyList, Actions actions){
-        languageConverter= language;
+    public HistoryView(LanguageHandler language, ObservableList<String> historyList, Actions actions){
+        languageHandler = language;
         resourceBundle = ResourceBundle.getBundle(PREFIX + language.getLanguage());
         layoutBundle = ResourceBundle.getBundle((RESOURCES_LAYOUT));
         methodBundle = ResourceBundle.getBundle(RESOURCES_METHODS);
@@ -89,7 +87,7 @@ public class HistoryView {
     public void setLanguage(String newLanguage) {
         for (int i =0; i<history.size(); i++){
             String oldString = history.get(i);
-            String newString = languageConverter.translateString(oldString, newLanguage);
+            String newString = languageHandler.translateString(oldString, newLanguage);
             history.set(i ,newString);
         }
     }

@@ -26,21 +26,13 @@ public class CommandManager implements BackEndExternal {
     private VariableExplorer variableExplorer;
     private PaletteExplorer paletteExplorer;
     private TurtleModelManager turtleManager;
-    private LanguageConverter languageConverter;
+    private LanguageHandler languageHandler;
     private Turtle currentTurtle;
     private CommandActor commandActor;
 
 
-    /**
-     * Create a Command Manager with given explorers
-     * @param v Visualizer
-     * @param me MethodExplorer
-     * @param ve VariableExplorer
-     * @param pe PaletteExplorer
-     * @param lang properties file to parse with
-     */
-    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, LanguageConverter lang){
-        languageConverter = lang;
+    public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, LanguageHandler lang){
+        languageHandler = lang;
         frontend = v;
         methodExplorer = me;
         variableExplorer = ve;
@@ -144,11 +136,8 @@ public class CommandManager implements BackEndExternal {
         methodExplorer.convertLanguage(lang);
     }
 
-    /**
-     * @return the LanguageConverter
-     */
-    public LanguageConverter getLanguageConverter(){
-        return languageConverter;
+    public LanguageHandler getLanguageHandler(){
+        return languageHandler;
     }
 
 }

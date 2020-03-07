@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class LanguageConverter {
+public class LanguageHandler {
     private Map<Pattern, String> oldCommands;
     private Map<Pattern, String> newCommands;
     private ResourceBundle myOldLanguageResources;
@@ -17,7 +17,7 @@ public class LanguageConverter {
     private static final String DEFAULT_COMMAND_NAME_PACKAGE = COMMAND_NAME_RESOURCES + ".";
     private static final String DEFAULT_COMMAND_NAME_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_NAME_PACKAGE;
 
-    public LanguageConverter(String oldLanguage) {
+    public LanguageHandler(String oldLanguage) {
         updateLanguage(oldLanguage);
     }
 
@@ -92,6 +92,15 @@ public class LanguageConverter {
         }
         return null;
     }
+    public String getLanguageCommand(String str){
+        for (Pattern key : oldCommands.keySet()) {
+            if(match(str, Pattern.compile(oldCommands.get(key)))) {
+                return key.toString().split("\\|")[0];
+            }
+        }
+        return null;
+    }
+
     public String getLanguage(){
         return oldLanguage;
     }

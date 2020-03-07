@@ -41,8 +41,6 @@ public abstract class Component extends Pane {
       Method m = actions.getClass().getDeclaredMethod(methodBundle.getString(key), String.class);
       m.invoke(actions, value);
     } catch (Exception e) {
-      //TODO remove soon!
-      e.printStackTrace();
       throw  new ReflectionException("InvalidMethod", methodBundle.getString(key));
     }
   }

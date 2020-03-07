@@ -2,7 +2,7 @@ package slogo.view.terminal;
 
 import java.util.ResourceBundle;
 import javafx.scene.layout.BorderPane;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
 public class Terminal extends BorderPane {
@@ -14,7 +14,7 @@ public class Terminal extends BorderPane {
   private ErrorBar errorBar;
   private static final double HEIGHT = 150;
 
-  public Terminal(LanguageConverter language, Actions actions) {
+  public Terminal(LanguageHandler language, Actions actions) {
     uiResources = ResourceBundle.getBundle(RESOURCES_UI + language.getLanguage());
     setPrefHeight(HEIGHT);
 

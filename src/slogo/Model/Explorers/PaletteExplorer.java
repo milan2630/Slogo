@@ -1,11 +1,9 @@
 package slogo.Model.Explorers;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-import javafx.util.Pair;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class PaletteExplorer {
     private static ResourceBundle resourceBundle;
     private ResourceBundle colorsResources;
 
-    public PaletteExplorer(LanguageConverter language, Actions actions){
+    public PaletteExplorer(LanguageHandler language, Actions actions){
         list = FXCollections.observableArrayList(new ArrayList<>());
         colorsResources = ResourceBundle.getBundle(PATH + language.getLanguage());
         resourceBundle = ResourceBundle.getBundle(RESOURCE_PATH+language.getLanguage());
