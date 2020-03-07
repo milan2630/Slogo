@@ -21,15 +21,16 @@ public class CommandActor {
      * @param command the Command to execute
      * @param params the parameters to provide that command
      * @param currentTurtle the turtle to execute the commands on
+     * @param commandManager the command manager to pass to the command
      * @return the return value of the command
      * @throws ParsingException
      */
-    public double actOnCommand(Command command, List<String> params, Turtle currentTurtle) throws ParsingException {
+    public double actOnCommand(Command command, List<String> params, CommandManager commandManager, Turtle currentTurtle) throws ParsingException {
         double ret = 0;
         try {
             if(currentTurtle.isActive() == 1.0) {
                 Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
-                ret = (double) method.invoke(command, this, currentTurtle, params);
+                ret = (double) method.invoke(command, commandManager, currentTurtle, params);
             }
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new ParsingException("ExecuteMissing", command.toString());
