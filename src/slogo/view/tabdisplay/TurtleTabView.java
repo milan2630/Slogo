@@ -95,16 +95,13 @@ public class TurtleTabView {
             actions.handleTurtleState(t.getX() + "", status);
         }
     }
-
     /**
      * returns Tab for states of turtles
-     *
      * @return myTab
      */
     public Tab getTab() {
         return myTab;
     }
-
     /**
      * reset table after each run with states of each turtle
      * @param turtle list of turtles

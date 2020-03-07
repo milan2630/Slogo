@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -31,8 +32,8 @@ public class PaletteView extends GridPane {
   private static final String PATH = "resources/Palettes/";
   private static final String PREFIX = "resources/UI/";
   private static final String RESOURCES_LAYOUTS = PREFIX + "ReflectionMethods";
-  private ResourceBundle colorsResources;
   private ResourceBundle methodsResources;
+  private ResourceBundle resourceBundle;
   private Actions actions;
   private LanguageConverter languageConverter;
   private VBox background;
@@ -41,14 +42,14 @@ public class PaletteView extends GridPane {
   public PaletteView(LanguageConverter language, ObservableList list, Actions actions) {
     palette = list;
     languageConverter = language;
-    colorsResources = ResourceBundle.getBundle(PATH + language.getLanguage());
     methodsResources = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
+    resourceBundle = ResourceBundle.getBundle((PREFIX+language.getLanguage()));
     this.actions = actions;
-    background = bindList(methodsResources.getString("BackgroundPalette"));
-    pen = bindList(methodsResources.getString("PenPalette"));
+    background = bindList("BackgroundPalette");
+    pen = bindList("PenPalette");
     palette.addListener((ListChangeListener.Change<? extends String> e)->handleColorAdded(e));
     add(background, 0,0,1,1);
-    add(pen, 1, 0, 1, 1);
+    add(pen, 2, 0, 1, 1);
   }
 
   private void handleColorAdded(ListChangeListener.Change<? extends String> e) {
@@ -61,9 +62,14 @@ public class PaletteView extends GridPane {
     background.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("BackgroundPalette")));
     pen.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("PenPalette")));
   }
-  private VBox bindList(String methodName){
+  private VBox bindList(String text){
     VBox vbox = new VBox();
+    Label title = new Label();
+    title.setText(resourceBundle.getString((text)));
+    vbox.setAlignment(Pos.CENTER);
+    vbox.getChildren().add(title);
     for (int i=0; i< palette.size(); i++){
+      String methodName = methodsResources.getString(text);
       vbox.getChildren().add(createColorOption(i, methodName));
     }
     vbox.setSpacing(20);
@@ -74,6 +80,7 @@ public class PaletteView extends GridPane {
     HBox color = new HBox();
     color.getStyleClass().add(".settings-text");
     Label label = new Label(""+i);
+    label.setTextFill(Color.RED);
     Rectangle rect = new Rectangle();
     rect.setWidth(100);
     rect.setHeight(20);

@@ -142,8 +142,6 @@ public class MethodView {
             listView.getItems().remove(c.getKey());
         }
     }
-
-
     private Button makeClearButton() {
         Button clearButton = new Button(resourceBundle.getString("ClearButton"));
         clearButton.setOnAction(e->clearSavedMethods());

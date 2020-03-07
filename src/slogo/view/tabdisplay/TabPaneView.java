@@ -1,6 +1,10 @@
 package slogo.view.tabdisplay;
 
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.Tab;
@@ -75,6 +79,8 @@ public class TabPaneView {
   public void createHistoryTab(LanguageConverter language, ObservableList historyList) {
     historyView = new HistoryView(language, historyList, actions);
     tabPane.getTabs().add(historyView.getTab());
+    Observable j = FXCollections.observableList(List.of(" ", " "));
+
   }
 
   public Color getColor(int index){
