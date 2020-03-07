@@ -41,23 +41,10 @@ public class CommandManager implements BackEndExternal {
     @Override
     public Map<Double, List<ImmutableTurtle>> parseTurtleStatesFromCommands(String input) throws ParsingException {
         clearInternalStates();
-
         parseCommands(input);
-
-
         Map<Double, List<ImmutableTurtle>> retMap = getInternalStates();
-        System.out.println("States:");
-        for(Double d: retMap.keySet()){
-            System.out.println("Index: " + d);
-            for(ImmutableTurtle t: retMap.get(d)){
-                System.out.println("\tID: " + t.getID()+ "    Y: " + t.getY());
-            }
-        }
-
-
         turtleManager.backupTurtleList();
         turtleManager.backupInternalStateList();
-
         return retMap;
     }
 
