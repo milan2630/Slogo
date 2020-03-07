@@ -54,8 +54,9 @@ public class TurtleManager extends Pane {
   }
 
   public void resetTrail(double i) {
-    TurtleView turtle = turtleMap.get(i);
-    turtle.reset();
+    turtleMap.remove(i);
+    turtleMap.put(i,createTurtle(i));
+    updatePane();
   }
 
   private TurtleView createTurtle(double i) {

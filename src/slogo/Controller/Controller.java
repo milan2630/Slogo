@@ -80,10 +80,14 @@ public class Controller implements PropertyChangeListener {
     }
   }
 
-  //FIXME
   private void handleReset() {
-    String command = languageHandler.getLanguageCommand("ClearScreen");
-    handleRun(command);
+    try {
+      String command = languageHandler.getLanguageCommand("ClearScreen");
+      backendManager.parseTurtleStatesFromCommands(command);
+    }
+    catch(Exception e) {
+      myVisualizer.displayError(e);
+    }
   }
 
   private void handleRun(String command) {
