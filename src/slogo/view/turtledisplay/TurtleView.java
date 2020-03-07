@@ -57,7 +57,6 @@ public class TurtleView extends Pane {
   }
 
   public void setShape(double index) {
-    System.out.println("called");
     setTurtleImage(filenames[(int) index]);
   }
 
