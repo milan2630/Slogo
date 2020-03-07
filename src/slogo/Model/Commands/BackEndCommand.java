@@ -69,7 +69,7 @@ public abstract class BackEndCommand implements Command {
      * @return the slogo return value of the last command executed
      * @throws ParsingException
      */
-    public double repeatAction(CommandManager commandManager, String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
+    protected double repeatAction(CommandManager commandManager, String command, String iteratorName, double startVal, double endVal, double iterationVal) throws ParsingException {
         Variable<Double> var = commandManager.getVariableExplorer().addDoubleVarByName(iteratorName, startVal);
         double ret = 0;
         while(var.getValue() <= endVal){
@@ -84,7 +84,7 @@ public abstract class BackEndCommand implements Command {
      * @param input the string to be stripped of the brackets
      * @return the string without surrounding brackets
      */
-    public String removeOuterBrackets(String input){
+    protected String removeOuterBrackets(String input){
         if(input.charAt(0) == START_BRACKET && input.charAt(input.length()-1) == END_BRACKET){
             return input.substring(1, input.length()-1);
         }
@@ -96,7 +96,7 @@ public abstract class BackEndCommand implements Command {
      * @param input the double to check if it is zero
      * @return true if the double is zero, false if not
      */
-    public boolean isZero(double input){
+    protected boolean isZero(double input){
         return new BigDecimal(input).setScale(ROUNDING_PLACES_TO_CHECK_ZERO, RoundingMode.HALF_UP).doubleValue() == 0.0;
     }
 
@@ -116,7 +116,7 @@ public abstract class BackEndCommand implements Command {
      * @return the integer specified by val
      * @throws ParsingException if val is not a valid integer or variable
      */
-    public int getIntegerParameter(String val, VariableExplorer variableExplorer) throws ParsingException {
+    protected int getIntegerParameter(String val, VariableExplorer variableExplorer) throws ParsingException {
         double unRounded = getDoubleParameter(val, variableExplorer);
         return  (int) Math.round(unRounded);
     }

@@ -104,7 +104,6 @@ public class Parser{
 
     private void checkUnfulfilledStacks() throws ParsingException {
         checkStackLeftover(commandStack,"UnfulfilledCommands", 0);
-        checkStackLeftover(argumentStack, "UnfulfilledArguments", 1);
     }
 
     private void checkStackLeftover(Stack checkStack, String errorKey, int expectedAmount) throws ParsingException {
