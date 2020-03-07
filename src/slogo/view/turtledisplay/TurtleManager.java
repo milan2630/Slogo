@@ -35,7 +35,7 @@ public class TurtleManager extends Pane {
       for (ImmutableTurtle turtleState : turtleList) {
         TurtleView turtle = turtleMap.get( i);
         turtle.setPenState(turtleState.getPenState());
-              turtle.setPenColor(palette.get((int) turtleState.getPenColorIndex()));
+        turtle.setPenColor(palette.get((int) turtleState.getPenColorIndex()));
         turtle.setTurtleHeading(turtleState.getHeading());
         turtle.setPenThickness(turtleState.getPenThickness());
         turtle.setTurtleVisibility(turtleState.getShowing());
