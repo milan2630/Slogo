@@ -87,6 +87,10 @@ public class TabPaneView {
     return paletteView.getColor(index);
   }
 
+  public List getImmutablePaletteList(){
+    return paletteView.getImmutableList();
+  }
+
   public void updateTurtleTab(ImmutableTurtle turtle){
     turtleTabView.setTable(turtle);
   }

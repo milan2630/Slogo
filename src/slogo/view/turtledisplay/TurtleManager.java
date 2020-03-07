@@ -1,5 +1,6 @@
 package slogo.view.turtledisplay;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,10 @@ import slogo.Model.TurtleModel.ImmutableTurtle;
 public class TurtleManager extends Pane {
 
   private Map<Double, TurtleView> turtleMap;
+  private List<Color> palette;
 
   public TurtleManager() {
+    palette = new ArrayList<>();
     turtleMap = new HashMap<>();
     turtleMap.put(1.0, createTurtle(1));
     updatePane();
@@ -32,7 +35,7 @@ public class TurtleManager extends Pane {
       for (ImmutableTurtle turtleState : turtleList) {
         TurtleView turtle = turtleMap.get((double) i);
         turtle.setPenState(turtleState.getPenState());
-        //      turtle.setPenColor(turtleProperties.getPenColorIndex());
+              turtle.setPenColor(palette.get((int) turtleState.getPenColorIndex()));
         turtle.setTurtleHeading(turtleState.getHeading());
         turtle.setPenThickness(turtleState.getPenThickness());
         turtle.setTurtleVisibility(turtleState.getShowing());
@@ -43,6 +46,10 @@ public class TurtleManager extends Pane {
       }
     }
     updatePane();
+  }
+
+  public void setPalette(List<Color> palette) {
+    this.palette = palette;
   }
 
   public void resetTrail(double i) {
