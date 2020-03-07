@@ -19,12 +19,12 @@ public class TurtleManager extends Pane {
 
   public TurtleManager() {
     turtleMap = new HashMap<>();
-    turtleMap.put(0.0, createTurtle(0));
+    turtleMap.put(1.0, createTurtle(1));
     updatePane();
   }
 
-  public void updateTurtles(Map<Integer, List<ImmutableTurtle>> turtles) throws ParsingException {
-    for (int i = 0; i < turtles.size(); i++) {
+  public void updateTurtles(Map<Double, List<ImmutableTurtle>> turtles) throws ParsingException {
+    for (double i: turtles.keySet()) {
       List<ImmutableTurtle> turtleList = turtles.get(i);
       if (turtleMap.get(i) == null) {
         turtleMap.put((double) i, createTurtle(i));
