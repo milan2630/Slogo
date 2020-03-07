@@ -25,6 +25,10 @@ public interface BackEndExternal {
      */
     public void setLanguage(String lang);
 
+    /**
+     * Called to return the backend to the state before the previous command
+     * @return the list of Immutable turtles returned by the previous command
+     */
     public Map<Double, List<ImmutableTurtle>> undoAction();
 
 }
