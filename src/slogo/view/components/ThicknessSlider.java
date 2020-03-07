@@ -16,14 +16,13 @@ public class ThicknessSlider extends Component {
     slider.setMax(30);
     slider.setMajorTickUnit(5);
 
-    Button button = new Button(getPromptFromKey());
-    button.getStyleClass().add("terminal-button");
+    Button button = new Button(getPromptFromKey("PenThicknessButton"));
     button.setOnAction(handler -> {
       String command = getCommandByKey("SetPenSize",0) + slider.getValue();
       handleAction(command);
     });
 
-    hbox.getChildren().addAll(slider,button);
+    hbox.getChildren().addAll(button, slider);
     getChildren().add(hbox);
   }
 }
