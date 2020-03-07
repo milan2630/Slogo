@@ -4,6 +4,9 @@ import slogo.Model.TurtleModel.Turtle;
 
 import java.util.*;
 
+/**
+ * Wraps a map of Turtles and allows the user to iterate through the map
+ */
 public class TurtleIterator<T> implements Iterator {
 
     Map<Double, Turtle> turtleSet;

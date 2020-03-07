@@ -5,6 +5,9 @@ import slogo.Model.ErrorHandling.ParsingException;
 
 import java.util.*;
 
+/**
+ * Parses a String and executes the commands it dictates
+ */
 public class Parser{
 
     private static final String START_UNLIMITED_PARAMETERS_CHARACTER = "(";
@@ -27,8 +30,10 @@ public class Parser{
     }
 
     /**
-     * Creates a list of commands to execute in order based on the input from the console
-     * @param input from the Console
+     * Parses the input String and executes the commands
+     * @param input String to be parsed
+     * @return the final return from parsing the string
+     * @throws ParsingException
      */
     public double parseCommands(String input) throws ParsingException {
         if(input == null || input.length() == 0){
