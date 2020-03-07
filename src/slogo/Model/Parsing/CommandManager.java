@@ -22,8 +22,9 @@ public class CommandManager implements BackEndExternal {
     private MethodExplorer methodExplorer;
     private VariableExplorer variableExplorer;
     private PaletteExplorer paletteExplorer;
-    private TurtleManager turtleManager;
+    private TurtleModelManager turtleManager;
     private LanguageConverter languageConverter;
+    private Turtle currentTurtle;
 
 
     public CommandManager(Visualizer v, MethodExplorer me, VariableExplorer ve, PaletteExplorer pe, LanguageConverter lang){
@@ -32,24 +33,31 @@ public class CommandManager implements BackEndExternal {
         methodExplorer = me;
         variableExplorer = ve;
         paletteExplorer = pe;
-        turtleManager = new TurtleManager();
+        turtleManager = new TurtleModelManager();
+        currentTurtle = new Turtle(1);
 
     }
 
     @Override
     public List<ImmutableTurtle> parseTurtleStatesFromCommands(String input) throws ParsingException {
         clearInternalStates();
-        parseCommands(input);
+        TurtleIterator iterator = turtleManager.iterator();
+        while(iterator.hasNext()){
+            currentTurtle = iterator.next();
+            parseCommands(input);
+        }
 
         Map<Double, List<ImmutableTurtle>> retMap = getInternalStates();
+        System.out.println("States:");
         for(Double d: retMap.keySet()){
-            System.out.println(d);
+            System.out.println("Index: " + d);
+            for(ImmutableTurtle t: retMap.get(d)){
+                System.out.println("\tID: " + t.getID()+ "    Y: " + t.getY());
+            }
         }
         List<ImmutableTurtle> ret = retMap.get(1.0);
-        System.out.println("States:");
-        for(ImmutableTurtle t: ret){
-            System.out.println(t.getY());
-        }
+
+
         turtleManager.backupTurtleList();
         turtleManager.backupInternalStateList();
 
@@ -73,16 +81,8 @@ public class CommandManager implements BackEndExternal {
 
     protected double actOnCommand(Command command, List<String> params) throws ParsingException {
         try {
-            double ret = 0;
-            TurtleIterator iterator = turtleManager.iterator();
-            while(iterator.hasNext()){
-                Turtle turtle = iterator.next();
-                if(turtle.isActive() == 1){
-                    Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
-                    ret = (double) method.invoke(command, this, turtle, params);
-                }
-            }
-            return ret;
+            Method method = command.getClass().getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, CommandManager.class, Turtle.class, List.class);
+            return (double) method.invoke(command, this, currentTurtle, params);
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new ParsingException("ExecuteMissing", command.toString());
         } catch (InvocationTargetException e) {
@@ -118,7 +118,7 @@ public class CommandManager implements BackEndExternal {
         return frontend;
     }
 
-    public TurtleManager getTurtleManager(){
+    public TurtleModelManager getTurtleManager(){
         return turtleManager;
     }
 
