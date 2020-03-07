@@ -39,7 +39,7 @@ public class CommandManager implements BackEndExternal {
     }
 
     @Override
-    public List<ImmutableTurtle> parseTurtleStatesFromCommands(String input) throws ParsingException {
+    public Map<Double, List<ImmutableTurtle>> parseTurtleStatesFromCommands(String input) throws ParsingException {
         clearInternalStates();
         TurtleIterator iterator = turtleManager.iterator();
         while(iterator.hasNext()){
@@ -55,13 +55,12 @@ public class CommandManager implements BackEndExternal {
                 System.out.println("\tID: " + t.getID()+ "    Y: " + t.getY());
             }
         }
-        List<ImmutableTurtle> ret = retMap.get(1.0);
 
 
         turtleManager.backupTurtleList();
         turtleManager.backupInternalStateList();
 
-        return ret;
+        return retMap;
     }
 
     @Override
