@@ -209,10 +209,6 @@ public class Turtle implements ImmutableTurtle{
         return myIsActive;
     }
 
-    @Override
-    public double getActive() {
-        return myIsActive;
-    }
 
     @Override
     public double getPenColorIndex() {
