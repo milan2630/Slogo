@@ -64,7 +64,7 @@ public class Parser{
             }
             lastReturn = combineCommandsArgs();
         }
-        checkUnfulfilledCommands();
+        checkUnfulfilledStacks();
         return lastReturn;
     }
 
@@ -96,13 +96,19 @@ public class Parser{
         return item;
     }
 
-    private void checkUnfulfilledCommands() throws ParsingException {
-        if(commandStack.size() > 0){
+    private void checkUnfulfilledStacks() throws ParsingException {
+        checkStackLeftover(commandStack,"UnfulfilledCommands", 0);
+        System.out.println(argumentStack.size());
+        checkStackLeftover(argumentStack, "UnfulfilledArguments", 1);
+    }
+
+    private void checkStackLeftover(Stack checkStack, String errorKey, int expectedAmount) throws ParsingException {
+        if(checkStack.size() > expectedAmount){
             String unfulfilled = "";
-            while(commandStack.size() > 0){
-                unfulfilled = unfulfilled + commandStack.pop();
+            while(checkStack.size() > expectedAmount){
+                unfulfilled = unfulfilled + checkStack.pop()+ " ";
             }
-            throw new ParsingException("UnfulfilledCommands", unfulfilled);
+            throw new ParsingException(errorKey, unfulfilled);
         }
     }
 
