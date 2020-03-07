@@ -8,6 +8,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
+/**
+ * Instantiates different commands and determines if strings specify commands
+ */
 public class CommandFactory {
 
     private static final String CLASS_PREFIX = "slogo.Model.Commands.";
@@ -29,6 +32,12 @@ public class CommandFactory {
         methodExplorer = me;
     }
 
+    /**
+     * Used to get an Instantiated Command Object based on a command call
+     * @param commandCall the key associated with a Command
+     * @return a Command specified by commandCall
+     * @throws ParsingException if there is an issue instantiating the command
+     */
     public Command getCommand(String commandCall) throws ParsingException {
         if(isUserDefined(commandCall)){
             return methodExplorer.getMethod(commandCall);
@@ -52,11 +61,15 @@ public class CommandFactory {
         }
     }
 
+    /**
+     * @param item is the word being checked to see if it is a command
+     * @return whether item is a command or not
+     */
     public boolean isCommand(String item) {
         return methodExplorer.getMethod(item) != null || getCommandOfficialName(item) != null;
     }
 
-    public boolean isUserDefined(String commandName){
+    private boolean isUserDefined(String commandName){
         return methodExplorer.getMethod(commandName) != null;
     }
 

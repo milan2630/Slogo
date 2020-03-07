@@ -5,10 +5,14 @@ import slogo.Model.ErrorHandling.ParsingException;
 
 import java.util.*;
 
+/**
+ * Parses a String and executes the commands it dictates
+ */
 public class Parser{
 
     private static final String START_UNLIMITED_PARAMETERS_CHARACTER = "(";
     private static final String END_UNLIMITED_PARAMETERS_CHARACTER = ")";
+    public static final String SPACE = " ";
 
     private CommandFactory factory;
     private CommandManager commandManager;
@@ -16,6 +20,11 @@ public class Parser{
     private Stack<String> argumentStack;
     private Stack<Command> commandStack;
     private Stack<Integer> countFromStack;
+
+    /**
+     * Instantiates a parser using a CommandManager
+     * @param cm CommandManager to execute commands
+     */
     public Parser(CommandManager cm){
         factory = new CommandFactory(cm.getLanguageHandler(), cm.getMethodExplorer());
         commandManager = cm;
@@ -27,8 +36,10 @@ public class Parser{
     }
 
     /**
-     * Creates a list of commands to execute in order based on the input from the console
-     * @param input from the Console
+     * Parses the input String and executes the commands
+     * @param input String to be parsed
+     * @return the final return from parsing the string
+     * @throws ParsingException
      */
     public double parseCommands(String input) throws ParsingException {
         if(input == null || input.length() == 0){
@@ -59,7 +70,7 @@ public class Parser{
             }
             lastReturn = combineCommandsArgs();
         }
-        checkUnfulfilledCommands();
+        checkUnfulfilledStacks();
         return lastReturn;
     }
 
@@ -91,13 +102,18 @@ public class Parser{
         return item;
     }
 
-    private void checkUnfulfilledCommands() throws ParsingException {
-        if(commandStack.size() > 0){
+    private void checkUnfulfilledStacks() throws ParsingException {
+        checkStackLeftover(commandStack,"UnfulfilledCommands", 0);
+        checkStackLeftover(argumentStack, "UnfulfilledArguments", 1);
+    }
+
+    private void checkStackLeftover(Stack checkStack, String errorKey, int expectedAmount) throws ParsingException {
+        if(checkStack.size() > expectedAmount){
             String unfulfilled = "";
-            while(commandStack.size() > 0){
-                unfulfilled = unfulfilled + commandStack.pop();
+            while(checkStack.size() > expectedAmount){
+                unfulfilled = unfulfilled + checkStack.pop()+ SPACE;
             }
-            throw new ParsingException("UnfulfilledCommands", unfulfilled);
+            throw new ParsingException(errorKey, unfulfilled);
         }
     }
 

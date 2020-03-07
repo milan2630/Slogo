@@ -3,7 +3,7 @@ parser
 
 This project implements a development environment that helps users write SLogo programs.
 
-Names:
+Names:Milan Bhat (mb554), Ryan Weeratunga (rkw14), Robert Chen (rec43), Jaidha Rosenblatt (jrr59)
 
 
 ### Timeline
