@@ -88,8 +88,12 @@ public class TabPaneView {
     return paletteView.getColor(index);
   }
 
-  public void updateTurtleTab(Map<Double, List<ImmutableTurtle>> turtleList){
-    turtleTabView.setTable(turtleList);
+  public List getImmutablePaletteList(){
+    return paletteView.getImmutableList();
+  }
+
+  public void updateTurtleTab(ImmutableTurtle turtle){
+    turtleTabView.setTable(turtle);
   }
 
     public void setHistoryLanguage(String newLanguage) {

@@ -51,7 +51,7 @@ public abstract class Component extends Pane {
     return defaultsResources.getString(key);
   }
 
-  public String getPromptFromKey() {
+  public String getPromptFromKey(String key) {
     return promptBundle.getString(key);
   }
 
