@@ -10,7 +10,7 @@ public class ComponentFactory {
 
   private static final String RESOURCES_CLASS_PATH = "resources/UI/ReflectionClass";
   private static final ResourceBundle promptBundle = ResourceBundle.getBundle(RESOURCES_CLASS_PATH);
-  private static final String CLASS_PATH = "slogo.view.components.";
+  private static final String CLASS_PATH = ComponentFactory.class.getPackageName() + ".";
 
   public Component getComponent(String language, String key, Actions actions) {
     try {
