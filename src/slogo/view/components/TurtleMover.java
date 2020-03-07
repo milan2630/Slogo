@@ -23,7 +23,7 @@ public class TurtleMover extends Component {
     HBox box = createMovementController();
 
     wrapper.getChildren().addAll(slider, box);
-    getChildren().add(box);
+    getChildren().add(wrapper);
   }
 
   private void createSlider() {
