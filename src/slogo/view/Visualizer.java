@@ -109,4 +109,8 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
     turtleManager.resetTrail(index);
   }
 
+  public void resetErrorBar(){
+    terminal.setErrorText("");
+  }
+
 }
