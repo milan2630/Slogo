@@ -36,7 +36,6 @@ public class TurtleManager extends Pane {
         turtle.setTurtleHeading(turtleState.getHeading());
         turtle.setPenThickness(turtleState.getPenThickness());
         turtle.setTurtleVisibility(turtleState.getShowing());
-        turtle.setTurtleActive(turtleState.isActive());
         if (checkTurtleOutOfBounds(turtleState)) {
           throw new ParsingException("OutOfBoundsException", i);
         }
@@ -46,7 +45,7 @@ public class TurtleManager extends Pane {
     updatePane();
   }
 
-  public void resetTrail(double i) {
+  public void resetTrail(int i) {
     TurtleView turtle = turtleMap.get(i);
     turtle.reset();
   }

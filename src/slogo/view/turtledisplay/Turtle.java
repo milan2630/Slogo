@@ -12,7 +12,6 @@ public class Turtle extends Pane {
   private ImageView graphic;
   private Point2D position;
   private double turtleVisible = 1;
-  private double turtleActive = 1;
   private double penActive = 1;
   private double heading;
 
@@ -65,18 +64,4 @@ public class Turtle extends Pane {
     this.penActive = penActive;
   }
 
-  protected double getTurtleActive() {
-    return turtleActive;
-  }
-
-  protected void setTurtleActive(double turtleActive) {
-    ColorAdjust filter = new ColorAdjust();
-    if (turtleActive == 1) {
-      filter.setHue(0);
-    } else {
-      filter.setHue(100);
-    }
-    graphic.setEffect(filter);
-    this.turtleActive = turtleActive;
-  }
 }
