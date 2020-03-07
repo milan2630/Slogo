@@ -82,19 +82,8 @@ public class Controller implements PropertyChangeListener {
 
   //FIXME
   private void handleReset() {
-    /*
-    try {
-      turtleList = backendManager.parseTurtleStatesFromCommands("clearscreen");
-      myHistory.addInput("clearscreen");
-      myVisualizer.updateTurtle(turtleList);
-    }
-    catch(Exception e) {
-      myVisualizer.displayError(e);
-    }
-    // clearscreen not implemented right now
-     */
-
-    myVisualizer.resetTrail(0.0);
+    String command = languageHandler.getLanguageCommand("ClearScreen");
+    handleRun(command);
   }
 
   private void handleRun(String command) {
