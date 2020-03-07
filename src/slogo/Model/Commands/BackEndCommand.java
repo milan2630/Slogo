@@ -4,14 +4,26 @@ import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.Variable;
 import slogo.Model.Explorers.Variables.VariableExplorer;
 import slogo.Model.Parsing.CommandManager;
-import slogo.Model.TurtleModel.Turtle;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
+import java.util.ResourceBundle;
 
 public abstract class BackEndCommand implements Command {
+    private static final String RESOURCES = "resources";
+    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    private static final String COMMAND_ARGUMENT_RESOURCES = "CommandArgumentCount";
+    private static final String DEFAULT_COMMAND_ARGUMENT_PACKAGE = COMMAND_ARGUMENT_RESOURCES + ".";
+    private static final String DEFAULT_COMMAND_ARGUMENT_FILENAME = "ArgumentsPerCommand";
+    private static final String DEFAULT_COMMAND_ARGUMENT_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_ARGUMENT_PACKAGE + DEFAULT_COMMAND_ARGUMENT_FILENAME;
+    private static final ResourceBundle myArgCountResources = ResourceBundle.getBundle(DEFAULT_COMMAND_ARGUMENT_RESOURCE_PACKAGE);
 
+
+    @Override
+    public int getNumArguments(){
+        String key = this.toString().replace("Command", "");
+        return Integer.parseInt(myArgCountResources.getString(key));
+    }
 
 
     public double getDoubleParameter(String val, VariableExplorer variableExplorer) throws ParsingException {

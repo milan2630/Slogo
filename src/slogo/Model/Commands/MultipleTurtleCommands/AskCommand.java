@@ -6,14 +6,9 @@ import slogo.Model.Parsing.CommandManager;
 import slogo.Model.Parsing.TurtleModelManager;
 import slogo.Model.TurtleModel.Turtle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AskCommand extends BackEndCommand {
-    @Override
-    public int getNumArguments() {
-        return 2;
-    }
 
     @Override
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
