@@ -7,13 +7,13 @@ import slogo.Model.TurtleModel.Turtle;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.*;
 
-public class TurtleManager implements Iterable{
+public class TurtleModelManager implements Iterable{
     private Map<Double, List<ImmutableTurtle>> internalStates;
     private Map<Double, Turtle> turtles;
     private Map<Double, List<ImmutableTurtle>> previousInternalStates;
     private Map<Double, Turtle> previousTurtles;
 
-    public TurtleManager(){
+    public TurtleModelManager(){
         internalStates = new HashMap<>();
         turtles = new HashMap<>();
         previousInternalStates = new HashMap<>();
@@ -65,5 +65,16 @@ public class TurtleManager implements Iterable{
     @Override
     public TurtleIterator iterator() {
         return new TurtleIterator(turtles);
+    }
+
+    public void inactivateAll() {
+        for(Turtle turtle: turtles.values()){
+            turtle.setIsActive(0);
+        }
+    }
+
+    public void activateTurtle(double id){
+        turtles.putIfAbsent(id, new Turtle(id));
+        turtles.get(id).setIsActive(1);
     }
 }

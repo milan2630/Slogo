@@ -17,6 +17,7 @@ import slogo.xml.XMLParser;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Map;
 
 public class Controller implements PropertyChangeListener {
 
@@ -28,7 +29,6 @@ public class Controller implements PropertyChangeListener {
   private String language = DEFAULT_LANGUAGE;
   private LanguageConverter languageConverter;
 
-  private List<ImmutableTurtle> turtleList;
 
   public Controller(Stage stage) {
     myActions = new Actions();
@@ -97,14 +97,14 @@ public class Controller implements PropertyChangeListener {
     // clearscreen not implemented right now
      */
 
-    myVisualizer.resetTrail(0);
+    myVisualizer.resetTrail(0.0);
   }
 
   private void handleRun(String command) {
     //myParser.setLanguage(language);
     //myTurtle.changeLanguage(language);
     try {
-      turtleList = backendManager.parseTurtleStatesFromCommands(command);
+      Map<Double, List<ImmutableTurtle>> turtleList = backendManager.parseTurtleStatesFromCommands(command);
       myHistory.addInput(command);
       myVisualizer.updateTurtle(turtleList);
     }
