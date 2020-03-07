@@ -95,7 +95,7 @@ public class LanguageHandler {
     public String getLanguageCommand(String str){
         for (Pattern key : oldCommands.keySet()) {
             if(match(str, Pattern.compile(oldCommands.get(key)))) {
-                return key.toString().split("\\|")[1];
+                return key.toString().split("\\|")[0];
             }
         }
         return null;
