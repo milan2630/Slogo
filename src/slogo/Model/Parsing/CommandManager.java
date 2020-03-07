@@ -93,7 +93,7 @@ public class CommandManager implements BackEndExternal {
      * @throws ParsingException
      */
     protected double actOnCommand(Command command, List<String> params) throws ParsingException {
-        return commandActor.actOnCommand(command, params, currentTurtle);
+        return commandActor.actOnCommand(command, params, this, currentTurtle);
     }
 
     private Map<Double, List<ImmutableTurtle>> getInternalStates() {
