@@ -30,15 +30,16 @@ public class TurtleManager extends Pane {
     for (double i: turtles.keySet()) {
       List<ImmutableTurtle> turtleList = turtles.get(i);
       if (turtleMap.get(i) == null) {
-        turtleMap.put((double) i, createTurtle(i));
+        turtleMap.put(i, createTurtle(i));
       }
       for (ImmutableTurtle turtleState : turtleList) {
-        TurtleView turtle = turtleMap.get((double) i);
+        TurtleView turtle = turtleMap.get( i);
         turtle.setPenState(turtleState.getPenState());
               turtle.setPenColor(palette.get((int) turtleState.getPenColorIndex()));
         turtle.setTurtleHeading(turtleState.getHeading());
         turtle.setPenThickness(turtleState.getPenThickness());
         turtle.setTurtleVisibility(turtleState.getShowing());
+        turtle.setShape(turtleState.getTurtleImageIndex());
         if (checkTurtleOutOfBounds(turtleState)) {
           throw new ParsingException("OutOfBoundsException");
         }
