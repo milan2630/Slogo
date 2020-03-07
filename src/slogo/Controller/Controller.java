@@ -1,5 +1,6 @@
 package slogo.Controller;
 
+import java.util.ResourceBundle;
 import javafx.stage.Stage;
 import slogo.Model.BackEndExternal;
 import slogo.Model.Explorers.MethodExplorer;
@@ -21,6 +22,8 @@ public class Controller implements PropertyChangeListener {
   private BackEndExternal backendManager;
   private Actions myActions;
   private History myHistory;
+  private final static String ACTIONS_RESOURCE_PATH = "resources/UI/Actions";
+  private ResourceBundle actionsBundle = ResourceBundle.getBundle(ACTIONS_RESOURCE_PATH);
   private static final String DEFAULT_LANGUAGE = "English";
   private String language = DEFAULT_LANGUAGE;
   private LanguageHandler languageHandler;
@@ -57,7 +60,6 @@ public class Controller implements PropertyChangeListener {
         this.language = value;
         break;
       case "Background Color":
-        //myVisualizer.setBackgroundColor(Color.web(value));
         myVisualizer.setBackgroundColor(Integer.parseInt(value));
         break;
       case "Input Change":
