@@ -1,11 +1,11 @@
-package slogo.view;
+package slogo.view.tabdisplay;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -20,23 +20,32 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import slogo.Model.Parsing.LanguageConverter;
+import slogo.ReflectionException;
+import slogo.view.Actions;
+
+import javax.swing.*;
 
 public class PaletteView extends GridPane {
 
   private ObservableList<String> palette;
   private static final String PATH = "resources/Palettes/";
+  private static final String PREFIX = "resources/UI/";
+  private static final String RESOURCES_LAYOUTS = PREFIX + "ReflectionMethods";
   private ResourceBundle colorsResources;
+  private ResourceBundle methodsResources;
   private Actions actions;
   private LanguageConverter languageConverter;
   private VBox background;
   private VBox pen;
+
   public PaletteView(LanguageConverter language, ObservableList list, Actions actions) {
     palette = list;
     languageConverter = language;
     colorsResources = ResourceBundle.getBundle(PATH + language.getLanguage());
+    methodsResources = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
     this.actions = actions;
-    background = bindList();
-    pen = bindList();
+    background = bindList(methodsResources.getString("BackgroundPalette"));
+    pen = bindList(methodsResources.getString("PenPalette"));
     palette.addListener((ListChangeListener.Change<? extends String> e)->handleColorAdded(e));
     add(background, 0,0,1,1);
     add(pen, 1, 0, 1, 1);
@@ -49,40 +58,35 @@ public class PaletteView extends GridPane {
   }
 
   private void addAdditionalColor() {
-    background.getChildren().add(createColorOption(palette.size()-1));
-    pen.getChildren().add(createColorOption(palette.size()-1));
+    background.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("BackgroundPalette")));
+    pen.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("PenPalette")));
   }
-
-  private void changePenColor(int selectedItem) {
-    actions.handlePenColor(selectedItem+"");
-  }
-
-  private VBox bindList(){
+  private VBox bindList(String methodName){
     VBox vbox = new VBox();
     for (int i=0; i< palette.size(); i++){
-      vbox.getChildren().add(createColorOption(i));
+      vbox.getChildren().add(createColorOption(i, methodName));
     }
+    vbox.setSpacing(20);
     return vbox;
   }
 
-  private Node createColorOption(int i) {
+  private Node createColorOption(int i, String methodName) {
     HBox color = new HBox();
+    color.getStyleClass().add(".settings-text");
     Label label = new Label(""+i);
     Rectangle rect = new Rectangle();
     rect.setWidth(100);
-    rect.setHeight(10);
+    rect.setHeight(20);
     rect.setFill(getColor(i));
+    if (methodName.equals(methodsResources.getString("BackgroundPalette"))){
+      rect.setOnMouseClicked(e->actions.handleBackgroundColor(i+""));
+    }
+    else
+      rect.setOnMouseClicked(e->actions.handlePenColor(i+""));
     color.getChildren().addAll(label, rect);
-    color.setSpacing(10);
+    color.setSpacing(20);
     return color;
   }
-
-
-  private void changeBackgroundColor(int selectedItem) {
-    actions.handleBackgroundColor(selectedItem+"");
-  }
-
-
   public Color getColor(int index){
     String s = palette.get(index);
     String[] components = s.split(" ");

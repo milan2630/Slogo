@@ -4,18 +4,17 @@ import java.util.*;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import slogo.FrontEndExternal;
 import slogo.Model.Parsing.LanguageConverter;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.Model.ErrorHandling.ParsingException;
+import slogo.view.tabdisplay.TabPaneView;
 import slogo.view.terminal.Terminal;
 import slogo.view.turtledisplay.TurtleManager;
 
@@ -104,8 +103,10 @@ public class Visualizer implements FrontEndExternal {
   @Override
   //FIXME
   public void setBackgroundColor(double color) {
-    turtleManager.setBackgroundColor(Color.RED);
+    int index = (int) color;
+    turtleManager.setBackgroundColor(tabPaneView.getColor(index));
   }
+
 
   public void resetTrail(int index){
     turtleManager.resetTrail(index);
