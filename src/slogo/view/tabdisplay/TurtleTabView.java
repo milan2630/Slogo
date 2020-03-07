@@ -19,10 +19,7 @@ import slogo.ReflectionException;
 import slogo.view.Actions;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TurtleTabView {
     private ResourceBundle resourceBundle;
@@ -108,9 +105,28 @@ public class TurtleTabView {
      * @param turtleList list of turtles
      */
     public void setTable(Map<Double, List<ImmutableTurtle>> turtleList) {
-        for (double i: turtleList.keySet()){
-            List<ImmutableTurtle> turtle = turtleList.get(i);
-            tableView.getItems().add(turtle.get(turtle.size()-1));
+        List<ImmutableTurtle> completedTurtles = new ArrayList<>() ;
+        int max = findMaxSteps(turtleList);
+        for (int j =0; j<max; j++){
+            tableView.getItems().clear();
+            for (double i: turtleList.keySet()){
+                if (turtleList.get(i).size() -1 == j)
+                    completedTurtles.add(turtleList.get(i).get(j));
+                else if (max < turtleList.get(i).size())
+                    tableView.getItems().add(turtleList.get(i).get(j));
+            }
+            for (ImmutableTurtle t: completedTurtles)
+                tableView.getItems().add(t);
         }
     }
+
+    private int findMaxSteps(Map<Double, List<ImmutableTurtle>> turtleList) {
+        int max = -1;
+        for (double i: turtleList.keySet()){
+            if (turtleList.get(i).size()> max)
+                max = turtleList.get(i).size();
+        }
+        return max;
+    }
+
 }
