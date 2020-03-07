@@ -35,6 +35,7 @@ public class TurtleManager extends Pane {
         //      turtle.setPenColor(turtleProperties.getPenColorIndex());
         turtle.setTurtleHeading(turtleState.getHeading());
         turtle.setPenThickness(turtleState.getPenThickness());
+        turtle.setTurtleVisibility(turtleState.getShowing());
         if (checkTurtleOutOfBounds(turtleState)) {
           throw new ParsingException("OutOfBoundsException", i);
         }
