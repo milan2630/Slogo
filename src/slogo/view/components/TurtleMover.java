@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
 public class TurtleMover extends Component {
@@ -11,10 +12,10 @@ public class TurtleMover extends Component {
   private Slider slider;
   private Actions actions;
   private String key;
-
-  public TurtleMover(String language, String key, Actions actions) {
+  private LanguageHandler languageHandler;
+  public TurtleMover(LanguageHandler language, String key, Actions actions) {
     super(language, key, actions);
-
+    languageHandler = language;
     VBox wrapper = new VBox();
     this.actions = actions;
     this.key = key;
@@ -47,16 +48,20 @@ public class TurtleMover extends Component {
   }
 
   private Button createButton(String commandName) {
-    String command = getCommandByKey(commandName, 1);
+    String command = languageHandler.getLanguageCommand(commandName);
     Button button = new Button();
     button.setText(command + " " + Integer.parseInt(getDefaultFromKey(key)));
-
     slider.valueProperty().addListener(
         (obs, oldValue, newValue) -> button.setText(command + " " + newValue.intValue()));
 
-    button.setOnAction(value -> handleAction(button.getText()));
+    button.setOnAction(value -> handleAction(getText(commandName, button.getText())));
     button.getStyleClass().add("turtle-control-button");
     return button;
+  }
+
+  private String getText(String commandName, String buttonText) {
+
+    return languageHandler.getLanguageCommand(commandName)+" " +buttonText.split(" ")[1];
   }
 
 }

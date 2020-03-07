@@ -3,6 +3,7 @@ package slogo.view.components;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import javafx.scene.layout.Pane;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.ReflectionException;
 import slogo.view.Actions;
 
@@ -21,13 +22,13 @@ public abstract class Component extends Pane {
   private String key;
   private Actions actions;
 
-  protected Component(String language, String key, Actions actions) {
+  protected Component(LanguageHandler language, String key, Actions actions) {
     this.actions = actions;
     this.key = key;
     defaultsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
     methodBundle = ResourceBundle.getBundle(METHODS_PATH);
-    promptBundle = ResourceBundle.getBundle(RESOURCES_UI_PATH + language);
-    commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH + language);
+    promptBundle = ResourceBundle.getBundle(RESOURCES_UI_PATH + language.getLanguage());
+    commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH + language.getLanguage());
   }
 
   protected String getCommandByKey(String key, int type) {

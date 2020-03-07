@@ -10,6 +10,7 @@ import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 import slogo.view.components.Component;
 import slogo.view.components.ComponentFactory;
+import slogo.view.components.HelpButton;
 
 
 public class SettingView extends VBox {
@@ -23,8 +24,7 @@ public class SettingView extends VBox {
 
   public SettingView(LanguageHandler language, Actions actions) {
     layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
-
-    setupTab(language.getLanguage(), actions);
+    setupTab(language, actions);
   }
 
   protected HBox createLabel(String prompt) {
@@ -38,10 +38,10 @@ public class SettingView extends VBox {
     return hbox;
   }
 
-  private void setupTab(String language, Actions actions) {
+  private void setupTab(LanguageHandler language, Actions actions) {
     List<String> buttonList = Arrays.asList(layouts.getString("SettingView").split(","));
     setSpacing(V_PADDING);
-    ComponentFactory componentFactory = new ComponentFactory();
+    ComponentFactory componentFactory = new ComponentFactory(language);
 
     for (String key : buttonList) {
       HBox hbox = new HBox();
@@ -51,9 +51,8 @@ public class SettingView extends VBox {
 
       getChildren().add(hbox);
     }
-    //HelpButton helpButton = new HelpButton(prompts);
-    //getChildren().add(helpButton);
+    HelpButton helpButton = new HelpButton();
     LoadXML loadButton = new LoadXML();
-    getChildren().add(loadButton);
+    getChildren().addAll(helpButton, loadButton);
   }
 }

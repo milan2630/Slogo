@@ -20,12 +20,13 @@ public class HelpButton extends Button {
   private final int IMAGE_WIDTH = 500;
   private static final String HELP_IMAGES_PATH = "resources";
   private static ResourceBundle resourceBundle;
+  private static final String RESOURCES_PATH = "resources/UI/English";
 
 
-  protected HelpButton(ResourceBundle resourceBundle){
-    this.resourceBundle = resourceBundle;
+  public HelpButton(){
+    this.resourceBundle = ResourceBundle.getBundle(RESOURCES_PATH);
     setText(resourceBundle.getString("HelpButton"));
-
+    handleHelpScreen();
   }
 
   private void handleHelpScreen() {

@@ -1,11 +1,12 @@
 package slogo.view.components;
 
 import javafx.scene.control.CheckBox;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
 public class PenStateCheckbox extends Component {
 
-  protected PenStateCheckbox(String language, String key, Actions actions) {
+  protected PenStateCheckbox(LanguageHandler language, String key, Actions actions) {
     super(language, key, actions);
     CheckBox checkBox = new CheckBox();
     checkBox.setSelected(true);
