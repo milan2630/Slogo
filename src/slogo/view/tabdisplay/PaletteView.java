@@ -22,10 +22,13 @@ public class PaletteView extends GridPane {
 
   private ObservableList<String> palette;
   private static final String PATH = "resources/Palettes/";
+  private static final String RESOURCES_COMMAND_PATH = "resources/Languages/";
   private static final String PREFIX = "resources/UI/";
   private static final String RESOURCES_LAYOUTS = PREFIX + "ReflectionMethods";
   private ResourceBundle methodsResources;
   private ResourceBundle resourceBundle;
+  private ResourceBundle commandBundle;
+
   private Actions actions;
   private LanguageConverter languageConverter;
   private VBox background;
@@ -37,6 +40,7 @@ public class PaletteView extends GridPane {
     languageConverter = language;
     methodsResources = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
     resourceBundle = ResourceBundle.getBundle((PREFIX+language.getLanguage()));
+    commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH +language.getLanguage());
     this.actions = actions;
     background = bindList("BackgroundPalette");
     pen = bindList("PenPalette");
@@ -79,11 +83,11 @@ public class PaletteView extends GridPane {
     rect.setWidth(100);
     rect.setHeight(20);
     rect.setFill(getColor(i));
-    if (methodName.equals(methodsResources.getString("BackgroundPalette"))){
-      rect.setOnMouseClicked(e->actions.handleBackgroundColor(i+""));
+    if (methodName.equals(methodsResources.getString("BackgroundPalette"))) {
+      rect.setOnMouseClicked(e -> actions.handleBackgroundColor(i + ""));
+    } else {
+      rect.setOnMouseClicked(e->actions.handleCommand(commandBundle.getString("SetPenColor").split("\\|")[1] + " " + i));
     }
-    else
-      rect.setOnMouseClicked(e->actions.handlePenColor(i+""));
     color.getChildren().addAll(label, rect);
     color.setSpacing(20);
     return color;
