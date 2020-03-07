@@ -17,11 +17,14 @@ public abstract class BackEndCommand implements Command {
     private static final String DEFAULT_COMMAND_ARGUMENT_FILENAME = "ArgumentsPerCommand";
     private static final String DEFAULT_COMMAND_ARGUMENT_RESOURCE_PACKAGE = DEFAULT_RESOURCE_PACKAGE + DEFAULT_COMMAND_ARGUMENT_PACKAGE + DEFAULT_COMMAND_ARGUMENT_FILENAME;
     private static final ResourceBundle myArgCountResources = ResourceBundle.getBundle(DEFAULT_COMMAND_ARGUMENT_RESOURCE_PACKAGE);
-
+    private static final int ROUNDING_PLACES_TO_CHECK_ZERO = 13;
+    private static final char START_BRACKET = '[';
+    private static final char END_BRACKET = ']';
+    private static final String CLASS_SUFFIX = "Command";
 
     @Override
     public int getNumArguments(){
-        String key = this.toString().replace("Command", "");
+        String key = this.toString().replace(CLASS_SUFFIX, "");
         return Integer.parseInt(myArgCountResources.getString(key));
     }
 
@@ -55,14 +58,14 @@ public abstract class BackEndCommand implements Command {
     }
 
     public String removeOuterBrackets(String input){
-        if(input.charAt(0) == '[' && input.charAt(input.length()-1) == ']'){
+        if(input.charAt(0) == START_BRACKET && input.charAt(input.length()-1) == END_BRACKET){
             return input.substring(1, input.length()-1);
         }
         return input;
     }
 
     public boolean isZero(double input){
-        return new BigDecimal(input).setScale(13, RoundingMode.HALF_UP).doubleValue() == 0.0;
+        return new BigDecimal(input).setScale(ROUNDING_PLACES_TO_CHECK_ZERO, RoundingMode.HALF_UP).doubleValue() == 0.0;
     }
 
     public String toString(){
