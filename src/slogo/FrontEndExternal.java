@@ -54,7 +54,7 @@ public interface FrontEndExternal {
    *
    * @param color the color to set it to
    */
-  void setBackgroundColor(Color color);
+  void setBackgroundColor(double color);
 
   /**
    * Set text to the terminal input
@@ -62,6 +62,8 @@ public interface FrontEndExternal {
    * @param text the text to display
    */
   void setInputText(String text);
+
+  void resetTrail(int index);
 
 
 }

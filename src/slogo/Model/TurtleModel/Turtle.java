@@ -1,8 +1,5 @@
 package slogo.Model.TurtleModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Turtle implements ImmutableTurtle{
     private static final double DEFAULT_PEN_THICKNESS = 10;
     private double myX;
@@ -16,8 +13,21 @@ public class Turtle implements ImmutableTurtle{
     private double myTurtleImageIndex;
     private double myId;
 
-    public Turtle(int id){
+    public Turtle(double id){
         this(0, 0, 0, 1, 1, 1, DEFAULT_PEN_THICKNESS, 0,0, id);
+    }
+
+    public Turtle(ImmutableTurtle originalTurtle){
+        this.myX = originalTurtle.getX();
+        this.myY = originalTurtle.getY();
+        this. myHeading = originalTurtle.getHeading();
+        this.myPenState = originalTurtle.getPenState();
+        this.myShowing = originalTurtle.getShowing();
+        this.myIsActive = originalTurtle.isActive();
+        this.myPenThickness = originalTurtle.getPenThickness();
+        this.myPenColorIndex = originalTurtle.getPenColorIndex();
+        this.myTurtleImageIndex = originalTurtle.getTurtleImageIndex();
+        this.myId = originalTurtle.getID();
     }
 
     public Turtle(double x, double y, double heading, double penState, double showing, double isActive,
@@ -35,7 +45,7 @@ public class Turtle implements ImmutableTurtle{
     }
 
     public ImmutableTurtle getImmutableTurtle(){
-        return this;
+        return new Turtle(this);
     }
 
     public void setX(double x) {

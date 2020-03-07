@@ -4,6 +4,7 @@ import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface containing Backend methods that are meant for the Frontend to use
@@ -23,5 +24,7 @@ public interface BackEndExternal {
      * @param lang is the new Properties file name to implement
      */
     public void setLanguage(String lang);
+
+    public Map<Double, List<ImmutableTurtle>> undoAction();
 
 }

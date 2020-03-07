@@ -64,23 +64,9 @@ public class Controller implements PropertyChangeListener {
         languageConverter.updateLanguage(value);
         this.language = value;
         break;
-      case "Pen Color":
-        //myVisualizer.setPenColor(Color.web(value));
-        myVisualizer.setPenColor(Integer.parseInt(value));
-        break;
       case "Background Color":
         //myVisualizer.setBackgroundColor(Color.web(value));
         myVisualizer.setBackgroundColor(Integer.parseInt(value));
-        break;
-      case "Turtle Image":
-        myVisualizer.setTurtleImage(value);
-        break;
-      case "Thickness":
-        myVisualizer.setPenThickness(Double.parseDouble(value));
-        break;
-      case "Pen Status":
-        //FIXME update pen status in backend
-        myVisualizer.setPenStatus(Integer.parseInt(value));
         break;
       case "Input Change":
         myVisualizer.setInputText(value);
@@ -111,7 +97,7 @@ public class Controller implements PropertyChangeListener {
     // clearscreen not implemented right now
      */
 
-    myVisualizer.resetTrail();
+    myVisualizer.resetTrail(0);
   }
 
   private void handleRun(String command) {
