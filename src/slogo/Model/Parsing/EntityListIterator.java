@@ -4,6 +4,9 @@ import slogo.Model.ErrorHandling.ParsingException;
 
 import java.util.*;
 
+/**
+ * Converts a String into a list of strings by splitting on the spaces and combining brackets
+ */
 public class EntityListIterator implements Iterator {
 
     private static final String OPEN_BRACKET = "[";
@@ -13,6 +16,11 @@ public class EntityListIterator implements Iterator {
     private int indexInEntityList;
     private Map<String, String> bracketChars;
 
+    /**
+     * EntityListIterator Constructor that takes in a String and initializes the internal entitryList using it
+     * @param input the string to split into entities
+     * @throws ParsingException
+     */
     public EntityListIterator(String input) throws ParsingException{
         input = input.toLowerCase();
         input = stripBrackets(input);
@@ -23,6 +31,11 @@ public class EntityListIterator implements Iterator {
 
     }
 
+    /**
+     * Removes brackets at the start and end of a string if they are present
+     * @param input string to be stripped
+     * @return the input string without a bracket in the beginning and end
+     */
     private String stripBrackets(String input) {
         if(input.charAt(0) == '[' && input.charAt(input.length()-1) == ']'){
             return input.substring(1, input.length()-1);
