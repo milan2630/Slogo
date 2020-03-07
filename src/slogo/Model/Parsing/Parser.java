@@ -12,6 +12,7 @@ public class Parser{
 
     private static final String START_UNLIMITED_PARAMETERS_CHARACTER = "(";
     private static final String END_UNLIMITED_PARAMETERS_CHARACTER = ")";
+    public static final String SPACE = " ";
 
     private CommandFactory factory;
     private CommandManager commandManager;
@@ -98,7 +99,6 @@ public class Parser{
 
     private void checkUnfulfilledStacks() throws ParsingException {
         checkStackLeftover(commandStack,"UnfulfilledCommands", 0);
-        System.out.println(argumentStack.size());
         checkStackLeftover(argumentStack, "UnfulfilledArguments", 1);
     }
 
@@ -106,7 +106,7 @@ public class Parser{
         if(checkStack.size() > expectedAmount){
             String unfulfilled = "";
             while(checkStack.size() > expectedAmount){
-                unfulfilled = unfulfilled + checkStack.pop()+ " ";
+                unfulfilled = unfulfilled + checkStack.pop()+ SPACE;
             }
             throw new ParsingException(errorKey, unfulfilled);
         }
