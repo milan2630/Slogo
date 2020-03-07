@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -79,6 +80,11 @@ public class TabPaneView {
   public Color getColor(int index){
     return paletteView.getColor(index);
   }
+
+  public List getImmutablePaletteList(){
+    return paletteView.getImmutableList();
+  }
+
   public void updateTurtleTab(ImmutableTurtle turtle){
     turtleTabView.setTable(turtle);
   }
