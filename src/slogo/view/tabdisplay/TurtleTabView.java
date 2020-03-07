@@ -75,7 +75,7 @@ public class TurtleTabView {
                 new Callback<TableColumn.CellDataFeatures<ImmutableTurtle, Boolean>, ObservableValue<Boolean>>() {
                     @Override
                     public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ImmutableTurtle, Boolean> param) {
-                        return new SimpleBooleanProperty((int)(param.getValue().getActive()) == 1);
+                        return new SimpleBooleanProperty((int)(param.getValue().isActive()) == 1);
                     }
                 });
         CheckBoxTableCell cell = new CheckBoxTableCell();
