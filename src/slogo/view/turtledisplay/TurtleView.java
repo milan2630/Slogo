@@ -62,6 +62,11 @@ public class TurtleView extends Pane {
     turtle.setGraphicImage(image);
   }
 
+
+  public void setTurtleActive(double turtleActive){
+    turtle.setTurtleActive(turtleActive);
+  }
+
   public void setPenColor(Color currentColor) {
     trail.setCurrentColor(currentColor);
   }
