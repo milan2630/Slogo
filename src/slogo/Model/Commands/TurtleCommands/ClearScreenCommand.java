@@ -18,7 +18,7 @@ public class ClearScreenCommand extends BackEndCommand {
     @Override
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
         myTurtle = new Turtle(myTurtle.getID());
-        commandManager.getDisplay().resetTrail((int)myTurtle.getID());
+        commandManager.getDisplay().resetTrail(myTurtle.getID());
         return 0;
     }
 }
