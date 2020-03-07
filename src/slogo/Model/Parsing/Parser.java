@@ -20,6 +20,11 @@ public class Parser{
     private Stack<String> argumentStack;
     private Stack<Command> commandStack;
     private Stack<Integer> countFromStack;
+
+    /**
+     * Instantiates a parser using a CommandManager
+     * @param cm CommandManager to execute commands
+     */
     public Parser(CommandManager cm){
         factory = new CommandFactory(cm.getLanguageConverter(), cm.getMethodExplorer());
         commandManager = cm;
