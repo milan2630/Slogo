@@ -82,6 +82,7 @@ public class Visualizer implements FrontEndExternal {
     //Map<Integer, List<ImmutableTurtle>> turtles = new HashMap<>();
     //turtles.put(0,turtleList);
     turtleManager.updateTurtles(turtleList);
+    tabPaneView.updateTurtleTab(turtleList);
   }
   @Override
   public void displayError(Exception error) {

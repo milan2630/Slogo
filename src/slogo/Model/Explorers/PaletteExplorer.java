@@ -26,19 +26,14 @@ public class PaletteExplorer {
         colorsResources = ResourceBundle.getBundle(PATH + language.getLanguage());
         resourceBundle = ResourceBundle.getBundle(RESOURCE_PATH+language.getLanguage());
         createColorList();
-        for( int i=0; i<list.size(); i++) {
-            System.out.println(list.get(i));
-        }
         this.actions = actions;
     }
 
     private void createColorList() {
         for (String key : colorsResources.keySet()) {
             Color c = Color.web(key);
-            System.out.println(c.getRed());
             String color="";
             int val =(int)(c.getRed()*255);
-            System.out.println(val);
             color+=val+" ";
             val=(int)(c.getGreen()*255);
             color+=val+" ";
