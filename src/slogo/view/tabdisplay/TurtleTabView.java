@@ -24,9 +24,12 @@ public class TurtleTabView {
     private static final String RESOURCE_LAYOUTS = RESOURCES_PATH + "Layouts";
     private static final String METHODS_PATH = RESOURCES_PATH + "ReflectionMethods";
     private Map<Double, ImmutableTurtle> allTurtles;
+    private List<ImmutableTurtle> inactiveTurtles;
     private LanguageHandler languageHandler;
     private Tab myTab;
     private Actions actions;
+
+    private final int ERROR_SIZE = 9;
     private TableView<ImmutableTurtle> tableView;
 
     public TurtleTabView(LanguageHandler language, Actions actions) {
@@ -70,6 +73,11 @@ public class TurtleTabView {
         c.setCellValueFactory(new PropertyValueFactory<ImmutableTurtle, Object>(col));
     }
 
+    private void addSortedColumn(TableColumn c, String col) {
+        addUneditableColumn(c, col);
+        tableView.getSortOrder().add(c);
+    }
+
     private void addCheckBox(TableColumn c, String col) {
         c.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<ImmutableTurtle, Boolean>, ObservableValue<Boolean>>() {
@@ -86,12 +94,31 @@ public class TurtleTabView {
     private void editTurtleState(CheckBoxTableCell c) {
         LanguageHandler l = new LanguageHandler("English");
         ImmutableTurtle t = tableView.getSelectionModel().getSelectedItem();
-        if (t != null) {
-            String status = t.getShowing() == 1 ? "0.0" : "1.0";
-
-            //actions.handleTurtleState(t.getID() + "", l.getLanguageCommand("tell"));
-        }
+        List<ImmutableTurtle> turtles = tableView.getItems();
+        if (t == null || turtles.size()==1)
+            return;
+        String tell = createTellCommand(t, turtles);
+        if (tell.length()<= ERROR_SIZE)
+            return;
+        actions.handleCommand(tell);
+        tableView.getSelectionModel().select(-1);
+        tableView.sort();
     }
+
+    private String createTellCommand(ImmutableTurtle t, List<ImmutableTurtle> turtles) {
+        String tell = languageHandler.getLanguageCommand("Tell")+" [ ";
+        for (ImmutableTurtle turtle: turtles){
+            if (turtle.getID() != t.getID() && (int)(turtle.isActive())== 1){
+                tell+=""+turtle.getID()+" ";
+            }
+        }
+        if (t.isActive()==0)
+            tell+=t.getID()+" ";
+        tell+=" ]";
+        return tell;
+    }
+
+
     /**
      * returns Tab for states of turtles
      * @return myTab
@@ -105,9 +132,8 @@ public class TurtleTabView {
      */
     public void setTable(Map<Double, List<ImmutableTurtle>> turtleList) {
         List<ImmutableTurtle> completedTurtles = new ArrayList<>() ;
-        List<ImmutableTurtle> inactiveTurtles = new ArrayList<>();
+        findInactiveTurtles(turtleList);
         int max = findMaxSteps(turtleList);
-        inactiveTurtles = findInactiveTurtles(turtleList);
         for (int j =0; j<max; j++){
             tableView.getItems().clear();
             for (double i: turtleList.keySet()){
@@ -120,20 +146,17 @@ public class TurtleTabView {
             }
             for (ImmutableTurtle t: completedTurtles)
                 tableView.getItems().add(t);
-            for (ImmutableTurtle t: inactiveTurtles){
-                tableView.getItems().add(t);
             }
+        tableView.sort();
         }
-    }
 
-    private List<ImmutableTurtle> findInactiveTurtles(Map<Double, List<ImmutableTurtle>> turtleList) {
-        List<ImmutableTurtle> inactive = new ArrayList<>();
-        for (Double i: allTurtles.keySet()){
-            System.out.println(allTurtles.get(i).isActive());
+
+
+    private void findInactiveTurtles(Map<Double, List<ImmutableTurtle>> turtleList) {
+        for (Double i: allTurtles.keySet()) {
             if (!turtleList.containsKey(i))
-                inactive.add(allTurtles.get(i));
+                inactiveTurtles.add(allTurtles.get(i));
         }
-        return inactive;
     }
 
     private int findMaxSteps(Map<Double, List<ImmutableTurtle>> turtleList) {

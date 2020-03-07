@@ -1,4 +1,4 @@
-package slogo.view.settingtab;
+package slogo.view.components;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,10 +25,14 @@ public class HelpButton extends Button {
   protected HelpButton(ResourceBundle resourceBundle){
     this.resourceBundle = resourceBundle;
     setText(resourceBundle.getString("HelpButton"));
-    setOnAction(e -> handleHelpScreen());
+
   }
 
   private void handleHelpScreen() {
+    setOnAction(e -> displayDialog());
+  }
+
+  private void displayDialog() {
     final Stage dialog = new Stage();
     dialog.initModality(Modality.NONE);
     ScrollPane scrollPane = new ScrollPane();
