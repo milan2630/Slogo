@@ -2,7 +2,7 @@ package slogo.view.components;
 
 import javafx.scene.control.CheckBox;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public class PenStateCheckbox extends Component {
 

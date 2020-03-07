@@ -5,7 +5,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public class TurtleMover extends Component {
 

@@ -8,7 +8,6 @@ import slogo.Model.Explorers.Variables.VariableExplorer;
 import slogo.Model.Parsing.CommandManager;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Model.TurtleModel.ImmutableTurtle;
-import slogo.view.Actions;
 import slogo.view.Visualizer;
 
 import java.beans.PropertyChangeEvent;

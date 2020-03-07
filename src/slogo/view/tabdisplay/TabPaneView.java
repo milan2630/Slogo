@@ -13,7 +13,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Model.TurtleModel.ImmutableTurtle;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 import slogo.view.settingtab.SettingView;
 
 

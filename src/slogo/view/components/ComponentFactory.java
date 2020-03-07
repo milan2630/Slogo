@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.ReflectionException;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public class ComponentFactory {
 

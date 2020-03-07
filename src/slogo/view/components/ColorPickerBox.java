@@ -3,7 +3,7 @@ package slogo.view.components;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public class ColorPickerBox extends Component {
 

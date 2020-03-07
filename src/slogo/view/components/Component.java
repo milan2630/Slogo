@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import javafx.scene.layout.Pane;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.ReflectionException;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public abstract class Component extends Pane {
 

@@ -7,7 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 import slogo.view.components.InputButton;
 
 public class TerminalButtons extends VBox {

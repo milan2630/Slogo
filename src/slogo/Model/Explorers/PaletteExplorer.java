@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;

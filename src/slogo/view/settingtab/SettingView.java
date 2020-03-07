@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import java.util.*;
 import javafx.scene.text.Text;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 import slogo.view.components.Component;
 import slogo.view.components.ComponentFactory;
 import slogo.view.components.HelpButton;

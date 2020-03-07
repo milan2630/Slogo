@@ -3,7 +3,7 @@ package slogo.view.terminal;
 import java.util.ResourceBundle;
 import javafx.scene.layout.BorderPane;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public class Terminal extends BorderPane {
 

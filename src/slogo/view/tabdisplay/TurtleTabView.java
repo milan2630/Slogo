@@ -11,7 +11,7 @@ import javafx.util.Callback;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 import slogo.ReflectionException;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 import java.lang.reflect.Method;
 import java.util.*;

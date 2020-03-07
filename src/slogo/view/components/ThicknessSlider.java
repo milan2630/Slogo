@@ -3,7 +3,7 @@ package slogo.view.components;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 import javafx.scene.control.Slider;
 
 public class ThicknessSlider extends Component {

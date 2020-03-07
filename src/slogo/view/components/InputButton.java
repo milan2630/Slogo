@@ -2,7 +2,7 @@ package slogo.view.components;
 
 import javafx.scene.control.Button;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 import slogo.view.terminal.TerminalInput;
 
 public class InputButton extends Component {

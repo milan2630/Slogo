@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 import java.beans.PropertyChangeListener;
 import java.util.*;

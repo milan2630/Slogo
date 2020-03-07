@@ -3,10 +3,9 @@ package slogo.view.components;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 public class LanguageDropdown extends Component {
 

@@ -1,8 +1,6 @@
 package slogo.view.components;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -11,8 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import slogo.Model.Parsing.LanguageHandler;
-import slogo.view.Actions;
-import slogo.view.components.Component;
+import slogo.Controller.Actions;
 
 public class TurtleImageDropdown extends Component {
 

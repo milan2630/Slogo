@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.ReflectionException;
-import slogo.view.Actions;
+import slogo.Controller.Actions;
 
 import java.lang.reflect.Method;
 import java.util.*;
