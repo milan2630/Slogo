@@ -1,5 +1,7 @@
 package slogo.view.turtledisplay;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -17,12 +19,23 @@ public class Display extends Pane {
   private TurtleView turtle;
   private static final String TURTLE_PATH = "turtles/";
   private static final String DEFAULT_RESOURCE_PATH = "resources/UI/Default";
+  private static final String PREFIX = "resources/UI/";
+  private static final String RESOURCES_LAYOUTS = PREFIX + "Layouts";
+  private List images;
+  private ResourceBundle layouts;
   private ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
   private Image turtleImage;
 
   public Display() {
     turtleImage = getImageByName(TURTLE_PATH + resourceBundle.getString("TurtleImage"));
+    layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
+    images = getImages();
     resetPane();
+  }
+
+  private List getImages() {
+    List<String> imageList = Arrays.asList(layouts.getString("SettingView").split(","));
+    return imageList;
   }
 
   public void resetPane() {
@@ -73,8 +86,8 @@ public class Display extends Pane {
     trail.setCurrentThickness(thickness);
   }
 
-  public void setTurtleImage(String filename) {
-    Image image = getImageByName(TURTLE_PATH + filename);
+  public void setTurtleImage(int index) {
+    Image image = getImageByName(TURTLE_PATH + images.get(index));
     turtleImage = image;
     turtle.setGraphicImage(image);
   }

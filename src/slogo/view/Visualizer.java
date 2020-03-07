@@ -96,7 +96,7 @@ public class Visualizer implements FrontEndExternal {
   }
 
   public void setTurtleImage(String filename){
-    display.setTurtleImage(filename);
+    display.setTurtleImage(Integer.parseInt(filename));
   }
 
   public void setInputText(String text) {
