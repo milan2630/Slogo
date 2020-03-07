@@ -24,6 +24,7 @@ public class TurtleView extends Pane {
   public TurtleView(double index) {
     this.index = index;
     turtleImage = getImageByName(TURTLE_PATH + defaults.getString("TurtleImage"));
+    filenames = layouts.getString("TurtleImages").split(",");
     reset();
   }
 
@@ -32,7 +33,6 @@ public class TurtleView extends Pane {
     this.turtle = new Turtle(turtleImage, 0, 0, 0);
     this.trail = new Trail(Double.parseDouble(defaults.getString("PenThickness")),
         Color.web(defaults.getString("PenColor")));
-    filenames = layouts.getString("TurtleImages").split(",");
     getChildren().addAll(trail, turtle);
   }
 
