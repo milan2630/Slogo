@@ -41,10 +41,6 @@ public class Controller implements PropertyChangeListener {
         myME.getMethodNames(), myPE.getList());
   }
 
-  // public Controller(File file) { set the variables based on the xml file
-
-  //}
-
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     String value = evt.getNewValue().toString();
@@ -71,11 +67,7 @@ public class Controller implements PropertyChangeListener {
       case "Change Turtle State":
         myVisualizer.setInputText(evt.getPropagationId().toString()+" "+evt.getNewValue().toString());
         break;
-      case "Background Color Index":
-        //TODO update backend index of background color
-        break;
       case "Load XML":
-        System.out.println(value);
         break;
     }
   }
@@ -91,8 +83,6 @@ public class Controller implements PropertyChangeListener {
   }
 
   private void handleRun(String command) {
-    //myParser.setLanguage(language);
-    //myTurtle.changeLanguage(language);
     try {
       Map<Double, List<ImmutableTurtle>> turtleList = backendManager.parseTurtleStatesFromCommands(command);
       myHistory.addInput(command);
@@ -103,5 +93,4 @@ public class Controller implements PropertyChangeListener {
     }
   }
 
-  // check for screen bounds
 }

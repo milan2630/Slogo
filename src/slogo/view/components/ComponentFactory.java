@@ -29,7 +29,6 @@ public class ComponentFactory {
     } catch (NoSuchMethodException e) {
       throw new ReflectionException("InvalidMethod", key);
     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-      e.printStackTrace();
       throw new ReflectionException("InvalidInstantiation", key);
     }
 
