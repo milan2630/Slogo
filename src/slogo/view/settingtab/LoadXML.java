@@ -11,16 +11,17 @@ import slogo.xml.XMLParser;
 import java.io.File;
 
 public class LoadXML extends Button {
-    //private Configuration myConfiguration;
-    private File dataFile;
 
-    public LoadXML(){
-        setText("Load XML");
-        setOnAction(e -> handleLoad());
-    }
+  //private Configuration myConfiguration;
+  private File dataFile;
 
-    private void handleLoad() {
-        dataFile = Chooser.FILE_CHOOSER.showOpenDialog(new Stage());
+  public LoadXML() {
+    setText("Load XML");
+    setOnAction(e -> handleLoad());
+  }
+
+  private void handleLoad() {
+    dataFile = Chooser.FILE_CHOOSER.showOpenDialog(new Stage());
         /*
         while (dataFile != null) {
             try {
@@ -35,7 +36,7 @@ public class LoadXML extends Button {
         }
 
          */
-    }
+  }
 /*
     public Configuration getConfiguration() {
         return myConfiguration;

@@ -14,9 +14,11 @@ public class ComponentFactory {
   private static final ResourceBundle promptBundle = ResourceBundle.getBundle(RESOURCES_CLASS_PATH);
   private static final String CLASS_PATH = ComponentFactory.class.getPackageName() + ".";
   private LanguageHandler languageHandler;
-  public ComponentFactory(LanguageHandler languageHandler){
+
+  public ComponentFactory(LanguageHandler languageHandler) {
     this.languageHandler = languageHandler;
   }
+
   public Component getComponent(LanguageHandler language, String key, Actions actions) {
     try {
       Class<?> clazz = Class.forName(CLASS_PATH + promptBundle.getString(key));

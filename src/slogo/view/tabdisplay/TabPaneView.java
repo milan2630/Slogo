@@ -47,7 +47,7 @@ public class TabPaneView {
 
 
   public void createPaletteTab(LanguageHandler language, ObservableList list) {
-    paletteView = new PaletteView(language,list, actions);
+    paletteView = new PaletteView(language, list, actions);
     Tab tab = new Tab(uiResources.getString("PaletteTab"));
     tab.setContent(paletteView);
     tabPane.getTabs().add(tab);
@@ -83,20 +83,20 @@ public class TabPaneView {
 
   }
 
-  public Color getColor(int index){
+  public Color getColor(int index) {
     return paletteView.getColor(index);
   }
 
-  public List getImmutablePaletteList(){
+  public List getImmutablePaletteList() {
     return paletteView.getImmutableList();
   }
 
-  public void updateTurtleTab(Map<Double, List<ImmutableTurtle>> turtleList){
+  public void updateTurtleTab(Map<Double, List<ImmutableTurtle>> turtleList) {
     turtleTabView.setTable(turtleList);
   }
 
-    public void setHistoryLanguage(String newLanguage) {
-      historyView.setLanguage(newLanguage);
-    }
+  public void setHistoryLanguage(String newLanguage) {
+    historyView.setLanguage(newLanguage);
+  }
 
 }

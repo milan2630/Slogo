@@ -19,7 +19,7 @@ public class ThicknessSlider extends Component {
 
     Button button = new Button(getPromptFromKey("PenThicknessButton"));
     button.setOnAction(handler -> {
-      String command = getCommandByKey("SetPenSize",0) + " " + slider.getValue();
+      String command = getCommandByKey("SetPenSize", 0) + " " + slider.getValue();
       handleAction(command);
     });
 

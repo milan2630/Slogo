@@ -27,13 +27,13 @@ public class TurtleManager extends Pane {
   }
 
   public void updateTurtles(Map<Double, List<ImmutableTurtle>> turtles) throws ParsingException {
-    for (double i: turtles.keySet()) {
+    for (double i : turtles.keySet()) {
       List<ImmutableTurtle> turtleList = turtles.get(i);
       if (turtleMap.get(i) == null) {
         turtleMap.put(i, createTurtle(i));
       }
       for (ImmutableTurtle turtleState : turtleList) {
-        TurtleView turtle = turtleMap.get( i);
+        TurtleView turtle = turtleMap.get(i);
         turtle.setPenState(turtleState.getPenState());
         turtle.setPenColor(palette.get((int) turtleState.getPenColorIndex()));
         turtle.setTurtleHeading(turtleState.getHeading());
@@ -55,7 +55,7 @@ public class TurtleManager extends Pane {
 
   public void resetTrail(double i) {
     turtleMap.remove(i);
-    turtleMap.put(i,createTurtle(i));
+    turtleMap.put(i, createTurtle(i));
     updatePane();
   }
 

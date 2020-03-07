@@ -13,50 +13,51 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DialogWindow extends Dialog {
-    private ResourceBundle resourceBundle;
 
-    public DialogWindow(String display, LanguageHandler language, int parameters) {
-        super();
-        resourceBundle = ResourceBundle.getBundle("resources/UI/" + language.getLanguage());
-        setupWindow(display, parameters);
-    }
+  private ResourceBundle resourceBundle;
 
-    private void setupWindow(String display, int parameters) {
-        VBox vbox = createInputFields(parameters);
-        this.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        this.setTitle("planning");
-        this.setHeaderText(display);
-        this.getDialogPane().setContent(vbox);
-        setupInput(vbox);
-    }
+  public DialogWindow(String display, LanguageHandler language, int parameters) {
+    super();
+    resourceBundle = ResourceBundle.getBundle("resources/UI/" + language.getLanguage());
+    setupWindow(display, parameters);
+  }
 
-    private void setupInput(VBox vbox) {
-        this.setResultConverter(new Callback<ButtonType, List<String>>() {
-            @Override
-            public List<String> call(ButtonType b) {
-                if (b == ButtonType.OK) {
-                    List<String> parameters = new ArrayList<>();
-                    for (Node n : vbox.getChildren()) {
-                        TextField f = (TextField) n;
-                        parameters.add(f.getText());
-                    }
-                    return parameters;
-                }
-                return null;
-            }
-        });
-    }
+  private void setupWindow(String display, int parameters) {
+    VBox vbox = createInputFields(parameters);
+    this.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+    this.setTitle("planning");
+    this.setHeaderText(display);
+    this.getDialogPane().setContent(vbox);
+    setupInput(vbox);
+  }
 
-    private VBox createInputFields(int parameters) {
-        VBox vbox = new VBox();
-        for (int i = 0; i < parameters; i++) {
-            TextField input = new TextField();
-            int j = i + 1;
-            input.setPromptText(resourceBundle.getString("Parameter") + " " + j);
-            vbox.getChildren().add(input);
+  private void setupInput(VBox vbox) {
+    this.setResultConverter(new Callback<ButtonType, List<String>>() {
+      @Override
+      public List<String> call(ButtonType b) {
+        if (b == ButtonType.OK) {
+          List<String> parameters = new ArrayList<>();
+          for (Node n : vbox.getChildren()) {
+            TextField f = (TextField) n;
+            parameters.add(f.getText());
+          }
+          return parameters;
         }
-        vbox.setSpacing(10);
-        return vbox;
+        return null;
+      }
+    });
+  }
+
+  private VBox createInputFields(int parameters) {
+    VBox vbox = new VBox();
+    for (int i = 0; i < parameters; i++) {
+      TextField input = new TextField();
+      int j = i + 1;
+      input.setPromptText(resourceBundle.getString("Parameter") + " " + j);
+      vbox.getChildren().add(input);
     }
+    vbox.setSpacing(10);
+    return vbox;
+  }
 }
 

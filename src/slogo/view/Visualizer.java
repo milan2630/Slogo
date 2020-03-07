@@ -70,7 +70,7 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
           .getBundle("resources/UI/" + language);
     }
   }
-  
+
   public void setInputText(String text) {
     terminal.setInputText(text);
   }
@@ -81,6 +81,7 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
     turtleManager.updateTurtles(turtleList);
     tabPaneView.updateTurtleTab(turtleList);
   }
+
   @Override
   public void displayError(Exception error) {
     terminal.setErrorText(error.getMessage());
@@ -88,7 +89,7 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
 
   @Override
   public void bindTabs(LanguageHandler language, ObservableList history, ObservableList variables,
-                       ObservableMap methods, ObservableList palette) {
+      ObservableMap methods, ObservableList palette) {
     tabPaneView.createHistoryTab(language, history);
     tabPaneView.createMethodTab(language, methods);
     tabPaneView.createVariableTab(language, variables);
@@ -107,11 +108,11 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
     turtleManager.setBackgroundColor(tabPaneView.getColor(index));
   }
 
-  public void resetTrail(double index){
+  public void resetTrail(double index) {
     turtleManager.resetTrail(index);
   }
 
-  public void resetErrorBar(){
+  public void resetErrorBar() {
     terminal.setErrorText("");
   }
 

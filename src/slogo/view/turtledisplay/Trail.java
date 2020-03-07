@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class Trail extends Pane{
+public class Trail extends Pane {
 
   private List<Node> trail = new ArrayList<>();
   private Color currentColor;

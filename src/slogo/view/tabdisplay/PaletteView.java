@@ -39,34 +39,36 @@ public class PaletteView extends GridPane {
     palette = list;
     languageHandler = language;
     methodsResources = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
-    resourceBundle = ResourceBundle.getBundle((PREFIX+language.getLanguage()));
-    commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH +language.getLanguage());
+    resourceBundle = ResourceBundle.getBundle((PREFIX + language.getLanguage()));
+    commandBundle = ResourceBundle.getBundle(RESOURCES_COMMAND_PATH + language.getLanguage());
     this.actions = actions;
     background = bindList("BackgroundPalette");
     pen = bindList("PenPalette");
-    palette.addListener((ListChangeListener.Change<? extends String> e)->handleColorAdded(e));
-    add(background, 0,0,1,1);
+    palette.addListener((ListChangeListener.Change<? extends String> e) -> handleColorAdded(e));
+    add(background, 0, 0, 1, 1);
     add(pen, 2, 0, 1, 1);
   }
 
   private void handleColorAdded(ListChangeListener.Change<? extends String> e) {
-    if (e.wasAdded()){
+    if (e.wasAdded()) {
       addAdditionalColor();
     }
   }
 
   private void addAdditionalColor() {
-    background.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("BackgroundPalette")));
-    pen.getChildren().add(createColorOption(palette.size()-1, methodsResources.getString("PenPalette")));
+    background.getChildren().add(
+        createColorOption(palette.size() - 1, methodsResources.getString("BackgroundPalette")));
+    pen.getChildren()
+        .add(createColorOption(palette.size() - 1, methodsResources.getString("PenPalette")));
   }
 
-  private VBox bindList(String text){
+  private VBox bindList(String text) {
     VBox vbox = new VBox();
     Label title = new Label();
     title.setText(resourceBundle.getString((text)));
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().add(title);
-    for (int i=0; i< palette.size(); i++){
+    for (int i = 0; i < palette.size(); i++) {
       String methodName = methodsResources.getString(text);
       vbox.getChildren().add(createColorOption(i, methodName));
     }
@@ -77,7 +79,7 @@ public class PaletteView extends GridPane {
   private Node createColorOption(int i, String methodName) {
     HBox color = new HBox();
     color.getStyleClass().add(".settings-text");
-    Label label = new Label(""+i);
+    Label label = new Label("" + i);
     label.setTextFill(Color.RED);
     Rectangle rect = new Rectangle();
     rect.setWidth(100);
@@ -86,36 +88,39 @@ public class PaletteView extends GridPane {
     if (methodName.equals(methodsResources.getString("BackgroundPalette"))) {
       rect.setOnMouseClicked(e -> actions.handleBackgroundColor(i + ""));
     } else {
-      rect.setOnMouseClicked(e->actions.handleCommand(commandBundle.getString("SetPenColor").split("\\|")[1] + " " + i));
+      rect.setOnMouseClicked(e -> actions
+          .handleCommand(commandBundle.getString("SetPenColor").split("\\|")[1] + " " + i));
     }
     color.getChildren().addAll(label, rect);
     color.setSpacing(20);
     return color;
   }
-  public Color getColor(int index){
+
+  public Color getColor(int index) {
     String s = palette.get(index);
     String[] components = s.split(" ");
     int[] colorRGB = new int[3];
-    for (int j=0; j<colorRGB.length; j++){
-      colorRGB[j]= Integer.parseInt(components[j]);
+    for (int j = 0; j < colorRGB.length; j++) {
+      colorRGB[j] = Integer.parseInt(components[j]);
     }
     java.awt.Color c = new java.awt.Color(colorRGB[0], colorRGB[1], colorRGB[2]);
     int a = c.getAlpha();
     double opacity = a / COLOR_SCALE;
-    Color color = new Color(c.getRed()/ COLOR_SCALE, c.getGreen()/ COLOR_SCALE, c.getBlue()/ COLOR_SCALE, opacity);
+    Color color = new Color(c.getRed() / COLOR_SCALE, c.getGreen() / COLOR_SCALE,
+        c.getBlue() / COLOR_SCALE, opacity);
     return color;
   }
 
-  public void addColor(Color c){
-    int red = (int)(c.getRed() * COLOR_SCALE);
-    int green = (int)(c.getGreen() * COLOR_SCALE);
-    int blue = (int)(c.getBlue() * COLOR_SCALE);
-    palette.add(red+" "+green+" "+blue);
+  public void addColor(Color c) {
+    int red = (int) (c.getRed() * COLOR_SCALE);
+    int green = (int) (c.getGreen() * COLOR_SCALE);
+    int blue = (int) (c.getBlue() * COLOR_SCALE);
+    palette.add(red + " " + green + " " + blue);
   }
 
-  public List getImmutableList(){
+  public List getImmutableList() {
     List<Color> colors = new ArrayList<>();
-    for (int i =0; i<palette.size(); i++){
+    for (int i = 0; i < palette.size(); i++) {
       colors.add(getColor(i));
     }
     return Collections.unmodifiableList(colors);

@@ -23,7 +23,7 @@ public class HelpButton extends Button {
   private static final String RESOURCES_PATH = "resources/UI/English";
 
 
-  public HelpButton(){
+  public HelpButton() {
     this.resourceBundle = ResourceBundle.getBundle(RESOURCES_PATH);
     setText(resourceBundle.getString("HelpButton"));
     handleHelpScreen();

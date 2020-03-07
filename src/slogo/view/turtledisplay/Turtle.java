@@ -58,7 +58,9 @@ public class Turtle extends Pane {
     return penActive;
   }
 
-  protected void setGraphicImage(Image image) { graphic.setImage(image); }
+  protected void setGraphicImage(Image image) {
+    graphic.setImage(image);
+  }
 
   protected void setPenActive(double penActive) {
     this.penActive = penActive;
