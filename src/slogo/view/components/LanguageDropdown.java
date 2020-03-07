@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 
 public class LanguageDropdown extends Component {
@@ -14,7 +15,7 @@ public class LanguageDropdown extends Component {
   private static final String DEFAULT_LANGUAGE = "English";
   private static final String LANGUAGE_PATH = "src/resources/languages/";
 
-  protected LanguageDropdown(String language, String key, Actions actions) {
+  protected LanguageDropdown(LanguageHandler language, String key, Actions actions) {
     super(language, key, actions);
     comboBox = new ComboBox<>();
     comboBox.setValue(DEFAULT_LANGUAGE);

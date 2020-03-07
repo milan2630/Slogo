@@ -2,12 +2,13 @@ package slogo.view.components;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 import javafx.scene.control.Slider;
 
 public class ThicknessSlider extends Component {
 
-  protected ThicknessSlider(String language, String key, Actions actions) {
+  protected ThicknessSlider(LanguageHandler language, String key, Actions actions) {
     super(language, key, actions);
     HBox hbox = new HBox();
     Slider slider = new Slider();

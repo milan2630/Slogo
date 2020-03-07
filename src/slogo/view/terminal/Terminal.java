@@ -20,7 +20,7 @@ public class Terminal extends BorderPane {
 
     errorBar = new ErrorBar();
     input = new TerminalInput(uiResources.getString("TerminalPrompt"));
-    buttons = new TerminalButtons(language.getLanguage(), actions, input);
+    buttons = new TerminalButtons(language, actions, input);
 
     setTop(errorBar);
     setCenter(input);

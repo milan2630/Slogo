@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.view.Actions;
 import slogo.view.components.Component;
 
@@ -19,7 +20,7 @@ public class TurtleImageDropdown extends Component {
   private ResourceBundle layouts = ResourceBundle.getBundle(LAYOUT_RESOURCE_PATH);
   private ComboBox<String> comboBox;
 
-  protected TurtleImageDropdown(String language, String methodName, Actions target) {
+  protected TurtleImageDropdown(LanguageHandler language, String methodName, Actions target) {
     super(language, methodName, target);
     ObservableList<String> displayText = getTurtleImages();
 
