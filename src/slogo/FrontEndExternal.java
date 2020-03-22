@@ -63,6 +63,10 @@ public interface FrontEndExternal {
    */
   void setInputText(String text);
 
+  /**
+   * Resets a trail for a specified turtle
+   * @param index the turtle id to change
+   */
   void resetTrail(double index);
 
 
