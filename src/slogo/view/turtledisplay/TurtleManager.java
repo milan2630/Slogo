@@ -14,11 +14,19 @@ import javafx.scene.paint.Color;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.TurtleModel.ImmutableTurtle;
 
+/**
+ * @author jaidharosenblatt Manages the visualized turtles for a given scene. All of the turtles are
+ * put in a pane so that they can be directly added to a scene. Assumes that a immutable turtle map
+ * is a error free (besides going out of bounds). It is dependent on Trail, Turtle, and TurtleView.
+ */
 public class TurtleManager extends Pane {
 
   private Map<Double, TurtleView> turtleMap;
   private List<Color> palette;
 
+  /**
+   * Constructs a new pane with a single turtle.
+   */
   public TurtleManager() {
     palette = new ArrayList<>();
     turtleMap = new HashMap<>();
@@ -26,6 +34,13 @@ public class TurtleManager extends Pane {
     updatePane();
   }
 
+  /**
+   * Uses turtle to update each turtle based on a list of its states. Also checks if a current state
+   * is out of bounds given the current gui size and throws a parsing exception.
+   *
+   * @param turtles a map from turtle ID to a list of that turtles states
+   * @throws ParsingException
+   */
   public void updateTurtles(Map<Double, List<ImmutableTurtle>> turtles) throws ParsingException {
     for (double i : turtles.keySet()) {
       List<ImmutableTurtle> turtleList = turtles.get(i);
@@ -49,24 +64,31 @@ public class TurtleManager extends Pane {
     updatePane();
   }
 
+  /**
+   * Set the palette to a new theme
+   *
+   * @param palette a list of possible colors where each color's id is its index in the list
+   */
   public void setPalette(List<Color> palette) {
     this.palette = palette;
   }
 
+  /**
+   * resets a trail for a given turtle
+   *
+   * @param i the id for the turtle to reset
+   */
   public void resetTrail(double i) {
     turtleMap.remove(i);
     turtleMap.put(i, createTurtle(i));
     updatePane();
   }
 
-  private TurtleView createTurtle(double i) {
-    TurtleView turtle = new TurtleView(i);
-    turtle.translateXProperty().bind(widthProperty().divide(2));
-    turtle.translateYProperty().bind(heightProperty().divide(2));
-
-    return turtle;
-  }
-
+  /**
+   * Sets the background color of our turtle display
+   *
+   * @param color the new color
+   */
   public void setBackgroundColor(Color color) {
     setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
@@ -83,5 +105,13 @@ public class TurtleManager extends Pane {
         || turtle.getX() < -1 * getWidth() / 2 ||
         turtle.getY() > getHeight() / 2 || turtle.getY() < -1 *
         getHeight() / 2;
+  }
+
+  private TurtleView createTurtle(double i) {
+    TurtleView turtle = new TurtleView(i);
+    turtle.translateXProperty().bind(widthProperty().divide(2));
+    turtle.translateYProperty().bind(heightProperty().divide(2));
+
+    return turtle;
   }
 }
