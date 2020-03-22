@@ -6,7 +6,7 @@ import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 
 /**
- * @author Jaidha Rosenblatt This class represents the terminal aspect of the gui. It controls the
+ * @author jaidharosenblatt This class represents the terminal aspect of the gui. It controls the
  * error bar, text input box, and buttons for running, resetting, and clearing our editor. It is
  * dependent on ErrorBar, TerminalButtons, and TerminalInput The terminal can be contructed and
  * added directly added to a scene since it is a node.

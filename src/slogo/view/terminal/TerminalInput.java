@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;
 
 /**
- * A simple class that is a styled TextArea
+ * @author jaidharosenblatt A simple class that is a styled TextArea
  */
 public class TerminalInput extends TextArea {
 

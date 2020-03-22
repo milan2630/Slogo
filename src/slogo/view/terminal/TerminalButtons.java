@@ -11,8 +11,8 @@ import slogo.Controller.Actions;
 import slogo.view.components.InputButton;
 
 /**
- * A box for controlling the buttons needed for terminal. This class is a node so it can be directly
- * added to a scene.
+ * @author jaidharosenblatt A box for controlling the buttons needed for terminal. This class is a
+ * node so it can be directly added to a scene.
  */
 public class TerminalButtons extends VBox {
 

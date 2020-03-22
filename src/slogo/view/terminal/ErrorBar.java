@@ -5,8 +5,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 /**
- * A modified HBox that only displays error messages. Since it is a node, it can be constructed and
- * directly added to a scene.
+ * @author jaidharosenblatt A modified HBox that only displays error messages. Since it is a node,
+ * it can be constructed and directly added to a scene.
  */
 public class ErrorBar extends HBox {
 
