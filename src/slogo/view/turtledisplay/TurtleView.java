@@ -1,12 +1,14 @@
 package slogo.view.turtledisplay;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+/**
+ * Controls a turtle and its trail for
+ */
 public class TurtleView extends Pane {
 
   private Trail trail;
@@ -21,14 +23,14 @@ public class TurtleView extends Pane {
   private Image turtleImage;
   private String[] filenames;
 
-  public TurtleView(double index) {
+  protected TurtleView(double index) {
     this.index = index;
     turtleImage = getImageByName(TURTLE_PATH + defaults.getString("TurtleImage"));
     filenames = layouts.getString("TurtleImages").split(",");
     reset();
   }
 
-  public void reset() {
+  protected void reset() {
     getChildren().clear();
     this.turtle = new Turtle(turtleImage, 0, 0, 0);
     this.trail = new Trail(Double.parseDouble(defaults.getString("PenThickness")),
@@ -36,7 +38,7 @@ public class TurtleView extends Pane {
     getChildren().addAll(trail, turtle);
   }
 
-  public void moveTurtle(Point2D newCoordinate) {
+  protected void moveTurtle(Point2D newCoordinate) {
     Point2D oldCoordinate = turtle.getPosition();
     turtle.setPosition(newCoordinate);
     if (turtle.isPenActive() == 1) {
@@ -44,34 +46,34 @@ public class TurtleView extends Pane {
     }
   }
 
-  public void setTurtleHeading(double newHeading) {
+  protected void setTurtleHeading(double newHeading) {
     turtle.setHeading(newHeading);
   }
 
-  public void setTurtleVisibility(double state) {
+  protected void setTurtleVisibility(double state) {
     turtle.setTurtleVisible(state);
   }
 
-  public void setPenState(double state) {
+  protected void setPenState(double state) {
     turtle.setPenActive(state);
   }
 
-  public void setShape(double index) {
+  protected void setShape(double index) {
     setTurtleImage(filenames[(int) index]);
   }
 
-  public void setPenThickness(Double thickness) {
+  protected void setPenThickness(Double thickness) {
     trail.setCurrentThickness(thickness);
   }
 
-  public void setTurtleImage(String filename) {
+  protected void setTurtleImage(String filename) {
     Image image = getImageByName(TURTLE_PATH + filename);
     turtleImage = image;
     turtle.setGraphicImage(image);
   }
 
-  public void setPenColor(Color currentColor) {
-    trail.setCurrentColor(currentColor);
+  protected void setPenColor(Color currentColor) {
+    trail.setColor(currentColor);
   }
 
   private Image getImageByName(String name) {
