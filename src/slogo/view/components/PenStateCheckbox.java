@@ -4,6 +4,9 @@ import javafx.scene.control.CheckBox;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 
+/**
+ * @author jaidharosenblatt extends component to display the current state of a pen as a check box
+ */
 public class PenStateCheckbox extends Component {
 
   protected PenStateCheckbox(LanguageHandler language, String key, Actions actions) {

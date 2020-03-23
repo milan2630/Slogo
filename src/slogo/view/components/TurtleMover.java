@@ -7,12 +7,18 @@ import javafx.scene.layout.VBox;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 
+/**
+ * @author jaidharosenblatt extends component to create a graphical way to move and rotate the the
+ * turtle. The class has a slider that controls the number value to execute a command with and
+ * buttons to move a turtle up, down, left, and right.
+ */
 public class TurtleMover extends Component {
 
   private Slider slider;
   private Actions actions;
   private String key;
   private LanguageHandler languageHandler;
+
   public TurtleMover(LanguageHandler language, String key, Actions actions) {
     super(language, key, actions);
     languageHandler = language;
@@ -60,8 +66,7 @@ public class TurtleMover extends Component {
   }
 
   private String getText(String commandName, String buttonText) {
-
-    return languageHandler.getLanguageCommand(commandName)+" " +buttonText.split(" ")[1];
+    return languageHandler.getLanguageCommand(commandName) + " " + buttonText.split(" ")[1];
   }
 
 }

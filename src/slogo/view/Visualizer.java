@@ -19,6 +19,13 @@ import slogo.view.tabdisplay.TabPaneView;
 import slogo.view.terminal.Terminal;
 import slogo.view.turtledisplay.TurtleManager;
 
+/**
+ * @author jaidharosenblatt, ryanweeratunga - the main controller class for the frontend. This class
+ * implements the FrontEndExternal API and holds all of the nodes in our gui. This class is
+ * dependent on TurtleManager and its dependencies, Terminal and its dependencies, TabPaneView and
+ * its dependencies, and LanguageHandler. It is used in the Controller class to communicate with the
+ * model.
+ */
 public class Visualizer extends BorderPane implements FrontEndExternal {
 
   private static final String DEFAULT_LANGUAGE = "English";
@@ -31,6 +38,13 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
   private static final double SCENE_WIDTH = 800;
   private static final double SCENE_HEIGHT = 600;
 
+  /**
+   * Constructs a new visualizer and sets the gui to the given stage
+   *
+   * @param stage    the stage for our application
+   * @param language the language for our gui
+   * @param actions  an Actions object that holds all of the possible methods
+   */
   public Visualizer(Stage stage, LanguageHandler language, Actions actions) {
     languageHandler = language;
     setBundle();
@@ -71,10 +85,11 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
     }
   }
 
-  public void setInputText(String text) {
-    terminal.setInputText(text);
-  }
-
+  /**
+   * Updates the turtle display using a list of all the states of a turtle
+   *
+   * @param turtleList a list of turtle states from the backend
+   */
   @Override
   public void updateTurtle(Map<Double, List<ImmutableTurtle>> turtleList) throws ParsingException {
     turtleManager.setPalette(tabPaneView.getImmutablePaletteList());
@@ -82,11 +97,26 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
     tabPaneView.updateTurtleTab(turtleList);
   }
 
+  /**
+   * Handle an error and tell the User what issue occurred
+   *
+   * @param error the error that was thrown in the backend
+   */
   @Override
   public void displayError(Exception error) {
     terminal.setErrorText(error.getMessage());
   }
 
+  /**
+   * Passes a list of tabs as observable map and lists to be able to bind to their external methods
+   * in the controller
+   *
+   * @param language  the current language
+   * @param history   a list of previous commands
+   * @param variables a list of current variables
+   * @param methods   a map of method name to commands
+   * @param palette   a list of the current color palette
+   */
   @Override
   public void bindTabs(LanguageHandler language, ObservableList history, ObservableList variables,
       ObservableMap methods, ObservableList palette) {
@@ -96,24 +126,54 @@ public class Visualizer extends BorderPane implements FrontEndExternal {
     tabPaneView.createPaletteTab(language, palette);
   }
 
+  /**
+   * Translates the history to a new language
+   *
+   * @param newLanguage the new language to set history to
+   */
   @Override
   public void setHistoryLanguage(String newLanguage) {
     tabPaneView.setHistoryLanguage(newLanguage);
   }
 
+  /**
+   * Updates the background color of the turtle display
+   *
+   * @param color the color to set it to
+   */
   @Override
-  //FIXME
   public void setBackgroundColor(double color) {
     int index = (int) color;
     turtleManager.setBackgroundColor(tabPaneView.getColor(index));
   }
 
+  /**
+   * Resets a trail for a given turtle
+   *
+   * @param index the turtle id to change
+   */
+  @Override
   public void resetTrail(double index) {
     turtleManager.resetTrail(index);
   }
 
+  /**
+   * Resets the error bar
+   */
+  @Override
   public void resetErrorBar() {
     terminal.setErrorText("");
   }
+
+  /**
+   * Sets the terminal input box to given a given String
+   *
+   * @param text the text to display
+   */
+  @Override
+  public void setInputText(String text) {
+    terminal.setInputText(text);
+  }
+
 
 }

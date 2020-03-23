@@ -5,6 +5,10 @@ import javafx.scene.paint.Color;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 
+/**
+ * @author jaidharosenblatt [unused class] transforms a colorpicker box to implement a component.
+ * This class was used before the transition to palettes
+ */
 public class ColorPickerBox extends Component {
 
   private ColorPicker colorPicker;

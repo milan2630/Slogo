@@ -40,7 +40,7 @@ public interface FrontEndExternal {
    * @param palette   a list of the current color palette
    */
   void bindTabs(LanguageHandler language, ObservableList history, ObservableList variables,
-                ObservableMap methods, ObservableList palette);
+      ObservableMap methods, ObservableList palette);
 
   /**
    * Translates the history to a new language
@@ -65,9 +65,14 @@ public interface FrontEndExternal {
 
   /**
    * Resets a trail for a specified turtle
+   *
    * @param index the turtle id to change
    */
   void resetTrail(double index);
 
+  /**
+   * Resets the error bar in terminal
+   */
+  void resetErrorBar();
 
 }

@@ -11,6 +11,10 @@ import javafx.scene.control.ComboBox;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 
+/**
+ * @author jaidharosenblatt, ryanweeratunga extends component to create a dropdown for all of the
+ * possible images found in resources
+ */
 public class TurtleImageDropdown extends Component {
 
   private static final String LAYOUT_RESOURCE_PATH = "resources/UI/Layouts";

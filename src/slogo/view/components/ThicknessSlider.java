@@ -6,6 +6,9 @@ import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 import javafx.scene.control.Slider;
 
+/**
+ * @author jaidharosenblatt extends component to use a slider that updates when a button is clicked
+ */
 public class ThicknessSlider extends Component {
 
   protected ThicknessSlider(LanguageHandler language, String key, Actions actions) {

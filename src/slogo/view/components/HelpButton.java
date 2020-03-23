@@ -14,6 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * @author ryanweeratunga
+ */
 public class HelpButton extends Button {
 
   private final int IMAGE_HEIGHT = 283;

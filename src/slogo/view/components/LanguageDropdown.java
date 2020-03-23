@@ -7,6 +7,10 @@ import javafx.scene.control.ComboBox;
 import slogo.Model.Parsing.LanguageHandler;
 import slogo.Controller.Actions;
 
+/**
+ * @author jaidharosenblatt, ryanweeratunga extends component to create a dropdown for all of the
+ * possible languages found in resources
+ */
 public class LanguageDropdown extends Component {
 
   private ComboBox<String> comboBox;
