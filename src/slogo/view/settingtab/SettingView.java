@@ -12,7 +12,10 @@ import slogo.view.components.Component;
 import slogo.view.components.ComponentFactory;
 import slogo.view.components.HelpButton;
 
-
+/**
+ * @author jaidharosenblatt A tab that uses reflection to add buttons specified in layouts.
+ * Dependent on Component and ComponentFactory.
+ */
 public class SettingView extends VBox {
 
   private static final String PREFIX = "resources/UI/";
@@ -22,12 +25,17 @@ public class SettingView extends VBox {
 
   private static ResourceBundle layouts;
 
+  /**
+   * Constructs a settings tab
+   * @param language the gui language
+   * @param actions the possible methods to map actions to
+   */
   public SettingView(LanguageHandler language, Actions actions) {
     layouts = ResourceBundle.getBundle(RESOURCES_LAYOUTS);
     setupTab(language, actions);
   }
 
-  protected HBox createLabel(String prompt) {
+  private HBox createLabel(String prompt) {
     HBox hbox = new HBox();
     Text text = new Text(prompt);
     hbox.getChildren().add(text);
