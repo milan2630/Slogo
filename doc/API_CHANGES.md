@@ -2,6 +2,15 @@
 
 ## Milan Bhat (mb554), Ryan Weeratunga (rkw14), Robert Chen (rec43), Jaidha Rosenblatt (jrr59)
 
+## Final API
+### Backend External
+### Backend Internal
+
+### Frontend External
+Added `resetTrail(double index)` in order to be able to let the backend reset the trail for a specific turtle using a command. Added `resetErrorBar()` in order to let the backend handle a reset command.
+### Frontend Internal
+Removed `getWidth()` and `getHeight()`, and added in order to accommodate a simplified backend API. Added `setPalette(List<Color> palette)` in order to allow colors to be set through palettes. Restructured Component and related subclasses to use a factory pattern and reflection.
+
 ### Backend External
 
 The backend external API originally had methods for getting each of the Turtle elements such as its x and y. These were all removed in favor of changing the `parseStringToCommand(String input)` function from returning a list of Commands to a list of ImmutableTurtles and renaming the method `parseTurtleStatesFromCommands()`. This also removed the need for the `actOnCommand()` method because all actions are performed internall in the backend and then the state of the turtles after each action is returned in the list of ImmutableTurtles returned by `parseTurtleStatesFromCommands()`. 
