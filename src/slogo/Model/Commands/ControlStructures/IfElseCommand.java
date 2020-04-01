@@ -2,16 +2,12 @@ package slogo.Model.Commands.ControlStructures;
 
 import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
-import slogo.Model.CommandManager;
+import slogo.Model.Parsing.CommandManager;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.util.List;
 
 public class IfElseCommand extends BackEndCommand {
-    @Override
-    public int getNumArguments() {
-        return 3;
-    }
 
     @Override
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {

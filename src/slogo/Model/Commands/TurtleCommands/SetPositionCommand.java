@@ -9,11 +9,6 @@ import java.util.List;
 
 public class SetPositionCommand extends BackEndCommand {
 
-    @Override
-    public int getNumArguments() {
-        return 2;
-    }
-
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
         double oldX = myTurtle.getX();
         double oldY = myTurtle.getY();
@@ -24,7 +19,7 @@ public class SetPositionCommand extends BackEndCommand {
         myTurtle.setX(newX);
         myTurtle.setY(newY);
 
-        commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
+        commandManager.getTurtleManager().addInternalState(myTurtle);
         return Math.hypot(newX - oldX, newY - oldY);
     }
 

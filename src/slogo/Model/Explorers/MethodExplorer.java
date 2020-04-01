@@ -4,16 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import slogo.Model.Commands.ControlStructures.UserDefinedInstructionCommand;
 import slogo.Model.ErrorHandling.ParsingException;
-import slogo.Model.Parsing.LanguageConverter;
+import slogo.Model.Parsing.LanguageHandler;
 
 import java.util.HashMap;
 
 public class MethodExplorer {
 
     private ObservableMap<String, UserDefinedInstructionCommand> methodMap;
-
-    public MethodExplorer(){
+    private LanguageHandler languageHandler;
+    public MethodExplorer(LanguageHandler language){
         methodMap = FXCollections.observableMap(new HashMap<>());
+        languageHandler = language;
     }
 
     public void addMethod(UserDefinedInstructionCommand method) throws ParsingException {
@@ -28,10 +29,9 @@ public class MethodExplorer {
         return null;
     }
 
-    public void convertLanguage(String oldLanguage, String newLanguage){
-        LanguageConverter languageConverter = new LanguageConverter(oldLanguage, newLanguage);
+    public void convertLanguage( String newLanguage){
         for (String name: methodMap.keySet()){
-            methodMap.get(name).translateCommands(languageConverter);
+            methodMap.get(name).translateCommands(languageHandler, newLanguage);
         }
     }
 

@@ -1,106 +1,232 @@
 package slogo.Model.TurtleModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Turtle {
+/**
+ * The backend representation of a Turtle
+ */
+public class Turtle implements ImmutableTurtle{
+    private static final double DEFAULT_PEN_THICKNESS = 10;
     private double myX;
     private double myY;
     private double myHeading;
-    private int penState;
-    private int showing;
-    private int myID;
-    private boolean isActive;
-    private List<ImmutableTurtle> internalStates;
+    private double myPenState;
+    private double myShowing;
+    private double myIsActive;
+    private double myPenThickness;
+    private double myPenColorIndex;
+    private double myTurtleImageIndex;
+    private double myId;
 
-    public Turtle(int id, boolean active){
-        myID = id;
-        isActive = active;
-        myX = 0;
-        myY = 0;
-        myHeading = 0;
-        penState = 1;
-        showing = 1;
-        internalStates = new ArrayList<>();
+    /**
+     * Instantiates a default turtle at 0, 0
+     * @param id is the id of the new turtle
+     */
+    public Turtle(double id){
+        this(0, 0, 0, 1, 1, 1, DEFAULT_PEN_THICKNESS, 0,0, id);
     }
 
-    /*
-    private double clearScreen(ClearScreenCommand clearScreen, List<String> params) throws ParsingException {
-        double oldX = myX;
-        double oldY = myY;
-        setToHome();
-        // TODO: tell Controller and clear TrailView in Visualizer, won't work until design change
-        return Math.hypot(myX - oldX, myY - oldY);
-    }
- */
-    public double getX() {
-        return myX;
-    }
-
-    public double getY() {
-        return myY;
-    }
-
-    public double getHeading() {
-        return myHeading;
+    /**
+     * Creates a turtle based on the attributes of another turtle
+     * @param originalTurtle the turtle to copy
+     */
+    public Turtle(ImmutableTurtle originalTurtle){
+        this.myX = originalTurtle.getX();
+        this.myY = originalTurtle.getY();
+        this. myHeading = originalTurtle.getHeading();
+        this.myPenState = originalTurtle.getPenState();
+        this.myShowing = originalTurtle.getShowing();
+        this.myIsActive = originalTurtle.isActive();
+        this.myPenThickness = originalTurtle.getPenThickness();
+        this.myPenColorIndex = originalTurtle.getPenColorIndex();
+        this.myTurtleImageIndex = originalTurtle.getTurtleImageIndex();
+        this.myId = originalTurtle.getID();
     }
 
-    public int getPenState(){
-        return penState;
+    /**
+     * Creates a turtle and sets al its attributes
+     * @param x
+     * @param y
+     * @param heading
+     * @param penState
+     * @param showing
+     * @param isActive
+     * @param penThickness
+     * @param penColorIndex
+     * @param turtleImageIndex
+     * @param id
+     */
+    public Turtle(double x, double y, double heading, double penState, double showing, double isActive,
+                           double penThickness, double penColorIndex, double turtleImageIndex, double id){
+        this.myX = x;
+        this.myY = y;
+        this.myHeading = heading;
+        this.myPenState = penState;
+        this.myShowing = showing;
+        this.myIsActive = isActive;
+        this.myPenThickness = penThickness;
+        this.myPenColorIndex = penColorIndex;
+        this.myTurtleImageIndex = turtleImageIndex;
+        this.myId = id;
     }
 
-    public int getShowing(){
-        return showing;
-    }
-
+    /**
+     * @return an ImmutableTurtle with the same status as this turtle
+     */
     public ImmutableTurtle getImmutableTurtle(){
-        return new ImmutableTurtle(myX, myY, myHeading, penState, showing);
+        return new Turtle(this);
     }
 
+    /**
+     * Sets the Turtle's x coordinate
+     * @param x
+     */
     public void setX(double x) {
         myX = x;
     }
 
+    /**
+     * Sets the Turtle's y coordinate
+     * @param y
+     */
     public void setY(double y) {
         myY = y;
     }
 
+    /**
+     * Sends the Turtle back to 0, 0
+     */
     public void setToHome() {
         myX = 0;
         myY = 0;
     }
 
+    /**
+     * Sets the heading of the turtle
+     * @param heading
+     */
     public void setHeading(double heading) {
         myHeading = heading;
     }
 
+    /**
+     * Sets the pen status of the turtle
+     * @param state where 1.0 represents down and 0.0 represents up
+     */
     public void setPenState(int state) {
-        penState = state;
+        myPenState = state;
     }
 
+    /**
+     * Sets whether or not the turtle is displayed
+     * @param showing where 1 represents showing and 0 represents not
+     */
     public void setShowing(int showing) {
-        this.showing = showing;
+        myShowing = showing;
     }
 
-    public List<ImmutableTurtle> getInternalStates() {
-        List<ImmutableTurtle> copy = new ArrayList<>(internalStates);
-        internalStates = new ArrayList<>();
-        return copy;
+    /**
+     * Sets whether or not the turtle is active
+     * @param isActive where 1.0 represents active and 0.0 represents inactive
+     */
+    public void setIsActive(double isActive) {
+        myIsActive = isActive;
     }
 
+    /**
+     * Sets the pen color index
+     * @param myPenColorIndex
+     */
+    public void setPenColorIndex(double myPenColorIndex) {
+        this.myPenColorIndex = myPenColorIndex;
+    }
+
+    /**
+     * Sets the pen thickness in pixels
+     * @param myPenThickness
+     */
+    public void setPenThickness(double myPenThickness) {
+        this.myPenThickness = myPenThickness;
+    }
+
+    /**
+     * Sets the turtle image index
+     * @param myTurtleImageIndex
+     */
+    public void setTurtleImageIndex(double myTurtleImageIndex) {
+        this.myTurtleImageIndex = myTurtleImageIndex;
+    }
+
+    /**
+     * Increments x by the given amount
+     * @param addX
+     */
     public void incrementX(double addX){
         myX+=addX;
     }
 
+    /**
+     * Increments y by the given amount
+     * @param addY
+     */
     public void incrementY(double addY){
         myY+=addY;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
+    /**
+     * Increments the heading by the given amount
+     * @param turn
+     */
     public void incrementHeading(double turn){
         myHeading+=turn;
+    }
+
+    @Override
+    public double getX() {
+        return myX;
+    }
+
+    @Override
+    public double getY() {
+        return myY;
+    }
+
+    @Override
+    public double getHeading() {
+        return myHeading;
+    }
+
+    @Override
+    public double getPenState() {
+        return myPenState;
+    }
+
+    @Override
+    public double getShowing() {
+        return myShowing;
+    }
+
+    @Override
+    public double isActive() {
+        return myIsActive;
+    }
+
+
+    @Override
+    public double getPenColorIndex() {
+        return myPenColorIndex;
+    }
+
+    @Override
+    public double getPenThickness() {
+        return myPenThickness;
+    }
+
+    @Override
+    public double getTurtleImageIndex() {
+        return myTurtleImageIndex;
+    }
+
+    @Override
+    public double getID() {
+        return myId;
     }
 }

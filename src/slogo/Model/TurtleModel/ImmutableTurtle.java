@@ -1,39 +1,57 @@
 package slogo.Model.TurtleModel;
 
-public class ImmutableTurtle {
+/**
+ * Interface for a turtle that cannot have its attributes changed
+ */
+public interface ImmutableTurtle {
 
-    private double myX;
-    private double myY;
-    private double myHeading;
-    private int penState;
-    private int showing;
+    /**
+     * @return x coordinate
+     */
+    public double getX();
 
-    public ImmutableTurtle(double x, double y, double heading, int pen, int show){
-        myX = x;
-        myY = y;
-        myHeading = heading;
-        penState = pen;
-        showing = show;
-    }
+    /**
+     * @return y coordinate
+     */
+    public double getY();
 
-    public double getX() {
-        return myX;
-    }
+    /**
+     * @return heading
+     */
+    public double getHeading();
 
-    public double getY() {
-        return myY;
-    }
+    /**
+     * @return pen status
+     */
+    public double getPenState();
 
-    public double getHeading() {
-        return myHeading;
-    }
+    /**
+     * @return showing status
+     */
+    public double getShowing();
 
-    public int getPenState(){
-        return penState;
-    }
+    /**
+     * @return whether the turtle is active or not
+     */
+    public double isActive();
 
-    public int getShowing(){
-        return showing;
-    }
+    /**
+     * @return the pen color index
+     */
+    public double getPenColorIndex();
 
+    /**
+     * @return the pen thickness in pixels
+     */
+    public double getPenThickness();
+
+    /**
+     * @return the turtle image index
+     */
+    public double getTurtleImageIndex();
+
+    /**
+     * @return the turtle ID
+     */
+    public double getID();
 }

@@ -9,10 +9,6 @@ import java.util.List;
 
 public class SetTowardsCommand extends BackEndCommand {
 
-    @Override
-    public int getNumArguments() {
-        return 2;
-    }
 
     public double executeCommand(CommandManager commandManager, Turtle myTurtle, List<String> params) throws ParsingException {
         Double towardX = getDoubleParameter(params.get(0), commandManager.getVariableExplorer());
@@ -26,7 +22,7 @@ public class SetTowardsCommand extends BackEndCommand {
         double heading = Math.toDegrees(Math.atan((towardX-myTurtle.getX())/(towardY-myTurtle.getY())));
         myTurtle.setHeading(heading);
 
-        commandManager.getInternalStates().add(myTurtle.getImmutableTurtle());
+        commandManager.getTurtleManager().addInternalState(myTurtle);
         return heading - oldHeading;
     }
 

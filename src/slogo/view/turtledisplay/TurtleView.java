@@ -1,67 +1,132 @@
 package slogo.view.turtledisplay;
 
+import java.util.ResourceBundle;
 import javafx.geometry.Point2D;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
-
+/**
+ * @author jaidharosenblatt Controls a turtle and its trail. Holds both a turtle graphic and its
+ * trail in a pane so it can be directly added to a scene. Is dependent on Trail and Turtle.
+ */
 public class TurtleView extends Pane {
 
-  private ImageView graphic;
-  private Point2D position;
-  private int turtleVisible = 1;
-  private int penActive = 1;
-  private double heading;
+  private Trail trail;
+  private Turtle turtle;
+  private double index;
+  private static final String TURTLE_PATH = "turtles/";
+  private static final String DEFAULT_RESOURCE_PATH = "resources/UI/Default";
+  private static final String LAYOUT_RESOURCE_PATH = "resources/UI/Layouts";
 
-  protected TurtleView(Image image, double x, double y, double heading) {
-    this.graphic = new ImageView(image);
-    graphic.setFitWidth(50);
-    graphic.setFitHeight(50);
+  private ResourceBundle defaults = ResourceBundle.getBundle(DEFAULT_RESOURCE_PATH);
+  private ResourceBundle layouts = ResourceBundle.getBundle(LAYOUT_RESOURCE_PATH);
+  private Image turtleImage;
+  private String[] filenames;
 
-    Point2D point = new Point2D(x, y);
-    getChildren().add(graphic);
-
-    setPosition(point);
-    setHeading(heading);
+  /**
+   * Constructs a turtle at a given index
+   *
+   * @param index the index of the turtle
+   */
+  protected TurtleView(double index) {
+    this.index = index;
+    turtleImage = getImageByName(TURTLE_PATH + defaults.getString("TurtleImage"));
+    filenames = layouts.getString("TurtleImages").split(",");
+    reset();
   }
 
-  protected void setPosition(Point2D point) {
-    this.position = point;
-    graphic.setX(point.getX() - graphic.getBoundsInLocal().getWidth() / 2);
-    graphic.setY(point.getY() - graphic.getBoundsInLocal().getHeight() / 2);
+  /**
+   * Resets a turtle to 0,0 position, the default pen color, and a blank trail
+   */
+  protected void reset() {
+    getChildren().clear();
+    this.turtle = new Turtle(turtleImage, 0, 0, 0);
+    this.trail = new Trail(Double.parseDouble(defaults.getString("PenThickness")),
+        Color.web(defaults.getString("PenColor")));
+    getChildren().addAll(trail, turtle);
   }
 
-  protected Point2D getPosition() {
-    return this.position;
+  /**
+   * Moves a turtle and draws a trail if its pen is active
+   *
+   * @param newCoordinate the coordinate to move the turtle into
+   */
+  protected void moveTurtle(Point2D newCoordinate) {
+    Point2D oldCoordinate = turtle.getPosition();
+    turtle.setPosition(newCoordinate);
+    if (turtle.isPenActive() == 1) {
+      trail.addLine(oldCoordinate, newCoordinate);
+    }
   }
 
-  protected double getHeading() {
-    return this.heading;
+  /**
+   * Updates the turtle's heading
+   *
+   * @param newHeading the new heading
+   */
+  protected void setTurtleHeading(double newHeading) {
+    turtle.setHeading(newHeading);
   }
 
-  protected void setHeading(double heading) {
-    graphic.setRotate(this.heading = heading);
+  /**
+   * Updates the visibility of a turtle
+   *
+   * @param state the visibility of a turtle (1 visible, 0 invisible)
+   */
+  protected void setTurtleVisibility(double state) {
+    turtle.setTurtleVisible(state);
   }
 
-  protected int isTurtleVisible() {
-    return turtleVisible;
+  /**
+   * Updates a turtle's pen state
+   *
+   * @param state the pen state of a turtle (1 active, 0 inactive)
+   */
+  protected void setPenState(double state) {
+    turtle.setPenActive(state);
   }
 
-  protected void setTurtleVisible(int isVisible) {
-    this.turtleVisible = isVisible;
-    graphic.setVisible(isVisible == 1);
+  /**
+   * Updates the graphic by using the index from the possible turtle images
+   *
+   * @param index the index of the new image
+   */
+  protected void setShape(double index) {
+    setTurtleImage(filenames[(int) index]);
   }
 
-  protected int isPenActive() {
-    return penActive;
+  /**
+   * Updates pen thickness
+   *
+   * @param thickness the new thickness
+   */
+  protected void setPenThickness(Double thickness) {
+    trail.setCurrentThickness(thickness);
   }
 
-  protected void setGraphicImage(Image image) { graphic.setImage(image); }
+  /**
+   * Sets the turtle graphic to a given image
+   *
+   * @param filename the name of the image in resources
+   */
+  protected void setTurtleImage(String filename) {
+    Image image = getImageByName(TURTLE_PATH + filename);
+    turtleImage = image;
+    turtle.setGraphicImage(image);
+  }
 
-  protected void setPenActive(int penActive) {
-    this.penActive = penActive;
+  /**
+   * Updates the pen color
+   *
+   * @param currentColor the new color
+   */
+  protected void setPenColor(Color currentColor) {
+    trail.setColor(currentColor);
+  }
+
+  private Image getImageByName(String name) {
+    return new Image(this.getClass().getClassLoader().getResourceAsStream(name));
   }
 
 }

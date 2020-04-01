@@ -4,13 +4,16 @@ import slogo.Model.Commands.BackEndCommand;
 import slogo.Model.ErrorHandling.ParsingException;
 import slogo.Model.Explorers.Variables.DoubleVariable;
 import slogo.Model.Explorers.Variables.Variable;
-import slogo.Model.Parsing.LanguageConverter;
-import slogo.Model.Parsing.Parser;
+import slogo.Model.Parsing.CommandManager;
+import slogo.Model.Parsing.LanguageHandler;
 import slogo.Model.TurtleModel.Turtle;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class who's instances are user-defined commands
+ */
 public class UserDefinedInstructionCommand extends BackEndCommand {
     private static final String MAKE_DEFAULT = "make";
     private String myCommands;
@@ -19,6 +22,12 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
     private List<DoubleVariable> arguments;
     private String make;
 
+    /**
+     * Instantiates a user-defined command with a name, parameter names, and a string of commands to run
+     * @param name of the command
+     * @param commands the string to be run whenever the command is called
+     * @param parNames the list of parameter names
+     */
     public UserDefinedInstructionCommand(String name, String commands, List<String> parNames){
         myCommands=commands;
         this.name = name;
@@ -30,21 +39,8 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         make = MAKE_DEFAULT;
     }
 
-    public UserDefinedInstructionCommand(String name, List<String> parNames){
-        this(name, new String(), parNames);
-    }
-
     /**
-     * adds Command object to List
-     * @param command
-     */
-    public void addCommand(String command){
-        myCommands = myCommands + " " + command;
-    }
-
-    /**
-     * returns unmodifiable myCommands
-     * @return unmodifiable List of myCommands
+     * @return the commands to run when this command is called
      */
     public String getCommands(){
         return myCommands;
@@ -69,7 +65,7 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
 
 
     /**
-     * returns name of this Method object
+     * returns name of this user-defined command
      * @return name
      */
     public String getName(){
@@ -100,9 +96,9 @@ public class UserDefinedInstructionCommand extends BackEndCommand {
         return ret;
     }
 
-    public void translateCommands(LanguageConverter languageConverter) {
+    public void translateCommands(LanguageHandler languageHandler, String newLanguage) {
         String oldCommands = myCommands;
-        myCommands = languageConverter.translateString(oldCommands);
-        make = languageConverter.translateString(make);
+        myCommands = languageHandler.translateString(oldCommands, newLanguage);
+        make = languageHandler.translateString(make, newLanguage);
     }
 }
